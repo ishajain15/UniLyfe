@@ -15,17 +15,18 @@ class StartPage extends StatelessWidget {
             stream: FirebaseAuth.instance.authStateChanges(),
             builder: (context, snapshot) {
               final provider = Provider.of<GoogleSignInProvider>(context);
-              if (provider.isSigningIn) {
-                return buildLoading();
-              } else if (snapshot.hasData) {
+              //if (provider.isSigningIn) {
+              //return buildLoading();
+              //} else
+              if (snapshot.hasData) {
                 return HomePage();
               } else {
-                return SignUpWidget();
+                return StartWidget();
               }
             },
           ),
         ),
       );
 
-  Widget buildLoading() => Center(child: LinearProgressIndicator());
+  //Widget buildLoading() => Center(child: LinearProgressIndicator());
 }

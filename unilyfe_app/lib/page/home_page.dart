@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/provider/google_sign_in.dart';
-import 'package:provider/provider.dart';
+import 'package:unilyfe_app/widget/logout_button.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -18,14 +17,7 @@ class HomePage extends StatelessWidget {
             'Welcome ' + user.displayName,
             style: TextStyle(color: Colors.orangeAccent),
           ),
-          ElevatedButton(
-            child: Text('Logout'),
-            onPressed: () {
-              final provider =
-                  Provider.of<GoogleSignInProvider>(context, listen: false);
-              provider.logout();
-            },
-          ),
+          LogoutButtonWidget(),
         ],
       ),
     );

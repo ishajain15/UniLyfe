@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/widget/google_button.dart';
+import 'package:unilyfe_app/widget/sign_in_button.dart';
+import 'package:unilyfe_app/widget/sign_up_button.dart';
 
-class SignUpWidget extends StatelessWidget {
+class StartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) => buildSignUp();
 
@@ -16,8 +18,9 @@ class SignUpWidget extends StatelessWidget {
               child: Image.asset('assets/logo.png', fit: BoxFit.contain),
             ),
           ),
-          Spacer(),
-          GoogleSignupButtonWidget(),
+          SignInButtonWidget(),
+          SignUpButtonWidget(),
+          GoogleButtonWidget(),
           SizedBox(height: 12),
           Spacer(),
         ],
