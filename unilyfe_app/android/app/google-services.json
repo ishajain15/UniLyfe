@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "161202585168",
+    "project_id": "unilyfe-21080",
+    "storage_bucket": "unilyfe-21080.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:161202585168:android:33a9f864b0ee2051741b55",
+        "android_client_info": {
+          "package_name": "com.example.unilyfe_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "161202585168-pqpp0fntimv7ek98jcgohmui6fp2otau.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.unilyfe_app",
+            "certificate_hash": "31f0513d8d6ac0b23db7f2155157db706112ff1d"
+          }
+        },
+        {
+          "client_id": "161202585168-cscgbm5g2gfj74a2anuoj5qugg4toum7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCHEC3mRTlWLonMyOp1wIBOuNTF4ZEveX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "161202585168-cscgbm5g2gfj74a2anuoj5qugg4toum7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
