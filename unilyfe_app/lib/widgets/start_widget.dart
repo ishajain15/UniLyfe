@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/widget/google_button.dart';
-import 'package:unilyfe_app/widget/sign_in_button.dart';
-import 'package:unilyfe_app/widget/sign_up_button.dart';
+import 'package:unilyfe_app/buttons/google_button.dart';
+import 'package:unilyfe_app/buttons/sign_in_button.dart';
+import 'package:unilyfe_app/buttons/sign_up_button.dart';
 
 class StartWidget extends StatelessWidget {
   @override
