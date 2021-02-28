@@ -17,14 +17,30 @@ class GoogleSignInProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String domain(String email) {
+    return email.substring(email.indexOf("@") + 1);
+  }
+
+  bool isCollegeEmail(String domain) {
+    //String expectedDomain = "purdue.edu";
+    //for testing purposes, setting it to gmail.com
+    String expectedDomain = "gmail.com";
+    if (domain.compareTo(expectedDomain) == 0) {
+      return true;
+    }
+    return false;
+  }
+
   Future logIn() async {
     isSigningIn = true;
 
     final user = await googleSignIn.signIn();
-    if (user == null) {
+    if (user == null || !isCollegeEmail(domain(user.email))) {
       isSigningIn = false;
       return;
     } else {
+      // print('Domain ' + domain(user.email));
+      // print(domain(user.email).compareTo("gmail.com"));
       final googleAuth = await user.authentication;
 
       final credential = GoogleAuthProvider.credential(
