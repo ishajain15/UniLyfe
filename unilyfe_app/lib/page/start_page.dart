@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
-        backgroundColor: Colors.white,
+        //backgroundColor: Colors.white,
         body: ChangeNotifierProvider(
           create: (context) => GoogleSignInProvider(),
           child: StreamBuilder(

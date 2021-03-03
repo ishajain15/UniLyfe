@@ -11,12 +11,12 @@ Future main() async {
 //testing
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-  static final String title = 'Sign In';
+  static final String title = 'UniLyfe';
   @override
   Widget build(BuildContext context) => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: title,
-        theme: ThemeData(primarySwatch: Colors.deepOrange),
+        theme: ThemeData(primaryColor: Color(0xFFF46C6B), scaffoldBackgroundColor: Colors.white),
         home: StartPage(),
       );
 }
