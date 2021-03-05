@@ -18,3 +18,9 @@ Project overview: https://console.firebase.google.com/u/3/project/unilyfe-21080/
 Authentication section: https://console.firebase.google.com/u/3/project/unilyfe-21080/authentication/providers
 
 (currently enabled google sign-in and email/password sign-in. Microsoft sign-in is a little too complicated, so we might have to substitute it with email/password sign-in, which is why I enabled that option)
+
+HEXCODES FOR THE COLORS WE'RE USING <0xFFHEXCODE>
+
+Orange: 0xFFF47C54
+Pink: 0xFFF46C6B
+Yellow: 0xFFFCAC54
