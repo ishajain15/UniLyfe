@@ -1,5 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
+import 'package:unilyfe_app/page/register_page.dart';
 import 'package:unilyfe_app/Login/login_screen.dart';
 import 'package:unilyfe_app/Signup/background.dart';
 import 'package:unilyfe_app/Signup/or_divider.dart';
@@ -10,6 +11,8 @@ import 'package:unilyfe_app/Signup/rounded_input_field.dart';
 import 'package:unilyfe_app/Signup/rounded_password_field.dart';
 
 class Body extends StatelessWidget {
+  String _email, _password;
+  final auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -26,14 +29,19 @@ class Body extends StatelessWidget {
             
             RoundedInputField(
               hintText: "Your Email",
-              onChanged: (value) {},
+              onChanged: (value) {this._email = value.trim();},
             ),
             RoundedPasswordField(
-              onChanged: (value) {},
+              onChanged: (value) {
+                this._password = value.trim();
+              },
             ),
             RoundedButton(
               text: "SIGNUP",
-              press: () {},
+              press: () {
+                auth.createUserWithEmailAndPassword(email: _email, password: _password);
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => RegisterPage()));
+              },
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
