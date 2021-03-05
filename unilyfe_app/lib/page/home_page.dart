@@ -4,6 +4,9 @@ import 'package:unilyfe_app/buttons/logout_button.dart';
 import 'package:unilyfe_app/provider/google_sign_in.dart';
 
 class HomePage extends StatelessWidget {
+  static Route<dynamic> route() => MaterialPageRoute(
+        builder: (context) => HomePage(),
+      );  
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
@@ -23,5 +26,10 @@ class HomePage extends StatelessWidget {
         ],
       ),
     );
+    /*return Scaffold(
+      body: Center(
+        child: Text("Hello, hi!"),
+      ),
+    );*/
   }
 }
