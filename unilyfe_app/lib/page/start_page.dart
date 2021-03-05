@@ -4,6 +4,7 @@ import 'package:unilyfe_app/loaders/color_loader_4.dart';
 import 'package:unilyfe_app/loaders/dot_type.dart';
 import 'package:unilyfe_app/provider/google_sign_in.dart';
 import 'package:unilyfe_app/page/home_page.dart';
+import 'package:unilyfe_app/page/tabs/tabs_page.dart';
 import 'package:unilyfe_app/widgets/start_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -20,7 +21,8 @@ class StartPage extends StatelessWidget {
               if (provider.isSigningIn) {
                 return buildLoading();
               } else if (snapshot.hasData) {
-                return HomePage();
+                //return HomePage();
+                return TabsPage();
               } else {
                 return StartWidget();
               }
