@@ -9,6 +9,7 @@ import 'package:unilyfe_app/Signup/already_have_an_account_acheck.dart';
 import 'package:unilyfe_app/Signup/rounded_button.dart';
 import 'package:unilyfe_app/Signup/rounded_input_field.dart';
 import 'package:unilyfe_app/Signup/rounded_password_field.dart';
+import 'package:unilyfe_app/page/username_page.dart';
 
 class Body extends StatelessWidget {
   String _email, _password;
@@ -40,7 +41,7 @@ class Body extends StatelessWidget {
               text: "SIGNUP",
               press: () {
                 auth.createUserWithEmailAndPassword(email: _email, password: _password);
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => RegisterPage()));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => UsernamePage()));
               },
             ),
             SizedBox(height: size.height * 0.03),
