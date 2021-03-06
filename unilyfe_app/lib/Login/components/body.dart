@@ -7,7 +7,7 @@ import 'package:unilyfe_app/Signup/already_have_an_account_acheck.dart';
 import 'package:unilyfe_app/Signup/rounded_button.dart';
 import 'package:unilyfe_app/Signup/rounded_input_field.dart';
 import 'package:unilyfe_app/Signup/rounded_password_field.dart';
-
+import 'package:unilyfe_app/page/username_page.dart';
 
 class Body extends StatelessWidget {
   // const Body({
@@ -28,20 +28,26 @@ class Body extends StatelessWidget {
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
             SizedBox(height: size.height * 0.03),
-            
             SizedBox(height: size.height * 0.03),
             RoundedInputField(
               hintText: "Your Email",
-              onChanged: (value) {this._email = value.trim();},
+              onChanged: (value) {
+                this._email = value.trim();
+              },
             ),
             RoundedPasswordField(
-              onChanged: (value) {this._password = value.trim();},
+              onChanged: (value) {
+                this._password = value.trim();
+              },
             ),
             RoundedButton(
               text: "LOGIN",
               press: () {
-                auth.signInWithEmailAndPassword(email: _email, password: _password);
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => RegisterPage()));},
+                auth.signInWithEmailAndPassword(
+                    email: _email, password: _password);
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => UsernamePage()));
+              },
             ),
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
@@ -62,4 +68,3 @@ class Body extends StatelessWidget {
     );
   }
 }
-
