@@ -6,9 +6,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:unilyfe_app/page/tabs/tabs_page.dart';
 import 'package:unilyfe_app/provider/auth_provider.dart';
 import 'package:unilyfe_app/views/sign_up_view.dart';
-import 'package:unilyfe_app/widgets/start_widget.dart';
+//import 'package:unilyfe_app/widgets/start_widget.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
-
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -96,4 +95,4 @@ Widget buildLoading() => Center(
 //       ),
 //     );
 //   }
-// } 
+// }

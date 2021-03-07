@@ -47,6 +47,11 @@ class AuthProvider {
     return _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 
+  // Send Email Verification
+  Future sendEmailVerification() async {
+    return _firebaseAuth.currentUser.sendEmailVerification();
+  }
+
   // Google Sign-in
   Future<String> signInWithGoogle() async {
     final GoogleSignInAccount account = await _googleSignIn.signIn();

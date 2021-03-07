@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+//import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:unilyfe_app/Signup/rounded_button.dart';
 // import 'package:unilyfe_app/page/register_page.dart';
-import 'package:unilyfe_app/Signup/signup_screen.dart';
+//import 'package:unilyfe_app/Signup/signup_screen.dart';
 
 class SignUpButtonWidget extends StatelessWidget {
   @override

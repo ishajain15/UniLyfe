@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/page/register_page.dart';
+//import 'package:unilyfe_app/page/register_page.dart';
 import 'package:unilyfe_app/Login/login_screen.dart';
 import 'package:unilyfe_app/Signup/background.dart';
-import 'package:unilyfe_app/Signup/or_divider.dart';
-import 'package:unilyfe_app/Signup/social_icon.dart';
+// import 'package:unilyfe_app/Signup/or_divider.dart';
+// import 'package:unilyfe_app/Signup/social_icon.dart';
 import 'package:unilyfe_app/Signup/already_have_an_account_acheck.dart';
 import 'package:unilyfe_app/Signup/rounded_button.dart';
 import 'package:unilyfe_app/Signup/rounded_input_field.dart';

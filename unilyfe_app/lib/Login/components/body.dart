@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:unilyfe_app/Login/components/background.dart';
-import 'package:unilyfe_app/page/register_page.dart';
+//import 'package:unilyfe_app/page/register_page.dart';
 import 'package:unilyfe_app/Signup/signup_screen.dart';
 import 'package:unilyfe_app/Signup/already_have_an_account_acheck.dart';
 import 'package:unilyfe_app/Signup/rounded_button.dart';

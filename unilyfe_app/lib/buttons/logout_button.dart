@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 //import 'package:provider/provider.dart';
-import 'package:unilyfe_app/provider/auth_provider.dart';
-import 'package:unilyfe_app/provider/google_sign_in.dart';
+//import 'package:unilyfe_app/provider/auth_provider.dart';
+//import 'package:unilyfe_app/provider/google_sign_in.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 class LogoutButtonWidget extends StatelessWidget {
