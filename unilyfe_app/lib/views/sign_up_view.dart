@@ -88,17 +88,25 @@ class _SignUpViewState extends State<SignUpView> {
               children: <Widget>[
                 SizedBox(height: _height * 0.0025),
                 showAlert(),
-                SizedBox(height: _height * 0.12),
+                SizedBox(height: _height * 0.0025),
                 //buildHeaderText(),
-                Positioned(
-                  top: 200,
-                  left: 65,
-                  child: Image.asset(
-                    "assets/unilyfe_logo.png",
-                    width: size.width * 0.35,
+                // Positioned(
+                //   top: 200,
+                //   left: 65,
+                //   child: Image.asset(
+                //     "assets/unilyfe_logo.png",
+                //     width: size.width * 0.35,
+                //   ),
+                // ),
+
+                Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.symmetric(horizontal: _width * 0.02),
+                    child: Image.asset('assets/logo.png', fit: BoxFit.contain),
                   ),
                 ),
-                SizedBox(height: _height * 0.02),
                 Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Form(
