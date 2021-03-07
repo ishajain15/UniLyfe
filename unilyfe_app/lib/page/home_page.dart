@@ -18,8 +18,8 @@ class HomePage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            // 'Welcome ' + user.displayName,
-            'Welcome ',
+             'Welcome ' + user.displayName,
+            //'Welcome ',
             style: TextStyle(color: Colors.orangeAccent),
           ),
           LogoutButtonWidget(),
