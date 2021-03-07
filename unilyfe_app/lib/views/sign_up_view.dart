@@ -168,7 +168,7 @@ class _SignUpViewState extends State<SignUpView> {
       textFields.add(TextFormField(
         validator: NameValidator.validate,
         style: TextStyle(fontSize: 22.0),
-        decoration: buildSignUpInputDecoration("Username"),
+        decoration: buildSignUpInputDecoration("Name"),
         onSaved: (value) => _name = value,
       ));
       textFields.add(SizedBox(
