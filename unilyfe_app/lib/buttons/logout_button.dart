@@ -19,10 +19,16 @@ class LogoutButtonWidget extends StatelessWidget {
             // final provider =
             //     Provider.of<GoogleSignInProvider>(context, listen: false);
             // provider.logout();
+            // try {
+            //   AuthProvider auth = Provider.of(context).auth;
+            //   await auth.signOut();
+            //   print("Signed Out");
+            // } catch (e) {
+            //   print(e);
+            // }
             try {
-              AuthProvider auth = Provider.of(context).auth;
-              await auth.signOut();
-              print("Signed Out");
+              Provider.of(context).auth.signOut();
+              
             } catch (e) {
               print(e);
             }

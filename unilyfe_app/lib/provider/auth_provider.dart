@@ -38,6 +38,7 @@ class AuthProvider {
 
   // Sign Out
   signOut() {
+    _googleSignIn.signOut();
     return _firebaseAuth.signOut();
   }
 
