@@ -10,7 +10,7 @@ class Background extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    Size size = MediaQuery.of(context).size*2;
     return Container(
       height: size.height,
       width: double.infinity,
@@ -19,21 +19,21 @@ class Background extends StatelessWidget {
         alignment: Alignment.center,
         children: <Widget>[
           Positioned(
-            top: 0,
-            left: 0,
+            top: 130,
+            left: 60,
             child: Image.asset(
-              "assets/images/signup_top.png",
+              "assets/unilyfe_logo.png",
               width: size.width * 0.35,
             ),
           ),
-          Positioned(
+          /*Positioned(
             bottom: 0,
             left: 0,
             child: Image.asset(
               "assets/images/main_bottom.png",
               width: size.width * 0.25,
             ),
-          ),
+          ),*/
           child,
         ],
       ),
