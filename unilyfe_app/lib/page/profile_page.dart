@@ -97,8 +97,8 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
         return Scaffold(
-        body: SingleChildScrollView(
-      child: Column(
+        body: ListView(
+      //child: Column(
         children: <Widget>[
           editProfileBar,
           profilePicture,
@@ -126,7 +126,7 @@ class ProfilePage extends StatelessWidget {
             'WGSS 280',
           ], const Color(0xFFF99E3E)),
         ],
-      ),
+      //),
     )
 
   /*floatingActionButton: FloatingActionButton(
@@ -147,7 +147,7 @@ Widget profilePicture = Container(
   decoration: BoxDecoration(
     shape: BoxShape.circle,
     image: DecorationImage(
-        image: AssetImage('assets/gayathri.png'), fit: BoxFit.fill),
+        image: AssetImage('assets/gayathri.png'), ),
   ),
 );
 
