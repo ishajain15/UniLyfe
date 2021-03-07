@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:unilyfe_app/page/start_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-Future main() async {
+
+void main() => runApp(MyMap());
+
+/* Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -19,4 +23,39 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(primaryColor: Color(0xFFF46C6B), scaffoldBackgroundColor: Colors.white),
         home: StartPage(),
       );
+} */
+
+//Carolyn's map stuff below
+class MyMap extends StatefulWidget {
+  @override
+  _MyMapState createState() => _MyMapState();
+}
+
+class _MyMapState extends State<MyMap> {
+  GoogleMapController mapController;
+
+  final LatLng _center = const LatLng(40.42395040517343, -86.92120533110851);
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('COVID-19 Tracker'),
+          backgroundColor: Colors.green[700],
+        ),
+        body: GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            target: _center,
+            zoom: 11.0,
+          ),
+        ),
+      ),
+    );
+  }
 }
