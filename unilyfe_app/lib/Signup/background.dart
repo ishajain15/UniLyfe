@@ -19,8 +19,8 @@ class Background extends StatelessWidget {
         alignment: Alignment.center,
         children: <Widget>[
           Positioned(
-            top: 130,
-            left: 60,
+            top: 200,
+            left: 65,
             child: Image.asset(
               "assets/unilyfe_logo.png",
               width: size.width * 0.35,

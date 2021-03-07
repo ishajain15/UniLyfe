@@ -7,12 +7,31 @@ class UsernamePage extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
       backgroundColor: Colors.white,
       body: Column(
-        children: [
+        children: <Widget> [
           Spacer(),
-          TextFormField(
-            decoration: InputDecoration(labelText: 'Enter your username'),
+          Container(
+            child: TextField(
+              autofocus: false,
+              style: TextStyle(fontSize: 22.0, color: Colors.black),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Color(0xFFfae9d7),
+                hintText: 'Enter your username...',
+                contentPadding:
+                    const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: new BorderSide(color: Colors.black),
+                  borderRadius: BorderRadius.circular(25.7),
+                ),
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(25.7),
+                ),
+              ),
+            ),
           ),
-          SizedBox(height: 12),
+        
+          SizedBox(height: 10),
           BackButtonWidget(),
           LetsGoButton(),
           Spacer(),
