@@ -15,5 +15,5 @@ class Provider extends InheritedWidget {
   }
 
   static Provider of(BuildContext context) =>
-      (context.dependOnInheritedWidgetOfExactType() as Provider);
+      (context.dependOnInheritedWidgetOfExactType());
 }

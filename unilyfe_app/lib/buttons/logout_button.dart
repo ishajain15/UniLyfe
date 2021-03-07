@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
+//import 'package:provider/provider.dart';
+import 'package:unilyfe_app/provider/auth_provider.dart';
 import 'package:unilyfe_app/provider/google_sign_in.dart';
+import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 class LogoutButtonWidget extends StatelessWidget {
   @override
@@ -13,10 +15,17 @@ class LogoutButtonWidget extends StatelessWidget {
             'LOGOUT',
             //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
-          onPressed: () {
-            final provider =
-                Provider.of<GoogleSignInProvider>(context, listen: false);
-            provider.logout();
+          onPressed: () async {
+            // final provider =
+            //     Provider.of<GoogleSignInProvider>(context, listen: false);
+            // provider.logout();
+            try {
+              AuthProvider auth = Provider.of(context).auth;
+              await auth.signOut();
+              print("Signed Out");
+            } catch (e) {
+              print(e);
+            }
           },
           style: ElevatedButton.styleFrom(
             primary: Color(0xFFF99E3E),
