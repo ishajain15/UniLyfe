@@ -69,3 +69,31 @@ Widget buildLoading() => Center(
       dotType: DotType.square,
       duration: Duration(milliseconds: 1200),
     ));
+// class _MyMapState extends State<MyMap> {
+//   GoogleMapController mapController;
+
+//   final LatLng _center = const LatLng(40.42395040517343, -86.92120533110851);
+
+//   void _onMapCreated(GoogleMapController controller) {
+//     mapController = controller;
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       home: Scaffold(
+//         appBar: AppBar(
+//           title: Text('COVID-19 Tracker'),
+//           backgroundColor: Colors.green[700],
+//         ),
+//         body: GoogleMap(
+//           onMapCreated: _onMapCreated,
+//           initialCameraPosition: CameraPosition(
+//             target: _center,
+//             zoom: 11.0,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// } 
