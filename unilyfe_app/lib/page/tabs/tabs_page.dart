@@ -13,8 +13,8 @@ class _TabsPageState extends State<TabsPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
-              child: Scaffold(
+        length: 4,
+        child: Scaffold(
         key: _scaffoldKey,
         drawer: myDrawer,
           appBar: AppBar(
@@ -26,7 +26,7 @@ class _TabsPageState extends State<TabsPage> {
             title:
                 Image.asset('assets/unilyfe_logo.png', width: 300, height: 55),
             backgroundColor: const Color(0xFFFFFFFF),
-            bottom: TabBar(
+            /*bottom: TabBar(
               labelColor: const Color(0xFFF56D6B),
               tabs: [
                 Tab(text: "ALL"),
@@ -35,15 +35,27 @@ class _TabsPageState extends State<TabsPage> {
                 Tab(text: "SOCIAL"),
               ],
               unselectedLabelColor: Colors.grey,
-            ),
+            ),*/
           ),
-          body: IndexedStack(
+          body: 
+          IndexedStack(
             index: _currentIndex,
             children: <Widget>[
               for (final tabItem in TabNavigationItem.items) tabItem.page,
             ],
           ),
-          bottomNavigationBar: BottomNavigationBar(
+          
+          /*TabBarView(
+            children: [
+              Icon(Icons.directions_car),
+              Icon(Icons.directions_transit),
+              Icon(Icons.directions_bike),
+              Icon(Icons.directions_bike),
+            ],
+          ),*/
+          
+          bottomNavigationBar: 
+          BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             currentIndex: _currentIndex,
             onTap: (int index) => setState(() => _currentIndex = index),
@@ -56,6 +68,7 @@ class _TabsPageState extends State<TabsPage> {
             ],
             selectedItemColor: const Color(0XFFF99E3E),
           ),
+
         )
     );
   }

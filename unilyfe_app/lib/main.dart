@@ -9,6 +9,7 @@ import 'package:unilyfe_app/views/sign_up_view.dart';
 import 'package:unilyfe_app/widgets/start_widget.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
+
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();

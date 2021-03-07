@@ -9,7 +9,7 @@ class CoronaPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Text("Hello, corona page!"),
+        child: Text("ayo its coronatime"),
       ),
     );
   }

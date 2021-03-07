@@ -8,7 +8,7 @@ class BackButtonWidget extends StatelessWidget {
         padding: EdgeInsets.all(4),
         child: ElevatedButton(
           child: Text(
-            'GO BACK',
+            'Go Back',
             //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
           onPressed: () {
