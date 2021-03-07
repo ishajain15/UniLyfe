@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:unilyfe_app/Signup/rounded_button.dart';
+import 'package:unilyfe_app/buttons/sign_in_button.dart';
+import 'package:unilyfe_app/buttons/sign_up_button.dart';
 import 'package:unilyfe_app/loaders/color_loader_4.dart';
 import 'package:unilyfe_app/loaders/dot_type.dart';
 import 'package:unilyfe_app/provider/google_sign_in.dart';
@@ -8,6 +11,7 @@ import 'package:unilyfe_app/page/tabs/tabs_page.dart';
 import 'package:unilyfe_app/widgets/start_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:unilyfe_app/provider/auth_provider.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 /*class StartPage extends StatelessWidget {
   @override
@@ -35,45 +39,50 @@ import 'package:unilyfe_app/provider/auth_provider.dart';
 */
 
 class StartPage extends StatelessWidget {
+  final primaryColor = const Color(0xFFFFFFFF);
+
   @override
   Widget build(BuildContext context) {
-    final AuthProvider auth = Provider.of(context).auth;
-    return StreamBuilder(
-      stream: auth.authStateChanges,
-      builder: (context, AsyncSnapshot<String> snapshot) {
-        if (snapshot.connectionState == ConnectionState.active) {
-          final bool signedIn = snapshot.hasData;
-          return signedIn ? TabsPage() : StartWidget();
-        }
-        return buildLoading();
-      },
+    final _width = MediaQuery.of(context).size.width;
+    final _height = MediaQuery.of(context).size.height;
+
+    return Scaffold(
+      body: Container(
+        width: _width,
+        height: _height,
+        color: primaryColor,
+        child: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  height: _height * 0.10,
+                ),
+                Text(
+                  "Welcome",
+                  style: TextStyle(fontSize: 44, color: Colors.black),
+                ),
+                SizedBox(
+                  height: _height * 0.10,
+                ),
+                AutoSizeText("Let's start planning your next trip",
+                    maxLines: 2,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 44, color: Colors.black)),
+                SizedBox(
+                  height: _height * 0.10,
+                ),
+                SignUpButtonWidget(),
+                SizedBox(
+                  height: _height * 0.02,
+                ),
+                SignInButtonWidget(),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
-
-class Provider extends InheritedWidget {
-  final AuthProvider auth;
-  Provider({
-    Key key,
-    Widget child,
-    this.auth,
-  }) : super(key: key, child: child);
-
-  @override
-  bool updateShouldNotify(InheritedWidget oldWidget) {
-    return true;
-  }
-
-  static Provider of(BuildContext context) =>
-      (context.dependOnInheritedWidgetOfExactType() as Provider);
-}
-
-  //Widget buildLoading() => Center(child: ColorLoader3());
-  Widget buildLoading() => Center(
-          child: ColorLoader4(
-        dotOneColor: Color(0xFFF46C6B),
-        dotTwoColor: Color(0xFFF47C54),
-        dotThreeColor: Color(0xFFFCAC54),
-        dotType: DotType.square,
-        duration: Duration(milliseconds: 1200),
-      ));

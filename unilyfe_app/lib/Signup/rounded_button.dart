@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:unilyfe_app/Signup/constants.dart';
-
 class RoundedButton extends StatelessWidget {
   final String text;
   final Function press;
@@ -10,7 +8,7 @@ class RoundedButton extends StatelessWidget {
     Key key,
     this.text,
     this.press,
-    this.color = kPrimaryColor,
+    this.color = const Color(0xFFF46C6B),
     this.textColor = Colors.white,
   }) : super(key: key);
 
@@ -21,10 +19,12 @@ class RoundedButton extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 10),
       width: size.width * 0.8,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(29),
-        child: FlatButton(
-          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40),
-          color: color,
+        borderRadius: BorderRadius.circular(30),
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+            primary: color,
+          ),
           onPressed: press,
           child: Text(
             text,
