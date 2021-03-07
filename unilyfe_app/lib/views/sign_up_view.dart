@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/Signup/rounded_button.dart';
 import 'package:unilyfe_app/Signup/text_field_container.dart';
+import 'package:unilyfe_app/main.dart';
 import 'package:unilyfe_app/page/username_page.dart';
 import 'package:unilyfe_app/provider/auth_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -8,7 +9,7 @@ import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 final primaryColor = const Color(0xFFFFFFFF);
 
-enum AuthFormType { signIn, signUp }
+enum AuthFormType { signIn, signUp, reset }
 
 class SignUpView extends StatefulWidget {
   final AuthFormType authFormType;
@@ -54,15 +55,24 @@ class _SignUpViewState extends State<SignUpView> {
       try {
         final auth = Provider.of(context).auth;
         if (authFormType == AuthFormType.signIn) {
+          //return buildLoading();
           String uid = await auth.signInWithEmailAndPassword(_email, _password);
           print("Signed in with ID $uid");
           Navigator.of(context).pushReplacementNamed('/home');
+        } else if (authFormType == AuthFormType.reset) {
+          await auth.sendPasswordResetEmail(_email);
+          print("Password reset email sent");
+          _error = "A password reset link has been sent to $_email";
+          setState(() {
+            authFormType = AuthFormType.signIn;
+          });
         } else {
           String uid = await auth.createUserWithEmailAndPassword(
               _email, _password, _name);
           print("Signed up with New ID $uid");
-          //Navigator.of(context).pushReplacementNamed('/home');
-          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => UsernamePage()));
+          Navigator.of(context).pushReplacementNamed('/home');
+          //logout button does not work if this is used
+          //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => UsernamePage()));
         }
       } catch (e) {
         print(e);
@@ -185,6 +195,25 @@ class _SignUpViewState extends State<SignUpView> {
   List<Widget> buildInputs() {
     List<Widget> textFields = [];
 
+    if (authFormType == AuthFormType.reset) {
+      textFields.add(TextFieldContainer(
+          child: TextFormField(
+        validator: EmailValidator.validate,
+        decoration: buildSignUpInputDecoration(
+            "Email",
+            Icon(
+              Icons.email,
+              color: Color(0xFFF46C6B),
+            ),
+            false),
+        onSaved: (value) => _email = value,
+      )));
+      textFields.add(SizedBox(
+        height: 10,
+      ));
+      return textFields;
+    }
+
     // if were in the sign up state and add name
     // JUST ADDING THIS FOR NOW, NEED TO CHANGE LATER SINCE WE WILL HAVE A SEPARATE PAGE
     if (authFormType == AuthFormType.signUp) {
@@ -269,10 +298,16 @@ class _SignUpViewState extends State<SignUpView> {
 
   List<Widget> buildButtons() {
     String _switchButtonText, _newFormState, _submitButtonText;
+    bool _showForgotPassword = false;
     if (authFormType == AuthFormType.signIn) {
       _switchButtonText = "Create New Account";
       _newFormState = "signUp";
       _submitButtonText = "SIGN IN";
+      _showForgotPassword = true;
+    } else if (authFormType == AuthFormType.reset) {
+      _switchButtonText = "Return to Sign In";
+      _newFormState = "signIn";
+      _submitButtonText = "SUBMIT";
     } else {
       _switchButtonText = "Have an Account? Sign In";
       _newFormState = "signIn";
@@ -299,6 +334,7 @@ class _SignUpViewState extends State<SignUpView> {
           press: submit,
         ),
       ),
+      showForgotPassword(_showForgotPassword),
       TextButton(
         child: Text(
           _switchButtonText,
@@ -309,5 +345,22 @@ class _SignUpViewState extends State<SignUpView> {
         },
       )
     ];
+  }
+
+  Widget showForgotPassword(bool visible) {
+    return Visibility(
+      child: TextButton(
+        child: Text(
+          "Forgot Password?",
+          style: TextStyle(color: Colors.black),
+        ),
+        onPressed: () {
+          setState(() {
+            authFormType = AuthFormType.reset;
+          });
+        },
+      ),
+      visible: visible,
+    );
   }
 }
