@@ -11,6 +11,13 @@ class CreatePage extends StatelessWidget {
       body: Center(
         child: Text("Hello, create page!"),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color(0xFFF56D6B),
+        onPressed: () {},
+        child: Icon(Icons.add,),
+        //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
+        shape: RoundedRectangleBorder(),
+  ),
     );
   }
 }
