@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/Signup/rounded_button.dart';
 import 'package:unilyfe_app/Signup/text_field_container.dart';
+import 'package:unilyfe_app/page/username_page.dart';
 import 'package:unilyfe_app/provider/auth_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
@@ -60,7 +61,8 @@ class _SignUpViewState extends State<SignUpView> {
           String uid = await auth.createUserWithEmailAndPassword(
               _email, _password, _name);
           print("Signed up with New ID $uid");
-          Navigator.of(context).pushReplacementNamed('/home');
+          //Navigator.of(context).pushReplacementNamed('/home');
+          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => UsernamePage()));
         }
       } catch (e) {
         print(e);
@@ -279,7 +281,6 @@ class _SignUpViewState extends State<SignUpView> {
 
     return [
       Container(
-        width: MediaQuery.of(context).size.width * 0.7,
         // child: ElevatedButton(
         //   style: ElevatedButton.styleFrom(
         //     shape: RoundedRectangleBorder(
