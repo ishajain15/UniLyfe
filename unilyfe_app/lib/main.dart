@@ -7,6 +7,7 @@ import 'package:unilyfe_app/page/tabs/tabs_page.dart';
 import 'package:unilyfe_app/provider/auth_provider.dart';
 import 'package:unilyfe_app/views/sign_up_view.dart';
 import 'package:unilyfe_app/widgets/start_widget.dart';
+import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
               primaryColor: Color(0xFFF46C6B),
               scaffoldBackgroundColor: Colors.white),
-          home: StartPage(),
+          home: HomeController(),
           routes: <String, WidgetBuilder>{
             '/signUp': (BuildContext context) => SignUpView(
                   authFormType: AuthFormType.signUp,
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
             '/signIn': (BuildContext context) => SignUpView(
                   authFormType: AuthFormType.signIn,
                 ),
-            '/home': (BuildContext context) => StartPage(),
+            '/home': (BuildContext context) => HomeController(),
           },
         ),
       );
@@ -56,23 +57,6 @@ class HomeController extends StatelessWidget {
       },
     );
   }
-}
-
-class Provider extends InheritedWidget {
-  final AuthProvider auth;
-  Provider({
-    Key key,
-    Widget child,
-    this.auth,
-  }) : super(key: key, child: child);
-
-  @override
-  bool updateShouldNotify(InheritedWidget oldWidget) {
-    return true;
-  }
-
-  static Provider of(BuildContext context) =>
-      (context.dependOnInheritedWidgetOfExactType() as Provider);
 }
 
 //Widget buildLoading() => Center(child: ColorLoader3());

@@ -30,8 +30,9 @@ class SignUpButtonWidget extends StatelessWidget {
         child: RoundedButton(
           text: "SIGN UP",
           press: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => SignUpScreen()));
+            /*Navigator.push(context,
+                MaterialPageRoute(builder: (context) => SignUpScreen()));*/
+            Navigator.of(context).pushReplacementNamed('/signUp');
           },
           color: Color(0xFFF99E3E),
         ),

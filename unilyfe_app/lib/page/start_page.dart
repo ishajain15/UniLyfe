@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/Signup/rounded_button.dart';
+import 'package:unilyfe_app/buttons/google_button.dart';
 import 'package:unilyfe_app/buttons/sign_in_button.dart';
 import 'package:unilyfe_app/buttons/sign_up_button.dart';
 import 'package:unilyfe_app/loaders/color_loader_4.dart';
@@ -57,27 +58,27 @@ class StartPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 SizedBox(
-                  height: _height * 0.10,
+                  height: _height * 0.02,
                 ),
-                Text(
-                  "Welcome",
-                  style: TextStyle(fontSize: 44, color: Colors.black),
+                Align(
+                  //alignment: Alignment.center,
+                  child: Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.symmetric(horizontal: _width * 0.02),
+                    child: Image.asset('assets/logo.png', fit: BoxFit.contain),
+                  ),
                 ),
                 SizedBox(
-                  height: _height * 0.10,
+                  height: _height * 0.04,
                 ),
-                AutoSizeText("Let's start planning your next trip",
-                    maxLines: 2,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 44, color: Colors.black)),
+                SignInButtonWidget(),
                 SizedBox(
-                  height: _height * 0.10,
+                  height: _height * 0.01,
                 ),
                 SignUpButtonWidget(),
                 SizedBox(
-                  height: _height * 0.02,
+                  height: _height * 0.01,
                 ),
-                SignInButtonWidget(),
               ],
             ),
           ),

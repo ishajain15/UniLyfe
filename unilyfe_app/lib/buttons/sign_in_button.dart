@@ -28,8 +28,9 @@ class SignInButtonWidget extends StatelessWidget {
         child: RoundedButton(
           text: "SIGN IN",
           press: () {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => LoginScreen()));
+            //Navigator.push(context,
+            //  MaterialPageRoute(builder: (context) => LoginScreen()));
+            Navigator.of(context).pushReplacementNamed('/signIn');
           },
         ),
       );

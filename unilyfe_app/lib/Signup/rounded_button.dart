@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class RoundedButton extends StatelessWidget {
@@ -19,14 +20,14 @@ class RoundedButton extends StatelessWidget {
       margin: EdgeInsets.symmetric(vertical: 10),
       width: size.width * 0.8,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(20),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
             primary: color,
           ),
           onPressed: press,
-          child: Text(
+          child: AutoSizeText(
             text,
             style: TextStyle(color: textColor),
           ),
