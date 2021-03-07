@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:unilyfe_app/Signup/rounded_button.dart';
+import 'package:unilyfe_app/Signup/text_field_container.dart';
 import 'package:unilyfe_app/provider/auth_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
-final primaryColor = const Color(0xFFF46C6B);
+final primaryColor = const Color(0xFFFFFFFF);
 
 enum AuthFormType { signIn, signUp }
 
@@ -73,6 +75,7 @@ class _SignUpViewState extends State<SignUpView> {
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
+    Size size = MediaQuery.of(context).size * 2;
 
     return Scaffold(
       body: Container(
@@ -80,23 +83,33 @@ class _SignUpViewState extends State<SignUpView> {
         height: _height,
         width: _width,
         child: SafeArea(
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: _height * 0.0025),
-              showAlert(),
-              SizedBox(height: _height * 0.0025),
-              buildHeaderText(),
-              SizedBox(height: _height * 0.05),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    children: buildInputs() + buildButtons(),
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                SizedBox(height: _height * 0.0025),
+                showAlert(),
+                SizedBox(height: _height * 0.12),
+                //buildHeaderText(),
+                Positioned(
+                  top: 200,
+                  left: 65,
+                  child: Image.asset(
+                    "assets/unilyfe_logo.png",
+                    width: size.width * 0.35,
                   ),
                 ),
-              ),
-            ],
+                SizedBox(height: _height * 0.02),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      children: buildInputs() + buildButtons(),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -165,59 +178,83 @@ class _SignUpViewState extends State<SignUpView> {
     // if were in the sign up state and add name
     // JUST ADDING THIS FOR NOW, NEED TO CHANGE LATER SINCE WE WILL HAVE A SEPARATE PAGE
     if (authFormType == AuthFormType.signUp) {
-      textFields.add(TextFormField(
+      textFields.add(TextFieldContainer(
+          child: TextFormField(
         validator: NameValidator.validate,
-        style: TextStyle(fontSize: 22.0),
-        decoration: buildSignUpInputDecoration("Name"),
+        decoration: buildSignUpInputDecoration(
+            "Name",
+            Icon(
+              Icons.person,
+              color: Color(0xFFF46C6B),
+            ),
+            false),
         onSaved: (value) => _name = value,
-      ));
+      )));
       textFields.add(SizedBox(
-        height: 20,
+        height: 10,
       ));
     }
 
     // add email & password
-    textFields.add(
-      TextFormField(
+    textFields.add(TextFieldContainer(
+      child: TextFormField(
         validator: EmailValidator.validate,
-        style: TextStyle(fontSize: 22.0),
-        decoration: buildSignUpInputDecoration("Email"),
+        decoration: buildSignUpInputDecoration(
+            "Email",
+            Icon(
+              Icons.email,
+              color: Color(0xFFF46C6B),
+            ),
+            false),
         onSaved: (value) => _email = value,
       ),
-    );
-
-    textFields.add(SizedBox(
-      height: 20,
     ));
 
-    textFields.add(
-      TextFormField(
+    textFields.add(SizedBox(
+      height: 10,
+    ));
+
+    textFields.add(TextFieldContainer(
+      child: TextFormField(
         validator: PasswordValidator.validate,
-        style: TextStyle(fontSize: 22.0),
-        decoration: buildSignUpInputDecoration("Password"),
+        decoration: buildSignUpInputDecoration(
+            "Password",
+            Icon(
+              Icons.lock,
+              color: Color(0xFFF46C6B),
+            ),
+            true),
         obscureText: true,
         onSaved: (value) => _password = value,
       ),
-    );
+    ));
 
     textFields.add(SizedBox(
-      height: 20,
+      height: 10,
     ));
 
     return textFields;
   }
 
-  InputDecoration buildSignUpInputDecoration(String hint) {
-    return InputDecoration(
-      hintText: hint,
-      filled: true,
-      fillColor: Colors.white,
-      focusColor: Colors.white,
-      enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: primaryColor, width: 0.0)),
-      contentPadding:
-          const EdgeInsets.only(left: 14.0, bottom: 10.0, top: 10.0),
-    );
+  InputDecoration buildSignUpInputDecoration(
+      String hint, Icon icon, bool password) {
+    if (password) {
+      return InputDecoration(
+        icon: icon,
+        suffixIcon: Icon(
+          Icons.visibility,
+          color: Color(0xFFF46C6B),
+        ),
+        hintText: hint,
+        border: InputBorder.none,
+      );
+    } else {
+      return InputDecoration(
+        icon: icon,
+        hintText: hint,
+        border: InputBorder.none,
+      );
+    }
   }
 
   List<Widget> buildButtons() {
@@ -225,28 +262,32 @@ class _SignUpViewState extends State<SignUpView> {
     if (authFormType == AuthFormType.signIn) {
       _switchButtonText = "Create New Account";
       _newFormState = "signUp";
-      _submitButtonText = "Sign In";
+      _submitButtonText = "SIGN IN";
     } else {
       _switchButtonText = "Have an Account? Sign In";
       _newFormState = "signIn";
-      _submitButtonText = "Sign Up";
+      _submitButtonText = "SIGN UP";
     }
 
     return [
       Container(
         width: MediaQuery.of(context).size.width * 0.7,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0)),
-            primary: Colors.orange,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child:
-                Text(_submitButtonText, style: TextStyle(color: Colors.white)),
-          ),
-          onPressed: submit,
+        // child: ElevatedButton(
+        //   style: ElevatedButton.styleFrom(
+        //     shape: RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.circular(30.0)),
+        //     primary: Colors.orange,
+        //   ),
+        //   child: Padding(
+        //     padding: const EdgeInsets.all(8.0),
+        //     child:
+        //         Text(_submitButtonText, style: TextStyle(color: Colors.white)),
+        //   ),
+        //   onPressed: submit,
+        // ),
+        child: RoundedButton(
+          text: _submitButtonText,
+          press: submit,
         ),
       ),
       TextButton(
