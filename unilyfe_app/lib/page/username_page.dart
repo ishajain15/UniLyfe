@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/buttons/back_button.dart';
+import 'package:unilyfe_app/buttons/lets_go_button.dart';
 
 class UsernamePage extends StatelessWidget {
   @override
@@ -13,6 +14,7 @@ class UsernamePage extends StatelessWidget {
           ),
           SizedBox(height: 12),
           BackButtonWidget(),
+          LetsGoButton(),
           Spacer(),
         ],
       ));
