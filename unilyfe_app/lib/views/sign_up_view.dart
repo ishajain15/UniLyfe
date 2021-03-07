@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/Signup/rounded_button.dart';
 import 'package:unilyfe_app/Signup/text_field_container.dart';
+import 'package:unilyfe_app/buttons/google_button.dart';
 import 'package:unilyfe_app/main.dart';
 import 'package:unilyfe_app/page/username_page.dart';
 import 'package:unilyfe_app/provider/auth_provider.dart';
@@ -299,6 +300,8 @@ class _SignUpViewState extends State<SignUpView> {
   List<Widget> buildButtons() {
     String _switchButtonText, _newFormState, _submitButtonText;
     bool _showForgotPassword = false;
+    bool _showGoogle = true;
+
     if (authFormType == AuthFormType.signIn) {
       _switchButtonText = "Create New Account";
       _newFormState = "signUp";
@@ -308,6 +311,7 @@ class _SignUpViewState extends State<SignUpView> {
       _switchButtonText = "Return to Sign In";
       _newFormState = "signIn";
       _submitButtonText = "SUBMIT";
+      _showGoogle = false;
     } else {
       _switchButtonText = "Have an Account? Sign In";
       _newFormState = "signIn";
@@ -343,7 +347,8 @@ class _SignUpViewState extends State<SignUpView> {
         onPressed: () {
           switchFormState(_newFormState);
         },
-      )
+      ),
+      buildGoogleButton(_showGoogle)
     ];
   }
 
@@ -359,6 +364,31 @@ class _SignUpViewState extends State<SignUpView> {
             authFormType = AuthFormType.reset;
           });
         },
+      ),
+      visible: visible,
+    );
+  }
+
+  Widget buildGoogleButton(bool visible) {
+    final _auth = Provider.of(context).auth;
+    return Visibility(
+      child: Column(
+        children: <Widget>[
+          Divider(color: Color(0xFFF46C6B)),
+          SizedBox(height: 5),
+          GoogleButtonWidget(
+            press: () async {
+              try {
+                await _auth.signInWithGoogle();
+                Navigator.of(context).pushReplacementNamed('/home');
+              } catch (e) {
+                setState(() {
+                  _error = e.message;
+                });
+              }
+            },
+          ),
+        ],
       ),
       visible: visible,
     );

@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthProvider {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   Stream<String> get authStateChanges => _firebaseAuth.authStateChanges().map(
         (User user) => user?.uid,
@@ -42,6 +44,15 @@ class AuthProvider {
   // Reset Password
   Future sendPasswordResetEmail(String email) async {
     return _firebaseAuth.sendPasswordResetEmail(email: email);
+  }
+
+  // Google Sign-in
+  Future<String> signInWithGoogle() async {
+    final GoogleSignInAccount account = await _googleSignIn.signIn();
+    final GoogleSignInAuthentication _googleAuth = await account.authentication;
+    final AuthCredential credential = GoogleAuthProvider.credential(
+        idToken: _googleAuth.idToken, accessToken: _googleAuth.accessToken);
+    return (await _firebaseAuth.signInWithCredential(credential)).user.uid;
   }
 }
 
