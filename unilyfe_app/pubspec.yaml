@@ -23,7 +23,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-    #google_maps_flutter: ^1.0.3
+  google_maps_flutter: ^0.5.27+3
+  # Add the following two lines
+  http: ^0.12.0+1
+  json_serializable: ^3.3.0
     
 
 
@@ -39,6 +42,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+    #2 lines below for Google Maps
+  pedantic: ^1.9.0
+  build_runner: ^1.10.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
