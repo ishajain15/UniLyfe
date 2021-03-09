@@ -62,21 +62,6 @@ class AuthProvider {
   }
 }
 
-//THIS IS THE FUNCTION TO VERIFY IF IT'S A COLLEGE EMAIL
-// String domain(String email) {
-//     return email.substring(email.indexOf('@') + 1);
-//   }
-
-//   bool isCollegeEmail(String domain) {
-//     //String expectedDomain = "purdue.edu";
-//     //for testing purposes, setting it to gmail.com
-//     var expectedDomain = "gmail.com";
-//     if (domain.compareTo(expectedDomain) == 0) {
-//       return true;
-//     }
-//     return false;
-//   }
-
 class NameValidator {
   static String validate(String value) {
     if (value.isEmpty) {
@@ -93,9 +78,26 @@ class NameValidator {
 }
 
 class EmailValidator {
+  //THIS IS THE FUNCTION TO VERIFY IF IT'S A COLLEGE EMAIL
+  static String domain(String email) {
+    return email.substring(email.indexOf('@') + 1);
+  }
+
+  static bool isCollegeEmail(String domain) {
+    //for testing purposes, adding gmail.com as an option
+    if (domain.compareTo('gmail.com') == 0 ||
+        domain.compareTo('purdue.edu') == 0) {
+      return true;
+    }
+    return false;
+  }
+
   static String validate(String value) {
     if (value.isEmpty) {
       return "Email can't be empty";
+    }
+    if (!isCollegeEmail(domain(value))) {
+      return domain(value) + ' is not a college email';
     }
     return null;
   }
