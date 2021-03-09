@@ -21,9 +21,14 @@ class MyFlutterApp {
   static const _kFontFam = 'MyFlutterApp';
   static const String _kFontPkg = null;
 
+  // ignore: constant_identifier_names
   static const IconData plus_unilyfe = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  // ignore: constant_identifier_names
   static const IconData corona_unilyfe = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  // ignore: constant_identifier_names
   static const IconData home_unilyfe = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  // ignore: constant_identifier_names
   static const IconData profile_unilyfe = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  // ignore: constant_identifier_names
   static const IconData search_unilyfe = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

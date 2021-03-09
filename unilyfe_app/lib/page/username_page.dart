@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/buttons/back_button.dart';
-import 'package:unilyfe_app/buttons/lets_go_button.dart';
+import 'package:unilyfe_app/customized_items/buttons/back_button.dart';
+import 'package:unilyfe_app/customized_items/buttons/lets_go_button.dart';
 
 class UsernamePage extends StatelessWidget {
   @override
@@ -20,7 +20,7 @@ class UsernamePage extends StatelessWidget {
                 contentPadding:
                     const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: new BorderSide(color: Colors.black),
+                  borderSide: BorderSide(color: Colors.black),
                   borderRadius: BorderRadius.circular(25.7),
                 ),
                 enabledBorder: UnderlineInputBorder(

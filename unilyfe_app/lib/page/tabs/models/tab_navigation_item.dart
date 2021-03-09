@@ -9,41 +9,41 @@ import 'package:unilyfe_app/page/profile_page.dart';
 
 
 class TabNavigationItem {
-  final Widget page;
-  final Widget title;
-  final Icon icon;
-
   TabNavigationItem({
     @required this.page,
     @required this.title,
     @required this.icon,
   });
 
+  final Widget page;
+  final Widget title;
+  final Icon icon;
+
   static List<TabNavigationItem> get items => [
         TabNavigationItem(
           page: HomePage(),
           icon: Icon(MyFlutterApp.home_unilyfe),
-          title: Text("Home"),
+          title: Text('Home'),
         ),
         TabNavigationItem(
           page: SearchPage(),
           icon: Icon(MyFlutterApp.search_unilyfe),
-          title: Text("Search"),
+          title: Text('Search'),
         ),
         TabNavigationItem(
           page: CreatePage(),
           icon: Icon(MyFlutterApp.plus_unilyfe),
-          title: Text("Create"),
+          title: Text('Create'),
         ),
         TabNavigationItem(
           page: CoronaPage(),
           icon: Icon(MyFlutterApp.corona_unilyfe),
-          title: Text("Corona"),
+          title: Text('Corona'),
         ),
         TabNavigationItem(
           page: ProfilePage(),
           icon: Icon(MyFlutterApp.profile_unilyfe),
-          title: Text("Me"),
+          title: Text('Me'),
         )
       ];
 }

@@ -2,8 +2,8 @@
 import 'package:flutter/material.dart';
 //import 'package:unilyfe_app/Signup/rounded_button.dart';
 //import 'package:unilyfe_app/buttons/google_button.dart';
-import 'package:unilyfe_app/buttons/sign_in_button.dart';
-import 'package:unilyfe_app/buttons/sign_up_button.dart';
+import 'package:unilyfe_app/customized_items/buttons/sign_in_button.dart';
+import 'package:unilyfe_app/customized_items/buttons/sign_up_button.dart';
 //import 'package:unilyfe_app/loaders/color_loader_4.dart';
 //import 'package:unilyfe_app/loaders/dot_type.dart';
 //import 'package:unilyfe_app/provider/google_sign_in.dart';

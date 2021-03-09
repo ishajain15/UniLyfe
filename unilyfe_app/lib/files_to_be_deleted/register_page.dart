@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/buttons/back_button.dart';
+import 'package:unilyfe_app/customized_items/buttons/back_button.dart';
 
 class RegisterPage extends StatelessWidget {
   @override

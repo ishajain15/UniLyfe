@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 
 
 class SocalIcon extends StatelessWidget {
-  final String iconSrc;
-  final Function press;
   const SocalIcon({
     Key key,
     this.iconSrc,
     this.press,
   }) : super(key: key);
+  final String iconSrc;
+  final Function press;
+  
 
   @override
   Widget build(BuildContext context) {

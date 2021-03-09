@@ -7,10 +7,6 @@ class BackButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: EdgeInsets.all(4),
         child: ElevatedButton(
-          child: Text(
-            'Go Back',
-            //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-          ),
           onPressed: () {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => StartPage()));
@@ -20,6 +16,10 @@ class BackButtonWidget extends StatelessWidget {
             onPrimary: Colors.white,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
+          ),
+          child: Text(
+            'Go Back',
+            //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
         ),
       );

@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 
+import 'package:unilyfe_app/customized_items/text_field_container.dart';
+
 // import 'package:unilyfe_app/Signup/constants.dart';
-import 'package:unilyfe_app/Signup/text_field_container.dart';
-class RoundedPasswordField extends StatelessWidget {
-  final ValueChanged<String> onChanged;
-  const RoundedPasswordField({
+class RoundedInputField extends StatelessWidget {
+  const RoundedInputField({
     Key key,
+    this.hintText,
+    this.icon = Icons.person,
     this.onChanged,
   }) : super(key: key);
+  final String hintText;
+  final IconData icon;
+  final ValueChanged<String> onChanged;
 
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextField(
-        obscureText: true,
         onChanged: onChanged,
         cursorColor: Color(0xFFF46C6B),
         decoration: InputDecoration(
-          hintText: "Password",
           icon: Icon(
-            Icons.lock,
+            icon,
             color: Color(0xFFF46C6B),
           ),
-          suffixIcon: Icon(
-            Icons.visibility,
-            color: Color(0xFFF46C6B),
-          ),
+          hintText: hintText,
           border: InputBorder.none,
         ),
       ),

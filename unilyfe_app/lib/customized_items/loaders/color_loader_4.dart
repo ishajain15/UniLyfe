@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
-import 'package:unilyfe_app/loaders/dot_type.dart';
+import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
 
 class ColorLoader4 extends StatefulWidget {
+  ColorLoader4(
+      {this.dotOneColor = Colors.redAccent,
+      this.dotTwoColor = Colors.green,
+      this.dotThreeColor = Colors.blueAccent,
+      this.duration = const Duration(milliseconds: 1000),
+      this.dotType = DotType.circle,
+      this.dotIcon = const Icon(Icons.blur_on)});
+
   final Color dotOneColor;
   final Color dotTwoColor;
   final Color dotThreeColor;
   final Duration duration;
   final DotType dotType;
   final Icon dotIcon;
-
-  ColorLoader4({
-    this.dotOneColor = Colors.redAccent,
-    this.dotTwoColor = Colors.green,
-    this.dotThreeColor = Colors.blueAccent,
-    this.duration = const Duration(milliseconds: 1000),
-    this.dotType = DotType.circle,
-    this.dotIcon = const Icon(Icons.blur_on)
-  });
 
   @override
   _ColorLoader4State createState() => _ColorLoader4State();
@@ -34,8 +33,7 @@ class _ColorLoader4State extends State<ColorLoader4>
   void initState() {
     super.initState();
 
-    controller = AnimationController(
-        duration: widget.duration, vsync: this);
+    controller = AnimationController(duration: widget.duration, vsync: this);
 
     animation_1 = Tween(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
@@ -70,10 +68,10 @@ class _ColorLoader4State extends State<ColorLoader4>
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: new Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          new Transform.translate(
+          Transform.translate(
             offset: Offset(
               0.0,
               -30 *
@@ -81,7 +79,7 @@ class _ColorLoader4State extends State<ColorLoader4>
                       ? animation_1.value
                       : 1.0 - animation_1.value),
             ),
-            child: new Padding(
+            child: Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: Dot(
                 radius: 10.0,
@@ -99,7 +97,7 @@ class _ColorLoader4State extends State<ColorLoader4>
                       ? animation_2.value
                       : 1.0 - animation_2.value),
             ),
-            child: new Padding(
+            child: Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: Dot(
                 radius: 10.0,
@@ -117,7 +115,7 @@ class _ColorLoader4State extends State<ColorLoader4>
                       ? animation_3.value
                       : 1.0 - animation_3.value),
             ),
-            child: new Padding(
+            child: Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: Dot(
                 radius: 10.0,
@@ -134,33 +132,40 @@ class _ColorLoader4State extends State<ColorLoader4>
 
   @override
   void dispose() {
-
     controller.dispose();
     super.dispose();
   }
 }
 
 class Dot extends StatelessWidget {
+  Dot({this.radius, this.color, this.type, this.icon});
+
   final double radius;
   final Color color;
   final DotType type;
   final Icon icon;
 
-  Dot({this.radius, this.color, this.type, this.icon});
-
   @override
   Widget build(BuildContext context) {
-    return new Center(
-      child: type == DotType.icon ?
-          Icon(icon.icon, color: color, size: 1.3 * radius,)
-          : new Transform.rotate(
-        angle: type == DotType.diamond ? pi/4 : 0.0,
-        child: Container(
-          width: radius,
-          height: radius,
-          decoration: BoxDecoration(color: color, shape: type == DotType.circle? BoxShape.circle : BoxShape.rectangle),
-        ),
-      ),
+    return Center(
+      child: type == DotType.icon
+          ? Icon(
+              icon.icon,
+              color: color,
+              size: 1.3 * radius,
+            )
+          : Transform.rotate(
+              angle: type == DotType.diamond ? pi / 4 : 0.0,
+              child: Container(
+                width: radius,
+                height: radius,
+                decoration: BoxDecoration(
+                    color: color,
+                    shape: type == DotType.circle
+                        ? BoxShape.circle
+                        : BoxShape.rectangle),
+              ),
+            ),
     );
   }
 }

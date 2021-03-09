@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-//import 'package:unilyfe_app/buttons/logout_button.dart';
-//import 'package:unilyfe_app/provider/google_sign_in.dart';
 
 /*class UserProfilePage extends StatelessWidget {
   int _selectedIndex = 0;
@@ -89,47 +87,46 @@ static const List<Widget> _widgetOptions = <Widget>[
 }*/
 
 class ProfilePage extends StatelessWidget {
-
-    static Route<dynamic> route() => MaterialPageRoute(
+  static Route<dynamic> route() => MaterialPageRoute(
         builder: (context) => ProfilePage(),
       );
 
   @override
   Widget build(BuildContext context) {
-        return Scaffold(
+    return Scaffold(
         body: ListView(
       //child: Column(
-        children: <Widget>[
-          editProfileBar,
-          profilePicture,
-          userInfo,
-          //titleSection,
-          //chip,
-          chipList([
-            'Photography',
-            'Tiktok Star',
-            'Photoshop',
-            'Coder' 'Simper',
-            'Basic Bitch',
-            'Data Scientist',
-            'Painter',
-            'Spotify Playlist Curator',
-            'Insomniac'
-          ], const Color(0xFFF56D6B)),
-          chipList([
-            'CS 242',
-            'CS 252',
-            'CS 307',
-            'MA 351',
-            'COM 217',
-            'AD 255',
-            'WGSS 280',
-          ], const Color(0xFFF99E3E)),
-        ],
+      children: <Widget>[
+        editProfileBar,
+        profilePicture,
+        userInfo,
+        //titleSection,
+        //chip,
+        chipList([
+          'Photography',
+          'Tiktok Star',
+          'Photoshop',
+          'Coder' 'Simper',
+          'Basic Bitch',
+          'Data Scientist',
+          'Painter',
+          'Spotify Playlist Curator',
+          'Insomniac'
+        ], const Color(0xFFF56D6B)),
+        chipList([
+          'CS 242',
+          'CS 252',
+          'CS 307',
+          'MA 351',
+          'COM 217',
+          'AD 255',
+          'WGSS 280',
+        ], const Color(0xFFF99E3E)),
+      ],
       //),
     )
 
-  /*floatingActionButton: FloatingActionButton(
+        /*floatingActionButton: FloatingActionButton(
     backgroundColor: const Color(0xFFF56D6B),
     onPressed: () {},
     child: Icon(Icons.add,),
@@ -147,7 +144,8 @@ Widget profilePicture = Container(
   decoration: BoxDecoration(
     shape: BoxShape.circle,
     image: DecorationImage(
-        image: AssetImage('assets/gayathri.png'), ),
+      image: AssetImage('assets/gayathri.png'),
+    ),
   ),
 );
 
@@ -201,11 +199,11 @@ Widget editProfileBar = Container(
   Container(
     padding: const EdgeInsets.all(10),
     child: TextButton(
-      child: Text('Edit Profile'),
       style: TextButton.styleFrom(
         primary: Colors.grey,
       ),
       onPressed: () {},
+      child: Text('Edit Profile'),
     ),
   ),
 ]));
@@ -226,20 +224,13 @@ Widget _buildChip(String label, Color color) {
   );
 }
 
-chipList(List<String> things, Color color) {
-  List<Widget> list = new List<Widget>();
-  for (int i = 0; i < things.length; i++) {
+Widget chipList(List<String> things, Color color) {
+  var list = <Widget>[];
+  for (var i = 0; i < things.length; i++) {
     list.add(_buildChip(things[i], color));
-  } 
-  Widget chips = 
-  Padding(
+  }
+  Widget chips = Padding(
       padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: Wrap(
-        spacing: 6.0,
-        runSpacing: 6.0,
-        children: list
-      ));
+      child: Wrap(spacing: 6.0, runSpacing: 6.0, children: list));
   return chips;
 }
-
-
