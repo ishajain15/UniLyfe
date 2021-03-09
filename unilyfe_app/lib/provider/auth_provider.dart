@@ -55,11 +55,32 @@ class AuthProvider {
   // Google Sign-in
   Future<String> signInWithGoogle() async {
     final account = await _googleSignIn.signIn();
+    //idea to ensure it is college email over here
+    //check if domain is college email, if not sign out and never update on firebase
+    if (!isCollegeEmail(domain(account.email))) {
+      print('GOOGLE EMAIL IS NOT COLLEGE EMAIL: ' + account.email);
+      await _googleSignIn.signOut();
+      return null;
+    }
     final _googleAuth = await account.authentication;
     final AuthCredential credential = GoogleAuthProvider.credential(
         idToken: _googleAuth.idToken, accessToken: _googleAuth.accessToken);
     return (await _firebaseAuth.signInWithCredential(credential)).user.uid;
   }
+}
+
+//THIS IS THE FUNCTION TO VERIFY IF IT'S A COLLEGE EMAIL
+String domain(String email) {
+  return email.substring(email.indexOf('@') + 1);
+}
+
+bool isCollegeEmail(String domain) {
+  //for testing purposes, adding gmail.com as an option
+  if (domain.compareTo('gmail.com') == 0 ||
+      domain.compareTo('purdue.edu') == 0) {
+    return true;
+  }
+  return false;
 }
 
 class NameValidator {
@@ -78,20 +99,6 @@ class NameValidator {
 }
 
 class EmailValidator {
-  //THIS IS THE FUNCTION TO VERIFY IF IT'S A COLLEGE EMAIL
-  static String domain(String email) {
-    return email.substring(email.indexOf('@') + 1);
-  }
-
-  static bool isCollegeEmail(String domain) {
-    //for testing purposes, adding gmail.com as an option
-    if (domain.compareTo('gmail.com') == 0 ||
-        domain.compareTo('purdue.edu') == 0) {
-      return true;
-    }
-    return false;
-  }
-
   static String validate(String value) {
     if (value.isEmpty) {
       return "Email can't be empty";
