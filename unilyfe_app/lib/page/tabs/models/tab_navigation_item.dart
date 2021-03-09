@@ -36,7 +36,8 @@ class TabNavigationItem {
           title: Text("Create"),
         ),
         TabNavigationItem(
-          page: CoronaPage(),
+          //page: CoronaPage(),
+          page: MyMap(),
           icon: Icon(MyFlutterApp.corona_unilyfe),
           title: Text("Corona"),
         ),
