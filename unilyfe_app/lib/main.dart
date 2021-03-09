@@ -69,7 +69,7 @@ Widget buildLoading() => Center(
       duration: Duration(milliseconds: 1200),
     ));
 
-class MyMap extends StatefulWidget {
+/* class MyMap extends StatefulWidget {
   @override
   _MyMapState createState() => _MyMapState();
 }
@@ -101,4 +101,4 @@ class _MyMapState extends State<MyMap> {
       ),
     );
   }
-}
+}*/
