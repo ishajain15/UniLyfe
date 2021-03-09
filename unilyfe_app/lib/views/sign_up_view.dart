@@ -166,24 +166,6 @@ class _SignUpViewState extends State<SignUpView> {
     );
   }
 
-  AutoSizeText buildHeaderText() {
-    String _headerText;
-    if (authFormType == AuthFormType.signUp) {
-      _headerText = 'Sign Up';
-    } else {
-      _headerText = 'Sign In';
-    }
-    return AutoSizeText(
-      _headerText,
-      maxLines: 1,
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        fontSize: 35,
-        color: Colors.white,
-      ),
-    );
-  }
-
   List<Widget> buildInputs() {
     var textFields = <Widget>[];
 
@@ -207,7 +189,6 @@ class _SignUpViewState extends State<SignUpView> {
     }
 
     // if were in the sign up state and add name
-    // JUST ADDING THIS FOR NOW, NEED TO CHANGE LATER SINCE WE WILL HAVE A SEPARATE PAGE
     if (authFormType == AuthFormType.signUp) {
       textFields.add(TextFieldContainer(
           child: TextFormField(
