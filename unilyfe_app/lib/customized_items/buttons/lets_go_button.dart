@@ -9,10 +9,6 @@ class LetsGoButton extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: EdgeInsets.all(4),
         child: ElevatedButton(
-          child: Text(
-            'Let\'s Go!',
-            //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-          ),
           onPressed: () {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => TabsPage()));
@@ -22,6 +18,10 @@ class LetsGoButton extends StatelessWidget {
             onPrimary: Colors.white,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10.0)),
+          ),
+          child: Text(
+            'Let\'s Go!',
+            //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
         ),
       );

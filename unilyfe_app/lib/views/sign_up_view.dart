@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/Signup/rounded_button.dart';
-import 'package:unilyfe_app/Signup/text_field_container.dart';
-import 'package:unilyfe_app/buttons/google_button.dart';
-// import 'package:unilyfe_app/main.dart';
-//import 'package:unilyfe_app/page/username_page.dart';
+import 'package:unilyfe_app/customized_items/buttons/rounded_button.dart';
+import 'package:unilyfe_app/customized_items/text_field_container.dart';
+import 'package:unilyfe_app/customized_items/buttons/google_button.dart';
 import 'package:unilyfe_app/provider/auth_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
@@ -13,23 +11,23 @@ final primaryColor = const Color(0xFFFFFFFF);
 enum AuthFormType { signIn, signUp, reset }
 
 class SignUpView extends StatefulWidget {
-  final AuthFormType authFormType;
   SignUpView({Key key, @required this.authFormType}) : super(key: key);
+  final AuthFormType authFormType;
   @override
   _SignUpViewState createState() =>
-      _SignUpViewState(authFormType: this.authFormType);
+      _SignUpViewState(authFormType: authFormType);
 }
 
 class _SignUpViewState extends State<SignUpView> {
-  AuthFormType authFormType;
   _SignUpViewState({this.authFormType});
+  AuthFormType authFormType;
 
   final formKey = GlobalKey<FormState>();
   String _email, _password, _name, _error;
 
   void switchFormState(String state) {
     formKey.currentState.reset();
-    if (state == "signUp") {
+    if (state == 'signUp') {
       setState(() {
         authFormType = AuthFormType.signUp;
       });
@@ -57,23 +55,26 @@ class _SignUpViewState extends State<SignUpView> {
         final auth = Provider.of(context).auth;
         if (authFormType == AuthFormType.signIn) {
           //return buildLoading();
-          String uid = await auth.signInWithEmailAndPassword(_email, _password);
-          print("Signed in with ID $uid");
-          Navigator.of(context).pushReplacementNamed('/home');
+          var uid = await auth.signInWithEmailAndPassword(_email, _password);
+          print('Signed in with ID $uid');
+          await Navigator.of(context).pushReplacementNamed('/home');
         } else if (authFormType == AuthFormType.reset) {
           await auth.sendPasswordResetEmail(_email);
-          print("Password reset email sent");
-          _error = "A password reset link has been sent to $_email";
+          print('Password reset email sent');
+          _error = 'A password reset link has been sent to $_email';
           setState(() {
             authFormType = AuthFormType.signIn;
           });
         } else {
-          String uid = await auth.createUserWithEmailAndPassword(
+          var uid = await auth.createUserWithEmailAndPassword(
               _email, _password, _name);
           await auth.sendEmailVerification();
-          print("Signed up with New ID $uid");
-          Navigator.of(context).pushReplacementNamed('/home');
+          print('Signed up with New ID $uid');
+          await Navigator.of(context).pushReplacementNamed('/home');
           //logout button does not work if this is used
+          //new plan to make the email verification useful: generate random username
+          //users can only change their username if their email has been verified
+          //username page will now only be in edit bio location.
           //Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => UsernamePage()));
         }
       } catch (e) {
@@ -89,7 +90,6 @@ class _SignUpViewState extends State<SignUpView> {
   Widget build(BuildContext context) {
     final _width = MediaQuery.of(context).size.width;
     final _height = MediaQuery.of(context).size.height;
-    Size size = MediaQuery.of(context).size * 2;
 
     return Scaffold(
       body: Container(
@@ -103,15 +103,6 @@ class _SignUpViewState extends State<SignUpView> {
                 SizedBox(height: _height * 0.0025),
                 showAlert(),
                 SizedBox(height: _height * 0.0025),
-                //buildHeaderText(),
-                // Positioned(
-                //   top: 200,
-                //   left: 65,
-                //   child: Image.asset(
-                //     "assets/unilyfe_logo.png",
-                //     width: size.width * 0.35,
-                //   ),
-                // ),
 
                 Align(
                   alignment: Alignment.center,
@@ -179,9 +170,9 @@ class _SignUpViewState extends State<SignUpView> {
   AutoSizeText buildHeaderText() {
     String _headerText;
     if (authFormType == AuthFormType.signUp) {
-      _headerText = "Sign Up";
+      _headerText = 'Sign Up';
     } else {
-      _headerText = "Sign In";
+      _headerText = 'Sign In';
     }
     return AutoSizeText(
       _headerText,
@@ -195,14 +186,14 @@ class _SignUpViewState extends State<SignUpView> {
   }
 
   List<Widget> buildInputs() {
-    List<Widget> textFields = [];
+    var textFields = <Widget>[];
 
     if (authFormType == AuthFormType.reset) {
       textFields.add(TextFieldContainer(
           child: TextFormField(
         validator: EmailValidator.validate,
         decoration: buildSignUpInputDecoration(
-            "Email",
+            'Email',
             Icon(
               Icons.email,
               color: Color(0xFFF46C6B),
@@ -223,7 +214,7 @@ class _SignUpViewState extends State<SignUpView> {
           child: TextFormField(
         validator: NameValidator.validate,
         decoration: buildSignUpInputDecoration(
-            "Name",
+            'Name',
             Icon(
               Icons.person,
               color: Color(0xFFF46C6B),
@@ -241,7 +232,7 @@ class _SignUpViewState extends State<SignUpView> {
       child: TextFormField(
         validator: EmailValidator.validate,
         decoration: buildSignUpInputDecoration(
-            "Email",
+            'Email',
             Icon(
               Icons.email,
               color: Color(0xFFF46C6B),
@@ -259,7 +250,7 @@ class _SignUpViewState extends State<SignUpView> {
       child: TextFormField(
         validator: PasswordValidator.validate,
         decoration: buildSignUpInputDecoration(
-            "Password",
+            'Password',
             Icon(
               Icons.lock,
               color: Color(0xFFF46C6B),
@@ -300,40 +291,27 @@ class _SignUpViewState extends State<SignUpView> {
 
   List<Widget> buildButtons() {
     String _switchButtonText, _newFormState, _submitButtonText;
-    bool _showForgotPassword = false;
-    bool _showGoogle = true;
+    var _showForgotPassword = false;
+    var _showGoogle = true;
 
     if (authFormType == AuthFormType.signIn) {
-      _switchButtonText = "Create New Account";
-      _newFormState = "signUp";
-      _submitButtonText = "SIGN IN";
+      _switchButtonText = 'Create New Account';
+      _newFormState = 'signUp';
+      _submitButtonText = 'SIGN IN';
       _showForgotPassword = true;
     } else if (authFormType == AuthFormType.reset) {
-      _switchButtonText = "Return to Sign In";
-      _newFormState = "signIn";
-      _submitButtonText = "SUBMIT";
+      _switchButtonText = 'Return to Sign In';
+      _newFormState = 'signIn';
+      _submitButtonText = 'SUBMIT';
       _showGoogle = false;
     } else {
-      _switchButtonText = "Have an Account? Sign In";
-      _newFormState = "signIn";
-      _submitButtonText = "SIGN UP";
+      _switchButtonText = 'Have an Account? Sign In';
+      _newFormState = 'signIn';
+      _submitButtonText = 'SIGN UP';
     }
 
     return [
       Container(
-        // child: ElevatedButton(
-        //   style: ElevatedButton.styleFrom(
-        //     shape: RoundedRectangleBorder(
-        //         borderRadius: BorderRadius.circular(30.0)),
-        //     primary: Colors.orange,
-        //   ),
-        //   child: Padding(
-        //     padding: const EdgeInsets.all(8.0),
-        //     child:
-        //         Text(_submitButtonText, style: TextStyle(color: Colors.white)),
-        //   ),
-        //   onPressed: submit,
-        // ),
         child: RoundedButton(
           text: _submitButtonText,
           press: submit,
@@ -341,13 +319,13 @@ class _SignUpViewState extends State<SignUpView> {
       ),
       showForgotPassword(_showForgotPassword),
       TextButton(
+        onPressed: () {
+          switchFormState(_newFormState);
+        },
         child: Text(
           _switchButtonText,
           style: TextStyle(color: Colors.black),
         ),
-        onPressed: () {
-          switchFormState(_newFormState);
-        },
       ),
       buildGoogleButton(_showGoogle)
     ];
@@ -355,24 +333,25 @@ class _SignUpViewState extends State<SignUpView> {
 
   Widget showForgotPassword(bool visible) {
     return Visibility(
+      visible: visible,
       child: TextButton(
-        child: Text(
-          "Forgot Password?",
-          style: TextStyle(color: Colors.black),
-        ),
         onPressed: () {
           setState(() {
             authFormType = AuthFormType.reset;
           });
         },
+        child: Text(
+          'Forgot Password?',
+          style: TextStyle(color: Colors.black),
+        ),
       ),
-      visible: visible,
     );
   }
 
   Widget buildGoogleButton(bool visible) {
     final _auth = Provider.of(context).auth;
     return Visibility(
+      visible: visible,
       child: Column(
         children: <Widget>[
           Divider(color: Color(0xFFF46C6B)),
@@ -381,7 +360,7 @@ class _SignUpViewState extends State<SignUpView> {
             press: () async {
               try {
                 await _auth.signInWithGoogle();
-                Navigator.of(context).pushReplacementNamed('/home');
+                await Navigator.of(context).pushReplacementNamed('/home');
               } catch (e) {
                 setState(() {
                   _error = e.message;
@@ -391,7 +370,6 @@ class _SignUpViewState extends State<SignUpView> {
           ),
         ],
       ),
-      visible: visible,
     );
   }
 }

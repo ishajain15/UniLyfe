@@ -8,7 +8,7 @@ class TabsPage extends StatefulWidget {
 
 class _TabsPageState extends State<TabsPage> {
   int _currentIndex = 0;
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +18,9 @@ class _TabsPageState extends State<TabsPage> {
         key: _scaffoldKey,
         drawer: myDrawer,
           appBar: AppBar(
-            leading: new IconButton(
+            leading: IconButton(
               color: Colors.grey,
-              icon: new Icon(Icons.reorder),
+              icon: Icon(Icons.reorder),
               onPressed: () => _scaffoldKey.currentState.openDrawer(),
             ),
             title:
@@ -63,10 +63,11 @@ class _TabsPageState extends State<TabsPage> {
               for (final tabItem in TabNavigationItem.items)
                 BottomNavigationBarItem(
                   icon: tabItem.icon,
+                  // ignore: deprecated_member_use
                   title: tabItem.title,
                 ),
             ],
-            selectedItemColor: const Color(0XFFF99E3E),
+            selectedItemColor: const Color(0xfff99e3e),
           ),
 
         )

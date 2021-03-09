@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-//import 'package:provider/provider.dart';
-//import 'package:unilyfe_app/provider/auth_provider.dart';
-//import 'package:unilyfe_app/provider/google_sign_in.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 class LogoutButtonWidget extends StatelessWidget {
@@ -13,21 +10,10 @@ class LogoutButtonWidget extends StatelessWidget {
           icon: FaIcon(FontAwesomeIcons.signOutAlt, color: Colors.white),
           label: Text(
             'LOGOUT',
-            //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
           onPressed: () async {
-            // final provider =
-            //     Provider.of<GoogleSignInProvider>(context, listen: false);
-            // provider.logout();
-            // try {
-            //   AuthProvider auth = Provider.of(context).auth;
-            //   await auth.signOut();
-            //   print("Signed Out");
-            // } catch (e) {
-            //   print(e);
-            // }
             try {
-              Provider.of(context).auth.signOut();
+              await Provider.of(context).auth.signOut();
               
             } catch (e) {
               print(e);

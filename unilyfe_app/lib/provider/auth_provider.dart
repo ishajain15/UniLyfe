@@ -37,7 +37,7 @@ class AuthProvider {
   }
 
   // Sign Out
-  signOut() {
+  Future<void> signOut() {
     _googleSignIn.signOut();
     return _firebaseAuth.signOut();
   }
@@ -54,13 +54,28 @@ class AuthProvider {
 
   // Google Sign-in
   Future<String> signInWithGoogle() async {
-    final GoogleSignInAccount account = await _googleSignIn.signIn();
-    final GoogleSignInAuthentication _googleAuth = await account.authentication;
+    final account = await _googleSignIn.signIn();
+    final _googleAuth = await account.authentication;
     final AuthCredential credential = GoogleAuthProvider.credential(
         idToken: _googleAuth.idToken, accessToken: _googleAuth.accessToken);
     return (await _firebaseAuth.signInWithCredential(credential)).user.uid;
   }
 }
+
+//THIS IS THE FUNCTION TO VERIFY IF IT'S A COLLEGE EMAIL
+// String domain(String email) {
+//     return email.substring(email.indexOf('@') + 1);
+//   }
+
+//   bool isCollegeEmail(String domain) {
+//     //String expectedDomain = "purdue.edu";
+//     //for testing purposes, setting it to gmail.com
+//     var expectedDomain = "gmail.com";
+//     if (domain.compareTo(expectedDomain) == 0) {
+//       return true;
+//     }
+//     return false;
+//   }
 
 class NameValidator {
   static String validate(String value) {
@@ -68,10 +83,10 @@ class NameValidator {
       return "Name can't be empty";
     }
     if (value.length < 2) {
-      return "Name must be at least 2 characters long";
+      return 'Name must be at least 2 characters long';
     }
     if (value.length > 50) {
-      return "Name must be less than 50 characters long";
+      return 'Name must be less than 50 characters long';
     }
     return null;
   }

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:unilyfe_app/loaders/color_loader_4.dart';
-import 'package:unilyfe_app/loaders/dot_type.dart';
+import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
+import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
 import 'package:unilyfe_app/page/start_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:unilyfe_app/page/tabs/tabs_page.dart';
 import 'package:unilyfe_app/provider/auth_provider.dart';
 import 'package:unilyfe_app/views/sign_up_view.dart';
-//import 'package:unilyfe_app/widgets/start_widget.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 Future main() async {
@@ -46,12 +45,12 @@ class MyApp extends StatelessWidget {
 class HomeController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final AuthProvider auth = Provider.of(context).auth;
+    final auth = Provider.of(context).auth;
     return StreamBuilder(
       stream: auth.authStateChanges,
       builder: (context, AsyncSnapshot<String> snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
-          final bool signedIn = snapshot.hasData;
+          final signedIn = snapshot.hasData;
           return signedIn ? TabsPage() : StartPage();
         }
         return buildLoading();
@@ -69,7 +68,6 @@ Widget buildLoading() => Center(
       dotType: DotType.square,
       duration: Duration(milliseconds: 1200),
     ));
-
 
 /* class MyMap extends StatefulWidget {
   @override
@@ -104,5 +102,3 @@ class _MyMapState extends State<MyMap> {
     );
   }
 }*/
-
-

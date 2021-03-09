@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleSignInProvider extends ChangeNotifier {
-  final googleSignIn = GoogleSignIn();
-  bool _isSigningIn;
-
   GoogleSignInProvider() {
     _isSigningIn = false;
   }
+
+  final googleSignIn = GoogleSignIn();
+  bool _isSigningIn;
 
   bool get isSigningIn => _isSigningIn;
 
@@ -18,13 +18,13 @@ class GoogleSignInProvider extends ChangeNotifier {
   }
 
   String domain(String email) {
-    return email.substring(email.indexOf("@") + 1);
+    return email.substring(email.indexOf('@') + 1);
   }
 
   bool isCollegeEmail(String domain) {
     //String expectedDomain = "purdue.edu";
     //for testing purposes, setting it to gmail.com
-    String expectedDomain = "gmail.com";
+    var expectedDomain = 'gmail.com';
     if (domain.compareTo(expectedDomain) == 0) {
       return true;
     }
@@ -56,6 +56,6 @@ class GoogleSignInProvider extends ChangeNotifier {
 
   void logout() async {
     await googleSignIn.disconnect();
-    FirebaseAuth.instance.signOut();
+    await FirebaseAuth.instance.signOut();
   }
 }
