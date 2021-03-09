@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../src/locations.dart' as locations;
 
 class CoronaPage extends StatelessWidget {
   static Route<dynamic> route() => MaterialPageRoute(
@@ -22,15 +23,23 @@ class MyMap extends StatefulWidget {
 }
 
 class _MyMapState extends State<MyMap> {
-  static Route<dynamic> route() => MaterialPageRoute(
-        builder: (context) => MyMap(),
-      );
-  GoogleMapController mapController;
-
-  final LatLng _center = const LatLng(40.42395040517343, -86.92120533110851);
-
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
+  final Map<String, Marker> _markers = {};
+  Future<void> _onMapCreated(GoogleMapController controller) async {
+    final googleOffices = await locations.getGoogleOffices();
+    setState(() {
+      _markers.clear();
+      for (final office in googleOffices.offices) {
+        final marker = Marker(
+          markerId: MarkerId(office.name),
+          position: LatLng(office.lat, office.lng),
+          infoWindow: InfoWindow(
+            title: office.name,
+            snippet: office.address,
+          ),
+        );
+        _markers[office.name] = marker;
+      }
+    });
   }
 
   @override
@@ -38,16 +47,16 @@ class _MyMapState extends State<MyMap> {
     return MaterialApp(
       home: Scaffold(
         /* appBar: AppBar(
-          toolbarHeight: 25,
-          title: Text('COVID-19 Tracker'),
-          backgroundColor: Color(0xFFF47C54),
-        ),*/
+          title: const Text('Google Office Locations'),
+          backgroundColor: Colors.green[700],
+        ), */
         body: GoogleMap(
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
+            target: const LatLng(40.42395040517343, -86.92120533110851),
+            zoom: 5,
           ),
+          markers: _markers.values.toSet(),
         ),
       ),
     );
