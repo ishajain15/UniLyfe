@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:unilyfe_app/files_to_be_deleted/Login/components/background.dart';
 import 'package:unilyfe_app/files_to_be_deleted/signup_screen.dart';
 import 'package:unilyfe_app/files_to_be_deleted/already_have_an_account_acheck.dart';
-import 'package:unilyfe_app/buttons/rounded_button.dart';
+//import '.../customized_items/buttons/rounded_button.dart';
 import 'package:unilyfe_app/files_to_be_deleted/rounded_input_field.dart';
 import 'package:unilyfe_app/files_to_be_deleted/rounded_password_field.dart';
 import 'package:unilyfe_app/page/username_page.dart';
@@ -37,7 +37,7 @@ class Body extends StatelessWidget {
                 _password = value.trim();
               },
             ),
-            RoundedButton(
+            /*RoundedButton(
               text: 'LOGIN',
               press: () {
                 auth.signInWithEmailAndPassword(
@@ -45,7 +45,7 @@ class Body extends StatelessWidget {
                 Navigator.of(context).pushReplacement(
                     MaterialPageRoute(builder: (context) => UsernamePage()));
               },
-            ),
+            ),*/
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
               press: () {

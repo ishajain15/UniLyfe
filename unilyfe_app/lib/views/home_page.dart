@@ -3,8 +3,8 @@ import 'package:unilyfe_app/views/post_card.dart';
 
 // HomePage widget
 // scrolling list of posts
-class HomePage extends StatelessWidget {
-  const HomePage({Key key}) : super(key: key);
+class Posts extends StatelessWidget {
+  const Posts({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,42 +1,53 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/customized_items/buttons/logout_button.dart';
+import 'package:unilyfe_app/views/home_page.dart';
 //import 'package:unilyfe_app/provider/google_sign_in.dart';
 //import 'package:unilyfe_app/page/profile_page.dart';
 
 class HomePage extends StatelessWidget {
   static Route<dynamic> route() => MaterialPageRoute(
         builder: (context) => HomePage(),
-      );  
+      );
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
     final user = FirebaseAuth.instance.currentUser;
 
-      return Scaffold(
-      appBar: 
-        TabBar(
-          labelColor: const Color(0xFFF56D6B),
-          tabs: [
-            Tab(text: 'ALL'),
-            Tab(text: 'FOOD'),
-            Tab(text: 'STUDY'),
-            Tab(text: 'SOCIAL'),
-          ],
-          unselectedLabelColor: Colors.grey,
-        ),
+    return Scaffold(
+      appBar: TabBar(
+        labelColor: const Color(0xFFF56D6B),
+        tabs: [
+          Tab(text: 'ALL'),
+          Tab(text: 'FOOD'),
+          Tab(text: 'STUDY'),
+          Tab(text: 'SOCIAL'),
+        ],
+        unselectedLabelColor: Colors.grey,
+      ),
       //),
-      body: TabBarView(
+      body: 
+      TabBarView(
         children: [
           //Icon(Icons.directions_car),
-          Text('feedfeedfeed', textAlign: TextAlign.center,),
-          Text('yummy nomnom', textAlign: TextAlign.center,),
-          Text('studywuddy', textAlign: TextAlign.center,),
-          Text('fun fun fun', textAlign: TextAlign.center,),
+          //Text('feedfeedfeed', textAlign: TextAlign.center,),
+          Posts(),
+          Text(
+            'yummy nomnom',
+            textAlign: TextAlign.center,
+          ),
+          Text(
+            'studywuddy',
+            textAlign: TextAlign.center,
+          ),
+          Text(
+            'fun fun fun',
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
       bottomSheet: LogoutButtonWidget(),
-      
+
     );
 
     /*return Container(
