@@ -103,7 +103,6 @@ class _SignUpViewState extends State<SignUpView> {
                 SizedBox(height: _height * 0.0025),
                 showAlert(),
                 SizedBox(height: _height * 0.0025),
-
                 Align(
                   alignment: Alignment.center,
                   child: Container(
@@ -132,7 +131,7 @@ class _SignUpViewState extends State<SignUpView> {
   Widget showAlert() {
     if (_error != null) {
       return Container(
-        color: Colors.amberAccent,
+        color: Color(0xFFfae9d7),
         width: double.infinity,
         padding: EdgeInsets.all(8.0),
         child: Row(
@@ -295,17 +294,17 @@ class _SignUpViewState extends State<SignUpView> {
     var _showGoogle = true;
 
     if (authFormType == AuthFormType.signIn) {
-      _switchButtonText = 'Create New Account';
+      _switchButtonText = 'CREATE NEW ACCOUNT';
       _newFormState = 'signUp';
       _submitButtonText = 'SIGN IN';
       _showForgotPassword = true;
     } else if (authFormType == AuthFormType.reset) {
-      _switchButtonText = 'Return to Sign In';
+      _switchButtonText = 'RETURN TO SIGN IN';
       _newFormState = 'signIn';
       _submitButtonText = 'SUBMIT';
       _showGoogle = false;
     } else {
-      _switchButtonText = 'Have an Account? Sign In';
+      _switchButtonText = 'HAVE AN ACCOUNT? SIGN IN';
       _newFormState = 'signIn';
       _submitButtonText = 'SIGN UP';
     }
@@ -324,7 +323,8 @@ class _SignUpViewState extends State<SignUpView> {
         },
         child: Text(
           _switchButtonText,
-          style: TextStyle(color: Colors.black),
+          style:
+              TextStyle(color: Color(0xFFF47C54), fontWeight: FontWeight.bold),
         ),
       ),
       buildGoogleButton(_showGoogle)
@@ -341,8 +341,9 @@ class _SignUpViewState extends State<SignUpView> {
           });
         },
         child: Text(
-          'Forgot Password?',
-          style: TextStyle(color: Colors.black),
+          'FORGOT PASSWORD?',
+          style:
+              TextStyle(color: Color(0xFFF47C54), fontWeight: FontWeight.bold),
         ),
       ),
     );
