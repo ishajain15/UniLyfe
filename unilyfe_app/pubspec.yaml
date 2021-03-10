@@ -38,13 +38,16 @@ dependencies:
   google_sign_in: ^4.5.9
   font_awesome_flutter: ^8.11.0
   auto_size_text: ^2.1.0
-
+  polls: ^0.2.1
+  community_material_icon: ^5.3.45
+  keyboard_visibility: ^0.5.6
 dev_dependencies:
   flutter_test:
     sdk: flutter
     #2 lines below for Google Maps
   pedantic: ^1.9.0
   build_runner: ^1.10.0
+  
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
