@@ -28,7 +28,7 @@ showAlertDialog(BuildContext context) {
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text("All"),
-    content: Text("The subpage \'ALL\' basically does this blah blah blah"),
+    content: Text("In this subpage, users can find all the posts and reviews of the locations on campus."),
     actions: [
       dismissButton,
     ],
