@@ -13,7 +13,6 @@ class TextEditor extends StatefulWidget {
 }
 
 class _TextEditorState extends State<TextEditor> {
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<EditorProvider>(
@@ -23,8 +22,12 @@ class _TextEditorState extends State<TextEditor> {
           child: Scaffold(
             body: Stack(
               children: <Widget>[
-                Positioned(
-                  top: 16,
+                Container(
+              height: 50000,
+              color: Colors.white,
+                ),
+                new Positioned(
+                  top: 30,
                   left: 0,
                   right: 0,
                   bottom: 56,
@@ -34,7 +37,7 @@ class _TextEditorState extends State<TextEditor> {
                     }
                   ),
                 ),
-                Positioned(
+                new Positioned(
                   bottom: 0,
                   left: 0,
                   right: 0,
@@ -49,9 +52,32 @@ class _TextEditorState extends State<TextEditor> {
                     },
                   ),
                   
-                )
-              ],
-              
+                ),
+        Row(
+        mainAxisAlignment: MainAxisAlignment.end,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          FlatButton(
+            onPressed: () => debugPrint("pressed"),
+            child: new Text("Add Picture",
+              style: new TextStyle(
+                fontSize: 16,
+                color: Color(0xFFF46C6B)
+              )
+            )
+          ),
+            FlatButton(
+            onPressed: () => debugPrint("pressed"),
+            child: new Text("Post",
+              style: new TextStyle(
+                fontSize: 16,
+                color: Color(0xFFF46C6B)
+              )
+            )
+          ),
+        ],
+      ),
+              ], 
             )
           ),
         );

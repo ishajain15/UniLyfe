@@ -1,7 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:unilyfe_app/customized_items/buttons/information_button_all.dart';
+import 'package:unilyfe_app/customized_items/buttons/information_button_food.dart';
+import 'package:unilyfe_app/customized_items/buttons/information_button_social.dart';
+import 'package:unilyfe_app/customized_items/buttons/information_button_study.dart';
 import 'package:unilyfe_app/customized_items/buttons/logout_button.dart';
 import 'package:unilyfe_app/views/home_page.dart';
+import 'package:unilyfe_app/customized_items/buttons/back_button.dart';
 //import 'package:unilyfe_app/provider/google_sign_in.dart';
 //import 'package:unilyfe_app/page/profile_page.dart';
 
@@ -26,28 +31,17 @@ class HomePage extends StatelessWidget {
         unselectedLabelColor: Colors.grey,
       ),
       //),
-      body: 
-      TabBarView(
+      body: TabBarView(
         children: [
           //Icon(Icons.directions_car),
           //Text('feedfeedfeed', textAlign: TextAlign.center,),
           Posts(),
-          Text(
-            'yummy nomnom',
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            'studywuddy',
-            textAlign: TextAlign.center,
-          ),
-          Text(
-            'fun fun fun',
-            textAlign: TextAlign.center,
-          ),
+          InformationButtonFood(),
+          InformationButtonStudy(),
+          InformationButtonSocial(),
         ],
       ),
       bottomSheet: LogoutButtonWidget(),
-
     );
 
     /*return Container(

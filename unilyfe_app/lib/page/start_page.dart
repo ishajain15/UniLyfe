@@ -58,27 +58,25 @@ class StartPage extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 SizedBox(
-                  height: _height * 0.02,
+                  height: _height * 0.125,
                 ),
                 Align(
                   //alignment: Alignment.center,
                   child: Container(
                     alignment: Alignment.center,
                     margin: EdgeInsets.symmetric(horizontal: _width * 0.02),
-                    child: Image.asset('assets/logo.png', fit: BoxFit.contain),
+                    child: Image.asset('assets/unilyfe_logo.png',
+                        fit: BoxFit.contain),
                   ),
                 ),
                 SizedBox(
-                  height: _height * 0.04,
+                  height: _height * 0.125,
                 ),
                 SignInButtonWidget(),
                 SizedBox(
-                  height: _height * 0.01,
+                  height: _height * 0.025,
                 ),
                 SignUpButtonWidget(),
-                SizedBox(
-                  height: _height * 0.01,
-                ),
               ],
             ),
           ),
