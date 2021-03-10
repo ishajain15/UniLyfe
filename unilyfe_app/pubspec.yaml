@@ -67,6 +67,8 @@ flutter:
     - assets/gayathri_armstrong.png
     - assets/images/
     - assets/icons/
+    - assets/destination_map_marker.png
+    - assets/covid_key.jpg
   fonts:
   - family:  MyFlutterApp
     fonts:
