@@ -72,14 +72,11 @@ PODS:
   - GTMSessionFetcher/Core (1.5.0)
   - GTMSessionFetcher/Full (1.5.0):
     - GTMSessionFetcher/Core (= 1.5.0)
-<<<<<<< HEAD
   - image_picker (0.0.1):
     - Flutter
-=======
   - keyboard_visibility (0.5.0):
     - Flutter
     - Reachability
->>>>>>> texts
   - nanopb (1.30906.0):
     - nanopb/decode (= 1.30906.0)
     - nanopb/encode (= 1.30906.0)
@@ -94,11 +91,8 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - google_maps_flutter (from `.symlinks/plugins/google_maps_flutter/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
-<<<<<<< HEAD
   - image_picker (from `.symlinks/plugins/image_picker/ios`)
-=======
   - keyboard_visibility (from `.symlinks/plugins/keyboard_visibility/ios`)
->>>>>>> texts
 
 SPEC REPOS:
   trunk:
@@ -128,13 +122,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_maps_flutter/ios"
   google_sign_in:
     :path: ".symlinks/plugins/google_sign_in/ios"
-
   image_picker:
     :path: ".symlinks/plugins/image_picker/ios"
-
   keyboard_visibility:
     :path: ".symlinks/plugins/keyboard_visibility/ios"
-
 
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
@@ -153,11 +144,8 @@ SPEC CHECKSUMS:
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
   GTMAppAuth: 197a8dabfea5d665224aa00d17f164fc2248dab9
   GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
-
   image_picker: 9c3312491f862b28d21ecd8fdf0ee14e601b3f09
-
   keyboard_visibility: 96a24de806fe6823c3ad956c01ba2ec6d056616f
-
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
