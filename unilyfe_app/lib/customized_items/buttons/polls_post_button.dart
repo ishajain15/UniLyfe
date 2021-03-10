@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 // //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // //import 'package:unilyfe_app/page/start_page.dart';
 // import 'package:unilyfe_app/page/tabs/tabs_page.dart';
+// import 'package:unilyfe_app/files_to_be_deleted/register_page.dart';
+import 'package:unilyfe_app/page/create_posts/poll_form.dart';
 
 
 class PollsButton extends StatelessWidget {
@@ -9,7 +11,10 @@ class PollsButton extends StatelessWidget {
   Widget build(BuildContext context) => Container(
         padding: EdgeInsets.all(4),
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+             Navigator.push(
+            context, MaterialPageRoute(builder: (context) => PollForm()));
+          },
           style: ElevatedButton.styleFrom(
             primary: Color(0xFFF46C6B),
             onPrimary: Colors.white,
