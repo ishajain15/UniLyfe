@@ -23,6 +23,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  firebase_core: ^1.0.1
+  firebase_database: ^6.1.0
   google_maps_flutter: ^0.5.27+3
   # Add the following two lines
   http: ^0.12.0+1
