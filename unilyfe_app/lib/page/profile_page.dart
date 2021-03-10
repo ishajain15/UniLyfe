@@ -98,7 +98,8 @@ class ProfilePage extends StatelessWidget {
       //child: Column(
       children: <Widget>[
         editProfileBar,
-        profilePicture,
+        //profilePicture,
+        _profilePicture(),
         userInfo,
         //titleSection,
         //chip,
@@ -233,4 +234,46 @@ Widget chipList(List<String> things, Color color) {
       padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: Wrap(spacing: 6.0, runSpacing: 6.0, children: list));
   return chips;
+}
+
+// ignore: camel_case_types
+class _profilePicture extends StatefulWidget {
+  @override
+  _myProfilePictureState createState() => _myProfilePictureState();
+}
+
+class _myProfilePictureState extends State<_profilePicture> {
+  String picture = 'assets/gayathri.png';
+  void _changePicture() {
+    setState(() {
+      if (picture == 'assets/gayathri_armstrong.png') {
+        picture = 'assets/gayathri.png';
+        print("new picture: " + picture);
+        return;
+      }
+      if (picture == 'assets/gayathri.png') {
+        picture = 'assets/gayathri_armstrong.png';
+        print("new picture: " + picture);
+        return;
+      }
+    });
+  }
+
+  Widget build(BuildContext context) {
+    return GestureDetector(
+        onTap: () {
+          _changePicture();
+          print('hello');
+        },
+        child: Container(
+          width: 200,
+          height: 200,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            image: DecorationImage(
+              image: AssetImage(picture),
+            ),
+          ),
+        ));
+  }
 }
