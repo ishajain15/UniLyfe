@@ -30,7 +30,10 @@ class HomeView extends StatelessWidget {
   Stream<QuerySnapshot> getUserPostsStreamSnapshots(
       BuildContext context) async* {
     final uid = await Provider.of(context).auth.getCurrentUID();
-    yield* FirebaseFirestore.instance.collection("posts").snapshots();
+    yield* FirebaseFirestore.instance
+        .collection("posts")
+        .orderBy('time', descending: true)
+        .snapshots();
     // .collection("userData")
     // .doc(uid)
     // .collection("posts")
