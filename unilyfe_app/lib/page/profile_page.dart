@@ -1,95 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:unilyfe_app/models/User.dart';
+import 'package:unilyfe_app/widgets/provider_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-/*class UserProfilePage extends StatelessWidget {
-  int _selectedIndex = 0;
-static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-static const List<Widget> _widgetOptions = <Widget>[
-  Text(
-    'Index 0: Home',
-    style: optionStyle,
-  ),
-  Text(
-     'Index 1: Explore',
-     style: optionStyle,
-  ),
-  Text(
-     'Index 2: Create',
-     style: optionStyle,
-  ),
-    Text(
-    'Index 0: Corona',
-    style: optionStyle,
-  ),
-    Text(
-    'Index 0: Me',
-    style: optionStyle,
-  ),
-];
-
-/*void _onItemTapped(int index) {
-  setState(() {
-    _selectedIndex = index;
-  });
-}*/
-  @override
-  Widget build(BuildContext context) {
-
-    /*return Container(
-      alignment: Alignment.center,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'random stuff for now',
-            style: TextStyle(color: Colors.orangeAccent),
-          ),
-          //LogoutButtonWidget(),
-        ],
-      ),
-    );*/
-    return Scaffold(
-    appBar: AppBar(
-      title: const Text('BottomNavigationBar Sample'),
-    ),
-    body: Center(
-      child: _widgetOptions.elementAt(_selectedIndex),
-    ),
-    bottomNavigationBar: BottomNavigationBar(
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.business),
-          label: 'Explore',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.school),
-          label: 'Create',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.school),
-          label: 'Corona',
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.school),
-          label: 'Me',
-        ),
-      ],
-      currentIndex: _selectedIndex,
-      selectedItemColor: Colors.amber[800],
-      //onTap: _onItemTapped,
-    ),
-  );
-  }
-}*/
-
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   static Route<dynamic> route() => MaterialPageRoute(
         builder: (context) => ProfilePage(),
       );
+
+  @override
+  _ProfilePageState createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  User user = User("");
+  TextEditingController _usernameController = TextEditingController();
+  //final db = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -143,72 +69,62 @@ class ProfilePage extends StatelessWidget {
         ], const Color(0xFFF99E3E)),
       ],
       //),
-    )
-
-        /*floatingActionButton: FloatingActionButton(
-    backgroundColor: const Color(0xFFF56D6B),
-    onPressed: () {},
-    child: Icon(Icons.add,),
-    //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
-    shape: RoundedRectangleBorder(),
-    
-  ),*/
-        );
-  }
-}
-
-Widget profilePicture = Container(
-  width: 200,
-  height: 200,
-  decoration: BoxDecoration(
-    shape: BoxShape.circle,
-    image: DecorationImage(
-      image: AssetImage('assets/gayathri.png'),
-    ),
-  ),
-);
-
-Widget userInfo = Container(
-    padding: const EdgeInsets.all(32),
-    child: Column(
-      children: [
-        Container(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Text(
-            'Gayathri',
-            style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Raleway'),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Text(
-            'Sophomore',
-            style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Raleway'),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.only(bottom: 8),
-          child: Text(
-            'tiktoker lol',
-            style: TextStyle(
-                fontSize: 17,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Raleway'),
-          ),
-        ),
-      ],
     ));
+  }
+//}
 
-Widget pad = Container(
-  padding: const EdgeInsets.all(32),
-  //child: Row(),
-);
+  Widget profilePicture = Container(
+    width: 200,
+    height: 200,
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      image: DecorationImage(
+        image: AssetImage('assets/gayathri.png'),
+      ),
+    ),
+  );
+
+  Widget userInfo = Container(
+      padding: const EdgeInsets.all(32),
+      child: Column(
+        children: [
+          Container(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text(
+              'Gayathri',
+              style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Raleway'),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text(
+              'Sophomore',
+              style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Raleway'),
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text(
+              'tiktoker lol',
+              style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Raleway'),
+            ),
+          ),
+        ],
+      ));
+
+  Widget pad = Container(
+    padding: const EdgeInsets.all(32),
+    //child: Row(),
+  );
 
 /*Widget editProfileBar = Container(
     child: Row(children: [
@@ -229,31 +145,136 @@ Widget pad = Container(
   ),
 ]));*/
 
-Widget _buildChip(String label, Color color) {
-  return Chip(
-    labelPadding: EdgeInsets.all(2.0),
-    label: Text(
-      label,
-      style: TextStyle(
-        color: Colors.white,
+  Widget _buildChip(String label, Color color) {
+    return Chip(
+      labelPadding: EdgeInsets.all(2.0),
+      label: Text(
+        label,
+        style: TextStyle(
+          color: Colors.white,
+        ),
       ),
-    ),
-    backgroundColor: color,
-    elevation: 6.0,
-    shadowColor: Colors.grey[60],
-    padding: EdgeInsets.all(8.0),
-  );
-}
-
-Widget chipList(List<String> things, Color color) {
-  var list = <Widget>[];
-  for (var i = 0; i < things.length; i++) {
-    list.add(_buildChip(things[i], color));
+      backgroundColor: color,
+      elevation: 6.0,
+      shadowColor: Colors.grey[60],
+      padding: EdgeInsets.all(8.0),
+    );
   }
-  Widget chips = Padding(
-      padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: Wrap(spacing: 6.0, runSpacing: 6.0, children: list));
-  return chips;
+
+  Widget chipList(List<String> things, Color color) {
+    var list = <Widget>[];
+    for (var i = 0; i < things.length; i++) {
+      list.add(_buildChip(things[i], color));
+    }
+    Widget chips = Padding(
+        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+        child: Wrap(spacing: 6.0, runSpacing: 6.0, children: list));
+    return chips;
+  }
+
+  Widget _changeInfo(String textBoxText) {
+    return TextField(
+      controller: _usernameController,
+      autofocus: false,
+      style: TextStyle(fontSize: 22.0, color: Colors.black),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Color(0xFFfae9d7),
+        hintText: textBoxText,
+        contentPadding:
+            const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.black),
+          borderRadius: BorderRadius.circular(25.7),
+        ),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(25.7),
+        ),
+      ),
+    );
+  }
+
+  void _tripEditModalBottomSheet(context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return Container(
+          height: MediaQuery.of(context).size.height * .60,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Text("Edit Profile"),
+                    Spacer(),
+                    IconButton(
+                      icon: Icon(
+                        Icons.cancel,
+                        color: Colors.orange,
+                        size: 25,
+                      ),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                ),
+                _changeInfo("change username..."),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                ),
+                // _changeInfo("change name..."),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                ),
+                // _changeInfo("change bio..."),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                ),
+                // _changeInfo("change profile pic..."),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    RaisedButton(
+                        child: Text('Submit'),
+                        color: Colors.deepPurple,
+                        textColor: Colors.white,
+                        onPressed: () async {
+                          user.username = _usernameController.text;
+                          print(_usernameController.text);
+                          final uid =
+                              await Provider.of(context).auth.getCurrentUID();
+                          await Provider.of(context)
+                              .db
+                              .collection('userData')
+                              .doc(uid)
+                              .set(user.toJson());
+                          //.collection("posts")
+                          //.add(user.toJson());
+                          //.setData(user.toJson());
+                          Navigator.of(context).pop();
+                        })
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    RaisedButton(
+                      child: Text('Delete'),
+                      color: Colors.red,
+                      textColor: Colors.white,
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 }
 
 // ignore: camel_case_types
@@ -296,94 +317,4 @@ class _myProfilePictureState extends State<_profilePicture> {
           ),
         ));
   }
-}
-
-Widget _changeInfo(String textBoxText) {
-  return 
-    TextField(
-    autofocus: false,
-    style: TextStyle(fontSize: 22.0, color: Colors.black),
-    decoration: InputDecoration(
-      filled: true,
-      fillColor: Color(0xFFfae9d7),
-      hintText: textBoxText,
-      contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
-      focusedBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: Colors.black),
-        borderRadius: BorderRadius.circular(25.7),
-      ),
-      enabledBorder: UnderlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.circular(25.7),
-      ),
-    ),
-    
-  );
-}
-
-void _tripEditModalBottomSheet(context) {
-  showModalBottomSheet(
-    context: context,
-    builder: (BuildContext bc) {
-      return Container(
-        height: MediaQuery.of(context).size.height * .60,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Text("Edit Profile"),
-                  Spacer(),
-                  IconButton(
-                    icon: Icon(
-                      Icons.cancel,
-                      color: Colors.orange,
-                      size: 25,
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  )
-                ],
-              ),
-              _changeInfo("change username..."),
-              Container(
-                padding: const EdgeInsets.all(16),
-              ),
-              _changeInfo("change name..."),
-              Container(
-                padding: const EdgeInsets.all(16),
-              ),
-              _changeInfo("change bio..."),
-              Container(
-                padding: const EdgeInsets.all(16),
-              ),
-              _changeInfo("change profile pic..."),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  RaisedButton(
-                    child: Text('Submit'),
-                    color: Colors.deepPurple,
-                    textColor: Colors.white,
-                  )
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  RaisedButton(
-                    child: Text('Delete'),
-                    color: Colors.red,
-                    textColor: Colors.white,
-                  )
-                ],
-              )
-            ],
-          ),
-        ),
-      );
-    },
-  );
 }

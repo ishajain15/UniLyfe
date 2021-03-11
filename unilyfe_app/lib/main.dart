@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Provider(
         auth: AuthProvider(),
+        db: FirebaseFirestore.instance,
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: title,

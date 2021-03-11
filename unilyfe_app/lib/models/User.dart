@@ -7,8 +7,8 @@ class User {
 
     Map<String, dynamic> toJson() => {
     'username': username,
-    'bio': bio,
-    'picturePath': picturePath,
+    //'bio': bio,
+    //'picturePath': picturePath,
   };
 
 }
