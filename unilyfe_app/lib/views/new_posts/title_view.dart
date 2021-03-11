@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/models/post.dart';
-import 'package:unilyfe_app/views/new_posts/date_view.dart';
+import 'package:unilyfe_app/views/new_posts/text_view.dart';
 
 class NewPostLocationView extends StatelessWidget {
   final Post post;
@@ -13,13 +13,13 @@ class NewPostLocationView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Post - Location'),
+        title: Text('Create Post'),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text('Enter a Location'),
+            Text('Enter a Post Title'),
             Padding(
               padding: const EdgeInsets.all(30.0),
               child: TextField(

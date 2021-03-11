@@ -1,10 +1,17 @@
 class Post {
   String title;
-  DateTime startDate;
-  DateTime endDate;
-  double budget;
+  DateTime time;
+  String text;
   String postType;
+  String uid;
 
-  Post(this.title, this.startDate, this.endDate, this.budget, this.postType);
+  Post(this.title, this.time, this.text, this.postType, this.uid);
+
+  Map<String, dynamic> toJson() => {
+        'title': title,
+        'time': time,
+        'text': text,
+        'postType': postType,
+        'uid': uid,
+      };
 }
-
