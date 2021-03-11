@@ -3,6 +3,9 @@ import 'package:unilyfe_app/page/create_posts/options_page.dart';
 import 'package:unilyfe_app/customized_items/buttons/polls_post_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/text_post_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/picture_post_button.dart';
+import 'package:unilyfe_app/views/new_posts/location_view.dart';
+import 'package:unilyfe_app/models/post.dart';
+
 class CreatePage extends StatelessWidget {
   static Route<dynamic> route() => MaterialPageRoute(
         builder: (context) => CreatePage(),
@@ -31,24 +34,38 @@ class CreatePage extends StatelessWidget {
   //   );
     
   // }
-   Widget build(BuildContext context) => Scaffold(
+   Widget build(BuildContext context) { 
+     final newPost = Post(null, null, null, null, null);
+     return  Scaffold(
       backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          Spacer(),
-          Align(
-            //alignment: Alignment.center,
-            child: Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Text('Which type of post?'),
+        body: Column(
+          children: [
+            Spacer(),
+            Align(
+              //alignment: Alignment.center,
+              child: Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: Text('Which type of post?'),
+              ),
             ),
-          ),
-          SizedBox(height: 12),
-          PollsButton(),
-          TextsButton(),
-          PictureButton(),
-          Spacer(),
-        ],
-      ));
+            SizedBox(height: 12),
+            PollsButton(),
+            TextsButton(),
+            PictureButton(),
+
+            IconButton(
+              icon: Icon(Icons.add, color: Colors.orange,), 
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NewPostLocationView(post: newPost, )),
+                );
+              },
+            ),
+            Spacer(),
+          ],
+        )
+      );
+   }
 }
