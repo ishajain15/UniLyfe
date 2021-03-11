@@ -50,6 +50,14 @@ class NewPostBudgetView extends StatelessWidget {
                   post.uid = uid;
                   await db.collection("posts").add(post.toJson());
 
+                  if (selection == 0) {
+                    await db.collection("food_posts").add(post.toJson());
+                  } else if (selection == 1) {
+                    await db.collection("study_posts").add(post.toJson());
+                  } else {
+                    await db.collection("social_posts").add(post.toJson());
+                  }
+
                   await db
                       .collection("userData")
                       .doc(uid)

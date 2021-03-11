@@ -5,9 +5,12 @@ import 'package:unilyfe_app/customized_items/buttons/information_button_food.dar
 import 'package:unilyfe_app/customized_items/buttons/information_button_social.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_study.dart';
 import 'package:unilyfe_app/customized_items/buttons/logout_button.dart';
+import 'package:unilyfe_app/views/food_view.dart';
 import 'package:unilyfe_app/views/home_page.dart';
 import 'package:unilyfe_app/customized_items/buttons/back_button.dart';
 import 'package:unilyfe_app/views/home_view.dart';
+import 'package:unilyfe_app/views/social_view.dart';
+import 'package:unilyfe_app/views/study_view.dart';
 //import 'package:unilyfe_app/provider/google_sign_in.dart';
 //import 'package:unilyfe_app/page/profile_page.dart';
 
@@ -39,9 +42,9 @@ class HomePage extends StatelessWidget {
           //Text('feedfeedfeed', textAlign: TextAlign.center,),
           //Posts(),
           HomeView(),
-          InformationButtonFood(),
-          InformationButtonStudy(),
-          InformationButtonSocial(),
+          FoodView(),
+          StudyView(),
+          SocialView(),
         ],
       ),
       bottomSheet: LogoutButtonWidget(),

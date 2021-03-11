@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:unilyfe_app/customized_items/buttons/information_button_food.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
-class FoodView extends StatelessWidget {
+class StudyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      //InformationButtonFood(),
-      //InformationButtonStudy(),
-      //InformationButtonSocial(),
-
       child: StreamBuilder(
           stream: getUserPostsStreamSnapshots(context),
           builder: (context, snapshot) {
@@ -27,7 +22,7 @@ class FoodView extends StatelessWidget {
   Stream<QuerySnapshot> getUserPostsStreamSnapshots(
       BuildContext context) async* {
     final uid = await Provider.of(context).auth.getCurrentUID();
-    yield* FirebaseFirestore.instance.collection("food_posts").snapshots();
+    yield* FirebaseFirestore.instance.collection("study_posts").snapshots();
     // .collection("userData")
     // .doc(uid)
     // .collection("posts")
