@@ -3,14 +3,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class InformationButtonAll extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => Container(   
-    alignment: Alignment.topRight,   
+  Widget build(BuildContext context) => Container(
+        alignment: Alignment.topRight,
         child: IconButton(
           onPressed: () {
             showAlertDialog(context);
           },
           icon: Icon(Icons.info_rounded),
-          iconSize: 50,
+          iconSize: 30,
           color: Color(0xFFF99E3E),
         ),
       );
@@ -28,7 +28,8 @@ showAlertDialog(BuildContext context) {
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text("All"),
-    content: Text("In this subpage, users can find all the posts and reviews of the locations on campus."),
+    content: Text(
+        "In this subpage, users can find all the posts and reviews of the locations on campus."),
     actions: [
       dismissButton,
     ],

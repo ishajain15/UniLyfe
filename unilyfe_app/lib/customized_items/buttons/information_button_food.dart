@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class InformationButtonFood extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => Container(   
-    alignment: Alignment.topRight,   
+  Widget build(BuildContext context) => Container(
+        alignment: Alignment.topRight,
         child: IconButton(
           onPressed: () {
             showAlertDialog(context);
           },
           icon: Icon(Icons.info_rounded),
-          iconSize: 50,
+          iconSize: 30,
           color: Color(0xFFF99E3E),
         ),
       );
@@ -27,7 +27,8 @@ showAlertDialog(BuildContext context) {
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
     title: Text("FOOD"),
-    content: Text("In this subpage, users can find posts and reviews of places to eat on campus."),
+    content: Text(
+        "In this subpage, users can find posts and reviews of places to eat on campus."),
     actions: [
       dismissButton,
     ],

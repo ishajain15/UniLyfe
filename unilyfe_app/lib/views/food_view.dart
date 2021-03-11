@@ -12,15 +12,22 @@ class FoodView extends StatelessWidget {
       //InformationButtonStudy(),
       //InformationButtonSocial(),
 
-      child: StreamBuilder(
-          stream: getUserPostsStreamSnapshots(context),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) return const Text("Loading...");
-            return new ListView.builder(
-                itemCount: snapshot.data.docs.length,
-                itemBuilder: (BuildContext context, int index) =>
-                    buildPostCard(context, snapshot.data.docs[index]));
-          }),
+      child: Column(
+        children: [
+          InformationButtonFood(),
+          Flexible(
+            child: StreamBuilder(
+                stream: getUserPostsStreamSnapshots(context),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return const Text("Loading...");
+                  return new ListView.builder(
+                      itemCount: snapshot.data.docs.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                          buildPostCard(context, snapshot.data.docs[index]));
+                }),
+          ),
+        ],
+      ),
     );
   }
 
