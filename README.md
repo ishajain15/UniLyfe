@@ -29,9 +29,15 @@ Yellow: 0xFFFCAC54
 CocoPods installation
 
 cd ios
+
 rm Podfile.lock
+
 pod install --repo-update
+
 flutter clean
+
 cd ..
+
 flutter run
+
 
