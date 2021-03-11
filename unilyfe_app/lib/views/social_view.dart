@@ -62,8 +62,11 @@ class SocialView extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: Row(
                   children: <Widget>[
-                    Text(
-                        "Text: ${(post['text'] == null) ? "n/a" : post['text']}"),
+                    Expanded(
+                      flex: 15,
+                      child: Text(
+                          "Text: ${(post['text'] == null) ? "n/a" : post['text']}"),
+                    ),
                     Spacer(),
                     //Text(post['postType']),
                   ],
