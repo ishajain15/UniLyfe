@@ -13,7 +13,14 @@ class NewPostDateView extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Create Post'),
+        iconTheme: IconThemeData(
+          color: Colors.black, //change your color here
+        ),
+        title: Text(
+          'CREATE A TEXT POST',
+          style: TextStyle(color: Colors.black),
+        ),
+        backgroundColor: Colors.white,
       ),
       body: Center(
         child: Column(
@@ -28,7 +35,7 @@ class NewPostDateView extends StatelessWidget {
             SizedBox(
               height: 10,
             ),
-            Text('Enter Text'),
+            Text('\nEnter Text'),
             Padding(
               padding: const EdgeInsets.all(30.0),
               child: TextField(
