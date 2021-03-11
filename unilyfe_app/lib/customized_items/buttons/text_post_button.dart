@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/files_to_be_deleted/register_page.dart';
 import 'package:unilyfe_app/page/create_posts/text_editor.dart';
+import 'package:unilyfe_app/page/create_posts/image_picker.dart';
 // import 'package:unilyfe_app/page/create_posts/text_photo_post.dart';
 // //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // //import 'package:unilyfe_app/page/start_page.dart';
@@ -14,7 +15,7 @@ class TextsButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {
              Navigator.push(
-            context, MaterialPageRoute(builder: (context) => TextEditor()));
+            context, MaterialPageRoute(builder: (context) => MyHomePage()));
           },
           style: ElevatedButton.styleFrom(
             primary: Color(0xFFF46C6B),
