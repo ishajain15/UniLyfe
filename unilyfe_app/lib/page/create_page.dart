@@ -3,6 +3,9 @@ import 'package:unilyfe_app/page/create_posts/options_page.dart';
 import 'package:unilyfe_app/customized_items/buttons/polls_post_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/text_post_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/picture_post_button.dart';
+import 'package:unilyfe_app/views/new_posts/title_view.dart';
+import 'package:unilyfe_app/models/post.dart';
+
 class CreatePage extends StatelessWidget {
   static Route<dynamic> route() => MaterialPageRoute(
         builder: (context) => CreatePage(),
@@ -17,38 +20,53 @@ class CreatePage extends StatelessWidget {
   //     ),
   //     floatingActionButton: FloatingActionButton(
   //       backgroundColor: const Color(0xFFF56D6B),
-        
+
   //       onPressed: () {
   //         // Navigator.push(
   //         //   context, MaterialPageRoute(builder: (context) => Options()));
   //       },
-        
+
   //       //shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(16.0))),
   //       shape: RoundedRectangleBorder(),
   //       child: Icon(Icons.add,),
   // ),
-      
+
   //   );
-    
+
   // }
-   Widget build(BuildContext context) => Scaffold(
-      backgroundColor: Colors.white,
-      body: Column(
-        children: [
-          Spacer(),
-          Align(
-            //alignment: Alignment.center,
-            child: Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              child: Text('Which type of post?'),
+  Widget build(BuildContext context) {
+    final newPost = Post(null, null, null, null, null);
+    return Scaffold(
+        backgroundColor: Colors.white,
+        body: Column(
+          children: [
+            Spacer(),
+            Align(
+              //alignment: Alignment.center,
+              child: Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: 20),
+                child: Text('Which type of post?'),
+              ),
             ),
-          ),
-          SizedBox(height: 12),
-          PollsButton(),
-          TextsButton(),
-          PictureButton(),
-          Spacer(),
-        ],
-      ));
+            SizedBox(height: 12),
+            PollsButton(),
+            TextsButton(
+              newPost: newPost,
+            ),
+            PictureButton(),
+
+            // IconButton(
+            //   icon: Icon(Icons.add, color: Colors.orange,),
+            //   onPressed: () {
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => NewPostLocationView(post: newPost, )),
+            //     );
+            //   },
+            // ),
+            Spacer(),
+          ],
+        ));
+  }
 }
