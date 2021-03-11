@@ -64,7 +64,7 @@ class HomeView extends StatelessWidget {
                 child: Row(
                   children: <Widget>[
                     Text(
-                        "Date posted: ${DateFormat('dd/MM/yyyy (h:mm a)').format(post['time'].toDate()).toString()}"),
+                        "Date posted: ${DateFormat('MM/dd/yyyy (h:mm a)').format(post['time'].toDate()).toString()}"),
                     Spacer(),
                   ],
                 ),
