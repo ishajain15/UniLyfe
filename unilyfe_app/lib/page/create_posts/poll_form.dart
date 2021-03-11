@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/customized_items/buttons/rounded_button.dart';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_database/firebase_database.dart';
 // ignore: must_be_immutable
 class PollForm extends StatelessWidget {
+  // final databaseReference = FirebaseDatabase.instance.reference();
+
   String _question, _option1,_option2,_option3,_option4;
   Widget build(BuildContext context) {
   return new Scaffold(
@@ -72,10 +75,29 @@ class PollForm extends StatelessWidget {
         RoundedButton(
               text: 'Create Poll',
               press: () {
+                userSetup();
               },
             ),
       ],
     ),
+    
   );
 }
+}
+
+// void createRecord(){
+//     databaseReference.child("1").set({
+//       'title': 'Mastering EJB',
+//       'description': 'Programming Guide for J2EE'
+//     });
+//     databaseReference.child("2").set({
+//       'title': 'Flutter in Action',
+//       'description': 'Complete Programming Guide to learn Flutter'
+//     });
+//   }
+Future<void> userSetup() async{
+  CollectionReference users = FirebaseFirestore.instance.collection('Users');
+  // FirebaseAuth auth = FirebaseAuth.instance;
+  users.add({'text': 'hi, please work'});
+  return;
 }
