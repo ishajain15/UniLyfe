@@ -36,18 +36,35 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   Widget build(BuildContext context) {
+    String text;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter Image Picker Example'),
+        title: Text('Take photo or Upload from Gallery'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Center(
-            child: Text(
+            /* child: Text(
               'Image Picker Example in Flutter',
               style: TextStyle(fontSize: 20),
+            ), */
+            // start textfield
+            
+            child: TextField(
+            decoration: new InputDecoration(
+              
+                hintText: 'Add a caption',
+                contentPadding:
+                    const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
+                  borderRadius: BorderRadius.circular(25.7),
+                ),
             ),
+            onChanged: (value) {text = value.trim();},
+            ),
+            // end textfield 
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -75,7 +92,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: Icon(Icons.camera_alt),
               )
             ],
-          )
+          ),
+          // start Post button
+          FlatButton(
+            onPressed: () => debugPrint("pressed"),
+            child: new Text("Post",
+              style: new TextStyle(
+                fontSize: 16,
+                color: Color(0xFFF46C6B)
+              )
+            )
+          ),
+          // end Post button
         ],
       ),
     );
