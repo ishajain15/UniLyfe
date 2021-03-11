@@ -10,9 +10,11 @@ class PictureButton extends StatelessWidget {
         padding: EdgeInsets.all(4),
         child: ElevatedButton(
           onPressed: () {
-            MaterialPageRoute(
-              builder: (context) => MyHomePage(),
-            );
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MyHomePage(),
+                ));
           },
           style: ElevatedButton.styleFrom(
             primary: Color(0xFFF46C6B),
