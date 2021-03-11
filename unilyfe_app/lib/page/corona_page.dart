@@ -78,7 +78,8 @@ Widget build(BuildContext context) {
           title: const Text('Google Office Locations'),
           backgroundColor: Colors.green[700],
         ), */
-        body: GoogleMap(
+        body: 
+          GoogleMap(
           onMapCreated: _onMapCreated,
           initialCameraPosition: CameraPosition(
             target: const LatLng(40.42395040517343, -86.92120533110851),
@@ -86,7 +87,10 @@ Widget build(BuildContext context) {
           ),
           markers: _markers.values.toSet(),
         ),
-      ),
+        ),
     );
   }
 }
+
+
+

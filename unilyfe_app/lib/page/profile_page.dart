@@ -97,7 +97,25 @@ class ProfilePage extends StatelessWidget {
         body: ListView(
       //child: Column(
       children: <Widget>[
-        editProfileBar,
+        //editProfileBar,
+        Container(
+            child: Row(children: [
+          Container(
+            padding: const EdgeInsets.fromLTRB(310, 0, 0, 0),
+          ),
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: TextButton(
+              style: TextButton.styleFrom(
+                primary: Colors.grey,
+              ),
+              onPressed: () {
+                _tripEditModalBottomSheet(context);
+              },
+              child: Text('Edit Profile'),
+            ),
+          ),
+        ])),
         //profilePicture,
         _profilePicture(),
         userInfo,
@@ -189,10 +207,10 @@ Widget userInfo = Container(
 
 Widget pad = Container(
   padding: const EdgeInsets.all(32),
-  child: Row(),
+  //child: Row(),
 );
 
-Widget editProfileBar = Container(
+/*Widget editProfileBar = Container(
     child: Row(children: [
   Container(
     padding: const EdgeInsets.fromLTRB(310, 0, 0, 0),
@@ -203,11 +221,13 @@ Widget editProfileBar = Container(
       style: TextButton.styleFrom(
         primary: Colors.grey,
       ),
-      onPressed: () {},
+      onPressed: () {
+        _tripEditModalBottomSheet(context);
+      },
       child: Text('Edit Profile'),
     ),
   ),
-]));
+]));*/
 
 Widget _buildChip(String label, Color color) {
   return Chip(
@@ -276,4 +296,94 @@ class _myProfilePictureState extends State<_profilePicture> {
           ),
         ));
   }
+}
+
+Widget _changeInfo(String textBoxText) {
+  return 
+    TextField(
+    autofocus: false,
+    style: TextStyle(fontSize: 22.0, color: Colors.black),
+    decoration: InputDecoration(
+      filled: true,
+      fillColor: Color(0xFFfae9d7),
+      hintText: textBoxText,
+      contentPadding: const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.black),
+        borderRadius: BorderRadius.circular(25.7),
+      ),
+      enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(25.7),
+      ),
+    ),
+    
+  );
+}
+
+void _tripEditModalBottomSheet(context) {
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext bc) {
+      return Container(
+        height: MediaQuery.of(context).size.height * .60,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Text("Edit Profile"),
+                  Spacer(),
+                  IconButton(
+                    icon: Icon(
+                      Icons.cancel,
+                      color: Colors.orange,
+                      size: 25,
+                    ),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  )
+                ],
+              ),
+              _changeInfo("change username..."),
+              Container(
+                padding: const EdgeInsets.all(16),
+              ),
+              _changeInfo("change name..."),
+              Container(
+                padding: const EdgeInsets.all(16),
+              ),
+              _changeInfo("change bio..."),
+              Container(
+                padding: const EdgeInsets.all(16),
+              ),
+              _changeInfo("change profile pic..."),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  RaisedButton(
+                    child: Text('Submit'),
+                    color: Colors.deepPurple,
+                    textColor: Colors.white,
+                  )
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  RaisedButton(
+                    child: Text('Delete'),
+                    color: Colors.red,
+                    textColor: Colors.white,
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
