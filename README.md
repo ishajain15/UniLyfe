@@ -24,3 +24,20 @@ HEXCODES FOR THE COLORS WE'RE USING <0xFFHEXCODE>
 Orange: 0xFFF47C54
 Pink: 0xFFF46C6B
 Yellow: 0xFFFCAC54
+
+-----------------------------------------------------------------------------------------------------
+CocoPods installation
+
+cd ios
+
+rm Podfile.lock
+
+pod install --repo-update
+
+flutter clean
+
+cd ..
+
+flutter run
+
+
