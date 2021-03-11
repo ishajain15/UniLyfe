@@ -7,11 +7,13 @@ import 'package:unilyfe_app/customized_items/buttons/information_button_study.da
 import 'package:unilyfe_app/customized_items/buttons/logout_button.dart';
 import 'package:unilyfe_app/views/home_page.dart';
 import 'package:unilyfe_app/customized_items/buttons/back_button.dart';
+import 'package:unilyfe_app/views/home_view.dart';
 //import 'package:unilyfe_app/provider/google_sign_in.dart';
 //import 'package:unilyfe_app/page/profile_page.dart';
 
 class HomePage extends StatelessWidget {
   static Route<dynamic> route() => MaterialPageRoute(
+        //builder: (context) => HomePage(),
         builder: (context) => HomePage(),
       );
   @override
@@ -35,7 +37,8 @@ class HomePage extends StatelessWidget {
         children: [
           //Icon(Icons.directions_car),
           //Text('feedfeedfeed', textAlign: TextAlign.center,),
-          Posts(),
+          //Posts(),
+          HomeView(),
           InformationButtonFood(),
           InformationButtonStudy(),
           InformationButtonSocial(),
