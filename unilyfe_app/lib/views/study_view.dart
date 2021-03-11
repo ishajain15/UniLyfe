@@ -40,16 +40,19 @@ class StudyView extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
                 child: Row(
                   children: <Widget>[
-                    Text(
-                      "Title: ${(post['title'] == null) ? "n/a" : post['title']}",
-                      style: TextStyle(fontSize: 20),
+                    Expanded(
+                      flex: 15,
+                      child: Text(
+                        "Title: ${(post['title'] == null) ? "n/a" : post['title']}",
+                        style: TextStyle(fontSize: 20),
+                      ),
                     ),
                     Spacer(),
                   ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 8.0, bottom: 40.0),
+                padding: const EdgeInsets.only(top: 8.0, bottom: 25.0),
                 child: Row(
                   children: <Widget>[
                     Text(
