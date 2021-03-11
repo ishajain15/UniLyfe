@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
-class HomeView extends StatelessWidget {
+class FoodView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
