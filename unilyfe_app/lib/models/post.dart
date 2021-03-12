@@ -1,4 +1,5 @@
 class Post {
+  int postType;
   String title;
   DateTime time;
   String text;
@@ -8,6 +9,7 @@ class Post {
   Post(this.title, this.time, this.text, this.postChannel, this.uid);
 
   Map<String, dynamic> toJson() => {
+        'postType': 0,
         'title': title,
         'time': time,
         'text': text,
