@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
 import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
+import 'package:unilyfe_app/page/profile_page.dart';
 import 'package:unilyfe_app/page/start_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:unilyfe_app/page/tabs/tabs_page.dart';
@@ -53,7 +54,7 @@ class HomeController extends StatelessWidget {
       builder: (context, AsyncSnapshot<String> snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           final signedIn = snapshot.hasData;
-          return signedIn ? TabsPage() : StartPage();
+          return signedIn ? ProfilePage() : StartPage();
         }
         return buildLoading();
       },

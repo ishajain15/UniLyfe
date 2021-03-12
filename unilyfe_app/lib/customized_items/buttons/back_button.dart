@@ -18,7 +18,7 @@ class BackButtonWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0)),
           ),
           child: Text(
-            'Go Back',
+            'Go Back to Start Page!',
             //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
         ),
