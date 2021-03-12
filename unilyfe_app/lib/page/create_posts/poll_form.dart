@@ -4,6 +4,7 @@ import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/models/poll_post.dart';
 import 'package:unilyfe_app/models/global.dart' as global;
+int selection = 0;
 class PollForm extends StatelessWidget {
   final db = FirebaseFirestore.instance;
   String _question, _option1,_option2,_option3,_option4;
@@ -72,19 +73,51 @@ class PollForm extends StatelessWidget {
             ),
             onChanged: (value) {_option4 = value.trim();},
         ),
+        MyAppOne(),
         ElevatedButton(
             //   child: Text("Post"),
             //  onPressed: () async{
                child: Text("SUBMIT"),
                 onPressed: () async {
+                  String channel = "Post";
+                   if (selection == 0) {
+                    channel= "FOOD";
+                  } else if (selection == 1) {
+                    channel = "STUDY";
+                  } else {
+                    print(selection);
+                    channel = "SOCIAL";
+                  }
                  final uid = await Provider.of(context).auth.getCurrentUID();
                 //  final PollPost post = new PollPost(_question, DateTime.now(), _option1, true, "Food", uid);
-                 final PollPost post = new PollPost(_question, DateTime.now(), _option1,"Food", uid, 0,false);
+                 final PollPost post = new PollPost(_question, DateTime.now(), _option1, channel, uid, 0,false);
                   global.question = _question;
                   global.option1 = _option1;
                   global.option2 = _option2;
                    global.option3 = _option3;
                     global.option4 = _option4;
+                  DocumentReference doc =
+                      await db.collection("posts").add(post.toJson());
+                  //DocumentReference channel;
+                  if (selection == 0) {
+                    //await db.collection("food_posts").add(post.toJson());
+                    await db
+                        .collection("food_posts")
+                        .doc(doc.id)
+                        .set(post.toJson());
+                  } else if (selection == 1) {
+                    //await db.collection("study_posts").add(post.toJson());
+                    await db
+                        .collection("study_posts")
+                        .doc(doc.id)
+                        .set(post.toJson());
+                  } else {
+                    //await db.collection("social_posts").add(post.toJson());
+                    await db
+                        .collection("social_posts")
+                        .doc(doc.id)
+                        .set(post.toJson());
+                  }
                   await db.collection('posts').add(post.toJson());
                   await db
                       .collection("userData")
@@ -101,3 +134,65 @@ class PollForm extends StatelessWidget {
   );
 }
 }
+
+class MyAppOne extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyAppOne> {
+  List<bool> isSelected;
+
+  @override
+  void initState() {
+    // this is for 3 buttons, add "false" same as the number of buttons here
+    isSelected = [true, false, false];
+    selection = 0;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ToggleButtons(
+        // logic for button selection below
+        onPressed: (int index) {
+          setState(() {
+            for (var i = 0; i < isSelected.length; i++) {
+              isSelected[i] = i == index;
+              if (isSelected[i] == true) {
+                selection = i;
+                print("INDEX: ${i}");
+              }
+            }
+          });
+        },
+        isSelected: isSelected,
+        children: <Widget>[
+          // first toggle button
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'FOOD',
+            ),
+          ),
+          // second toggle button
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'STUDY',
+            ),
+          ),
+          // third toggle button
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'SOCIAL',
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
