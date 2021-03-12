@@ -18,6 +18,8 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController _displayNameController = TextEditingController();
   TextEditingController _bioController = TextEditingController();
   TextEditingController _profilePictureController = TextEditingController();
+  TextEditingController _covidController = TextEditingController();
+  TextEditingController _locationController = TextEditingController();
   static String picture = null;
 
   //final db = FirebaseFirestore.instance;
@@ -233,17 +235,25 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 _changeInfo("change username...", _usernameController),
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(4),
                 ),
                 _changeInfo("change display name...", _displayNameController),
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(4),
                 ),
                 _changeInfo("change bio...", _bioController),
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(4),
                 ),
                 _changeInfo("change profile pic...", _profilePictureController),
+                Container(
+                  padding: const EdgeInsets.all(4),
+                ),
+                _changeInfo("do you have covid-19?", _covidController),
+                Container(
+                  padding: const EdgeInsets.all(4),
+                ),
+                _changeInfo("where did you last go?", _locationController),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -285,6 +295,24 @@ class _ProfilePageState extends State<ProfilePage> {
                             picture = _profilePictureController.text;
                             user.picturePath = _profilePictureController.text;
                             print(_profilePictureController.text);
+                            await Provider.of(context)
+                                .db
+                                .collection('userData')
+                                .doc(uid)
+                                .set(user.toJson());
+                          }
+                          if (_covidController.text != null) {
+                            user.covid = _covidController.text;
+                            print(_covidController.text);
+                            await Provider.of(context)
+                                .db
+                                .collection('userData')
+                                .doc(uid)
+                                .set(user.toJson());
+                          }
+                          if (_locationController.text != null) {
+                            user.location = _locationController.text;
+                            print(_locationController.text);
                             await Provider.of(context)
                                 .db
                                 .collection('userData')
