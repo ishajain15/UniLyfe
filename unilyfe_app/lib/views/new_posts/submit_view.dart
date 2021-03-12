@@ -39,12 +39,12 @@ class NewPostBudgetView extends StatelessWidget {
                   // save data to firebase
                   //print("FINAL SELECTION ${selection}");
                   if (selection == 0) {
-                    post.postType = "FOOD";
+                    post.postChannel = "FOOD";
                   } else if (selection == 1) {
-                    post.postType = "STUDY";
+                    post.postChannel = "STUDY";
                   } else {
                     print(selection);
-                    post.postType = "SOCIAL";
+                    post.postChannel = "SOCIAL";
                   }
                   final uid = await Provider.of(context).auth.getCurrentUID();
                   post.uid = uid;
