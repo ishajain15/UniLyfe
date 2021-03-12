@@ -6,6 +6,7 @@ import 'package:unilyfe_app/customized_items/buttons/information_button_all.dart
 import 'package:unilyfe_app/customized_items/buttons/view_info_button.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class HomeView extends StatelessWidget {
   @override
@@ -139,7 +140,7 @@ class HomeView extends StatelessWidget {
     color: Colors.amber,
     size: 48,
   ),
-  child: StarRating(),
+  child: SmoothStarRating(),
 ),
             ],
           ),
@@ -149,57 +150,57 @@ class HomeView extends StatelessWidget {
   }
 }
 
-class StarDisplay extends StatelessWidget {
-  final int value;
-  const StarDisplay({Key key, this.value = 0})
-      : assert(value != null),
-        super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: List.generate(5, (index) {
-        return Icon(
-          index < value ? Icons.star : Icons.star_border,
-        );
-      }),
-    );
-  }
-}
-class StarRating extends StatelessWidget {
-  final int value;
-  final IconData filledStar;
-  final IconData unfilledStar;
-  const StarRating({
-    Key key,
-    this.value = 0,
-    this.filledStar,
-    this.unfilledStar,
-  })  : assert(value != null),
-        super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    final color = Theme.of(context).accentColor;
-    final size = 36.0;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: List.generate(5, (index) {
-        return IconButton(
-          onPressed: () {},
-          color: index < value ? color : null,
-          iconSize: size,
-          icon: Icon(
-            index < value 
-               ? filledStar ?? Icons.star 
-               : unfilledStar ?? Icons.star_border,
-          ),
-          padding: EdgeInsets.zero,
-          tooltip: "${index + 1} of 5",
-        );
-      }),
-    );
-  }
-}
+// class StarDisplay extends StatelessWidget {
+//   final int value;
+//   const StarDisplay({Key key, this.value = 0})
+//       : assert(value != null),
+//         super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return Row(
+//       mainAxisSize: MainAxisSize.min,
+//       children: List.generate(5, (index) {
+//         return Icon(
+//           index < value ? Icons.star : Icons.star_border,
+//         );
+//       }),
+//     );
+//   }
+// }
+// class StarRating extends StatelessWidget {
+//   final int value;
+//   final IconData filledStar;
+//   final IconData unfilledStar;
+//   const StarRating({
+//     Key key,
+//     this.value = 0,
+//     this.filledStar,
+//     this.unfilledStar,
+//   })  : assert(value != null),
+//         super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     final color = Theme.of(context).accentColor;
+//     final size = 36.0;
+//     return Row(
+//       mainAxisSize: MainAxisSize.min,
+//       children: List.generate(5, (index) {
+//         return IconButton(
+//           onPressed: () {},
+//           color: index < value ? color : null,
+//           iconSize: size,
+//           icon: Icon(
+//             index < value 
+//                ? filledStar ?? Icons.star 
+//                : unfilledStar ?? Icons.star_border,
+//           ),
+//           padding: EdgeInsets.zero,
+//           tooltip: "${index + 1} of 5",
+//         );
+//       }),
+//     );
+//   }
+// }
 // class StarDisplayWidget extends StatelessWidget {
 //   final int value;
 //   final Widget filledStar;
