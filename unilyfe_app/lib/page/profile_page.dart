@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:unilyfe_app/models/User.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -416,4 +420,44 @@ class _myProfilePictureState extends State<_profilePicture> {
           ),
         ));
   }
+  final db = FirebaseFirestore.instance;
+
+//   Future<DocumentReference> getUserDoc() async {
+//   final FirebaseAuth _auth = FirebaseAuth.instance;
+//   // final Firestore _firestore = Firestore.instance;
+//   final uid = await Provider.of(context).auth.getCurrentUID();
+//   DocumentReference ref = db.collection('users').doc(uid);
+//   return ref;
+// }
+//   Future<DocumentSnapshot> getUsername() async{
+//     Future<DocumentReference> ref = getUserDoc();
+//     List<User> list = ref
+
+//   }
+final firestore = FirebaseFirestore.instance;   //
+FirebaseAuth auth = FirebaseAuth.instance;     //recommend declaring a reference outside the methods 
+
+// Future<String> getUserName(String username) async {
+  
+//   final CollectionReference users = firestore.collection('UserData');
+  
+//   // final String uid = auth.currentUser.uid;
+
+//   final result = await users.doc(uid).get();
+//   Future<String> str = result.data()['username'];
+  
+// }
+getList() async {
+  return await firestore.collection('userData').get().asStream();
+}
+Future<bool> sumStream(String username) async {
+  Stream<bool> stream = getList();
+  await for (var value in stream) {
+    if (value == username){
+      return true;
+    }
+   }
+  return false;
+}
+
 }
