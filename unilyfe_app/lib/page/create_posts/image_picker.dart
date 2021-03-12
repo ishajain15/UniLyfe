@@ -2,8 +2,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:unilyfe_app/customized_items/buttons/information_button_covid.dart';
-
 void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -47,9 +45,15 @@ class _MyHomePageState extends State<MyHomePage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Center(
+            /* child: Text(
+              'Image Picker Example in Flutter',
+              style: TextStyle(fontSize: 20),
+            ), */
+            // start textfield
             
             child: TextField(
             decoration: new InputDecoration(
+              
                 hintText: 'Add a caption',
                 contentPadding:
                     const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
