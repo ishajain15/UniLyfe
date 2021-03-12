@@ -74,7 +74,22 @@ class _ProfilePageState extends State<ProfilePage> {
           'AD 255',
           'WGSS 280',
         ], const Color(0xFFF99E3E)),
+        pad,
+        pad,
+        Text(
+              'Liked Posts',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Raleway'),
+            ),
+            pad,
+            pad,
+            pad,
+            pad,
       ],
+
       //),
     ));
   }
