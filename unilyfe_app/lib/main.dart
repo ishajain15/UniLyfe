@@ -54,7 +54,12 @@ class HomeController extends StatelessWidget {
       builder: (context, AsyncSnapshot<String> snapshot) {
         if (snapshot.connectionState == ConnectionState.active) {
           final signedIn = snapshot.hasData;
-          return signedIn ? ProfilePage() : StartPage();
+          bool newUser = auth.getNewUser();
+          if (newUser) {
+            return signedIn ? ProfilePage() : StartPage();
+          } else {
+            return signedIn ? TabsPage() : StartPage();
+          }
         }
         return buildLoading();
       },
