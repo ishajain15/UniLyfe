@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:unilyfe_app/customized_items/buttons/back_button.dart';
+import 'package:unilyfe_app/customized_items/buttons/lets_go_button.dart';
 import 'package:unilyfe_app/models/User.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -74,6 +76,8 @@ class _ProfilePageState extends State<ProfilePage> {
           'AD 255',
           'WGSS 280',
         ], const Color(0xFFF99E3E)),
+          LetsGoButton(),
+          BackButtonWidget(),
       ],
       //),
     ));
