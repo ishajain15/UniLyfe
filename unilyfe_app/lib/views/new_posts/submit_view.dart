@@ -48,21 +48,37 @@ class NewPostBudgetView extends StatelessWidget {
                   }
                   final uid = await Provider.of(context).auth.getCurrentUID();
                   post.uid = uid;
-                  await db.collection("posts").add(post.toJson());
+                  DocumentReference doc =
+                      await db.collection("posts").add(post.toJson());
+                  print("DOCUMENT: " + doc.id);
 
+                  //DocumentReference channel;
                   if (selection == 0) {
-                    await db.collection("food_posts").add(post.toJson());
+                    //await db.collection("food_posts").add(post.toJson());
+                    await db
+                        .collection("food_posts")
+                        .doc(doc.id)
+                        .set(post.toJson());
                   } else if (selection == 1) {
-                    await db.collection("study_posts").add(post.toJson());
+                    //await db.collection("study_posts").add(post.toJson());
+                    await db
+                        .collection("study_posts")
+                        .doc(doc.id)
+                        .set(post.toJson());
                   } else {
-                    await db.collection("social_posts").add(post.toJson());
+                    //await db.collection("social_posts").add(post.toJson());
+                    await db
+                        .collection("social_posts")
+                        .doc(doc.id)
+                        .set(post.toJson());
                   }
 
                   await db
                       .collection("userData")
                       .doc(uid)
                       .collection("posts")
-                      .add(post.toJson());
+                      .doc(doc.id)
+                      .set(post.toJson());
 
                   Navigator.of(context).popUntil((route) => route.isFirst);
                 }),
