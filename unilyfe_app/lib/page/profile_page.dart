@@ -145,6 +145,7 @@ class _ProfilePageState extends State<ProfilePage> {
   ),
 ]));*/
 
+
   Widget _buildChip(String label, Color color) {
     return Chip(
       labelPadding: EdgeInsets.all(2.0),
@@ -225,15 +226,15 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(
                   padding: const EdgeInsets.all(16),
                 ),
-                // _changeInfo("change name..."),
+                _changeInfo("change display name..."),
                 Container(
                   padding: const EdgeInsets.all(16),
                 ),
-                // _changeInfo("change bio..."),
+                _changeInfo("change bio..."),
                 Container(
                   padding: const EdgeInsets.all(16),
                 ),
-                // _changeInfo("change profile pic..."),
+                _changeInfo("change profile pic..."),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -275,10 +276,21 @@ class _ProfilePageState extends State<ProfilePage> {
       },
     );
   }
+
+   /* _getProfileData() async {
+    final uid = await Provider.of(context).auth.getCurrentUID();
+    await Provider.of(context)
+        .db
+        .collection('userData')
+        .document(uid)
+        .get().then((result) {
+          user.username = result.data['username'];
+    });
+  }*/
 }
 
 // ignore: camel_case_types
-class _profilePicture extends StatefulWidget {
+ class _profilePicture extends StatefulWidget {
   @override
   _myProfilePictureState createState() => _myProfilePictureState();
 }
@@ -317,4 +329,7 @@ class _myProfilePictureState extends State<_profilePicture> {
           ),
         ));
   }
-}
+} 
+
+
+
