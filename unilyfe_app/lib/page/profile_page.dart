@@ -56,10 +56,11 @@ class _ProfilePageState extends State<ProfilePage> {
         //chip,
         chipList([
           'Photography',
-          'Tiktok Star',
+          'Tiktoker',
           'Photoshop',
-          'Coder' 'Simper',
-          'Basic Bitch',
+          'Coder' ,
+          'Chef',
+          'Baker',
           'Data Scientist',
           'Painter',
           'Spotify Playlist Curator',
@@ -137,7 +138,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Container(
             padding: const EdgeInsets.only(bottom: 8),
             child: Text(
-              'tiktoker lol',
+              'Datamine',
               style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
