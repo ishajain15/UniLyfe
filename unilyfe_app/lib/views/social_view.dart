@@ -79,7 +79,6 @@ class SocialView extends StatelessWidget {
                           "Text: ${(post['text'] == null) ? "n/a" : post['text']}"),
                     ),
                     Spacer(),
-                    //Text(post['postType']),
                   ],
                 ),
               ),
@@ -87,9 +86,8 @@ class SocialView extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                 child: Row(
                   children: <Widget>[
-                    Text("Post type: ${post['postType']}"),
+                    Text("Post channel: ${post['postChannel']}"),
                     Spacer(),
-                    //Text(post['postType']),
                   ],
                 ),
               ),
