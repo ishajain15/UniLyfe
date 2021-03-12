@@ -14,6 +14,10 @@ class AuthProvider {
     return await _firebaseAuth.currentUser.uid;
   }
 
+  Future<String> getEmail() async {
+    return await _firebaseAuth.currentUser.email;
+  }
+
   // Email & Password Sign Up
   Future<String> createUserWithEmailAndPassword(
       String email, String password, String name) async {

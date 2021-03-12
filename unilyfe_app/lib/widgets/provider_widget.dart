@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class Provider extends InheritedWidget {
   final db;
+  // ignore: sort_constructors_first
   Provider({
     Key key,
     Widget child,

@@ -15,20 +15,21 @@ class InformationButtonFood extends StatelessWidget {
       );
 }
 
+// ignore: always_declare_return_types
 showAlertDialog(BuildContext context) {
   // set up the button
   Widget dismissButton = RaisedButton(
-    child: Text("Dismiss"),
     onPressed: () {
       Navigator.of(context).pop();
     },
+    child: Text('Dismiss'),
   );
 
   // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("FOOD"),
+  var alert = AlertDialog(
+    title: Text('FOOD'),
     content: Text(
-        "In this subpage, users can find posts and reviews of places to eat on campus."),
+        'In this subpage, users can find posts and reviews of places to eat on campus.'),
     actions: [
       dismissButton,
     ],

@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart' as fire_auth;
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/customized_items/buttons/back_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/lets_go_button.dart';
+import 'package:unilyfe_app/customized_items/buttons/logout_button.dart';
 import 'package:unilyfe_app/models/User.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -76,8 +78,9 @@ class _ProfilePageState extends State<ProfilePage> {
           'AD 255',
           'WGSS 280',
         ], const Color(0xFFF99E3E)),
-          LetsGoButton(),
-          BackButtonWidget(),
+        LetsGoButton(),
+        //BackButtonWidget(),
+        LogoutButtonWidget(),
       ],
       //),
     ));
@@ -211,12 +214,87 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  final db = FirebaseFirestore.instance;
+
+//   Future<DocumentReference> getUserDoc() async {
+//   final FirebaseAuth _auth = FirebaseAuth.instance;
+//   // final Firestore _firestore = Firestore.instance;
+//   final uid = await Provider.of(context).auth.getCurrentUID();
+//   DocumentReference ref = db.collection('users').doc(uid);
+//   return ref;
+// }
+//   Future<DocumentSnapshot> getUsername() async{
+//     Future<DocumentReference> ref = getUserDoc();
+//     List<User> list = ref
+
+//   }
+
+  showAlertDialog(BuildContext context) {
+    // set up the button
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {},
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("PLEASE CHOOSE ANOTHER USERNAME"),
+      content: Text("THE USERNAME YOU HAVE CHOSEN IS TAKEN"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  final firestore = FirebaseFirestore.instance; //
+  fire_auth.FirebaseAuth auth = fire_auth.FirebaseAuth
+      .instance; //recommend declaring a reference outside the methods
+
+// Future<String> getUserName(String username) async {
+
+//   final CollectionReference users = firestore.collection('UserData');
+
+//   // final String uid = auth.currentUser.uid;
+
+//   final result = await users.doc(uid).get();
+//   Future<String> str = result.data()['username'];
+
+// }
+  Future<bool> usernameCheck(String username) async {
+    final result = await firestore
+        .collection('userData')
+        .where('username', isEqualTo: username)
+        .get();
+    return result.docs.isEmpty;
+  }
+
+  Future<String> generateUsername(String email) async {
+    String username = email.substring(0, email.indexOf('@'));
+    int num = 1;
+    if (await usernameCheck(username)) {
+      print(username + " exists");
+      while (await usernameCheck(username + num.toString())) {
+        num += 1;
+      }
+    }
+    print(username);
+    return username + num.toString();
+  }
+
   void _tripEditModalBottomSheet(context) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext bc) {
         return Container(
-          height: MediaQuery.of(context).size.height * .60,
+          height: MediaQuery.of(context).size.height,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -269,13 +347,22 @@ class _ProfilePageState extends State<ProfilePage> {
                           final uid =
                               await Provider.of(context).auth.getCurrentUID();
                           if (_usernameController.text != null) {
-                            user.username = _usernameController.text;
                             print(_usernameController.text);
-                            await Provider.of(context)
-                                .db
-                                .collection('userData')
-                                .doc(uid)
-                                .set(user.toJson());
+                            if (!await usernameCheck(
+                                _usernameController.text)) {
+                              print("ALREADY TAKEN");
+                              showAlertDialog(context);
+                            }
+                            // String email =
+                            //     await Provider.of(context).auth.getEmail();
+                            // user.username = _usernameController.text;
+                            else {
+                              await Provider.of(context)
+                                  .db
+                                  .collection('userData')
+                                  .doc(uid)
+                                  .set(user.toJson());
+                            }
                           }
                           if (_displayNameController.text != null) {
                             user.displayName = _displayNameController.text;
