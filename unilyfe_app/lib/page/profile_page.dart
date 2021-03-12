@@ -24,7 +24,7 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController _profilePictureController = TextEditingController();
   TextEditingController _covidController = TextEditingController();
   TextEditingController _locationController = TextEditingController();
-  static String picture = null;
+  //static String picture = null;
 
   //final db = FirebaseFirestore.instance;
 
@@ -62,8 +62,8 @@ class _ProfilePageState extends State<ProfilePage> {
           'Photography',
           'Tiktok Star',
           'Photoshop',
-          'Coder' 'Simper',
-          'Basic Bitch',
+          'Coder',
+          'Baker', 'Chef',
           'Data Scientist',
           'Painter',
           'Spotify Playlist Curator',
@@ -390,7 +390,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 .set(user.toJson());
                           }
                           if (_profilePictureController.text != null) {
-                            picture = _profilePictureController.text;
+                            //picture = _profilePictureController.text;
                             user.picturePath = _profilePictureController.text;
                             print(_profilePictureController.text);
                             await Provider.of(context)
@@ -477,11 +477,11 @@ class _myProfilePictureState extends State<_profilePicture> {
 
   Widget build(BuildContext context) {
     String picture = null;
-    if (_ProfilePageState.picture == null) {
+    /*if (_ProfilePageState.picture == null) {
       picture = 'assets/gayathri_armstrong.png';
     } else {
       picture = _ProfilePageState.picture;
-    }
+    }*/
     return GestureDetector(
         onTap: () {
           //_changePicture();
@@ -493,7 +493,7 @@ class _myProfilePictureState extends State<_profilePicture> {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             image: DecorationImage(
-              image: AssetImage(picture),
+              image: AssetImage('assets/gayathri_armstrong.png'),
             ),
           ),
         ));
