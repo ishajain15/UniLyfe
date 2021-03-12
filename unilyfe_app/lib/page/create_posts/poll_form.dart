@@ -88,6 +88,8 @@ class PollForm extends StatelessWidget {
                     print(selection);
                     channel = "SOCIAL";
                   }
+
+
                  final uid = await Provider.of(context).auth.getCurrentUID();
                 //  final PollPost post = new PollPost(_question, DateTime.now(), _option1, true, "Food", uid);
                  final PollPost post = new PollPost(_question, DateTime.now(), _option1, channel, uid, 0,false);
@@ -96,6 +98,7 @@ class PollForm extends StatelessWidget {
                   global.option2 = _option2;
                    global.option3 = _option3;
                     global.option4 = _option4;
+                    
                   DocumentReference doc =
                       await db.collection("posts").add(post.toJson());
                   //DocumentReference channel;
