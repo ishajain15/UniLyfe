@@ -229,8 +229,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
 //   }
 
-  showAlertDialog(BuildContext context) {
+  showAlertDialog(BuildContext context) async {
     // set up the button
+    String email = await Provider.of(context).auth.getEmail();
+    String suggested = await generateUsername(email);
     Widget okButton = FlatButton(
       child: Text("OK"),
       onPressed: () {},
@@ -239,7 +241,7 @@ class _ProfilePageState extends State<ProfilePage> {
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("PLEASE CHOOSE ANOTHER USERNAME"),
-      content: Text("THE USERNAME YOU HAVE CHOSEN IS TAKEN"),
+      content: Text("Suggested usernames: ${suggested}"),
       actions: [
         okButton,
       ],
@@ -279,14 +281,21 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<String> generateUsername(String email) async {
     String username = email.substring(0, email.indexOf('@'));
     int num = 1;
-    if (await usernameCheck(username)) {
+    if (!await usernameCheck(username)) {
       print(username + " exists");
-      while (await usernameCheck(username + num.toString())) {
+      while (!await usernameCheck(username + num.toString())) {
         num += 1;
       }
     }
     print(username);
-    return username + num.toString();
+    return username +
+        num.toString() +
+        " " +
+        username +
+        (num + 1).toString() +
+        " " +
+        username +
+        (num + 2).toString();
   }
 
   void _tripEditModalBottomSheet(context) {
@@ -348,15 +357,12 @@ class _ProfilePageState extends State<ProfilePage> {
                               await Provider.of(context).auth.getCurrentUID();
                           if (_usernameController.text != null) {
                             print(_usernameController.text);
+
                             if (!await usernameCheck(
                                 _usernameController.text)) {
                               print("ALREADY TAKEN");
                               showAlertDialog(context);
-                            }
-                            // String email =
-                            //     await Provider.of(context).auth.getEmail();
-                            //
-                            else {
+                            } else {
                               user.username = _usernameController.text;
                               await Provider.of(context)
                                   .db
