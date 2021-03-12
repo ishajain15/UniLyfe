@@ -355,8 +355,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             }
                             // String email =
                             //     await Provider.of(context).auth.getEmail();
-                            // user.username = _usernameController.text;
+                            //
                             else {
+                              user.username = _usernameController.text;
                               await Provider.of(context)
                                   .db
                                   .collection('userData')
