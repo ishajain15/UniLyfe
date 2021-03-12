@@ -5,8 +5,11 @@ class Post {
   String text;
   String postChannel;
   String uid;
+  int likes;
+  bool liked;
 
-  Post(this.title, this.time, this.text, this.postChannel, this.uid);
+  Post(
+      this.title, this.time, this.text, this.postChannel, this.uid, this.likes, this.liked);
 
   Map<String, dynamic> toJson() => {
         'postType': 0,
@@ -15,5 +18,7 @@ class Post {
         'text': text,
         'postChannel': postChannel,
         'uid': uid,
+        'likes': likes,
+        'liked': liked
       };
 }

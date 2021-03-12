@@ -95,6 +95,40 @@ class HomeView extends StatelessWidget {
                   ],
                 ),
               ),
+              ElevatedButton(
+                  onPressed: () async {
+                    final uid = await Provider.of(context).auth.getCurrentUID();
+                    // FirebaseFirestore.instance
+                    //     .collection("userData")
+                    //     .doc(uid)
+                    //     .collection("liked_posts")
+                    //     .doc(post.id)
+                    //     .update({'liked': true});
+                    FirebaseFirestore.instance
+                        .collection("posts")
+                        .doc(post.id)
+                        .update({'liked': true});
+
+                    if (post['postChannel'] == "FOOD") {
+                      FirebaseFirestore.instance
+                          .collection("food_posts")
+                          .doc(post.id)
+                          .update({'liked': true});
+                    } else if (post['postChannel'] == "STUDY") {
+                      FirebaseFirestore.instance
+                          .collection("study_posts")
+                          .doc(post.id)
+                          .update({'liked': true});
+                    } else if (post['postChannel'] == "SOCIAL") {
+                      FirebaseFirestore.instance
+                          .collection("social_posts")
+                          .doc(post.id)
+                          .update({'liked': true});
+                    }
+                  },
+                  child: Text("LIKE")),
+              Text("\nLikes: ${post['likes']}"),
+              Text("\nLiked: ${post['liked']}"),
             ],
           ),
         ),
