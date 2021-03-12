@@ -1,14 +1,20 @@
 class User {
   String username;
+  String displayName;
   String bio;
   String picturePath;
 
-  User(this.username);
+  User(
+    this.username,
+    //this.displayName,
+    //this.bio,
+    //this.picturePath,
+  );
 
-    Map<String, dynamic> toJson() => {
-    'username': username,
-    //'bio': bio,
-    //'picturePath': picturePath,
-  };
-
+  Map<String, dynamic> toJson() => {
+        'username': username,
+        'displayName': displayName,
+        'bio': bio,
+        'picturePath': picturePath,
+      };
 }

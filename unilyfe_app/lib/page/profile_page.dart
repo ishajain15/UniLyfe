@@ -15,6 +15,11 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   User user = User("");
   TextEditingController _usernameController = TextEditingController();
+  TextEditingController _displayNameController = TextEditingController();
+  TextEditingController _bioController = TextEditingController();
+  TextEditingController _profilePictureController = TextEditingController();
+  static String picture = null;
+
   //final db = FirebaseFirestore.instance;
 
   @override
@@ -72,6 +77,10 @@ class _ProfilePageState extends State<ProfilePage> {
     ));
   }
 //}
+
+  String returnPicture(String picture) {
+    return picture;
+  }
 
   Widget profilePicture = Container(
     width: 200,
@@ -145,7 +154,6 @@ class _ProfilePageState extends State<ProfilePage> {
   ),
 ]));*/
 
-
   Widget _buildChip(String label, Color color) {
     return Chip(
       labelPadding: EdgeInsets.all(2.0),
@@ -173,9 +181,10 @@ class _ProfilePageState extends State<ProfilePage> {
     return chips;
   }
 
-  Widget _changeInfo(String textBoxText) {
+  Widget _changeInfo(
+      String textBoxText, TextEditingController editingController) {
     return TextField(
-      controller: _usernameController,
+      controller: editingController,
       autofocus: false,
       style: TextStyle(fontSize: 22.0, color: Colors.black),
       decoration: InputDecoration(
@@ -222,19 +231,19 @@ class _ProfilePageState extends State<ProfilePage> {
                     )
                   ],
                 ),
-                _changeInfo("change username..."),
+                _changeInfo("change username...", _usernameController),
                 Container(
                   padding: const EdgeInsets.all(16),
                 ),
-                _changeInfo("change display name..."),
+                _changeInfo("change display name...", _displayNameController),
                 Container(
                   padding: const EdgeInsets.all(16),
                 ),
-                _changeInfo("change bio..."),
+                _changeInfo("change bio...", _bioController),
                 Container(
                   padding: const EdgeInsets.all(16),
                 ),
-                _changeInfo("change profile pic..."),
+                _changeInfo("change profile pic...", _profilePictureController),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -243,18 +252,46 @@ class _ProfilePageState extends State<ProfilePage> {
                         color: Colors.deepPurple,
                         textColor: Colors.white,
                         onPressed: () async {
-                          user.username = _usernameController.text;
-                          print(_usernameController.text);
                           final uid =
                               await Provider.of(context).auth.getCurrentUID();
-                          await Provider.of(context)
-                              .db
-                              .collection('userData')
-                              .doc(uid)
-                              .set(user.toJson());
-                          //.collection("posts")
-                          //.add(user.toJson());
-                          //.setData(user.toJson());
+                          if (_usernameController.text != null) {
+                            user.username = _usernameController.text;
+                            print(_usernameController.text);
+                            await Provider.of(context)
+                                .db
+                                .collection('userData')
+                                .doc(uid)
+                                .set(user.toJson());
+                          }
+                          if (_displayNameController.text != null) {
+                            user.displayName = _displayNameController.text;
+                            print(_displayNameController.text);
+                            await Provider.of(context)
+                                .db
+                                .collection('userData')
+                                .doc(uid)
+                                .set(user.toJson());
+                          }
+                          if (_bioController.text != null) {
+                            user.bio = _bioController.text;
+                            print(_bioController.text);
+                            await Provider.of(context)
+                                .db
+                                .collection('userData')
+                                .doc(uid)
+                                .set(user.toJson());
+                          }
+                          if (_profilePictureController.text != null) {
+                            picture = _profilePictureController.text;
+                            user.picturePath = _profilePictureController.text;
+                            print(_profilePictureController.text);
+                            await Provider.of(context)
+                                .db
+                                .collection('userData')
+                                .doc(uid)
+                                .set(user.toJson());
+                          }
+
                           Navigator.of(context).pop();
                         })
                   ],
@@ -277,7 +314,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-   /* _getProfileData() async {
+  /* _getProfileData() async {
     final uid = await Provider.of(context).auth.getCurrentUID();
     await Provider.of(context)
         .db
@@ -290,32 +327,38 @@ class _ProfilePageState extends State<ProfilePage> {
 }
 
 // ignore: camel_case_types
- class _profilePicture extends StatefulWidget {
+class _profilePicture extends StatefulWidget {
   @override
   _myProfilePictureState createState() => _myProfilePictureState();
 }
 
 class _myProfilePictureState extends State<_profilePicture> {
-  String picture = 'assets/gayathri.png';
-  void _changePicture() {
+  //String picture = 'assets/gayathri.png';
+  /*void _changePicture(String path) {
     setState(() {
       if (picture == 'assets/gayathri_armstrong.png') {
-        picture = 'assets/gayathri.png';
+        picture = path;
         print("new picture: " + picture);
         return;
       }
       if (picture == 'assets/gayathri.png') {
-        picture = 'assets/gayathri_armstrong.png';
+        picture = path;
         print("new picture: " + picture);
         return;
       }
     });
-  }
+  }*/
 
   Widget build(BuildContext context) {
+    String picture = null;
+    if (_ProfilePageState.picture == null) {
+      picture = 'assets/gayathri_armstrong.png';
+    } else {
+      picture = _ProfilePageState.picture;
+    }
     return GestureDetector(
         onTap: () {
-          _changePicture();
+          //_changePicture();
           print('hello');
         },
         child: Container(
@@ -329,7 +372,4 @@ class _myProfilePictureState extends State<_profilePicture> {
           ),
         ));
   }
-} 
-
-
-
+}
