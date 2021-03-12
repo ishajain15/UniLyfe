@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_all.dart';
+import 'package:unilyfe_app/customized_items/buttons/polll_view.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 class HomeView extends StatelessWidget {
@@ -92,6 +93,7 @@ class HomeView extends StatelessWidget {
                   children: <Widget>[
                     Text("Post channel: ${post['postChannel']}"),
                     Spacer(),
+                    Pollsview(),
                   ],
                 ),
               ),

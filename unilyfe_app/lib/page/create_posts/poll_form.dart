@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/customized_items/buttons/rounded_button.dart';
+import 'package:unilyfe_app/models/global.dart';
+import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_database/firebase_database.dart';
-// ignore: must_be_immutable
+import 'package:unilyfe_app/models/poll_post.dart';
+import 'package:unilyfe_app/models/global.dart' as global;
 class PollForm extends StatelessWidget {
-  // final databaseReference = FirebaseDatabase.instance.reference();
-
+  final db = FirebaseFirestore.instance;
   String _question, _option1,_option2,_option3,_option4;
   Widget build(BuildContext context) {
   return new Scaffold(
@@ -72,10 +72,27 @@ class PollForm extends StatelessWidget {
             ),
             onChanged: (value) {_option4 = value.trim();},
         ),
-        RoundedButton(
-              text: 'Create Poll',
-              press: () {
-                userSetup();
+        ElevatedButton(
+            //   child: Text("Post"),
+            //  onPressed: () async{
+               child: Text("SUBMIT"),
+                onPressed: () async {
+                 final uid = await Provider.of(context).auth.getCurrentUID();
+                //  final PollPost post = new PollPost(_question, DateTime.now(), _option1, true, "Food", uid);
+                 final PollPost post = new PollPost(_question, DateTime.now(), _option1,"Food", uid, 0,false);
+                  global.question = _question;
+                  global.option1 = _option1;
+                  global.option2 = _option2;
+                   global.option3 = _option3;
+                    global.option4 = _option4;
+                  await db.collection('posts').add(post.toJson());
+                  await db
+                      .collection("userData")
+                      .doc(uid)
+                      .collection("poll_posts")
+                      .add(post.toJson());
+                  //  Navigator.of(context).popUntil((route) => route.isFirst);
+                  Navigator.of(context).popUntil((route) => route.isFirst);
               },
             ),
       ],
@@ -83,21 +100,4 @@ class PollForm extends StatelessWidget {
     
   );
 }
-}
-
-// void createRecord(){
-//     databaseReference.child("1").set({
-//       'title': 'Mastering EJB',
-//       'description': 'Programming Guide for J2EE'
-//     });
-//     databaseReference.child("2").set({
-//       'title': 'Flutter in Action',
-//       'description': 'Complete Programming Guide to learn Flutter'
-//     });
-//   }
-Future<void> userSetup() async{
-  CollectionReference users = FirebaseFirestore.instance.collection('Users');
-  // FirebaseAuth auth = FirebaseAuth.instance;
-  users.add({'text': 'hi, please work'});
-  return;
 }
