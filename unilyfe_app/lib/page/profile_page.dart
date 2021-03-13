@@ -81,6 +81,17 @@ class _ProfilePageState extends State<ProfilePage> {
         LetsGoButton(),
         //BackButtonWidget(),
         LogoutButtonWidget(),
+
+                  Container(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text(
+              'Liked Posts',
+              style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Raleway'),
+            )
+            ), pad, pad, pad,
       ],
       //),
     ));
