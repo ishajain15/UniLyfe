@@ -141,8 +141,12 @@ class _TabsPageState extends State<TabsPage> {
 class AboutUs extends StatelessWidget {
   @override
 
+    Widget pad = Container(
+    padding: const EdgeInsets.all(16),
+  );
+
   Widget build(BuildContext context) {
-     double c_width = MediaQuery.of(context).size.width*0.9;
+     double c_width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color(0xFFFFFFFF),
@@ -154,12 +158,9 @@ class AboutUs extends StatelessWidget {
           color: Colors.grey, //change your color here
         ),
       ),
-      body: /*Text(
-          'I rea smelled even. The memory of odors is very richrdytfyguhijo;hgf zdxfcghjgdfsdfuki.'),*/
-
-
+      body: 
    Container (
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(32.0),
       width: c_width,
       child: Column (
         children: <Widget>[
@@ -170,7 +171,7 @@ class AboutUs extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 ),
                 ),
-         Text("I enjoy hunting for squishmallows and eating the cookies from safeway with the pink frosting.", textAlign: TextAlign.left,
+         Text("I enjoy hunting for squishmallows and eating the cookies from safeway with the pink frosting.", textAlign: TextAlign.center,
           style: const TextStyle(
           fontFamily: 'Raleway',
                 color: Colors.grey,
@@ -178,13 +179,23 @@ class AboutUs extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 ),
                 ),
+                pad,
           Text("Isha Jain : ", textAlign: TextAlign.left,
           style: const TextStyle(
           fontFamily: 'Raleway',
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 ),
-                ),                
+                ),  
+         Text("I enjoy hunting for squishmallows and eating the cookies from safeway with the pink frosting.", textAlign: TextAlign.center,
+          style: const TextStyle(
+          fontFamily: 'Raleway',
+                color: Colors.grey,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                ),
+                ),   
+                pad,            
            Text("Ramitha Kotarkonda : ", textAlign: TextAlign.left,
           style: const TextStyle(
           fontFamily: 'Raleway',
@@ -192,20 +203,46 @@ class AboutUs extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 ),
                 ), 
+         Text("I enjoy hunting for squishmallows and eating the cookies from safeway with the pink frosting.", textAlign: TextAlign.center,
+          style: const TextStyle(
+          fontFamily: 'Raleway',
+                color: Colors.grey,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                ),
+                ),
+                pad,
            Text("Unnati Singh : ", textAlign: TextAlign.left,
           style: const TextStyle(
           fontFamily: 'Raleway',
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 ),
-                ),   
+                ),  
+         Text("I like food, music, and am desperately in need of a roommate for next year!", textAlign: TextAlign.center,
+          style: const TextStyle(
+          fontFamily: 'Raleway',
+                color: Colors.grey,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                ),
+                ), 
+                pad, 
            Text("Gayathri Sriram : ", textAlign: TextAlign.left,
           style: const TextStyle(
           fontFamily: 'Raleway',
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
                 ),
-                ),          
+                ),   
+         Text("I enjoy hunting for squishmallows and eating the cookies from safeway with the pink frosting.", textAlign: TextAlign.center,
+          style: const TextStyle(
+          fontFamily: 'Raleway',
+                color: Colors.grey,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                ),
+                ),       
         ],
       ),
     )
