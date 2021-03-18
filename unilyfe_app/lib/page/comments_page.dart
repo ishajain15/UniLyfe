@@ -84,6 +84,7 @@ class CommentsPageState extends State<CommentsPage> {
           Divider(),
           ListTile(
             title: TextFormField(
+              autofocus: true,
               controller: commentController,
               decoration: InputDecoration(labelText: "Write a comment..."),
             ),
@@ -116,6 +117,7 @@ class Comment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //FocusScopeNode currentFocus = FocusScope.of(context);
     return Column(
       children: <Widget>[
         ListTile(
@@ -127,7 +129,15 @@ class Comment extends StatelessWidget {
               Text(DateFormat('MM/dd/yyyy (h:mm a)').format(time).toString()),
           trailing: OutlinedButton(
             onPressed: () {
-              replying = true;
+              replying = !replying;
+              if (replying) {
+                print("hereeee");
+
+                FocusScope.of(context)
+                    .requestFocus(FocusScope.of(context).focusedChild);
+              } else {
+                FocusScope.of(context).unfocus();
+              }
               replyTo = uid;
               print(uid);
             },
