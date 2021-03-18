@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class PollPost {
+  String postid;
   int postType;
   String title;
   DateTime time;
@@ -9,7 +10,7 @@ class PollPost {
   String uid;
   int likes;
   bool liked;
-  PollPost(this.title, this.time, this.text,  this.postChannel, this.uid,this.likes, this.liked);
+  PollPost(this.postid,this.title, this.time, this.text,  this.postChannel, this.uid,this.likes, this.liked);
 
   Map<String, dynamic> toJson() => {
         'postType': 0,
@@ -19,6 +20,7 @@ class PollPost {
         'postChannel': postChannel,
         'uid': uid,
         'likes': likes,
-        'liked': liked
+        'liked': liked,
+        'postid': postid
       };
 }
