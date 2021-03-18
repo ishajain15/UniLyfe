@@ -1,15 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/widgets/provider_widget.dart';
+import 'package:intl/intl.dart';
 
 final commentsRef = FirebaseFirestore.instance.collection('comments');
 
 class CommentsPage extends StatefulWidget {
+  CommentsPage({this.postid, this.uid});
   final String postid;
   final String uid;
-
-  CommentsPage({this.postid, this.uid});
-
   @override
   createState() => CommentsPageState(
         postid: postid,
@@ -28,11 +26,11 @@ class CommentsPageState extends State<CommentsPage> {
       stream: commentsRef
           .doc(postid)
           .collection('comments')
-          //.orderBy("time", descending: false)
+          .orderBy('time', descending: false)
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return CircularProgressIndicator();
+          return const Text("Loading...");
         }
         List<Comment> comments = [];
         snapshot.data.docs.forEach((doc) {
@@ -48,7 +46,7 @@ class CommentsPageState extends State<CommentsPage> {
   addComment() {
     commentsRef.doc(postid).collection("comments").add({
       "comment": commentController.text,
-      //"time": DateTime.now(),
+      "time": DateTime.now(),
       "uid": uid,
     });
     commentController.clear();
@@ -88,18 +86,18 @@ class CommentsPageState extends State<CommentsPage> {
 }
 
 class Comment extends StatelessWidget {
-  //Comment({this.username, this.uid, this.comment, this.time});
-  Comment({this.username, this.uid, this.comment});
+  Comment({this.username, this.uid, this.comment, this.time});
+  //Comment({this.username, this.uid, this.comment});
   final String username;
   final String uid;
   final String comment;
-  //final DateTime time;
+  final DateTime time;
 
   factory Comment.fromDocument(DocumentSnapshot doc) {
     return Comment(
       uid: doc['uid'],
       comment: doc['comment'],
-      //time: doc['time'],
+      time: doc['time'].toDate(),
     );
   }
 
@@ -112,7 +110,14 @@ class Comment extends StatelessWidget {
           leading: CircleAvatar(
             backgroundColor: Colors.blue,
           ),
-          //subtitle: Text(time.toString()),
+          subtitle:
+              Text(DateFormat('MM/dd/yyyy (h:mm a)').format(time).toString()),
+          trailing: OutlinedButton(
+            onPressed: () {
+              print(uid);
+            },
+            child: Text("Reply"),
+          ),
         ),
         Divider(),
       ],
