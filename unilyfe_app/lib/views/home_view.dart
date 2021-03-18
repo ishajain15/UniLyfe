@@ -45,7 +45,8 @@ class HomeView extends StatelessWidget {
   }
 
   Widget buildPostCard(BuildContext context, DocumentSnapshot post) {
-    if (post['postType'] == 0) print("TEXT POST");
+    //if (post['postType'] == 0) print("TEXT POST");
+
     return Container(
       child: Card(
         child: Padding(
@@ -100,7 +101,9 @@ class HomeView extends StatelessWidget {
                   ],
                 ),
               ),
-              CommentButtonWidget(),
+              CommentButtonWidget(
+                postid: post['postid'],
+              ),
               ElevatedButton(
                   onPressed: () async {
                     final uid = await Provider.of(context).auth.getCurrentUID();
@@ -136,12 +139,12 @@ class HomeView extends StatelessWidget {
               Text("\nLikes: ${post['likes']}"),
               Text("\nLiked: ${post['liked']}"),
               IconTheme(
-  data: IconThemeData(
-    color: Colors.amber,
-    size: 48,
-  ),
-  child: SmoothStarRating(),
-),
+                data: IconThemeData(
+                  color: Colors.amber,
+                  size: 48,
+                ),
+                child: SmoothStarRating(),
+              ),
             ],
           ),
         ),
