@@ -1,35 +1,33 @@
 import 'package:flutter/material.dart';
 
-class InformationButtonFood extends StatelessWidget {
+class InformationButtonCovid extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => Container(
-        alignment: Alignment.topRight,
+  Widget build(BuildContext context) => Container(   
+    alignment: Alignment.topRight,   
         child: IconButton(
           onPressed: () {
             showAlertDialog(context);
           },
           icon: Icon(Icons.info_rounded),
-          iconSize: 30,
+          iconSize: 50,
           color: Color(0xFFF99E3E),
         ),
       );
 }
 
-// ignore: always_declare_return_types
 showAlertDialog(BuildContext context) {
   // set up the button
   Widget dismissButton = RaisedButton(
+    child: Text("Dismiss"),
     onPressed: () {
       Navigator.of(context).pop();
     },
-    child: Text('Dismiss'),
   );
 
   // set up the AlertDialog
-  var alert = AlertDialog(
-    title: Text('FOOD'),
-    content: Text(
-        'In this subpage, users can find posts and reviews of places to eat on campus.'),
+  AlertDialog alert = AlertDialog(
+    title: Text("Covid Tracker Key"),
+    content: Text("covid text"),
     actions: [
       dismissButton,
     ],

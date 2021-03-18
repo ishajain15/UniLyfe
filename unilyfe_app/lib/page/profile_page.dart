@@ -1,4 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart' as fire_auth;
 import 'package:flutter/material.dart';
+import 'package:unilyfe_app/customized_items/buttons/back_button.dart';
+import 'package:unilyfe_app/customized_items/buttons/lets_go_button.dart';
+import 'package:unilyfe_app/customized_items/buttons/logout_button.dart';
 import 'package:unilyfe_app/models/User.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,7 +22,9 @@ class _ProfilePageState extends State<ProfilePage> {
   TextEditingController _displayNameController = TextEditingController();
   TextEditingController _bioController = TextEditingController();
   TextEditingController _profilePictureController = TextEditingController();
-  static String picture = null;
+  TextEditingController _covidController = TextEditingController();
+  TextEditingController _locationController = TextEditingController();
+  //static String picture = null;
 
   //final db = FirebaseFirestore.instance;
 
@@ -56,8 +62,8 @@ class _ProfilePageState extends State<ProfilePage> {
           'Photography',
           'Tiktok Star',
           'Photoshop',
-          'Coder' 'Simper',
-          'Basic Bitch',
+          'Coder',
+          'Baker', 'Chef',
           'Data Scientist',
           'Painter',
           'Spotify Playlist Curator',
@@ -72,6 +78,20 @@ class _ProfilePageState extends State<ProfilePage> {
           'AD 255',
           'WGSS 280',
         ], const Color(0xFFF99E3E)),
+        LetsGoButton(),
+        //BackButtonWidget(),
+        LogoutButtonWidget(),
+
+                  Container(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Text(
+              'Liked Posts',
+              style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Raleway'),
+            )
+            ), pad, pad, pad,
       ],
       //),
     ));
@@ -205,12 +225,96 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  final db = FirebaseFirestore.instance;
+
+//   Future<DocumentReference> getUserDoc() async {
+//   final FirebaseAuth _auth = FirebaseAuth.instance;
+//   // final Firestore _firestore = Firestore.instance;
+//   final uid = await Provider.of(context).auth.getCurrentUID();
+//   DocumentReference ref = db.collection('users').doc(uid);
+//   return ref;
+// }
+//   Future<DocumentSnapshot> getUsername() async{
+//     Future<DocumentReference> ref = getUserDoc();
+//     List<User> list = ref
+
+//   }
+
+  showAlertDialog(BuildContext context) async {
+    // set up the button
+    String email = await Provider.of(context).auth.getEmail();
+    String suggested = await generateUsername(email);
+    Widget okButton = FlatButton(
+      child: Text("OK"),
+      onPressed: () {},
+    );
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("PLEASE CHOOSE ANOTHER USERNAME"),
+      content: Text("Suggested usernames: ${suggested}"),
+      actions: [
+        okButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  final firestore = FirebaseFirestore.instance; //
+  fire_auth.FirebaseAuth auth = fire_auth.FirebaseAuth
+      .instance; //recommend declaring a reference outside the methods
+
+// Future<String> getUserName(String username) async {
+
+//   final CollectionReference users = firestore.collection('UserData');
+
+//   // final String uid = auth.currentUser.uid;
+
+//   final result = await users.doc(uid).get();
+//   Future<String> str = result.data()['username'];
+
+// }
+  Future<bool> usernameCheck(String username) async {
+    final result = await firestore
+        .collection('userData')
+        .where('username', isEqualTo: username)
+        .get();
+    return result.docs.isEmpty;
+  }
+
+  Future<String> generateUsername(String email) async {
+    String username = email.substring(0, email.indexOf('@'));
+    int num = 1;
+    if (!await usernameCheck(username)) {
+      print(username + " exists");
+      while (!await usernameCheck(username + num.toString())) {
+        num += 1;
+      }
+    }
+    print(username);
+    return username +
+        num.toString() +
+        " " +
+        username +
+        (num + 1).toString() +
+        " " +
+        username +
+        (num + 2).toString();
+  }
+
   void _tripEditModalBottomSheet(context) {
     showModalBottomSheet(
       context: context,
       builder: (BuildContext bc) {
         return Container(
-          height: MediaQuery.of(context).size.height * .60,
+          height: MediaQuery.of(context).size.height,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -239,17 +343,25 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 _changeInfo("change username...", _usernameController),
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(4),
                 ),
                 _changeInfo("change display name...", _displayNameController),
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(4),
                 ),
                 _changeInfo("change bio...", _bioController),
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(4),
                 ),
                 _changeInfo("change profile pic...", _profilePictureController),
+                Container(
+                  padding: const EdgeInsets.all(4),
+                ),
+                _changeInfo("do you have covid-19?", _covidController),
+                Container(
+                  padding: const EdgeInsets.all(4),
+                ),
+                _changeInfo("where did you last go?", _locationController),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
@@ -261,13 +373,20 @@ class _ProfilePageState extends State<ProfilePage> {
                           final uid =
                               await Provider.of(context).auth.getCurrentUID();
                           if (_usernameController.text != null) {
-                            user.username = _usernameController.text;
                             print(_usernameController.text);
-                            await Provider.of(context)
-                                .db
-                                .collection('userData')
-                                .doc(uid)
-                                .set(user.toJson());
+
+                            if (!await usernameCheck(
+                                _usernameController.text)) {
+                              print("ALREADY TAKEN");
+                              showAlertDialog(context);
+                            } else {
+                              user.username = _usernameController.text;
+                              await Provider.of(context)
+                                  .db
+                                  .collection('userData')
+                                  .doc(uid)
+                                  .set(user.toJson());
+                            }
                           }
                           if (_displayNameController.text != null) {
                             user.displayName = _displayNameController.text;
@@ -288,9 +407,27 @@ class _ProfilePageState extends State<ProfilePage> {
                                 .set(user.toJson());
                           }
                           if (_profilePictureController.text != null) {
-                            picture = _profilePictureController.text;
+                            //picture = _profilePictureController.text;
                             user.picturePath = _profilePictureController.text;
                             print(_profilePictureController.text);
+                            await Provider.of(context)
+                                .db
+                                .collection('userData')
+                                .doc(uid)
+                                .set(user.toJson());
+                          }
+                          if (_covidController.text != null) {
+                            user.covid = _covidController.text;
+                            print(_covidController.text);
+                            await Provider.of(context)
+                                .db
+                                .collection('userData')
+                                .doc(uid)
+                                .set(user.toJson());
+                          }
+                          if (_locationController.text != null) {
+                            user.location = _locationController.text;
+                            print(_locationController.text);
                             await Provider.of(context)
                                 .db
                                 .collection('userData')
@@ -352,11 +489,11 @@ class _myProfilePictureState extends State<_profilePicture> {
 
   Widget build(BuildContext context) {
     String picture = null;
-    if (_ProfilePageState.picture == null) {
+    /*if (_ProfilePageState.picture == null) {
       picture = 'assets/gayathri_armstrong.png';
     } else {
       picture = _ProfilePageState.picture;
-    }
+    }*/
     return GestureDetector(
         onTap: () {
           //_changePicture();
@@ -368,7 +505,7 @@ class _myProfilePictureState extends State<_profilePicture> {
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             image: DecorationImage(
-              image: AssetImage(picture),
+              image: AssetImage('assets/gayathri_armstrong.png'),
             ),
           ),
         ));

@@ -4,6 +4,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class AuthProvider {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
+  bool newUser = false;
 
   Stream<String> get authStateChanges => _firebaseAuth.authStateChanges().map(
         (User user) => user?.uid,
@@ -11,6 +12,10 @@ class AuthProvider {
 
   Future<String> getCurrentUID() async {
     return await _firebaseAuth.currentUser.uid;
+  }
+
+  Future<String> getEmail() async {
+    return await _firebaseAuth.currentUser.email;
   }
 
   // Email & Password Sign Up
@@ -23,6 +28,7 @@ class AuthProvider {
 
     // Update the username
     await updateUserName(name, currentUser.user);
+    setNewUser(true);
     return currentUser.user.uid;
   }
 
@@ -54,6 +60,14 @@ class AuthProvider {
   // Send Email Verification
   Future sendEmailVerification() async {
     return _firebaseAuth.currentUser.sendEmailVerification();
+  }
+
+  bool getNewUser() {
+    return newUser;
+  }
+
+  bool setNewUser(bool isNewUser) {
+    newUser = isNewUser;
   }
 
   // Google Sign-in

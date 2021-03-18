@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:unilyfe_app/customized_items/buttons/information_button_food.dart';
 import '../src/locations.dart' as locations;
 
 class CoronaPage extends StatelessWidget {
@@ -44,32 +45,6 @@ class _MyMapState extends State<MyMap> {
     });
   }
 
-  /* // code for adding pins
-  BitmapDescriptor pinLocationIcon;
-   @override
-   void initState() {
-      super.initState();
-      setCustomMapPin();
-   }
-   void setCustomMapPin() async {
-      pinLocationIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(devicePixelRatio: 2.5),
-      'assets/destination_map_marker.png');
-   }
-
-  @override
-Widget build(BuildContext context) {
-   LatLng pinPosition = LatLng(37.3797536, -122.1017334);
-   
-   // these are the minimum required values to set 
-   // the camera position 
-   CameraPosition initialLocation = CameraPosition(
-      zoom: 16,
-      bearing: 30,
-      target: pinPosition
-   );
-}
-//end code for pins */
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -90,6 +65,24 @@ Widget build(BuildContext context) {
         ),
     );
   }
+
+  /* child: Column(
+        children: [
+          InformationButtonFood(),
+          Flexible(
+            child: StreamBuilder(
+                stream: getUserPostsStreamSnapshots(context),
+                builder: (context, snapshot) {
+                  if (!snapshot.hasData) return const Text("Loading...");
+                  return new ListView.builder(
+                      itemCount: snapshot.data.docs.length,
+                      itemBuilder: (BuildContext context, int index) =>
+                          buildPostCard(context, snapshot.data.docs[index]));
+                }),
+          ),
+        ],
+      ), */
+
 }
 
 

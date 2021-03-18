@@ -3,6 +3,8 @@ class User {
   String displayName;
   String bio;
   String picturePath;
+  String covid;
+  String location;
 
   User(
     this.username,
@@ -16,5 +18,7 @@ class User {
         'displayName': displayName,
         'bio': bio,
         'picturePath': picturePath,
+        'covid' : covid,
+        'location' : location,
       };
 }

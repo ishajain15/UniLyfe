@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class InformationButtonAll extends StatelessWidget {
   @override
@@ -16,20 +15,21 @@ class InformationButtonAll extends StatelessWidget {
       );
 }
 
+// ignore: always_declare_return_types
 showAlertDialog(BuildContext context) {
   // set up the button
   Widget dismissButton = RaisedButton(
-    child: Text("Dismiss"),
     onPressed: () {
       Navigator.of(context).pop();
     },
+    child: Text('Dismiss'),
   );
 
   // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("All"),
+  var alert = AlertDialog(
+    title: Text('All'),
     content: Text(
-        "In this subpage, users can find all the posts and reviews of the locations on campus."),
+        'In this subpage, users can find all the posts and reviews of the locations on campus.'),
     actions: [
       dismissButton,
     ],
