@@ -43,14 +43,18 @@ class NewPostBudgetView extends StatelessWidget {
                   } else if (selection == 1) {
                     post.postChannel = "STUDY";
                   } else {
-                    print(selection);
+                    //print(selection);
                     post.postChannel = "SOCIAL";
                   }
                   final uid = await Provider.of(context).auth.getCurrentUID();
                   post.uid = uid;
-                  DocumentReference doc =
-                      await db.collection("posts").add(post.toJson());
-                  print("DOCUMENT: " + doc.id);
+                  DocumentReference doc = await db.collection("posts").doc();
+                  post.postid = doc.id;
+                  // DocumentReference doc2 =
+                  //     await db.collection("posts").add(post.toJson());
+                  //print("DOCUMENT: " + doc.id);
+                  //print("DOC2: " + doc2.id);
+                  await db.collection("posts").doc(doc.id).set(post.toJson());
 
                   //DocumentReference channel;
                   if (selection == 0) {

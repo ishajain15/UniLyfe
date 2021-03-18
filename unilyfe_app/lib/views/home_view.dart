@@ -45,7 +45,7 @@ class HomeView extends StatelessWidget {
   }
 
   Widget buildPostCard(BuildContext context, DocumentSnapshot post) {
-    if (post['postType'] == 0) print("TEXT POST");
+    //if (post['postType'] == 0) print("TEXT POST");
     return Container(
       child: Card(
         child: Padding(
