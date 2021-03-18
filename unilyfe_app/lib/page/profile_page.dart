@@ -217,7 +217,13 @@ class _ProfilePageState extends State<ProfilePage> {
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    Text("Edit Profile"),
+                    Text(
+              'Edit Profile',
+              style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Raleway'),
+            ),
                     Spacer(),
                     IconButton(
                       icon: Icon(
@@ -299,11 +305,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    RaisedButton(
-                      child: Text('Delete'),
-                      color: Colors.red,
-                      textColor: Colors.white,
-                    )
                   ],
                 )
               ],
