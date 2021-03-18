@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 final commentsRef = FirebaseFirestore.instance.collection('comments');
+bool replying = false;
+String replyTo = "replying to";
 
 class CommentsPage extends StatefulWidget {
   CommentsPage({this.postid, this.uid});
@@ -17,6 +19,7 @@ class CommentsPage extends StatefulWidget {
 
 class CommentsPageState extends State<CommentsPage> {
   TextEditingController commentController = TextEditingController();
+
   final String postid;
   final String uid;
   CommentsPageState({this.postid, this.uid});
@@ -44,11 +47,21 @@ class CommentsPageState extends State<CommentsPage> {
   }
 
   addComment() {
-    commentsRef.doc(postid).collection("comments").add({
-      "comment": commentController.text,
-      "time": DateTime.now(),
-      "uid": uid,
-    });
+    if (replying) {
+      commentsRef.doc(postid).collection("comments").add({
+        "comment": "Replying to " + replyTo + ": " + commentController.text,
+        "time": DateTime.now(),
+        "uid": uid,
+      });
+      replying = false;
+      replyTo = "";
+    } else {
+      commentsRef.doc(postid).collection("comments").add({
+        "comment": commentController.text,
+        "time": DateTime.now(),
+        "uid": uid,
+      });
+    }
     commentController.clear();
   }
 
@@ -114,6 +127,8 @@ class Comment extends StatelessWidget {
               Text(DateFormat('MM/dd/yyyy (h:mm a)').format(time).toString()),
           trailing: OutlinedButton(
             onPressed: () {
+              replying = true;
+              replyTo = uid;
               print(uid);
             },
             child: Text("Reply"),
