@@ -7,6 +7,8 @@ import 'package:unilyfe_app/models/User.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+String year = "";
+
 class ProfilePage extends StatefulWidget {
   static Route<dynamic> route() => MaterialPageRoute(
         builder: (context) => ProfilePage(),
@@ -17,14 +19,15 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  User user = User("");
+  User user = User("", "", "", "", List(), List());
+  String _currentUsername = "";
+  //String _currentYear = "";
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _displayNameController = TextEditingController();
   TextEditingController _bioController = TextEditingController();
   TextEditingController _profilePictureController = TextEditingController();
   TextEditingController _covidController = TextEditingController();
   TextEditingController _locationController = TextEditingController();
-  //static String picture = null;
 
   //final db = FirebaseFirestore.instance;
 
@@ -32,9 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         body: ListView(
-      //child: Column(
       children: <Widget>[
-        //editProfileBar,
         Container(
             child: Row(children: [
           Container(
@@ -47,132 +48,121 @@ class _ProfilePageState extends State<ProfilePage> {
                 primary: Colors.grey,
               ),
               onPressed: () {
-                _tripEditModalBottomSheet(context);
+                _EditProfile(context);
               },
               child: Text('Edit Profile'),
             ),
           ),
         ])),
-        //profilePicture,
         _profilePicture(),
-        userInfo,
-        //titleSection,
-        //chip,
-        chipList([
-          'Photography',
-          'Tiktok Star',
-          'Photoshop',
-          'Coder',
-          'Baker', 'Chef',
-          'Data Scientist',
-          'Painter',
-          'Spotify Playlist Curator',
-          'Insomniac'
-        ], const Color(0xFFF56D6B)),
-        chipList([
-          'CS 242',
-          'CS 252',
-          'CS 307',
-          'MA 351',
-          'COM 217',
-          'AD 255',
-          'WGSS 280',
-        ], const Color(0xFFF99E3E)),
+        FutureBuilder(
+          future: Provider.of(context).auth.getCurrentUID(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return displayUserInformation(context, snapshot);
+            } else {
+              return CircularProgressIndicator();
+            }
+          },
+        ),
+        FutureBuilder(
+          future: Provider.of(context).auth.getCurrentUID(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return _displayClasses(context, snapshot);
+            } else {
+              return CircularProgressIndicator();
+            }
+          },
+        ),
         LetsGoButton(),
         //BackButtonWidget(),
         LogoutButtonWidget(),
-
-                  Container(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Text(
-              'Liked Posts',
-              style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Raleway'),
-            )
-            ), pad, pad, pad,
       ],
-      //),
     ));
   }
-//}
 
-  String returnPicture(String picture) {
-    return picture;
+  Widget displayUserInformation(context, snapshot) {
+    final authData = snapshot.data;
+
+    return Column(
+      children: <Widget>[
+        FutureBuilder(
+            future: _getProfileData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {}
+              return Container(
+                  padding: const EdgeInsets.all(32),
+                  child: Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          user.displayName,
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Raleway'),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          user.year,
+                          style: TextStyle(
+                              fontSize: 21,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Raleway'),
+                        ),
+                      ),
+                      Container(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: Text(
+                          user.bio,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Raleway'),
+                        ),
+                      ),
+                    ],
+                  ));
+            }),
+      ],
+    );
   }
 
-  Widget profilePicture = Container(
-    width: 200,
-    height: 200,
-    decoration: BoxDecoration(
-      shape: BoxShape.circle,
-      image: DecorationImage(
-        image: AssetImage('assets/gayathri.png'),
-      ),
-    ),
-  );
-
-  Widget userInfo = Container(
-      padding: const EdgeInsets.all(32),
-      child: Column(
-        children: [
-          Container(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Text(
-              'Gayathri',
-              style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Raleway'),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Text(
-              'Sophomore',
-              style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Raleway'),
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.only(bottom: 8),
-            child: Text(
-              'tiktoker lol',
-              style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Raleway'),
-            ),
-          ),
-        ],
-      ));
+  Widget _displayClasses(context, snapshot) {
+    print("helllooooooooo");
+    final authData = snapshot.data;
+    return Column(
+      children: <Widget>[
+        FutureBuilder(
+            future: _getProfileData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {}
+              /*for (int i = 0; i < user.classes.length; i++) {
+                print("classsss: " + user.classes[i]);
+              }*/
+              //return chipList(
+              //    user.classes,
+              //    const Color(0xFFF99E3E));
+              return Container(
+                  child: Column(
+                children: [
+                  chipList(user.hobbies, const Color(0xFFF56D6B)),
+                  chipList(user.classes, const Color(0xFFF99E3E))
+                ],
+              ));
+            }),
+      ],
+    );
+  }
 
   Widget pad = Container(
     padding: const EdgeInsets.all(32),
-    //child: Row(),
   );
-
-/*Widget editProfileBar = Container(
-    child: Row(children: [
-  Container(
-    padding: const EdgeInsets.fromLTRB(310, 0, 0, 0),
-  ),
-  Container(
-    padding: const EdgeInsets.all(10),
-    child: TextButton(
-      style: TextButton.styleFrom(
-        primary: Colors.grey,
-      ),
-      onPressed: () {
-        _tripEditModalBottomSheet(context);
-      },
-      child: Text('Edit Profile'),
-    ),
-  ),
-]));*/
 
   Widget _buildChip(String label, Color color) {
     return Chip(
@@ -196,7 +186,7 @@ class _ProfilePageState extends State<ProfilePage> {
       list.add(_buildChip(things[i], color));
     }
     Widget chips = Padding(
-        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+        padding: EdgeInsets.fromLTRB(15, 20, 15, 0),
         child: Wrap(spacing: 6.0, runSpacing: 6.0, children: list));
     return chips;
   }
@@ -227,26 +217,15 @@ class _ProfilePageState extends State<ProfilePage> {
 
   final db = FirebaseFirestore.instance;
 
-//   Future<DocumentReference> getUserDoc() async {
-//   final FirebaseAuth _auth = FirebaseAuth.instance;
-//   // final Firestore _firestore = Firestore.instance;
-//   final uid = await Provider.of(context).auth.getCurrentUID();
-//   DocumentReference ref = db.collection('users').doc(uid);
-//   return ref;
-// }
-//   Future<DocumentSnapshot> getUsername() async{
-//     Future<DocumentReference> ref = getUserDoc();
-//     List<User> list = ref
-
-//   }
-
   showAlertDialog(BuildContext context) async {
     // set up the button
     String email = await Provider.of(context).auth.getEmail();
     String suggested = await generateUsername(email);
     Widget okButton = FlatButton(
       child: Text("OK"),
-      onPressed: () {},
+      onPressed: () {
+        Navigator.of(context).pop();
+      },
     );
 
     // set up the AlertDialog
@@ -271,16 +250,19 @@ class _ProfilePageState extends State<ProfilePage> {
   fire_auth.FirebaseAuth auth = fire_auth.FirebaseAuth
       .instance; //recommend declaring a reference outside the methods
 
-// Future<String> getUserName(String username) async {
+  _getProfileData() async {
+    final uid = await Provider.of(context).auth.getCurrentUID();
+    await db.collection('userData').doc(uid).get().then((result) {
+      user.username = result["username"].toString();
+      user.displayName = result["displayName"].toString();
+      user.bio = result["bio"].toString();
+      user.year = result["year"].toString();
+      _currentUsername = result["username"].toString();
+      user.classes = List.from(result['classes']);
+      user.hobbies = List.from(result['hobbies']);
+    });
+  }
 
-//   final CollectionReference users = firestore.collection('UserData');
-
-//   // final String uid = auth.currentUser.uid;
-
-//   final result = await users.doc(uid).get();
-//   Future<String> str = result.data()['username'];
-
-// }
   Future<bool> usernameCheck(String username) async {
     final result = await firestore
         .collection('userData')
@@ -309,19 +291,27 @@ class _ProfilePageState extends State<ProfilePage> {
         (num + 2).toString();
   }
 
-  void _tripEditModalBottomSheet(context) {
+  void _EditProfile(context) {
+    final _dropDown = _MyYearDropDownWidget();
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       builder: (BuildContext bc) {
         return Container(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height * 2,
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: EdgeInsets.fromLTRB(20, 60, 20, 0),
             child: Column(
               children: <Widget>[
                 Row(
                   children: <Widget>[
-                    Text("Edit Profile"),
+                    Text(
+                      'Edit Profile',
+                      style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Raleway'),
+                    ),
                     Spacer(),
                     IconButton(
                       icon: Icon(
@@ -335,6 +325,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     )
                   ],
                 ),
+                pad,
                 _changeInfo("change username...", _usernameController),
                 Container(
                   padding: const EdgeInsets.all(4),
@@ -357,51 +348,92 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 _changeInfo("where did you last go?", _locationController),
                 Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "I am a...  ",
+                        style: TextStyle(color: Colors.grey, fontSize: 24),
+                      ),
+                      _dropDown,
+                    ]),
+                pad,
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    RaisedButton(
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: const Color(0xFFF56D6B),
+                          onPrimary: Colors.white,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0)),
+                        ),
                         child: Text('Submit'),
-                        color: Colors.deepPurple,
-                        textColor: Colors.white,
                         onPressed: () async {
+                          _getProfileData();
                           final uid =
                               await Provider.of(context).auth.getCurrentUID();
-                          if (_usernameController.text != null) {
+                          if (_usernameController.text != null &&
+                              _usernameController.text != "") {
+                            print(_currentUsername);
                             print(_usernameController.text);
-
-                            if (!await usernameCheck(
-                                _usernameController.text)) {
+                            if ((_currentUsername !=
+                                    _usernameController.text) &&
+                                !await usernameCheck(
+                                    _usernameController.text)) {
                               print("ALREADY TAKEN");
                               showAlertDialog(context);
                             } else {
                               user.username = _usernameController.text;
+                              setState(() {
+                                _usernameController.text = user.username;
+                              });
                               await Provider.of(context)
                                   .db
                                   .collection('userData')
                                   .doc(uid)
-                                  .set(user.toJson());
+                                  .update({"username": user.username});
                             }
                           }
-                          if (_displayNameController.text != null) {
-                            user.displayName = _displayNameController.text;
+                          if (_displayNameController.text != null &&
+                              _displayNameController.text != "") {
+                           user.displayName = _displayNameController.text;
                             print(_displayNameController.text);
+                            setState(() {
+                              _displayNameController.text = user.displayName;
+                            });
                             await Provider.of(context)
                                 .db
                                 .collection('userData')
                                 .doc(uid)
-                                .set(user.toJson());
+                                .update({"displayName": user.displayName});
                           }
-                          if (_bioController.text != null) {
+                          if (_bioController.text != null &&
+                              _bioController.text != "") {
                             user.bio = _bioController.text;
                             print(_bioController.text);
+                            setState(() {
+                              _bioController.text = user.bio;
+                            });
                             await Provider.of(context)
                                 .db
                                 .collection('userData')
                                 .doc(uid)
-                                .set(user.toJson());
+                                .update({"bio": user.bio});
                           }
-                          if (_profilePictureController.text != null) {
-                            //picture = _profilePictureController.text;
+                          if (year != "") {
+                            user.year = year;
+                            setState(() {
+                              year = user.year;
+                            });
+                            await Provider.of(context)
+                                .db
+                                .collection('userData')
+                                .doc(uid)
+                                .update({"year": year});
+                          }
+
+                          /*if (_profilePictureController.text != null &&
+                              _profilePictureController.text != "") {
                             user.picturePath = _profilePictureController.text;
                             print(_profilePictureController.text);
                             await Provider.of(context)
@@ -409,8 +441,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 .collection('userData')
                                 .doc(uid)
                                 .set(user.toJson());
-                          }
-                          if (_covidController.text != null) {
+                          }*/
+                          /*if (_covidController.text != null) {
                             user.covid = _covidController.text;
                             print(_covidController.text);
                             await Provider.of(context)
@@ -418,8 +450,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 .collection('userData')
                                 .doc(uid)
                                 .set(user.toJson());
-                          }
-                          if (_locationController.text != null) {
+                          }*/
+                          /*if (_locationController.text != null) {
                             user.location = _locationController.text;
                             print(_locationController.text);
                             await Provider.of(context)
@@ -427,7 +459,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 .collection('userData')
                                 .doc(uid)
                                 .set(user.toJson());
-                          }
+                          }*/
+                          //_getProfileData();
+                          //print("user.year: " + user.year);
 
                           Navigator.of(context).pop();
                         })
@@ -435,13 +469,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    RaisedButton(
-                      child: Text('Delete'),
-                      color: Colors.red,
-                      textColor: Colors.white,
-                    )
-                  ],
+                  children: <Widget>[],
                 )
               ],
             ),
@@ -450,20 +478,8 @@ class _ProfilePageState extends State<ProfilePage> {
       },
     );
   }
-
-  /* _getProfileData() async {
-    final uid = await Provider.of(context).auth.getCurrentUID();
-    await Provider.of(context)
-        .db
-        .collection('userData')
-        .document(uid)
-        .get().then((result) {
-          user.username = result.data['username'];
-    });
-  }*/
 }
 
-// ignore: camel_case_types
 class _profilePicture extends StatefulWidget {
   @override
   _myProfilePictureState createState() => _myProfilePictureState();
@@ -487,15 +503,8 @@ class _myProfilePictureState extends State<_profilePicture> {
   }*/
 
   Widget build(BuildContext context) {
-    String picture = null;
-    /*if (_ProfilePageState.picture == null) {
-      picture = 'assets/gayathri_armstrong.png';
-    } else {
-      picture = _ProfilePageState.picture;
-    }*/
     return GestureDetector(
         onTap: () {
-          //_changePicture();
           print('hello');
         },
         child: Container(
@@ -508,5 +517,96 @@ class _myProfilePictureState extends State<_profilePicture> {
             ),
           ),
         ));
+  }
+}
+
+class _MyYearDropDownWidget extends StatefulWidget {
+  const _MyYearDropDownWidget({Key key}) : super(key: key);
+
+  @override
+  _MyYearDropDown createState() => _MyYearDropDown();
+}
+
+class _MyYearDropDown extends State<_MyYearDropDownWidget> {
+  User user = User("", "", "", "", List(), List());
+  //String _currentYear = "";
+
+
+  final db = FirebaseFirestore.instance;
+  String dropdownValue = "Freshman";
+
+  _getYearData() async {
+    final uid = await Provider.of(context).auth.getCurrentUID();
+    await db.collection('userData').doc(uid).get().then((result) {
+      if (year == "") {
+        user.year = result["year"].toString();
+       // _currentYear = result["year"].toString();
+      } else {
+        user.year = year;
+        //_currentYear = year;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: Provider.of(context).auth.getCurrentUID(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return _displayDropDown(context, snapshot);
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    );
+  }
+
+  Widget _displayDropDown(context, snapshot) {
+    final authData = snapshot.data;
+
+    return Column(
+      children: <Widget>[
+        FutureBuilder(
+            future: _getYearData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {}
+              return DropdownButton<String>(
+                value: user.year,
+                //icon: const Icon(Icons.arrow_downward),
+                iconSize: 24,
+                elevation: 16,
+                style: const TextStyle(color: Colors.grey, fontSize: 24),
+                underline: Container(
+                  height: 3,
+                  color: const Color(0xFFF99E3E),
+                ),
+                onChanged: (String newValue) async {
+                  user.year = newValue;
+                  setState(() {
+                    year = newValue;
+                    print("global variable year: " + year);
+                    dropdownValue = newValue;
+                    //_currentYear = newValue;
+                    //print("_currentYear: " + _currentYear);
+                  });
+                  /*final uid = await Provider.of(context).auth.getCurrentUID();
+                  await Provider.of(context)
+                      .db
+                      .collection('userData')
+                      .doc(uid)
+                      .update({"year": dropdownValue});*/
+                },
+                items: <String>['freshman', 'sophomore', 'junior', 'senior']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              );
+            }),
+      ],
+    );
   }
 }
