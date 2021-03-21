@@ -4,6 +4,7 @@ import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/models/poll_post.dart';
 import 'package:unilyfe_app/models/global.dart' as global;
+import 'package:unilyfe_app/page/create_page.dart';
 int selection = 0;
 class PollForm extends StatelessWidget {
   final db = FirebaseFirestore.instance;
@@ -91,16 +92,16 @@ class PollForm extends StatelessWidget {
 
 
                  final uid = await Provider.of(context).auth.getCurrentUID();
+                 DocumentReference doc = await db.collection("posts").doc();
                 //  final PollPost post = new PollPost(_question, DateTime.now(), _option1, true, "Food", uid);
-                 final PollPost post = new PollPost(_question, DateTime.now(), _option1, channel, uid, 0,false);
+                 final PollPost post = new PollPost(doc.id,_question, DateTime.now(), _option1, channel, uid, 0,false);
+                  post.postid = doc.id;
                   global.question = _question;
                   global.option1 = _option1;
                   global.option2 = _option2;
                    global.option3 = _option3;
                     global.option4 = _option4;
                     
-                  DocumentReference doc =
-                      await db.collection("posts").add(post.toJson());
                   //DocumentReference channel;
                   if (selection == 0) {
                     //await db.collection("food_posts").add(post.toJson());
@@ -121,14 +122,17 @@ class PollForm extends StatelessWidget {
                         .doc(doc.id)
                         .set(post.toJson());
                   }
-                  await db.collection('posts').add(post.toJson());
+                  await db.collection("posts").doc(doc.id).set(post.toJson());
                   await db
                       .collection("userData")
                       .doc(uid)
                       .collection("poll_posts")
-                      .add(post.toJson());
+                      .doc(doc.id)
+                      .set(post.toJson());
                   //  Navigator.of(context).popUntil((route) => route.isFirst);
-                  Navigator.of(context).popUntil((route) => route.isFirst);
+                //  Navigator.of(context).popUntil((route) => route.isFirst);
+                Navigator.pop(context);
+                  // Navigator.pushReplacement(context,MaterialPageRoute(builder: (_) => CreatePage())).then((_) => refresh());
               },
             ),
       ],
@@ -198,4 +202,3 @@ class _MyAppState extends State<MyAppOne> {
     );
   }
 }
-

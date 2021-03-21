@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:unilyfe_app/page/profile_page.dart';
 import 'package:unilyfe_app/page/tabs/models/tab_navigation_item.dart';
+import 'package:unilyfe_app/page/search_page.dart';
 
 class TabsPage extends StatefulWidget {
   @override
@@ -15,8 +17,8 @@ class _TabsPageState extends State<TabsPage> {
     return DefaultTabController(
         length: 4,
         child: Scaffold(
-        key: _scaffoldKey,
-        drawer: myDrawer,
+          key: _scaffoldKey,
+          drawer: myDrawer(context),
           appBar: AppBar(
             leading: IconButton(
               color: Colors.grey,
@@ -37,14 +39,13 @@ class _TabsPageState extends State<TabsPage> {
               unselectedLabelColor: Colors.grey,
             ),*/
           ),
-          body: 
-          IndexedStack(
+          body: IndexedStack(
             index: _currentIndex,
             children: <Widget>[
               for (final tabItem in TabNavigationItem.items) tabItem.page,
             ],
           ),
-          
+
           /*TabBarView(
             children: [
               Icon(Icons.directions_car),
@@ -53,9 +54,8 @@ class _TabsPageState extends State<TabsPage> {
               Icon(Icons.directions_bike),
             ],
           ),*/
-          
-          bottomNavigationBar: 
-          BottomNavigationBar(
+
+          bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
             currentIndex: _currentIndex,
             onTap: (int index) => setState(() => _currentIndex = index),
@@ -69,62 +69,146 @@ class _TabsPageState extends State<TabsPage> {
             ],
             selectedItemColor: const Color(0xfff99e3e),
           ),
-
-        )
-    );
+        ));
   }
 
-Widget myDrawer =
-  Drawer(
-    child: ListView(
-      padding: EdgeInsets.zero,
-      children: <Widget>[
-        DrawerHeader(
-          child: Image.asset('assets/unilyfe_logo.png', width: 20,),
-        ),
-        ListTile(
-          title: Text('Account Information',
-          style : const TextStyle (
-            fontWeight: FontWeight.bold,
-            color: Colors.grey,
-            fontFamily: 'Raleway',
-            fontSize: 17,
+  Widget myDrawer(context) {
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          DrawerHeader(
+            child: Image.asset(
+              'assets/unilyfe_logo.png',
+              width: 20,
             ),
           ),
-          onTap: () {
-            // Update the state of the app.
-            // ...
-          },
-        ),
-        ListTile(
-          title: Text('Help',
-          style : const TextStyle (
-            fontWeight: FontWeight.bold,
-            color: Colors.grey,
-            fontFamily: 'Raleway',
-            fontSize: 17,
+          ListTile(
+            title: Text(
+              'Help',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+                fontFamily: 'Raleway',
+                fontSize: 17,
+              ),
             ),
+            onTap: () {
+              // Update the state of the app.
+              // ...
+            },
           ),
-          onTap: () {
-            // Update the state of the app.
-            // ...
-          },
-        ),
-        ListTile(
-          title: Text('About the creators',
-          style : const TextStyle (
-            fontWeight: FontWeight.bold,
-            color: Colors.grey,
-            fontFamily: 'Raleway',
-            fontSize: 17,
+          ListTile(
+            title: Text(
+              'About the app',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+                fontFamily: 'Raleway',
+                fontSize: 17,
+              ),
             ),
+            onTap: () {
+              // Update the state of the app.
+              // ...
+            },
           ),
-          onTap: () {
-            // Update the state of the app.
-            // ...
-          },
+          ListTile(
+            title: Text(
+              'About the creators',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+                fontFamily: 'Raleway',
+                fontSize: 17,
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutUs()),
+              );
+              print("here");
+              //SearchPage();
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class AboutUs extends StatelessWidget {
+  @override
+
+  Widget build(BuildContext context) {
+     double c_width = MediaQuery.of(context).size.width*0.9;
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFFFFFFF),
+        title: Text(
+          "About Us",
+          style: TextStyle(color: Colors.grey),
         ),
-      ],
-    ),
-  );
+        iconTheme: IconThemeData(
+          color: Colors.grey, //change your color here
+        ),
+      ),
+      body: /*Text(
+          'I rea smelled even. The memory of odors is very richrdytfyguhijo;hgf zdxfcghjgdfsdfuki.'),*/
+
+
+   Container (
+      padding: const EdgeInsets.all(16.0),
+      width: c_width,
+      child: Column (
+        children: <Widget>[
+          Text("Carolyn Chen: ", textAlign: TextAlign.left,
+          style: const TextStyle(
+          fontFamily: 'Raleway',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                ),
+                ),
+         Text("I enjoy hunting for squishmallows and eating the cookies from safeway with the pink frosting.", textAlign: TextAlign.left,
+          style: const TextStyle(
+          fontFamily: 'Raleway',
+                color: Colors.grey,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                ),
+                ),
+          Text("Isha Jain : ", textAlign: TextAlign.left,
+          style: const TextStyle(
+          fontFamily: 'Raleway',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                ),
+                ),                
+           Text("Ramitha Kotarkonda : ", textAlign: TextAlign.left,
+          style: const TextStyle(
+          fontFamily: 'Raleway',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                ),
+                ), 
+           Text("Unnati Singh : ", textAlign: TextAlign.left,
+          style: const TextStyle(
+          fontFamily: 'Raleway',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                ),
+                ),   
+           Text("Gayathri Sriram : ", textAlign: TextAlign.left,
+          style: const TextStyle(
+          fontFamily: 'Raleway',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                ),
+                ),          
+        ],
+      ),
+    )
+    );
+  }
 }

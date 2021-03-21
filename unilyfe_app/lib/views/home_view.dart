@@ -1,3 +1,4 @@
+// import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -5,7 +6,6 @@ import 'package:unilyfe_app/customized_items/buttons/comment_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_all.dart';
 import 'package:unilyfe_app/customized_items/buttons/view_info_button.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class HomeView extends StatelessWidget {
@@ -45,7 +45,8 @@ class HomeView extends StatelessWidget {
   }
 
   Widget buildPostCard(BuildContext context, DocumentSnapshot post) {
-    if (post['postType'] == 0) print("TEXT POST");
+    //if (post['postType'] == 0) print("TEXT POST");
+
     return Container(
       child: Card(
         child: Padding(
@@ -100,48 +101,27 @@ class HomeView extends StatelessWidget {
                   ],
                 ),
               ),
-              CommentButtonWidget(),
-              ElevatedButton(
-                  onPressed: () async {
-                    final uid = await Provider.of(context).auth.getCurrentUID();
-                    // FirebaseFirestore.instance
-                    //     .collection("userData")
-                    //     .doc(uid)
-                    //     .collection("liked_posts")
-                    //     .doc(post.id)
-                    //     .update({'liked': true});
-                    FirebaseFirestore.instance
-                        .collection("posts")
-                        .doc(post.id)
-                        .update({'liked': true});
-
-                    if (post['postChannel'] == "FOOD") {
-                      FirebaseFirestore.instance
-                          .collection("food_posts")
-                          .doc(post.id)
-                          .update({'liked': true});
-                    } else if (post['postChannel'] == "STUDY") {
-                      FirebaseFirestore.instance
-                          .collection("study_posts")
-                          .doc(post.id)
-                          .update({'liked': true});
-                    } else if (post['postChannel'] == "SOCIAL") {
-                      FirebaseFirestore.instance
-                          .collection("social_posts")
-                          .doc(post.id)
-                          .update({'liked': true});
-                    }
-                  },
-                  child: Text("LIKE")),
-              Text("\nLikes: ${post['likes']}"),
-              Text("\nLiked: ${post['liked']}"),
-              IconTheme(
-  data: IconThemeData(
-    color: Colors.amber,
-    size: 48,
-  ),
-  child: SmoothStarRating(),
-),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Post(postid: post['postid'], likes: post['likes'], liked: post['liked'], postChannel: post['postChannel']),
+                    CommentButtonWidget(
+                      postid: post['postid'],
+                    ),
+                    SmoothStarRating()
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                child: Row(
+                    children: <Widget>[
+                      Text("Likes: ${post['likes']}")
+                    ],
+              ),
+              ),
             ],
           ),
         ),
@@ -149,149 +129,60 @@ class HomeView extends StatelessWidget {
     );
   }
 }
+class Post extends StatefulWidget{
+  String postid;
+  int likes;
+  bool liked;
+  String postChannel;
+ Post({Key key, @required this.postid, @required this.likes, @required this.liked, @required this.postChannel})
+      : super(key: key);  
+  @override
+  PostState createState()=> new PostState(postid: postid, likes:likes, liked:liked, postChannel: postChannel);
+}
 
-// class StarDisplay extends StatelessWidget {
-//   final int value;
-//   const StarDisplay({Key key, this.value = 0})
-//       : assert(value != null),
-//         super(key: key);
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       mainAxisSize: MainAxisSize.min,
-//       children: List.generate(5, (index) {
-//         return Icon(
-//           index < value ? Icons.star : Icons.star_border,
-//         );
-//       }),
-//     );
-//   }
-// }
-// class StarRating extends StatelessWidget {
-//   final int value;
-//   final IconData filledStar;
-//   final IconData unfilledStar;
-//   const StarRating({
-//     Key key,
-//     this.value = 0,
-//     this.filledStar,
-//     this.unfilledStar,
-//   })  : assert(value != null),
-//         super(key: key);
-//   @override
-//   Widget build(BuildContext context) {
-//     final color = Theme.of(context).accentColor;
-//     final size = 36.0;
-//     return Row(
-//       mainAxisSize: MainAxisSize.min,
-//       children: List.generate(5, (index) {
-//         return IconButton(
-//           onPressed: () {},
-//           color: index < value ? color : null,
-//           iconSize: size,
-//           icon: Icon(
-//             index < value 
-//                ? filledStar ?? Icons.star 
-//                : unfilledStar ?? Icons.star_border,
-//           ),
-//           padding: EdgeInsets.zero,
-//           tooltip: "${index + 1} of 5",
-//         );
-//       }),
-//     );
-//   }
-// }
-// class StarDisplayWidget extends StatelessWidget {
-//   final int value;
-//   final Widget filledStar;
-//   final Widget unfilledStar;
-//   final double size;
-//   final Color color;
-//   final int marginFactor;
+class PostState extends State<Post>{
+  int likes;
+  String postid;
+  bool liked;
+  String postChannel;
+ PostState({Key key, @required this.postid, @required this.likes, @required this.liked, @required this.postChannel});
+  @override
+  _pressed(){
+  final db = FirebaseFirestore.instance;
+  setState(() {
+    if(postChannel == "FOOD"){
+      postChannel = 'food_posts';
+    }else if(postChannel == "STUDY"){
+      postChannel = 'study_posts';
+    } else{
+      postChannel = 'social_posts';
+    }
+    liked = !liked;
+    if(liked){
+      likes += 1;
+      liked = true;
+      Provider.of(context).db.collection('posts').doc(postid).update({'likes': likes});
+      Provider.of(context).db.collection(postChannel).doc(postid).update({'likes': likes});
+      Provider.of(context).db.collection(postChannel).doc(postid).update({'liked': liked});
+      Provider.of(context).db.collection('posts').doc(postid).update({'liked': liked});
+    }else{
+      likes -= 1;
+      liked = false;
+      Provider.of(context).db.collection('posts').doc(postid).update({'likes': likes});
+      Provider.of(context).db.collection('posts').doc(postid).update({'liked': liked});
+      Provider.of(context).db.collection(postChannel).doc(postid).update({'likes': likes});
+      Provider.of(context).db.collection(postChannel).doc(postid).update({'liked': liked});
+    }
+  });
+}
+      Widget build(BuildContext context){
+        return IconButton(
+          icon: Icon(liked ? Icons.favorite: Icons.favorite_border, 
+                      color: liked ? Colors.red : Colors.grey),
+          onPressed: () => _pressed(),
+        );
+      }
+    
+}
 
-//   const StarDisplayWidget({
-//     Key key,
-//     this.value = 0,
-//     this.filledStar,
-//     this.unfilledStar,
-//     this.color = Colors.orange,
-//     this.size = 20,
-//     this.marginFactor = 5,
-//   })  : assert(value != null),
-//         super(key: key);
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       mainAxisSize: MainAxisSize.min,
-//       mainAxisAlignment: MainAxisAlignment.start,
-//       crossAxisAlignment: CrossAxisAlignment.end,
-//       children: List.generate(5, (index) {
-//         return Container(
-//           width: size - size / marginFactor,
-//           height: size,
-//           child: Icon(
-//             index < value
-//                 ? filledStar ?? Icons.star
-//                 : unfilledStar ?? Icons.star_border,
-//             color: color,
-//             size: size,
-//           ),
-//         );
-//       }),
-//     );
-//   }
-// }
-
-// class StarRating extends StatelessWidget {
-//   final void Function(int index) onChanged;
-//   final int value;
-//   final IconData filledStar;
-//   final IconData unfilledStar;
-//   final double size;
-//   final Color color;
-//   final int marginFactor;
-
-//   const StarRating({
-//     Key key,
-//     @required this.onChanged,
-//     this.value = 0,
-//     this.filledStar,
-//     this.unfilledStar,
-//     this.color = Colors.orange,
-//     this.size = 20,
-//     this.marginFactor = 5,
-//   })  : assert(value != null),
-//         super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Row(
-//       mainAxisAlignment: MainAxisAlignment.start,
-//       mainAxisSize: MainAxisSize.min,
-//       children: List.generate(5, (index) {
-//         return RawMaterialButton(
-//           child: Icon(
-//             index < value
-//                 ? filledStar ?? Icons.star
-//                 : unfilledStar ?? Icons.star_border,
-//             color: color,
-//             size: size,
-//           ),
-//           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-//           shape: CircleBorder(),
-//           constraints: BoxConstraints.expand(
-//               width: size - size / marginFactor, height: size),
-//           padding: EdgeInsets.zero,
-//           highlightColor: Colors.transparent,
-//           splashColor: Colors.transparent,
-//           onPressed: onChanged != null
-//               ? () {
-//                   onChanged(value == index + 1 ? index : index + 1);
-//                 }
-//               : null,
-//         );
-//       }),
-//     );
-//   }
-// }
