@@ -4,6 +4,7 @@ import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/models/poll_post.dart';
 import 'package:unilyfe_app/models/global.dart' as global;
+import 'package:unilyfe_app/page/create_page.dart';
 int selection = 0;
 class PollForm extends StatelessWidget {
   final db = FirebaseFirestore.instance;
@@ -121,7 +122,7 @@ class PollForm extends StatelessWidget {
                         .doc(doc.id)
                         .set(post.toJson());
                   }
-                  await db.collection('posts').add(post.toJson());
+                  await db.collection("posts").doc(doc.id).set(post.toJson());
                   await db
                       .collection("userData")
                       .doc(uid)
@@ -129,7 +130,9 @@ class PollForm extends StatelessWidget {
                       .doc(doc.id)
                       .set(post.toJson());
                   //  Navigator.of(context).popUntil((route) => route.isFirst);
-                  Navigator.of(context).popUntil((route) => route.isFirst);
+                //  Navigator.of(context).popUntil((route) => route.isFirst);
+                Navigator.pop(context);
+                  // Navigator.pushReplacement(context,MaterialPageRoute(builder: (_) => CreatePage())).then((_) => refresh());
               },
             ),
       ],
@@ -199,4 +202,3 @@ class _MyAppState extends State<MyAppOne> {
     );
   }
 }
-
