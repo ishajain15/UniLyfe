@@ -150,17 +150,28 @@ class PostState extends State<Post>{
   _pressed(){
   final db = FirebaseFirestore.instance;
   setState(() {
+    if(postChannel == "FOOD"){
+      postChannel = 'food_posts';
+    }else if(postChannel == "STUDY"){
+      postChannel = 'study_posts';
+    } else{
+      postChannel = 'social_posts';
+    }
     liked = !liked;
     if(liked){
       likes += 1;
       liked = true;
       Provider.of(context).db.collection('posts').doc(postid).update({'likes': likes});
+      Provider.of(context).db.collection(postChannel).doc(postid).update({'likes': likes});
+      Provider.of(context).db.collection(postChannel).doc(postid).update({'liked': liked});
       Provider.of(context).db.collection('posts').doc(postid).update({'liked': liked});
     }else{
       likes -= 1;
       liked = false;
       Provider.of(context).db.collection('posts').doc(postid).update({'likes': likes});
       Provider.of(context).db.collection('posts').doc(postid).update({'liked': liked});
+      Provider.of(context).db.collection(postChannel).doc(postid).update({'likes': likes});
+      Provider.of(context).db.collection(postChannel).doc(postid).update({'liked': liked});
     }
   });
 }
@@ -173,4 +184,5 @@ class PostState extends State<Post>{
       }
     
 }
+
 
