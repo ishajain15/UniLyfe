@@ -52,10 +52,7 @@ class AuthProvider {
     return _firebaseAuth.signOut();
   }
 
-  // Reset Password
-  Future sendPasswordResetEmail(String email) async {
-    return _firebaseAuth.sendPasswordResetEmail(email: email);
-  }
+
 
   // Send Email Verification
   Future sendEmailVerification() async {
