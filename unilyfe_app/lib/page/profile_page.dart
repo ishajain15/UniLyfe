@@ -19,6 +19,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   User user = User("", "", "", "");
   String _currentUsername = "";
+  String _currentYear = "";
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _displayNameController = TextEditingController();
   TextEditingController _bioController = TextEditingController();
@@ -51,22 +52,17 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ])),
-        //profilePicture,
         _profilePicture(),
-        //userInfo,
         FutureBuilder(
           future: Provider.of(context).auth.getCurrentUID(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              print("made it hereeeeee");
               return displayUserInformation(context, snapshot);
             } else {
               return CircularProgressIndicator();
             }
           },
         ),
-        //titleSection,
-        //chip,
         chipList([
           'Photography',
           'Tiktok Star',
@@ -92,10 +88,8 @@ class _ProfilePageState extends State<ProfilePage> {
         //BackButtonWidget(),
         LogoutButtonWidget(),
       ],
-      //),
     ));
   }
-//}
 
   Widget displayUserInformation(context, snapshot) {
     final authData = snapshot.data;
@@ -105,9 +99,7 @@ class _ProfilePageState extends State<ProfilePage> {
         FutureBuilder(
             future: _getProfileData(),
             builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.done) {
-                //_displayNameController.text = user.displayName;
-              }
+              if (snapshot.connectionState == ConnectionState.done) {}
               return Container(
                   padding: const EdgeInsets.all(32),
                   child: Column(
@@ -125,9 +117,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       Container(
                         padding: const EdgeInsets.only(bottom: 8),
                         child: Text(
-                          'Sophomore',
+                          user.year,
                           style: TextStyle(
-                              fontSize: 17,
+                              fontSize: 21,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Raleway'),
                         ),
@@ -138,7 +130,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           user.bio,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                              fontSize: 17,
+                              fontSize: 15,
                               fontWeight: FontWeight.bold,
                               fontFamily: 'Raleway'),
                         ),
@@ -149,21 +141,6 @@ class _ProfilePageState extends State<ProfilePage> {
       ],
     );
   }
-
-  String returnPicture(String picture) {
-    return picture;
-  }
-
-  Widget profilePicture = Container(
-    width: 200,
-    height: 200,
-    decoration: BoxDecoration(
-      shape: BoxShape.circle,
-      image: DecorationImage(
-        image: AssetImage('assets/gayathri.png'),
-      ),
-    ),
-  );
 
   Widget pad = Container(
     padding: const EdgeInsets.all(32),
@@ -255,23 +232,13 @@ class _ProfilePageState extends State<ProfilePage> {
   fire_auth.FirebaseAuth auth = fire_auth.FirebaseAuth
       .instance; //recommend declaring a reference outside the methods
 
-// Future<String> getUserName(String username) async {
-
-//   final CollectionReference users = firestore.collection('UserData');
-
-//   // final String uid = auth.currentUser.uid;
-
-//   final result = await users.doc(uid).get();
-//   Future<String> str = result.data()['username'];
-
-// }
-
   _getProfileData() async {
-    print("heck yea");
     final uid = await Provider.of(context).auth.getCurrentUID();
     await db.collection('userData').doc(uid).get().then((result) {
+      user.username = result["username"].toString();
       user.displayName = result["displayName"].toString();
       user.bio = result["bio"].toString();
+      user.year = result["year"].toString();
       _currentUsername = result["username"].toString();
     });
   }
@@ -305,6 +272,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _EditProfile(context) {
+    final _dropDown = _MyYearDropDownWidget();
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -350,10 +318,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(
                   padding: const EdgeInsets.all(4),
                 ),
-                /*Padding(
-                  padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                  child: Wrap(spacing: 6.0, runSpacing: 6.0, children: _yearRadio())
-                ),*/
                 _changeInfo("change profile pic...", _profilePictureController),
                 Container(
                   padding: const EdgeInsets.all(4),
@@ -370,7 +334,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         "I am a...  ",
                         style: TextStyle(color: Colors.grey, fontSize: 24),
                       ),
-                      _MyYearDropDownWidget(),
+                      _dropDown,
                     ]),
                 pad,
                 Row(
@@ -401,13 +365,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             } else {
                               user.username = _usernameController.text;
                               setState(() {
-                              _usernameController.text = user.username;
-                            });
+                                _usernameController.text = user.username;
+                              });
                               await Provider.of(context)
                                   .db
                                   .collection('userData')
                                   .doc(uid)
-                                  //.set(user.toJson());
                                   .update({"username": user.username});
                             }
                           }
@@ -435,10 +398,12 @@ class _ProfilePageState extends State<ProfilePage> {
                                 .db
                                 .collection('userData')
                                 .doc(uid)
-                                //.set(user.toJson());
                                 .update({"bio": user.bio});
                           }
-                          if (_profilePictureController.text != null &&
+                          print("_dropDown._callGetCurrentYear(context): " +
+                              _dropDown._callGetCurrentYear());
+
+                          /*if (_profilePictureController.text != null &&
                               _profilePictureController.text != "") {
                             user.picturePath = _profilePictureController.text;
                             print(_profilePictureController.text);
@@ -447,8 +412,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 .collection('userData')
                                 .doc(uid)
                                 .set(user.toJson());
-                          }
-                          if (_covidController.text != null) {
+                          }*/
+                          /*if (_covidController.text != null) {
                             user.covid = _covidController.text;
                             print(_covidController.text);
                             await Provider.of(context)
@@ -456,8 +421,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 .collection('userData')
                                 .doc(uid)
                                 .set(user.toJson());
-                          }
-                          if (_locationController.text != null) {
+                          }*/
+                          /*if (_locationController.text != null) {
                             user.location = _locationController.text;
                             print(_locationController.text);
                             await Provider.of(context)
@@ -465,7 +430,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                 .collection('userData')
                                 .doc(uid)
                                 .set(user.toJson());
-                          }
+                          }*/
+                          _getProfileData();
+                          print("user.year: " + user.year);
 
                           Navigator.of(context).pop();
                         })
@@ -524,22 +491,39 @@ class _myProfilePictureState extends State<_profilePicture> {
   }
 }
 
-/// This is the stateful widget that the main application instantiates.
 class _MyYearDropDownWidget extends StatefulWidget {
   const _MyYearDropDownWidget({Key key}) : super(key: key);
+
+  _callGetCurrentYear() => createState()._getCurrentYear();
 
   @override
   _MyYearDropDown createState() => _MyYearDropDown();
 }
 
-/// This is the private State class that goes with MyStatefulWidget.
 class _MyYearDropDown extends State<_MyYearDropDownWidget> {
-  String dropdownValue = 'Freshman';
-  //User user = User();
+  User user = User("", "", "", "");
+  String _currentYear = "";
+
+  String _getCurrentYear() {
+    return _currentYear;
+  }
+
+  final db = FirebaseFirestore.instance;
+  String dropdownValue = "Freshman";
+
+  _getYearData() async {
+    final uid = await Provider.of(context).auth.getCurrentUID();
+    await db.collection('userData').doc(uid).get().then((result) {
+      user.year = result["year"].toString();
+      _currentYear = result["year"].toString();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return DropdownButton<String>(
+    // print("user year: " + user.year);
+    //print("drop value: " + dropdownValue);
+    /*return DropdownButton<String>(
       value: dropdownValue,
       //icon: const Icon(Icons.arrow_downward),
       iconSize: 24,
@@ -561,6 +545,66 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
           child: Text(value),
         );
       }).toList(),
+    );*/
+
+    return FutureBuilder(
+      future: Provider.of(context).auth.getCurrentUID(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          return _displayDropDown(context, snapshot);
+        } else {
+          return CircularProgressIndicator();
+        }
+      },
+    );
+  }
+
+  Widget _displayDropDown(context, snapshot) {
+    final authData = snapshot.data;
+
+    return Column(
+      children: <Widget>[
+        FutureBuilder(
+            future: _getYearData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {}
+              return DropdownButton<String>(
+                value: user.year,
+                //icon: const Icon(Icons.arrow_downward),
+                iconSize: 24,
+                elevation: 16,
+                style: const TextStyle(color: Colors.grey, fontSize: 24),
+                underline: Container(
+                  height: 3,
+                  color: const Color(0xFFF99E3E),
+                ),
+                onChanged: (String newValue) async {
+                  user.year = newValue;
+                  setState(() {
+                    print("new value: " + newValue);
+                    dropdownValue = newValue;
+                    _currentYear = newValue;
+                    //print("_currentYear: " + _currentYear);
+                    print(_getCurrentYear());
+                  });
+                  final uid = await Provider.of(context).auth.getCurrentUID();
+                  await Provider.of(context)
+                      .db
+                      .collection('userData')
+                      .doc(uid)
+                      .update({"year": dropdownValue});
+                  print("user year: " + user.year);
+                },
+                items: <String>['freshman', 'sophomore', 'junior', 'senior']
+                    .map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+              );
+            }),
+      ],
     );
   }
 }

@@ -8,9 +8,6 @@ class User {
   String location;
 
   User(this.username, this.displayName, this.bio, this.year
-      //this.displayName,
-      //this.bio,
-      //this.picturePath,
       );
 
 
