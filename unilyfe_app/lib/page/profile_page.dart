@@ -7,6 +7,8 @@ import 'package:unilyfe_app/models/User.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+String year = "";
+
 class ProfilePage extends StatefulWidget {
   static Route<dynamic> route() => MaterialPageRoute(
         builder: (context) => ProfilePage(),
@@ -63,27 +65,6 @@ class _ProfilePageState extends State<ProfilePage> {
             }
           },
         ),
-        /*chipList([
-          'Photography',
-          'Tiktok Star',
-          'Photoshop',
-          'Coder',
-          'Baker',
-          'Chef',
-          'Data Scientist',
-          'Painter',
-          'Spotify Playlist Curator',
-          'Insomniac'
-        ], const Color(0xFFF56D6B)),*/
-        /*chipList([
-          'CS 242',
-          'CS 252',
-          'CS 307',
-          'MA 351',
-          'COM 217',
-          'AD 255',
-          'WGSS 280',
-        ], const Color(0xFFF99E3E)),*/
         FutureBuilder(
           future: Provider.of(context).auth.getCurrentUID(),
           builder: (context, snapshot) {
@@ -167,8 +148,13 @@ class _ProfilePageState extends State<ProfilePage> {
               //return chipList(
               //    user.classes,
               //    const Color(0xFFF99E3E));
-              return Container(child: Column(children: [chipList(user.hobbies, const Color(0xFFF56D6B)),
-               chipList(user.classes, const Color(0xFFF99E3E))],));
+              return Container(
+                  child: Column(
+                children: [
+                  chipList(user.hobbies, const Color(0xFFF56D6B)),
+                  chipList(user.classes, const Color(0xFFF99E3E))
+                ],
+              ));
             }),
       ],
     );
@@ -410,7 +396,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           }
                           if (_displayNameController.text != null &&
                               _displayNameController.text != "") {
-                            user.displayName = _displayNameController.text;
+                           user.displayName = _displayNameController.text;
                             print(_displayNameController.text);
                             setState(() {
                               _displayNameController.text = user.displayName;
@@ -434,8 +420,15 @@ class _ProfilePageState extends State<ProfilePage> {
                                 .doc(uid)
                                 .update({"bio": user.bio});
                           }
-                          print("_dropDown._callGetCurrentYear(context): " +
-                              _dropDown._callGetCurrentYear());
+                          if (year != "") {
+                            user.year = year;
+                
+                            await Provider.of(context)
+                                .db
+                                .collection('userData')
+                                .doc(uid)
+                                .update({"year": year});
+                          }
 
                           /*if (_profilePictureController.text != null &&
                               _profilePictureController.text != "") {
@@ -465,8 +458,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 .doc(uid)
                                 .set(user.toJson());
                           }*/
-                          _getProfileData();
-                          print("user.year: " + user.year);
+                          //_getProfileData();
+                          //print("user.year: " + user.year);
 
                           Navigator.of(context).pop();
                         })
@@ -548,39 +541,18 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
   _getYearData() async {
     final uid = await Provider.of(context).auth.getCurrentUID();
     await db.collection('userData').doc(uid).get().then((result) {
-      user.year = result["year"].toString();
-      _currentYear = result["year"].toString();
+      if (year == "") {
+        user.year = result["year"].toString();
+        _currentYear = result["year"].toString();
+      } else {
+        user.year = year;
+        _currentYear = year;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // print("user year: " + user.year);
-    //print("drop value: " + dropdownValue);
-    /*return DropdownButton<String>(
-      value: dropdownValue,
-      //icon: const Icon(Icons.arrow_downward),
-      iconSize: 24,
-      elevation: 16,
-      style: const TextStyle(color: Colors.grey, fontSize: 24),
-      underline: Container(
-        height: 3,
-        color: const Color(0xFFF99E3E),
-      ),
-      onChanged: (String newValue) {
-        setState(() {
-          dropdownValue = newValue;
-        });
-      },
-      items: <String>['Freshman', 'Sophomore', 'Junior', 'Senior']
-          .map<DropdownMenuItem<String>>((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
-    );*/
-
     return FutureBuilder(
       future: Provider.of(context).auth.getCurrentUID(),
       builder: (context, snapshot) {
@@ -615,19 +587,19 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
                 onChanged: (String newValue) async {
                   user.year = newValue;
                   setState(() {
-                    print("new value: " + newValue);
+                    year = newValue;
+                    print("global variable year: " + year);
                     dropdownValue = newValue;
                     _currentYear = newValue;
                     //print("_currentYear: " + _currentYear);
                     print(_getCurrentYear());
                   });
-                  final uid = await Provider.of(context).auth.getCurrentUID();
+                  /*final uid = await Provider.of(context).auth.getCurrentUID();
                   await Provider.of(context)
                       .db
                       .collection('userData')
                       .doc(uid)
-                      .update({"year": dropdownValue});
-                  print("user year: " + user.year);
+                      .update({"year": dropdownValue});*/
                 },
                 items: <String>['freshman', 'sophomore', 'junior', 'senior']
                     .map<DropdownMenuItem<String>>((String value) {
