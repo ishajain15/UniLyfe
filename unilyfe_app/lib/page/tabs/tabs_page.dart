@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:unilyfe_app/page/profile_page.dart';
 import 'package:unilyfe_app/page/tabs/models/tab_navigation_item.dart';
 import 'package:unilyfe_app/page/search_page.dart';
+import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 class TabsPage extends StatefulWidget {
   @override
@@ -25,6 +26,24 @@ class _TabsPageState extends State<TabsPage> {
               icon: Icon(Icons.reorder),
               onPressed: () => _scaffoldKey.currentState.openDrawer(),
             ),
+            actions: <Widget>[
+              Padding(
+                  padding: EdgeInsets.only(right: 20.0),
+                  child: GestureDetector(
+                    onTap: () async {
+                      try {
+                        await Provider.of(context).auth.signOut();
+                      } catch (e) {
+                        print(e);
+                      }
+                    },
+                    child: Icon(
+                      Icons.logout,
+                      size: 26.0,
+                      color: Colors.grey,
+                    ),
+                  )),
+            ],
             title:
                 Image.asset('assets/unilyfe_logo.png', width: 300, height: 55),
             backgroundColor: const Color(0xFFFFFFFF),
@@ -140,75 +159,85 @@ class _TabsPageState extends State<TabsPage> {
 
 class AboutUs extends StatelessWidget {
   @override
-
   Widget build(BuildContext context) {
-     double c_width = MediaQuery.of(context).size.width*0.9;
+    double c_width = MediaQuery.of(context).size.width * 0.9;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFFFFFFF),
-        title: Text(
-          "About Us",
-          style: TextStyle(color: Colors.grey),
+        appBar: AppBar(
+          backgroundColor: const Color(0xFFFFFFFF),
+          title: Text(
+            "About Us",
+            style: TextStyle(color: Colors.grey),
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.grey, //change your color here
+          ),
         ),
-        iconTheme: IconThemeData(
-          color: Colors.grey, //change your color here
-        ),
-      ),
-      body: /*Text(
+        body:
+            /*Text(
           'I rea smelled even. The memory of odors is very richrdytfyguhijo;hgf zdxfcghjgdfsdfuki.'),*/
 
-
-   Container (
-      padding: const EdgeInsets.all(16.0),
-      width: c_width,
-      child: Column (
-        children: <Widget>[
-          Text("Carolyn Chen: ", textAlign: TextAlign.left,
-          style: const TextStyle(
-          fontFamily: 'Raleway',
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+            Container(
+          padding: const EdgeInsets.all(16.0),
+          width: c_width,
+          child: Column(
+            children: <Widget>[
+              Text(
+                "Carolyn Chen: ",
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
+              ),
+              Text(
+                "I enjoy hunting for squishmallows and eating the cookies from safeway with the pink frosting.",
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  color: Colors.grey,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-         Text("I enjoy hunting for squishmallows and eating the cookies from safeway with the pink frosting.", textAlign: TextAlign.left,
-          style: const TextStyle(
-          fontFamily: 'Raleway',
-                color: Colors.grey,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+              ),
+              Text(
+                "Isha Jain : ",
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
+              ),
+              Text(
+                "Ramitha Kotarkonda : ",
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-          Text("Isha Jain : ", textAlign: TextAlign.left,
-          style: const TextStyle(
-          fontFamily: 'Raleway',
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+              ),
+              Text(
+                "Unnati Singh : ",
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-                ),                
-           Text("Ramitha Kotarkonda : ", textAlign: TextAlign.left,
-          style: const TextStyle(
-          fontFamily: 'Raleway',
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+              ),
+              Text(
+                "Gayathri Sriram : ",
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
                 ),
-                ), 
-           Text("Unnati Singh : ", textAlign: TextAlign.left,
-          style: const TextStyle(
-          fontFamily: 'Raleway',
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                ),
-                ),   
-           Text("Gayathri Sriram : ", textAlign: TextAlign.left,
-          style: const TextStyle(
-          fontFamily: 'Raleway',
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                ),
-                ),          
-        ],
-      ),
-    )
-    );
+              ),
+            ],
+          ),
+        ));
   }
 }

@@ -35,6 +35,7 @@ class HomePage extends StatelessWidget {
         ],
         unselectedLabelColor: Colors.grey,
       ),
+      
       //),
       body: TabBarView(
         children: [
@@ -47,7 +48,7 @@ class HomePage extends StatelessWidget {
           SocialView(),
         ],
       ),
-      bottomSheet: LogoutButtonWidget(),
+      //bottomSheet: LogoutButtonWidget(),
     );
 
     /*return Container(
