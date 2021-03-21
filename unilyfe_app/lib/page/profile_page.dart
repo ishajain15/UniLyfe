@@ -17,7 +17,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  User user = User("", "", "", "");
+  User user = User("", "", "", "", List(), List());
   String _currentUsername = "";
   String _currentYear = "";
   TextEditingController _usernameController = TextEditingController();
@@ -63,7 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
             }
           },
         ),
-        chipList([
+        /*chipList([
           'Photography',
           'Tiktok Star',
           'Photoshop',
@@ -74,8 +74,8 @@ class _ProfilePageState extends State<ProfilePage> {
           'Painter',
           'Spotify Playlist Curator',
           'Insomniac'
-        ], const Color(0xFFF56D6B)),
-        chipList([
+        ], const Color(0xFFF56D6B)),*/
+        /*chipList([
           'CS 242',
           'CS 252',
           'CS 307',
@@ -83,7 +83,17 @@ class _ProfilePageState extends State<ProfilePage> {
           'COM 217',
           'AD 255',
           'WGSS 280',
-        ], const Color(0xFFF99E3E)),
+        ], const Color(0xFFF99E3E)),*/
+        FutureBuilder(
+          future: Provider.of(context).auth.getCurrentUID(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return _displayClasses(context, snapshot);
+            } else {
+              return CircularProgressIndicator();
+            }
+          },
+        ),
         LetsGoButton(),
         //BackButtonWidget(),
         LogoutButtonWidget(),
@@ -142,6 +152,28 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  Widget _displayClasses(context, snapshot) {
+    print("helllooooooooo");
+    final authData = snapshot.data;
+    return Column(
+      children: <Widget>[
+        FutureBuilder(
+            future: _getProfileData(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {}
+              /*for (int i = 0; i < user.classes.length; i++) {
+                print("classsss: " + user.classes[i]);
+              }*/
+              //return chipList(
+              //    user.classes,
+              //    const Color(0xFFF99E3E));
+              return Container(child: Column(children: [chipList(user.hobbies, const Color(0xFFF56D6B)),
+               chipList(user.classes, const Color(0xFFF99E3E))],));
+            }),
+      ],
+    );
+  }
+
   Widget pad = Container(
     padding: const EdgeInsets.all(32),
   );
@@ -168,7 +200,7 @@ class _ProfilePageState extends State<ProfilePage> {
       list.add(_buildChip(things[i], color));
     }
     Widget chips = Padding(
-        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
+        padding: EdgeInsets.fromLTRB(15, 20, 15, 0),
         child: Wrap(spacing: 6.0, runSpacing: 6.0, children: list));
     return chips;
   }
@@ -240,6 +272,8 @@ class _ProfilePageState extends State<ProfilePage> {
       user.bio = result["bio"].toString();
       user.year = result["year"].toString();
       _currentUsername = result["username"].toString();
+      user.classes = List.from(result['classes']);
+      user.hobbies = List.from(result['hobbies']);
     });
   }
 
@@ -501,7 +535,7 @@ class _MyYearDropDownWidget extends StatefulWidget {
 }
 
 class _MyYearDropDown extends State<_MyYearDropDownWidget> {
-  User user = User("", "", "", "");
+  User user = User("", "", "", "", List(), List());
   String _currentYear = "";
 
   String _getCurrentYear() {
