@@ -21,7 +21,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   User user = User("", "", "", "", List(), List());
   String _currentUsername = "";
-  String _currentYear = "";
+  //String _currentYear = "";
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _displayNameController = TextEditingController();
   TextEditingController _bioController = TextEditingController();
@@ -523,19 +523,14 @@ class _myProfilePictureState extends State<_profilePicture> {
 class _MyYearDropDownWidget extends StatefulWidget {
   const _MyYearDropDownWidget({Key key}) : super(key: key);
 
-  _callGetCurrentYear() => createState()._getCurrentYear();
-
   @override
   _MyYearDropDown createState() => _MyYearDropDown();
 }
 
 class _MyYearDropDown extends State<_MyYearDropDownWidget> {
   User user = User("", "", "", "", List(), List());
-  String _currentYear = "";
+  //String _currentYear = "";
 
-  String _getCurrentYear() {
-    return _currentYear;
-  }
 
   final db = FirebaseFirestore.instance;
   String dropdownValue = "Freshman";
@@ -545,10 +540,10 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
     await db.collection('userData').doc(uid).get().then((result) {
       if (year == "") {
         user.year = result["year"].toString();
-        _currentYear = result["year"].toString();
+       // _currentYear = result["year"].toString();
       } else {
         user.year = year;
-        _currentYear = year;
+        //_currentYear = year;
       }
     });
   }
@@ -592,9 +587,8 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
                     year = newValue;
                     print("global variable year: " + year);
                     dropdownValue = newValue;
-                    _currentYear = newValue;
+                    //_currentYear = newValue;
                     //print("_currentYear: " + _currentYear);
-                    print(_getCurrentYear());
                   });
                   /*final uid = await Provider.of(context).auth.getCurrentUID();
                   await Provider.of(context)
