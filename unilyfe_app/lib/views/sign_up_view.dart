@@ -8,7 +8,7 @@ import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 final primaryColor = const Color(0xFFFFFFFF);
 
-enum AuthFormType { signIn, signUp,  }
+enum AuthFormType { signIn, signUp, reset }
 
 class SignUpView extends StatefulWidget {
   SignUpView({Key key, @required this.authFormType}) : super(key: key);
@@ -58,7 +58,14 @@ class _SignUpViewState extends State<SignUpView> {
           var uid = await auth.signInWithEmailAndPassword(_email, _password);
           print('Signed in with ID $uid');
           await Navigator.of(context).pushReplacementNamed('/home');
-        }  else {
+        } else if (authFormType == AuthFormType.reset) {
+          await auth.sendPasswordResetEmail(_email);
+          print('Password reset email sent');
+          _error = 'A password reset link has been sent to $_email';
+          setState(() {
+            authFormType = AuthFormType.signIn;
+          });
+        } else {
           var uid = await auth.createUserWithEmailAndPassword(
               _email, _password, _name);
           await auth.sendEmailVerification();
@@ -164,7 +171,24 @@ class _SignUpViewState extends State<SignUpView> {
   List<Widget> buildInputs() {
     var textFields = <Widget>[];
 
-
+    if (authFormType == AuthFormType.reset) {
+      textFields.add(TextFieldContainer(
+          child: TextFormField(
+        validator: EmailValidator.validate,
+        decoration: buildSignUpInputDecoration(
+            'Email',
+            Icon(
+              Icons.email,
+              color: Color(0xFFF46C6B),
+            ),
+            false),
+        onSaved: (value) => _email = value,
+      )));
+      textFields.add(SizedBox(
+        height: 10,
+      ));
+      return textFields;
+    }
 
     // if were in the sign up state and add name
     if (authFormType == AuthFormType.signUp) {
@@ -249,13 +273,20 @@ class _SignUpViewState extends State<SignUpView> {
 
   List<Widget> buildButtons() {
     String _switchButtonText, _newFormState, _submitButtonText;
+    var _showForgotPassword = false;
     var _showGoogle = true;
 
     if (authFormType == AuthFormType.signIn) {
       _switchButtonText = 'CREATE NEW ACCOUNT';
       _newFormState = 'signUp';
       _submitButtonText = 'SIGN IN';
-    }  else {
+      _showForgotPassword = true;
+    } else if (authFormType == AuthFormType.reset) {
+      _switchButtonText = 'RETURN TO SIGN IN';
+      _newFormState = 'signIn';
+      _submitButtonText = 'SUBMIT';
+      _showGoogle = false;
+    } else {
       _switchButtonText = 'HAVE AN ACCOUNT? SIGN IN';
       _newFormState = 'signIn';
       _submitButtonText = 'SIGN UP';
@@ -268,6 +299,7 @@ class _SignUpViewState extends State<SignUpView> {
           press: submit,
         ),
       ),
+      showForgotPassword(_showForgotPassword),
       TextButton(
         onPressed: () {
           switchFormState(_newFormState);
@@ -282,7 +314,23 @@ class _SignUpViewState extends State<SignUpView> {
     ];
   }
 
-
+  Widget showForgotPassword(bool visible) {
+    return Visibility(
+      visible: visible,
+      child: TextButton(
+        onPressed: () {
+          setState(() {
+            authFormType = AuthFormType.reset;
+          });
+        },
+        child: Text(
+          'FORGOT PASSWORD?',
+          style:
+              TextStyle(color: Color(0xFFF47C54), fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
 
   Widget buildGoogleButton(bool visible) {
     final _auth = Provider.of(context).auth;
