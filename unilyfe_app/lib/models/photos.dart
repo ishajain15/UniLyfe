@@ -1,15 +1,30 @@
-class Photo {
-  String caption;
-  DateTime time;
-  String image;
-  String uid;
+import 'dart:html';
 
-  Photo(this.caption, this.time, this.image, this.uid);
+import 'package:flutter/material.dart';
+
+class Photo {
+  //File image;
+  int postType;
+  String title;
+  DateTime time;
+  String text;
+  String postChannel;
+  String uid;
+  int likes;
+  bool liked;
+
+  Photo(this.postType, this.title, this.time, this.text, this.postChannel,
+      this.uid, this.likes, this.liked);
 
   Map<String, dynamic> toJson() => {
-        'caption': caption,
+        //'image': image,
+        'postType': 0,
+        'title': title,
         'time': time,
-        'image': image,
+        'text': text,
+        'postChannel': postChannel,
         'uid': uid,
+        'likes': likes,
+        'liked': liked
       };
 }
