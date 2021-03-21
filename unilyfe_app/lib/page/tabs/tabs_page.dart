@@ -187,7 +187,7 @@ class AboutUs extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 ),
                 ),  
-         Text("I enjoy hunting for squishmallows and eating the cookies from safeway with the pink frosting.", textAlign: TextAlign.center,
+         Text("I enjoy eating food, playing the piano, and watching Desperate Housewives.", textAlign: TextAlign.center,
           style: const TextStyle(
           fontFamily: 'Raleway',
                 color: Colors.grey,
@@ -203,7 +203,7 @@ class AboutUs extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 ),
                 ), 
-         Text("I enjoy hunting for squishmallows and eating the cookies from safeway with the pink frosting.", textAlign: TextAlign.center,
+         Text("I enjoy dancing and playing tennis in my free time (and ofc yoga!).", textAlign: TextAlign.center,
           style: const TextStyle(
           fontFamily: 'Raleway',
                 color: Colors.grey,
@@ -235,7 +235,7 @@ class AboutUs extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 ),
                 ),   
-         Text("I enjoy hunting for squishmallows and eating the cookies from safeway with the pink frosting.", textAlign: TextAlign.center,
+         Text("I enjoy art, tiktok, listening to music, watching movies, and hanging out with my friends!", textAlign: TextAlign.center,
           style: const TextStyle(
           fontFamily: 'Raleway',
                 color: Colors.grey,
