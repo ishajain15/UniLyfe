@@ -286,9 +286,9 @@ class AboutApp extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 ),
                 ),
-         Text("The recent outbreak of COVID-19 has undoubtedly transformed everyday life - the shift from regular" +
-          "college campus life to a fully online or hybrid experience has left students feeling disconnected from" +
-          "their peers and their university campus. With UniLyfe, students can make the best use of their campus" +
+         Text("The recent outbreak of COVID-19 has undoubtedly transformed everyday life - the shift from regular " +
+          "college campus life to a fully online or hybrid experience has left students feeling disconnected from " +
+          "their peers and their university campus. With UniLyfe, students can make the best use of their campus " +
            "by choosing to eat, study, or have fun in places that are recommended highly by their peers. While " +
            "there are other existing online review applications such as Yelp or Tripadvisor, none of them are " +
           "geared solely towards college students. UniLyfe will stand out because of its ability to provide " +
