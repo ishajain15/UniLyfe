@@ -422,7 +422,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           }
                           if (year != "") {
                             user.year = year;
-                
+                            setState(() {
+                              year = user.year;
+                            });
                             await Provider.of(context)
                                 .db
                                 .collection('userData')
