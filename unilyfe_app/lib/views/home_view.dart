@@ -19,8 +19,8 @@ class HomeView extends StatelessWidget {
             child: StreamBuilder(
                 stream: getUserPostsStreamSnapshots(context),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const Text("Loading...");
-                  return new ListView.builder(
+                  if (!snapshot.hasData) return const Text('Loading...');
+                  return ListView.builder(
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (BuildContext context, int index) =>
                           buildPostCard(context, snapshot.data.docs[index]));
@@ -33,9 +33,10 @@ class HomeView extends StatelessWidget {
 
   Stream<QuerySnapshot> getUserPostsStreamSnapshots(
       BuildContext context) async* {
+    // ignore: unused_local_variable
     final uid = await Provider.of(context).auth.getCurrentUID();
     yield* FirebaseFirestore.instance
-        .collection("posts")
+        .collection('posts')
         .orderBy('time', descending: true)
         .snapshots();
     // .collection("userData")

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:polls/polls.dart';
-import 'dart:async';
 
 import 'package:unilyfe_app/models/global.dart' as global;
 class PollView extends StatefulWidget {
@@ -13,24 +12,24 @@ class _PollViewState extends State<PollView> {
   double option2 = 1.0;
   double option3 = 1.0;
   double option4 = 1.0;
-  String user = "king@mail.com";
+  String user = 'king@mail.com';
   Map usersWhoVoted = {'sam@mail.com': 3, 'mike@mail.com' : 4, 'john@mail.com' : 1, 'kenny@mail.com' : 1};
-  String creator = "eddy@mail.com";
+  String creator = 'eddy@mail.com';
 
   @override
   Widget build(BuildContext context) {
-    if(global.question == ""){
+    if(global.question == ''){
 
-       return new Scaffold(
-    body: new Column(
+       return Scaffold(
+    body: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text("This post doesn't have a poll"),
         ElevatedButton(
-               child: Text("Go back"),
                 onPressed: (){
                   Navigator.of(context).popUntil((route) => route.isFirst);
               },
+               child: Text('Go back'),
             ),
       ],
         ),
@@ -52,17 +51,17 @@ class _PollViewState extends State<PollView> {
               Polls.options(title: global.option3, value: option3),
               Polls.options(title: global.option4, value: option4),
             ], question: Text(global.question),
-            currentUser: this.user,
-            creatorID: this.creator,
+            currentUser: user,
+            creatorID: creator,
             voteData: usersWhoVoted,
-            userChoice: usersWhoVoted[this.user],
+            userChoice: usersWhoVoted[user],
             onVoteBackgroundColor: Color(0xFFF56D6B),
             leadingBackgroundColor: Color(0xFFF56D6B),
             backgroundColor: Colors.white,
             onVote: (choice) {
               print(choice);
               setState(() {
-                this.usersWhoVoted[this.user] = choice;
+                usersWhoVoted[user] = choice;
               });
               if (choice == 1) {
                 setState(() {
@@ -91,15 +90,15 @@ class _PollViewState extends State<PollView> {
         
       ),
        ElevatedButton(
-               child: Text("Go back"),
                 onPressed: (){
-                  global.question = "";
-                  global.option1 = "";
-                  global.option2 = "";
-                  global.option3 = "";
-                  global.option4="";
+                  global.question = '';
+                  global.option1 = '';
+                  global.option2 = '';
+                  global.option3 = '';
+                  global.option4 = '';
                   Navigator.of(context).popUntil((route) => route.isFirst);
               },
+               child: Text('Go back'),
             ),
             ],
       

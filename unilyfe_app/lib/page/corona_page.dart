@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:unilyfe_app/customized_items/buttons/information_button_food.dart';
 import '../src/locations.dart' as locations;
 
 class CoronaPage extends StatelessWidget {

@@ -3,12 +3,12 @@ import 'package:unilyfe_app/models/post.dart';
 import 'package:unilyfe_app/views/new_posts/submit_view.dart';
 
 class NewPostDateView extends StatelessWidget {
-  final Post post;
   NewPostDateView({Key key, @required this.post}) : super(key: key);
+  final Post post;
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _textController = TextEditingController();
+    var _textController = TextEditingController();
     _textController.text = post.text;
 
     return Scaffold(
@@ -44,7 +44,6 @@ class NewPostDateView extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-                child: Text("Continue"),
                 onPressed: () {
                   post.time = DateTime.now();
                   post.text = _textController.text;
@@ -53,7 +52,8 @@ class NewPostDateView extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) => NewPostBudgetView(post: post)),
                   );
-                }),
+                },
+                child: Text('Continue')),
           ],
         ),
       ),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/models/post.dart';
 import 'package:unilyfe_app/page/comments_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 class CommentButtonWidget extends StatelessWidget {
-  final String postid;
-  final String uid;
   CommentButtonWidget({Key key, @required this.postid, this.uid})
       : super(key: key);
+
+  final String postid;
+  final String uid;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +38,7 @@ class CommentButtonWidget extends StatelessWidget {
   }
 }
 
+// ignore: always_declare_return_types
 showComments(BuildContext context, {String postid, String uid}) {
   Navigator.push(context, MaterialPageRoute(builder: (context) {
     return CommentsPage(

@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
+// ignore: must_be_immutable
 class Likes extends StatefulWidget{
+  Likes({Key key, @required this.postid, @required this.likes, @required this.liked, @required this.postChannel})
+      : super(key: key);
   String postid;
   int likes;
   bool liked;
   String postChannel;
- Likes({Key key, @required this.postid, @required this.likes, @required this.liked, @required this.postChannel})
-      : super(key: key);  
+   
   @override
-  LikeState createState()=> new LikeState(postid: postid, likes:likes, liked:liked, postChannel: postChannel);
+  LikeState createState()=> LikeState(postid: postid, likes:likes, liked:liked, postChannel: postChannel);
 }
 
 class LikeState extends State<Likes>{
+  LikeState({Key key, @required this.postid, @required this.likes, @required this.liked, @required this.postChannel});
+ 
   int likes;
   String postid;
   bool liked;
   String postChannel;
- LikeState({Key key, @required this.postid, @required this.likes, @required this.liked, @required this.postChannel});
-  @override
+  // ignore: always_declare_return_types
   _pressed(){
+  // ignore: unused_local_variable
   final db = FirebaseFirestore.instance;
   setState(() {
-    if(postChannel == "FOOD"){
+    if(postChannel == 'FOOD'){
       postChannel = 'food_posts';
-    }else if(postChannel == "STUDY"){
+    }else if(postChannel == 'STUDY'){
       postChannel = 'study_posts';
     } else{
       postChannel = 'social_posts';
@@ -47,7 +51,8 @@ class LikeState extends State<Likes>{
     }
   });
 }
-      Widget build(BuildContext context){
+      @override
+  Widget build(BuildContext context){
         return IconButton(
           icon: Icon(liked ? Icons.favorite: Icons.favorite_border, 
                       color: liked ? Colors.red : Colors.grey),

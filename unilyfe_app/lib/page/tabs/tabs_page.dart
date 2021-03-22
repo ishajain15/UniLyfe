@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/page/profile_page.dart';
 import 'package:unilyfe_app/page/tabs/models/tab_navigation_item.dart';
-import 'package:unilyfe_app/page/search_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 class TabsPage extends StatefulWidget {
@@ -147,7 +145,7 @@ class _TabsPageState extends State<TabsPage> {
                 context,
                 MaterialPageRoute(builder: (context) => AboutUs()),
               );
-              print("here");
+              print('here');
               //SearchPage();
             },
           ),
@@ -160,12 +158,12 @@ class _TabsPageState extends State<TabsPage> {
 class AboutUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double c_width = MediaQuery.of(context).size.width * 0.9;
+    var c_width = MediaQuery.of(context).size.width * 0.9;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xFFFFFFFF),
           title: Text(
-            "About Us",
+            'About Us',
             style: TextStyle(color: Colors.grey),
           ),
           iconTheme: IconThemeData(
@@ -182,7 +180,7 @@ class AboutUs extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(
-                "Carolyn Chen: ",
+                'Carolyn Chen: ',
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   fontFamily: 'Raleway',
@@ -191,7 +189,7 @@ class AboutUs extends StatelessWidget {
                 ),
               ),
               Text(
-                "I enjoy hunting for squishmallows and eating the cookies from safeway with the pink frosting.",
+                'I enjoy hunting for squishmallows and eating the cookies from safeway with the pink frosting.',
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   fontFamily: 'Raleway',
@@ -201,7 +199,7 @@ class AboutUs extends StatelessWidget {
                 ),
               ),
               Text(
-                "Isha Jain : ",
+                'Isha Jain : ',
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   fontFamily: 'Raleway',
@@ -210,7 +208,7 @@ class AboutUs extends StatelessWidget {
                 ),
               ),
               Text(
-                "Ramitha Kotarkonda : ",
+                'Ramitha Kotarkonda : ',
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   fontFamily: 'Raleway',
@@ -219,7 +217,7 @@ class AboutUs extends StatelessWidget {
                 ),
               ),
               Text(
-                "Unnati Singh : ",
+                'Unnati Singh : ',
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   fontFamily: 'Raleway',
@@ -228,7 +226,7 @@ class AboutUs extends StatelessWidget {
                 ),
               ),
               Text(
-                "Gayathri Sriram : ",
+                'Gayathri Sriram : ',
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   fontFamily: 'Raleway',

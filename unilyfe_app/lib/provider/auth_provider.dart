@@ -11,11 +11,11 @@ class AuthProvider {
       );
 
   Future<String> getCurrentUID() async {
-    return await _firebaseAuth.currentUser.uid;
+    return _firebaseAuth.currentUser.uid;
   }
 
   Future<String> getEmail() async {
-    return await _firebaseAuth.currentUser.email;
+    return _firebaseAuth.currentUser.email;
   }
 
   // Email & Password Sign Up
@@ -66,6 +66,7 @@ class AuthProvider {
     return newUser;
   }
 
+  // ignore: missing_return
   bool setNewUser(bool isNewUser) {
     newUser = isNewUser;
   }

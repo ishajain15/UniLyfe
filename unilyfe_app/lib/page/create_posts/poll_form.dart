@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/models/global.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/models/poll_post.dart';
 import 'package:unilyfe_app/models/global.dart' as global;
-import 'package:unilyfe_app/page/create_page.dart';
 int selection = 0;
+// ignore: must_be_immutable
 class PollForm extends StatelessWidget {
   final db = FirebaseFirestore.instance;
   String _question, _option1,_option2,_option3,_option4;
+  @override
   Widget build(BuildContext context) {
-  return new Scaffold(
-    body: new Column(
+  return Scaffold(
+    body: Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        new TextField(
-            decoration: new InputDecoration(
+        TextField(
+            decoration: InputDecoration(
                 hintText: 'Question',
                 contentPadding:
                     const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
@@ -26,8 +26,8 @@ class PollForm extends StatelessWidget {
             ),
             onChanged: (value) {_question = value.trim();},
         ),
-        new TextField(
-            decoration: new InputDecoration(
+        TextField(
+            decoration: InputDecoration(
                 hintText: 'Option 1',
                 contentPadding:
                     const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
@@ -38,8 +38,8 @@ class PollForm extends StatelessWidget {
             ),
             onChanged: (value) {_option1 = value.trim();},
         ),
-        new TextField(
-            decoration: new InputDecoration(
+        TextField(
+            decoration: InputDecoration(
                 hintText: 'Option 2',
                 contentPadding:
                     const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
@@ -50,8 +50,8 @@ class PollForm extends StatelessWidget {
             ),
             onChanged: (value) {_option2 = value.trim();},
         ),
-        new TextField(
-            decoration: new InputDecoration(
+        TextField(
+            decoration: InputDecoration(
                 hintText: 'Option 3',
                 contentPadding:
                     const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
@@ -62,8 +62,8 @@ class PollForm extends StatelessWidget {
             ),
             onChanged: (value) {_option3 = value.trim();},
         ),
-         new TextField(
-            decoration: new InputDecoration(
+         TextField(
+            decoration: InputDecoration(
                 hintText: 'Option 4',
                 contentPadding:
                     const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
@@ -76,25 +76,22 @@ class PollForm extends StatelessWidget {
         ),
         MyAppOne(),
         ElevatedButton(
-            //   child: Text("Post"),
-            //  onPressed: () async{
-               child: Text("SUBMIT"),
                 onPressed: () async {
-                  String channel = "Post";
+                  var channel = 'Post';
                    if (selection == 0) {
-                    channel= "FOOD";
+                    channel= 'FOOD';
                   } else if (selection == 1) {
-                    channel = "STUDY";
+                    channel = 'STUDY';
                   } else {
                     print(selection);
-                    channel = "SOCIAL";
+                    channel = 'SOCIAL';
                   }
 
 
                  final uid = await Provider.of(context).auth.getCurrentUID();
-                 DocumentReference doc = await db.collection("posts").doc();
+                 var doc = db.collection('posts').doc();
                 //  final PollPost post = new PollPost(_question, DateTime.now(), _option1, true, "Food", uid);
-                 final PollPost post = new PollPost(doc.id,_question, DateTime.now(), _option1, channel, uid, 0,false);
+                 final post = PollPost(doc.id,_question, DateTime.now(), _option1, channel, uid, 0,false);
                   post.postid = doc.id;
                   global.question = _question;
                   global.option1 = _option1;
@@ -106,27 +103,27 @@ class PollForm extends StatelessWidget {
                   if (selection == 0) {
                     //await db.collection("food_posts").add(post.toJson());
                     await db
-                        .collection("food_posts")
+                        .collection('food_posts')
                         .doc(doc.id)
                         .set(post.toJson());
                   } else if (selection == 1) {
                     //await db.collection("study_posts").add(post.toJson());
                     await db
-                        .collection("study_posts")
+                        .collection('study_posts')
                         .doc(doc.id)
                         .set(post.toJson());
                   } else {
                     //await db.collection("social_posts").add(post.toJson());
                     await db
-                        .collection("social_posts")
+                        .collection('social_posts')
                         .doc(doc.id)
                         .set(post.toJson());
                   }
-                  await db.collection("posts").doc(doc.id).set(post.toJson());
+                  await db.collection('posts').doc(doc.id).set(post.toJson());
                   await db
-                      .collection("userData")
+                      .collection('userData')
                       .doc(uid)
-                      .collection("poll_posts")
+                      .collection('poll_posts')
                       .doc(doc.id)
                       .set(post.toJson());
                   //  Navigator.of(context).popUntil((route) => route.isFirst);
@@ -134,6 +131,9 @@ class PollForm extends StatelessWidget {
                 Navigator.pop(context);
                   // Navigator.pushReplacement(context,MaterialPageRoute(builder: (_) => CreatePage())).then((_) => refresh());
               },
+            //   child: Text("Post"),
+            //  onPressed: () async{
+               child: Text('SUBMIT'),
             ),
       ],
     ),
@@ -169,7 +169,7 @@ class _MyAppState extends State<MyAppOne> {
               isSelected[i] = i == index;
               if (isSelected[i] == true) {
                 selection = i;
-                print("INDEX: ${i}");
+                print('INDEX: $i');
               }
             }
           });

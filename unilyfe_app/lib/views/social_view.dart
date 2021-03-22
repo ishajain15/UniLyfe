@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_social.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
@@ -16,8 +15,8 @@ class SocialView extends StatelessWidget {
             child: StreamBuilder(
                 stream: getUserPostsStreamSnapshots(context),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const Text("Loading...");
-                  return new ListView.builder(
+                  if (!snapshot.hasData) return const Text('Loading...');
+                  return ListView.builder(
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (BuildContext context, int index) =>
                           HomeView().buildPostCard(
@@ -31,9 +30,10 @@ class SocialView extends StatelessWidget {
 
   Stream<QuerySnapshot> getUserPostsStreamSnapshots(
       BuildContext context) async* {
+    // ignore: unused_local_variable
     final uid = await Provider.of(context).auth.getCurrentUID();
     yield* FirebaseFirestore.instance
-        .collection("social_posts")
+        .collection('social_posts')
         .orderBy('time', descending: true)
         .snapshots();
     // .collection("userData")

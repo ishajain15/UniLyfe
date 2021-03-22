@@ -6,10 +6,10 @@ import 'package:unilyfe_app/widgets/provider_widget.dart';
 int selection = 0;
 
 class NewPostBudgetView extends StatelessWidget {
+  NewPostBudgetView({Key key, @required this.post}) : super(key: key);
   final db = FirebaseFirestore.instance;
 
   final Post post;
-  NewPostBudgetView({Key key, @required this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,64 +28,65 @@ class NewPostBudgetView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("\nTitle: ${post.title}"),
+            Text('\nTitle: ${post.title}'),
             SizedBox(height: 5),
-            Text("\nText: ${post.text}"),
+            Text('\nText: ${post.text}'),
             SizedBox(height: 30),
             MyAppOne(),
             ElevatedButton(
-                child: Text("SUBMIT"),
-                onPressed: () async {
-                  // save data to firebase
-                  //print("FINAL SELECTION ${selection}");
-                  if (selection == 0) {
-                    post.postChannel = "FOOD";
-                  } else if (selection == 1) {
-                    post.postChannel = "STUDY";
-                  } else {
-                    //print(selection);
-                    post.postChannel = "SOCIAL";
-                  }
-                  final uid = await Provider.of(context).auth.getCurrentUID();
-                  post.uid = uid;
-                  DocumentReference doc = await db.collection("posts").doc();
-                  post.postid = doc.id;
-                  // DocumentReference doc2 =
-                  //     await db.collection("posts").add(post.toJson());
-                  //print("DOCUMENT: " + doc.id);
-                  //print("DOC2: " + doc2.id);
-                  await db.collection("posts").doc(doc.id).set(post.toJson());
+              onPressed: () async {
+                // save data to firebase
+                //print("FINAL SELECTION ${selection}");
+                if (selection == 0) {
+                  post.postChannel = 'FOOD';
+                } else if (selection == 1) {
+                  post.postChannel = 'STUDY';
+                } else {
+                  //print(selection);
+                  post.postChannel = 'SOCIAL';
+                }
+                final uid = await Provider.of(context).auth.getCurrentUID();
+                post.uid = uid;
+                var doc = db.collection('posts').doc();
+                post.postid = doc.id;
+                // DocumentReference doc2 =
+                //     await db.collection("posts").add(post.toJson());
+                //print("DOCUMENT: " + doc.id);
+                //print("DOC2: " + doc2.id);
+                await db.collection('posts').doc(doc.id).set(post.toJson());
 
-                  //DocumentReference channel;
-                  if (selection == 0) {
-                    //await db.collection("food_posts").add(post.toJson());
-                    await db
-                        .collection("food_posts")
-                        .doc(doc.id)
-                        .set(post.toJson());
-                  } else if (selection == 1) {
-                    //await db.collection("study_posts").add(post.toJson());
-                    await db
-                        .collection("study_posts")
-                        .doc(doc.id)
-                        .set(post.toJson());
-                  } else {
-                    //await db.collection("social_posts").add(post.toJson());
-                    await db
-                        .collection("social_posts")
-                        .doc(doc.id)
-                        .set(post.toJson());
-                  }
-
+                //DocumentReference channel;
+                if (selection == 0) {
+                  //await db.collection("food_posts").add(post.toJson());
                   await db
-                      .collection("userData")
-                      .doc(uid)
-                      .collection("posts")
+                      .collection('food_posts')
                       .doc(doc.id)
                       .set(post.toJson());
+                } else if (selection == 1) {
+                  //await db.collection("study_posts").add(post.toJson());
+                  await db
+                      .collection('study_posts')
+                      .doc(doc.id)
+                      .set(post.toJson());
+                } else {
+                  //await db.collection("social_posts").add(post.toJson());
+                  await db
+                      .collection('social_posts')
+                      .doc(doc.id)
+                      .set(post.toJson());
+                }
 
-                  Navigator.of(context).popUntil((route) => route.isFirst);
-                }),
+                await db
+                    .collection('userData')
+                    .doc(uid)
+                    .collection('posts')
+                    .doc(doc.id)
+                    .set(post.toJson());
+
+                Navigator.of(context).popUntil((route) => route.isFirst);
+              },
+              child: Text('SUBMIT'),
+            ),
           ],
         ),
       ),
@@ -120,7 +121,7 @@ class _MyAppState extends State<MyAppOne> {
               isSelected[i] = i == index;
               if (isSelected[i] == true) {
                 selection = i;
-                print("INDEX: ${i}");
+                print('INDEX: $i');
               }
             }
           });
