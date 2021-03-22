@@ -47,6 +47,7 @@ class NewPostBudgetView extends StatelessWidget {
                 }
                 final uid = await Provider.of(context).auth.getCurrentUID();
                 post.uid = uid;
+                post.map_liked['uid'] = false;
                 var doc = db.collection('posts').doc();
                 post.postid = doc.id;
                 // DocumentReference doc2 =
