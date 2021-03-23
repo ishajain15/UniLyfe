@@ -3,11 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 // ignore: must_be_immutable
+String reason = "";
 class Report extends StatefulWidget{
-  ReportState createState()=> ReportState();
+  Report({Key key, @required this.postid, @required this.postChannel})
+      : super(key: key);
+  String postid;
+  String postChannel;
+  ReportState createState()=> ReportState(postid: postid, postChannel: postChannel);
 }
-
 class ReportState extends State<Report>{
+  ReportState({Key key, @required this.postid, @required this.postChannel});
+  String postid;
+  String postChannel;
   void thankyousheet(context){
     showModalBottomSheet(context:context, builder : (BuildContext bc) {
         return Container(
@@ -16,7 +23,6 @@ class ReportState extends State<Report>{
             padding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10.0, right: 10.0),
             child: Column(
             children: <Widget>[
-              
               IconButton( icon: Icon(Icons.check_circle_outline_sharp, color: Colors.green, size: 30),),
              
               Text(
@@ -38,7 +44,11 @@ class ReportState extends State<Report>{
                   ),
                 ),
                 ElevatedButton(
-          onPressed: (){
+          onPressed: () async {
+            setState(() {
+                final db = FirebaseFirestore.instance;
+                 db.collection('reported_posts').doc(postid).set({'post_channel': postChannel});
+            });
             Navigator.of(context).pop();
             Navigator.of(context).pop();
             Navigator.of(context).pop();

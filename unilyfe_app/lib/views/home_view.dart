@@ -68,7 +68,7 @@ class HomeView extends StatelessWidget {
                       ),
                     ),
                     Spacer(),
-                    Report(),
+                    Report(postid: post['postid'], postChannel: post['postChannel']),
                   ],
                 ),
               ),
