@@ -160,7 +160,8 @@ class _TabsPageState extends State<TabsPage> {
 class AboutUs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double c_width = MediaQuery.of(context).size.width * 0.9;
+   // double c_width = MediaQuery.of(context).size.width * 0.9;
+    double c_width = MediaQuery.of(context).size.width;
 
     Widget pad = Container(
     padding: const EdgeInsets.all(16),
