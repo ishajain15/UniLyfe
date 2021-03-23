@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/customized_items/buttons/comment_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_all.dart';
 import 'package:unilyfe_app/customized_items/buttons/view_info_button.dart';
+import 'package:unilyfe_app/page/report_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:unilyfe_app/page/likes_page.dart';
@@ -58,6 +59,7 @@ class HomeView extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
                 child: Row(
                   children: <Widget>[
+                    
                     Expanded(
                       flex: 15,
                       child: Text(
@@ -66,6 +68,7 @@ class HomeView extends StatelessWidget {
                       ),
                     ),
                     Spacer(),
+                    Report(),
                   ],
                 ),
               ),
