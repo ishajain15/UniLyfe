@@ -107,7 +107,7 @@ class HomeView extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Likes(postid: post['postid'], likes: post['likes'],liked: (post['map_liked'][post['uid']]==true), postChannel: post['postChannel'], map_liked: post['map_liked'], uid:post['uid']),
+                    Likes(postid: post['postid'], likes: post['likes'], postChannel: post['postChannel'], map_liked: post['map_liked'], uid:post['uid']),
                     CommentButtonWidget(
                       postid: post['postid'],
                     ),
