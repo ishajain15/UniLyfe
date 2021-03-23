@@ -3,12 +3,12 @@ import 'package:unilyfe_app/models/post.dart';
 import 'package:unilyfe_app/views/new_posts/text_view.dart';
 
 class NewPostLocationView extends StatelessWidget {
-  final Post post;
   NewPostLocationView({Key key, @required this.post}) : super(key: key);
+  final Post post;
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController _titleController = TextEditingController();
+    var _titleController = TextEditingController();
     _titleController.text = post.title;
 
     return Scaffold(
@@ -35,7 +35,7 @@ class NewPostLocationView extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-                child: Text("Continue"),
+                
                 onPressed: () {
                   post.title = _titleController.text;
                   Navigator.push(
@@ -43,7 +43,7 @@ class NewPostLocationView extends StatelessWidget {
                     MaterialPageRoute(
                         builder: (context) => NewPostDateView(post: post)),
                   );
-                }),
+                },child: Text('Continue'),),
           ],
         ),
       ),

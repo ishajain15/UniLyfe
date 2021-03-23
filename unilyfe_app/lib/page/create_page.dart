@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/page/create_posts/options_page.dart';
 import 'package:unilyfe_app/customized_items/buttons/polls_post_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/text_post_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/picture_post_button.dart';
-import 'package:unilyfe_app/views/new_posts/title_view.dart';
 import 'package:unilyfe_app/models/post.dart';
 
 class CreatePage extends StatelessWidget {
@@ -35,7 +33,7 @@ class CreatePage extends StatelessWidget {
 
   // }
   Widget build(BuildContext context) {
-    final newPost = Post(null, null, null, null, null, null, 0, false);
+    final newPost = Post(null, null, null, null, null, null, 0, false, {"",""});
     return Scaffold(
         backgroundColor: Colors.white,
         body: Column(

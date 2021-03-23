@@ -1,13 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/customized_items/buttons/information_button_all.dart';
-import 'package:unilyfe_app/customized_items/buttons/information_button_food.dart';
-import 'package:unilyfe_app/customized_items/buttons/information_button_social.dart';
-import 'package:unilyfe_app/customized_items/buttons/information_button_study.dart';
-import 'package:unilyfe_app/customized_items/buttons/logout_button.dart';
 import 'package:unilyfe_app/views/food_view.dart';
-import 'package:unilyfe_app/views/home_page.dart';
-import 'package:unilyfe_app/customized_items/buttons/back_button.dart';
 import 'package:unilyfe_app/views/home_view.dart';
 import 'package:unilyfe_app/views/social_view.dart';
 import 'package:unilyfe_app/views/study_view.dart';

@@ -1,4 +1,6 @@
 class User {
+  User(this.username, this.displayName, this.bio, this.year, this.classes,
+      this.hobbies);
   String username;
   String displayName;
   String bio;
@@ -8,8 +10,6 @@ class User {
   String location;
   List<String> classes;
   List<String> hobbies;
-
-  User(this.username, this.displayName, this.bio, this.year, this.classes, this.hobbies);
 
   Map<String, dynamic> toJson() => {
         'username': username,

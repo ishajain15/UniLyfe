@@ -4,27 +4,27 @@ import 'package:intl/intl.dart';
 
 final commentsRef = FirebaseFirestore.instance.collection('comments');
 bool replying = false;
-String replyTo = "replying to";
+String replyTo = 'replying to';
 
 class CommentsPage extends StatefulWidget {
   CommentsPage({this.postid, this.uid});
   final String postid;
   final String uid;
   @override
-  createState() => CommentsPageState(
+  CommentsPageState createState() => CommentsPageState(
         postid: postid,
         uid: uid,
       );
 }
 
 class CommentsPageState extends State<CommentsPage> {
+  CommentsPageState({this.postid, this.uid});
   TextEditingController commentController = TextEditingController();
 
   final String postid;
   final String uid;
-  CommentsPageState({this.postid, this.uid});
 
-  buildComments() {
+  StreamBuilder<QuerySnapshot> buildComments() {
     return StreamBuilder(
       stream: commentsRef
           .doc(postid)
@@ -33,9 +33,9 @@ class CommentsPageState extends State<CommentsPage> {
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return const Text("Loading...");
+          return const Text('Loading...');
         }
-        List<Comment> comments = [];
+        var comments = <Comment>[];
         snapshot.data.docs.forEach((doc) {
           comments.add(Comment.fromDocument(doc));
         });
@@ -46,20 +46,21 @@ class CommentsPageState extends State<CommentsPage> {
     );
   }
 
+  // ignore: always_declare_return_types
   addComment() {
     if (replying) {
-      commentsRef.doc(postid).collection("comments").add({
-        "comment": "Replying to " + replyTo + ": " + commentController.text,
-        "time": DateTime.now(),
-        "uid": uid,
+      commentsRef.doc(postid).collection('comments').add({
+        'comment': 'Replying to ' + replyTo + ': ' + commentController.text,
+        'time': DateTime.now(),
+        'uid': uid,
       });
       replying = false;
-      replyTo = "";
+      replyTo = '';
     } else {
-      commentsRef.doc(postid).collection("comments").add({
-        "comment": commentController.text,
-        "time": DateTime.now(),
-        "uid": uid,
+      commentsRef.doc(postid).collection('comments').add({
+        'comment': commentController.text,
+        'time': DateTime.now(),
+        'uid': uid,
       });
     }
     commentController.clear();
@@ -86,11 +87,11 @@ class CommentsPageState extends State<CommentsPage> {
             title: TextFormField(
               autofocus: true,
               controller: commentController,
-              decoration: InputDecoration(labelText: "Write a comment..."),
+              decoration: InputDecoration(labelText: 'Write a comment...'),
             ),
             trailing: OutlinedButton(
               onPressed: addComment,
-              child: Text("Post"),
+              child: Text('Post'),
             ),
           ),
         ],
@@ -107,6 +108,7 @@ class Comment extends StatelessWidget {
   final String comment;
   final DateTime time;
 
+  // ignore: sort_constructors_first
   factory Comment.fromDocument(DocumentSnapshot doc) {
     return Comment(
       uid: doc['uid'],
@@ -131,7 +133,7 @@ class Comment extends StatelessWidget {
             onPressed: () {
               replying = !replying;
               if (replying) {
-                print("hereeee");
+                print('hereeee');
 
                 FocusScope.of(context)
                     .requestFocus(FocusScope.of(context).focusedChild);
@@ -141,7 +143,7 @@ class Comment extends StatelessWidget {
               replyTo = uid;
               print(uid);
             },
-            child: Text("Reply"),
+            child: Text('Reply'),
           ),
         ),
         Divider(),

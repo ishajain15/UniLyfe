@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/page/profile_page.dart';
 import 'package:unilyfe_app/page/tabs/models/tab_navigation_item.dart';
-import 'package:unilyfe_app/page/search_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 class TabsPage extends StatefulWidget {
@@ -149,7 +147,7 @@ class _TabsPageState extends State<TabsPage> {
                 context,
                 MaterialPageRoute(builder: (context) => AboutUs()),
               );
-              print("here");
+              print('here');
               //SearchPage();
             },
           ),
@@ -167,11 +165,12 @@ class AboutUs extends StatelessWidget {
     Widget pad = Container(
     padding: const EdgeInsets.all(16),
   );
+    //var c_width = MediaQuery.of(context).size.width * 0.9;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: const Color(0xFFFFFFFF),
           title: Text(
-            "About Us",
+            'About Us',
             style: TextStyle(color: Colors.grey),
           ),
           iconTheme: IconThemeData(
@@ -221,8 +220,8 @@ class AboutUs extends StatelessWidget {
           fontFamily: 'Raleway',
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
-                ),
-                ), 
+          ),
+           ),
          Text("I enjoy dancing and playing tennis in my free time (and ofc yoga!).", textAlign: TextAlign.center,
           style: const TextStyle(
           fontFamily: 'Raleway',

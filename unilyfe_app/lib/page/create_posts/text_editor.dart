@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:unilyfe_app/customized_items/buttons/back_button.dart';
 import 'state_management.dart';
 import 'text_field.dart';
 import 'toolbar.dart';
@@ -26,7 +25,7 @@ class _TextEditorState extends State<TextEditor> {
               height: 50000,
               color: Colors.white,
                 ),
-                new Positioned(
+                Positioned(
                   top: 30,
                   left: 0,
                   right: 0,
@@ -37,7 +36,7 @@ class _TextEditorState extends State<TextEditor> {
                     }
                   ),
                 ),
-                new Positioned(
+                Positioned(
                   bottom: 0,
                   left: 0,
                   right: 0,
@@ -57,19 +56,21 @@ class _TextEditorState extends State<TextEditor> {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
+          // ignore: deprecated_member_use
           FlatButton(
-            onPressed: () => debugPrint("pressed"),
-            child: new Text("Add Picture",
-              style: new TextStyle(
+            onPressed: () => debugPrint('pressed'),
+            child: Text('Add Picture',
+              style: TextStyle(
                 fontSize: 16,
                 color: Color(0xFFF46C6B)
               )
             )
           ),
+            // ignore: deprecated_member_use
             FlatButton(
-            onPressed: () => debugPrint("pressed"),
-            child: new Text("Post",
-              style: new TextStyle(
+            onPressed: () => debugPrint('pressed'),
+            child: Text('Post',
+              style: TextStyle(
                 fontSize: 16,
                 color: Color(0xFFF46C6B)
               )

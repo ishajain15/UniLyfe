@@ -23,12 +23,14 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   File _image;
   Future getImagefromcamera() async {
+    // ignore: deprecated_member_use
     var image = await ImagePicker.pickImage(source: ImageSource.camera);
     setState(() {
       _image = image;
     });
   }
   Future getImagefromGallery() async {
+    // ignore: deprecated_member_use
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
     setState(() {
       _image = image;
@@ -36,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   Widget build(BuildContext context) {
+    // ignore: unused_local_variable
     String text;
     return Scaffold(
       appBar: AppBar(
@@ -52,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // start textfield
             
             child: TextField(
-            decoration: new InputDecoration(
+            decoration: InputDecoration(
               
                 hintText: 'Add a caption',
                 contentPadding:
@@ -94,10 +97,11 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
           // start Post button
+          // ignore: deprecated_member_use
           FlatButton(
-            onPressed: () => debugPrint("pressed"),
-            child: new Text("Post",
-              style: new TextStyle(
+            onPressed: () => debugPrint('pressed'),
+            child: Text('Post',
+              style: TextStyle(
                 fontSize: 16,
                 color: Color(0xFFF46C6B)
               )
