@@ -14,7 +14,7 @@ class PollPost {
   PollPost(this.postid,this.title, this.time, this.text,  this.postChannel, this.uid,this.likes, this.liked, this.map_liked);
 
   Map<String, dynamic> toJson() => {
-        'postType': 0,
+        'postType': 1,
         'title': title,
         'time': time,
         'text': text,

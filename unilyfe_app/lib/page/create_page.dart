@@ -33,7 +33,8 @@ class CreatePage extends StatelessWidget {
 
   // }
   Widget build(BuildContext context) {
-    final newPost = Post(null, null, null, null, null, null, 0, false, {"",""});
+    // ignore: equal_elements_in_set
+    final newPost = Post(null, null, null, null, null, null, 0, false, {});
     return Scaffold(
         backgroundColor: Colors.white,
         body: Column(

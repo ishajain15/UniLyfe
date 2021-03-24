@@ -10,7 +10,7 @@ class Post {
   String uid;
   int likes;
   bool liked;
-  dynamic map_liked;
+  Map<String, dynamic> map_liked;
   Map<String, dynamic> toJson() => {
         'postid': postid,
         'postType': 0,
