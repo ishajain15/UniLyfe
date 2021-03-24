@@ -68,6 +68,7 @@ class _SignUpViewState extends State<SignUpView> {
         } else {
           var uid = await auth.createUserWithEmailAndPassword(
               _email, _password, _name);
+          await auth.createUserInFirestore();
           await auth.sendEmailVerification();
           print('Signed up with New ID $uid');
           await Navigator.of(context).pushReplacementNamed('/home');
@@ -344,6 +345,7 @@ class _SignUpViewState extends State<SignUpView> {
             press: () async {
               try {
                 await _auth.signInWithGoogle();
+                _auth.createUserInFirestore();
                 await Navigator.of(context).pushReplacementNamed('/home');
               } catch (e) {
                 setState(() {

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -5,6 +6,7 @@ class AuthProvider {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   bool newUser = false;
+  final usersRef = FirebaseFirestore.instance.collection('userData');
 
   Stream<String> get authStateChanges => _firebaseAuth.authStateChanges().map(
         (User user) => user?.uid,
@@ -30,6 +32,19 @@ class AuthProvider {
     await updateUserName(name, currentUser.user);
     setNewUser(true);
     return currentUser.user.uid;
+  }
+
+  //add user to firestore
+  createUserInFirestore() async {
+    final DocumentSnapshot document =
+        await usersRef.doc(_firebaseAuth.currentUser.uid).get();
+
+    // if the user doesn't exist in the database, send them to the "" page
+    if (!document.exists) {
+      setNewUser(true);
+    }
+
+    await usersRef.doc(_firebaseAuth.currentUser.uid).set({});
   }
 
   Future updateUserName(String name, User currentUser) async {
