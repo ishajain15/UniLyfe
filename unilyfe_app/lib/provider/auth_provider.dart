@@ -43,7 +43,7 @@ class AuthProvider {
     if (!document.exists) {
       setNewUser(true);
     }
-
+    print("hiiiii");
     await usersRef.doc(_firebaseAuth.currentUser.uid).set({});
   }
 

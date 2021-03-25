@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:unilyfe_app/my_flutter_app_icons.dart';
 import 'package:unilyfe_app/page/home_page.dart';
 import 'package:unilyfe_app/page/search_page.dart';
+import 'package:unilyfe_app/page/enterinfo_page.dart';
 import 'package:unilyfe_app/page/create_page.dart';
 import 'package:unilyfe_app/page/corona_page.dart';
 import 'package:unilyfe_app/page/profile_page.dart';
