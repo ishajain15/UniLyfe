@@ -5,20 +5,11 @@ import 'package:unilyfe_app/widgets/provider_widget.dart';
 class TabsPage extends StatefulWidget {
   @override
   _TabsPageState createState() => _TabsPageState();
-
-  static Route<dynamic> route() => MaterialPageRoute(
-        builder: (context) => TabsPage(),
-   );
 }
 
 class _TabsPageState extends State<TabsPage> {
   int _currentIndex = 0;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-
-   // static Route<dynamic> route() => MaterialPageRoute(
-   //     builder: (context) => _TabsPageState(),
-   //   );
 
   @override
   Widget build(BuildContext context) {

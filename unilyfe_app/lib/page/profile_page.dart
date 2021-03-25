@@ -24,7 +24,8 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _displayNameController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
-  final TextEditingController _profilePictureController = TextEditingController();
+  final TextEditingController _profilePictureController =
+      TextEditingController();
   final TextEditingController _covidController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
 
@@ -356,7 +357,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         'I am a...  ',
                         style: TextStyle(color: Colors.grey, fontSize: 24),
                       ),
-                      _dropDown,
+                      //_dropDown,
                     ]),
                 pad,
                 Row(
@@ -371,12 +372,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       onPressed: () async {
                         _getProfileData();
-                        print("user.username: " + user.username);
                         final uid =
                             await Provider.of(context).auth.getCurrentUID();
                         if (_usernameController.text != null &&
                             _usernameController.text != '') {
-                          if ((user.username != _usernameController.text) &&
+                          print(_currentUsername);
+                          print(_usernameController.text);
+                          if ((_currentUsername != _usernameController.text) &&
                               !await usernameCheck(_usernameController.text)) {
                             print('ALREADY TAKEN');
                             showAlertDialog(context);
@@ -566,6 +568,7 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
   }
 
   Widget _displayDropDown(context, snapshot) {
+
     return Column(
       children: <Widget>[
         FutureBuilder(
