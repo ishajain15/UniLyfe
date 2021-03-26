@@ -53,7 +53,14 @@ class HomeView extends StatelessWidget {
       if (RandomizePage().randomizing_criteria() == true) {
           print("randomize SHOULDVE been clicked!");
           yield* FirebaseFirestore.instance
+            .collection('posts')
+            .snapshots();
+      }
+      if (RevertPage().revert_criteria() == true) {
+          print("revert SHOULDVE been clicked");
+        yield* FirebaseFirestore.instance
           .collection('posts')
+          .orderBy('time', descending: true)
           .snapshots();
       }
       

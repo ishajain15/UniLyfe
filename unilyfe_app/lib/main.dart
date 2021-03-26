@@ -55,10 +55,10 @@ class HomeController extends StatelessWidget {
           final signedIn = snapshot.hasData;
           var newUser = auth.getNewUser();
           if (newUser) {
-            print("NEWWWWWWWWWWWWWWWW");
+            print("New User Signed In");
             return signedIn ? ProfilePage() : StartPage();
           } else {
-            print("OLDDDDDDDDDD");
+            print("Old User Signed In");
             return signedIn ? TabsPage() : StartPage();
           }
         }

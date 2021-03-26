@@ -16,7 +16,7 @@ class RevertPage extends StatelessWidget {
             //setState(() {
             _hasBeenPressed = !_hasBeenPressed,
             //print(_hasBeenPressed),
-            print("the revert button has been clicked"),
+            print("on press: the revert button has been clicked"),
             //})
           },
           style: ElevatedButton.styleFrom(
@@ -35,7 +35,7 @@ class RevertPage extends StatelessWidget {
 
 bool revert_criteria() {
   if (_hasBeenPressed == true) {
-    print("the revert button has been clicked");
+    //print("revert criteria: the revert button has been clicked");
     return true;
   } 
 }

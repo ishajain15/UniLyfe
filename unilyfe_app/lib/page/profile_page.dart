@@ -135,7 +135,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _displayClasses(context, snapshot) {
-    print('helllooooooooo');
+    //print('helllooooooooo');
     return Column(
       children: <Widget>[
         FutureBuilder(
