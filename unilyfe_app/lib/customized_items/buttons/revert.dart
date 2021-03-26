@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 bool _hasBeenPressed = false;
 
-class RandomizePage extends StatelessWidget {
+class RevertPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         alignment: Alignment.topLeft,
@@ -15,8 +15,8 @@ class RandomizePage extends StatelessWidget {
           onPressed: () => {
             //setState(() {
             _hasBeenPressed = !_hasBeenPressed,
-            print("the randomized button has been clicked"),
             //print(_hasBeenPressed),
+            print("the revert button has been clicked"),
             //})
           },
           style: ElevatedButton.styleFrom(
@@ -26,16 +26,16 @@ class RandomizePage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0)),
           ),
           child: Text(
-            'Randomize Posts',
+            'Revert Changes',
             //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
         ),
       );
 
 
-bool randomizing_criteria() {
+bool revert_criteria() {
   if (_hasBeenPressed == true) {
-    print("the randomize button has been clicked");
+    print("the revert button has been clicked");
     return true;
   } 
 }
