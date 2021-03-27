@@ -170,6 +170,25 @@ class _TabsPageState extends State<TabsPage> {
               //SearchPage();
             },
           ),
+          ListTile(
+            title: Text(
+              'Point System',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+                fontFamily: 'Raleway',
+                fontSize: 17,
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => PointsRules()),
+              );
+              print('Point System Rules');
+              //SearchPage();
+            },
+          ),
         ],
       ),
     );
@@ -392,3 +411,50 @@ class PointsRules extends StatelessWidget {
   }
 }
 
+class PointsRules extends StatelessWidget {
+  @override
+
+    Widget pad = Container(
+    padding: const EdgeInsets.all(16),
+  );
+
+  Widget build(BuildContext context) {
+     double c_width = MediaQuery.of(context).size.width;
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFFFFFFF),
+        title: Text(
+          'Point System Rules',
+          style: TextStyle(color: Colors.grey),
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.grey, //change your color here
+        ),
+      ),
+      body: 
+   Container (
+      padding: const EdgeInsets.all(32.0),
+      width: c_width,
+      child: Column (
+        children: <Widget>[
+          Text('Point System Rules', textAlign: TextAlign.left,
+          style: const TextStyle(
+          fontFamily: 'Raleway',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                ),
+                ),
+         Text('You will earn 5 points for posting a text post detailing your experience at a place.', textAlign: TextAlign.center,
+          style: const TextStyle(
+          fontFamily: 'Raleway',
+                color: Colors.grey,
+                fontSize: 20, 
+                fontWeight: FontWeight.bold,
+                ),
+                ),
+        ],
+      ),
+    )
+    );
+  }
+}
