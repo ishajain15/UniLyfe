@@ -170,24 +170,6 @@ class _TabsPageState extends State<TabsPage> {
               //SearchPage();
             },
           ),
-          ListTile(
-            title: Text(
-              'Point System',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.grey,
-                fontFamily: 'Raleway',
-                fontSize: 17,
-              ),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => PointsRules()),
-              );
-              print('Point System Rules');
-            },
-          ),
         ],
       ),
     );
@@ -228,7 +210,7 @@ class AboutUs extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 ),
                 ),
-         Text("I enjoy hunting for squishmallows and eating the cookies from safeway with the pink frosting.", textAlign: TextAlign.center,
+         Text('I enjoy hunting for squishmallows and eating the cookies from safeway with the pink frosting.', textAlign: TextAlign.center,
           style: const TextStyle(
           fontFamily: 'Raleway',
                 color: Colors.grey,
@@ -395,7 +377,7 @@ class PointsRules extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 ),
                 ),
-         Text('You will earn 5 points for posting a text post detailing your experience at a place.', textAlign: TextAlign.center,
+         Text('You will earn 10 points for posting a text post detailing your experience at a place. You will earn 5 points for commenting on a friends post!', textAlign: TextAlign.center,
           style: const TextStyle(
           fontFamily: 'Raleway',
                 color: Colors.grey,
