@@ -166,8 +166,25 @@ class _TabsPageState extends State<TabsPage> {
                 context,
                 MaterialPageRoute(builder: (context) => PointsRules()),
               );
-              print('here');
-              //SearchPage();
+              print('Point System Page pressed');
+            },
+          ),
+          ListTile(
+            title: Text(
+              'COVID Map Legend',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+                fontFamily: 'Raleway',
+                fontSize: 17,
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => COVIDLegend()),
+              );
+              print('COVID Map Legend pressed');
             },
           ),
         ],
@@ -386,6 +403,66 @@ class PointsRules extends StatelessWidget {
                 ),
                 ),
         ],
+      ),
+    )
+    );
+  }
+}
+
+class COVIDLegend extends StatelessWidget {
+  @override
+
+    Widget pad = Container(
+    padding: const EdgeInsets.all(16),
+  );
+
+  Widget build(BuildContext context) {
+     double c_width = MediaQuery.of(context).size.width;
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color(0xFFFFFFFF),
+        title: Text(
+          'COVID Tracker Legend',
+          style: TextStyle(color: Colors.grey),
+        ),
+        iconTheme: IconThemeData(
+          color: Colors.grey, //change your color here
+        ),
+      ),
+      body: 
+   /* Container (
+      padding: const EdgeInsets.all(32.0),
+      width: c_width,
+      child: Column (
+        children: <Widget>[
+          Text('COVID Tracker Legend', textAlign: TextAlign.left,
+          style: const TextStyle(
+          fontFamily: 'Raleway',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                ),
+                ),
+         Text('if there are 0 people infected, there will not be a location pin there.', textAlign: TextAlign.center,
+          style: const TextStyle(
+          fontFamily: 'Raleway',
+                color: Colors.grey,
+                fontSize: 20, 
+                fontWeight: FontWeight.bold,
+                ),
+                ),
+        ],
+      ),
+    ), */
+    Container(
+      height: 450.0,
+      width: 450.0,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(
+              'assets/covid_key.jpg'),
+          fit: BoxFit.fill,
+        ),
+        shape: BoxShape.rectangle,
       ),
     )
     );

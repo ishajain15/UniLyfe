@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:unilyfe_app/customized_items/buttons/photo_posting_button.dart';
+
 void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -98,16 +100,17 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           // start Post button
           // ignore: deprecated_member_use
-          FlatButton(
-            onPressed: () => debugPrint('pressed'),
+          /* FlatButton(
+            onPressed: () => debugPrint('Photo post button pressed'),
             child: Text('Post',
               style: TextStyle(
                 fontSize: 16,
                 color: Color(0xFFF46C6B)
               )
             )
-          ),
+          ), */
           // end Post button
+        PhotoPostingButton(),
         ],
       ),
     );

@@ -78,6 +78,16 @@ class _ProfilePageState extends State<ProfilePage> {
         LetsGoButton(),
         //BackButtonWidget(),
         LogoutButtonWidget(),
+        // ignore: deprecated_member_use
+        FlatButton(
+            onPressed: () => debugPrint('points lol pressed'),
+            child: Text('Points: 0',
+              style: TextStyle(
+                fontSize: 16,
+                color: Color(0xFFF46C6B)
+              )
+            )
+          ),
       ],
     ));
   }
