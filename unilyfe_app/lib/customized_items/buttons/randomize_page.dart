@@ -15,7 +15,7 @@ class RandomizePage extends StatelessWidget {
           onPressed: () => {
             //setState(() {
             _hasBeenPressed = !_hasBeenPressed,
-            print("on press: the randomized button has been clicked"),
+            print('on press: the randomized button has been clicked'),
             //print(_hasBeenPressed),
             //})
           },
@@ -33,6 +33,7 @@ class RandomizePage extends StatelessWidget {
       );
 
 
+// ignore: missing_return
 bool randomizing_criteria() {
   if (_hasBeenPressed == true) {
     //print("randomize criteria: the randomize button has been clicked");

@@ -1,23 +1,23 @@
 
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:unilyfe_app/widgets/provider_widget.dart';
 // ignore: must_be_immutable
 class ReportButton extends StatefulWidget{
+  @override
   ReportButtonState createState()=> ReportButtonState();
 }
 
 class ReportButtonState extends State<ReportButton>{
   void bottom_Sheet(context){
-    reportsheet(context){
+    // ignore: unused_element
+    Container reportsheet(context){
       return Container(
-          child:Text("new"),
+          child:Text('new'),
       );
     }
     showModalBottomSheet(context: context, builder: (BuildContext bc){
       return Container(
         height: MediaQuery.of(context).size.height * .60,
-        child: Text("hi")
+        child: Text('hi')
         // child: ElevatedButton(
         //   onPressed: () => reportsheet(context),
         //   style: ElevatedButton.styleFrom(

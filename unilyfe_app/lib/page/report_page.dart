@@ -1,14 +1,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:unilyfe_app/widgets/provider_widget.dart';
 // ignore: must_be_immutable
-String reason = "";
+String reason = '';
+// ignore: must_be_immutable
 class Report extends StatefulWidget{
   Report({Key key, @required this.postid, @required this.postChannel})
       : super(key: key);
   String postid;
   String postChannel;
+  @override
   ReportState createState()=> ReportState(postid: postid, postChannel: postChannel);
 }
 class ReportState extends State<Report>{
@@ -23,23 +24,23 @@ class ReportState extends State<Report>{
             padding: const EdgeInsets.only(top: 10.0, bottom: 10.0, left: 10.0, right: 10.0),
             child: Column(
             children: <Widget>[
-              IconButton( icon: Icon(Icons.check_circle_outline_sharp, color: Colors.green, size: 30),),
+              IconButton( icon: Icon(Icons.check_circle_outline_sharp, color: Colors.green, size: 30), onPressed: () {  },),
              
               Text(
                 'Thanks for reporting this post.',
-                style: new TextStyle(
+                style: TextStyle(
                   fontSize: 20.0,
                   ),
                 ),
                 Text(
                 'We will review this post to determine wheter it violates our Policies.',
-                style: new TextStyle(
+                style: TextStyle(
                   fontSize: 20.0,
                   ),
                 ),
                 Text(
                 'Thanks for helping us keep Unilyfe safe.',
-                style: new TextStyle(
+                style: TextStyle(
                   fontSize: 20.0,
                   ),
                 ),
@@ -77,7 +78,7 @@ class ReportState extends State<Report>{
             children: <Widget>[
               Text(
                 'Why are you reporting this post?',
-                style: new TextStyle(
+                style: TextStyle(
                   fontSize: 20.0,
                   ),
                 ),
