@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:unilyfe_app/models/post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
+import 'package:profanity_filter/profanity_filter.dart';
 
 int selection = 0;
+
+String censorBadWords(String badString) {
+  final filter = ProfanityFilter();
+  //Censor the string - returns a 'cleaned' string.
+  String cleanString = filter.censor(badString);
+  print('Censored version of "$badString" is "$cleanString"');
+}
 
 class NewPostBudgetView extends StatelessWidget {
   NewPostBudgetView({Key key, @required this.post}) : super(key: key);
@@ -37,6 +45,12 @@ class NewPostBudgetView extends StatelessWidget {
               onPressed: () async {
                 // save data to firebase
                 //print("FINAL SELECTION ${selection}");
+                final filter = ProfanityFilter();
+                bool hasProfanity = filter.hasProfanity(post.text);
+                if (hasProfanity) {
+                  print("BAD STRING, THIS WILL BE CENSORED IF YOU PROCEED TO SUBMIT");
+                }
+
                 if (selection == 0) {
                   post.postChannel = 'FOOD';
                 } else if (selection == 1) {
