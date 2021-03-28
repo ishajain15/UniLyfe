@@ -1,14 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:profanity_filter/profanity_filter.dart';
 import 'package:unilyfe_app/models/post.dart';
 import 'package:unilyfe_app/views/new_posts/submit_view.dart';
 
-String censorBadWords(String badString) {
-  final filter = ProfanityFilter();
-  //Censor the string - returns a 'cleaned' string.
-  String cleanString = filter.censor(badString);
-  print('Censored version of "$badString" is "$cleanString"');
-}
 
 class NewPostDateView extends StatelessWidget {
   NewPostDateView({Key key, @required this.post}) : super(key: key);
@@ -56,20 +49,6 @@ class NewPostDateView extends StatelessWidget {
                   post.time = DateTime.now();
 
                   post.text = _textController.text;
-
-                  //This string contains the profanity 'ass'
-                  String badString = 'You are an ass';
-
-                  // //Check for profanity - returns a boolean (true if profanity is present)
-                  // bool hasProfanity = filter.hasProfanity(badString);
-                  // print('The string $badString has profanity: $hasProfanity');
-
-                  // //Get the profanity used - returns a List<String>
-                  // List<String> wordsFound = filter.getAllProfanity(badString);
-                  // print('The string contains the words: $wordsFound');
-
-                  
-
                   
                   Navigator.push(
                     context,
