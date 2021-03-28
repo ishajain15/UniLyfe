@@ -305,6 +305,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _EditProfile(context) {
+    // ignore: unused_local_variable
     final _dropDown = _MyYearDropDownWidget();
     showModalBottomSheet(
       context: context,

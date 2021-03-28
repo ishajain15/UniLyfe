@@ -1,9 +1,9 @@
 
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 // ignore: must_be_immutable
 bool liked;
+// ignore: must_be_immutable
 class Likes extends StatefulWidget{
   Likes({Key key, @required this.postid, @required this.likes, @required this.postChannel, @required this.map_liked, @required this.uid})
       : super(key: key);
@@ -24,6 +24,7 @@ class LikeState extends State<Likes>{
   dynamic map_liked; 
   String uid;
   String current_uid;
+  // ignore: always_declare_return_types
   handleLikePost() async{
   current_uid = await Provider.of(context).auth.getCurrentUID();
   var isliked = map_liked[current_uid] == true;

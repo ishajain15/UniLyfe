@@ -1,6 +1,5 @@
 // import 'dart:html';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,7 +7,6 @@ import 'package:unilyfe_app/customized_items/buttons/comment_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_all.dart';
 import 'package:unilyfe_app/customized_items/buttons/randomize_page.dart';
 import 'package:unilyfe_app/customized_items/buttons/revert.dart';
-import 'package:unilyfe_app/customized_items/buttons/view_info_button.dart';
 import 'package:unilyfe_app/page/report_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -51,13 +49,13 @@ class HomeView extends StatelessWidget {
           .orderBy('time', descending: true)
           .snapshots();
       if (RandomizePage().randomizing_criteria() == true) {
-          print("randomize SHOULDVE been clicked!");
+          print('randomize SHOULDVE been clicked!');
           yield* FirebaseFirestore.instance
             .collection('posts')
             .snapshots();
       }
       if (RevertPage().revert_criteria() == true) {
-          print("revert SHOULDVE been clicked");
+          print('revert SHOULDVE been clicked');
         yield* FirebaseFirestore.instance
           .collection('posts')
           .orderBy('time', descending: true)
@@ -259,6 +257,7 @@ class HomeView extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class DisplayPosts extends StatefulWidget {
   DisplayPosts({Key key}) : super(key: key);
   String postid;
@@ -285,14 +284,14 @@ class Posts extends State<DisplayPosts> {
   String creator = 'eddy@mail.com';
   @override
   Widget build(BuildContext context) {
-    String user = FirebaseAuth.instance.currentUser.uid;
+    var user = FirebaseAuth.instance.currentUser.uid;
     return Polls(
       children: [
         // This cannot be less than 2, else will throw an exception
-        Polls.options(title: "hi", value: option1),
-        Polls.options(title: "bye", value: option2),
-        Polls.options(title: "hi", value: option3),
-        Polls.options(title: "si", value: option4),
+        Polls.options(title: 'hi', value: option1),
+        Polls.options(title: 'bye', value: option2),
+        Polls.options(title: 'hi', value: option3),
+        Polls.options(title: 'si', value: option4),
       ],
       question: Text(global.question),
       currentUser: user,

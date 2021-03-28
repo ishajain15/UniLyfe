@@ -15,20 +15,22 @@ class InformationButtonStudy extends StatelessWidget {
       );
 }
 
+// ignore: always_declare_return_types
 showAlertDialog(BuildContext context) {
   // set up the button
+  // ignore: deprecated_member_use
   Widget dismissButton = RaisedButton(
-    child: Text("Dismiss"),
     onPressed: () {
       Navigator.of(context).pop();
     },
+    child: Text('Dismiss'),
   );
 
   // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("STUDY"),
+  var alert = AlertDialog(
+    title: Text('STUDY'),
     content: Text(
-        "In this subpage, users can find posts and reviews of places to study on campus."),
+        'In this subpage, users can find posts and reviews of places to study on campus.'),
     actions: [
       dismissButton,
     ],

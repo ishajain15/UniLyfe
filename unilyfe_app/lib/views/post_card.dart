@@ -48,10 +48,10 @@ class _PostTitleAndSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle titleTheme = Theme.of(context).textTheme.title;
-    final TextStyle summaryTheme = Theme.of(context).textTheme.body1;
-    final String title = DemoValues.postTitle;
-    final String summary = DemoValues.postSummary;
+    final titleTheme = Theme.of(context).textTheme.headline6;
+    final summaryTheme = Theme.of(context).textTheme.bodyText2;
+    final title = DemoValues.postTitle;
+    final summary = DemoValues.postSummary;
 
     return Expanded(
       flex: 3,
@@ -99,8 +99,8 @@ class _UserNameAndEmail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle nameTheme = Theme.of(context).textTheme.subtitle;
-    final TextStyle emailTheme = Theme.of(context).textTheme.body1;
+    final nameTheme = Theme.of(context).textTheme.subtitle2;
+    final emailTheme = Theme.of(context).textTheme.bodyText2;
 
     return Expanded(
       flex: 5,

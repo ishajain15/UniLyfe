@@ -35,8 +35,9 @@ class AuthProvider {
   }
 
   //add user to firestore
+  // ignore: always_declare_return_types
   createUserInFirestore() async {
-    final DocumentSnapshot document =
+    final document =
         await usersRef.doc(_firebaseAuth.currentUser.uid).get();
 
     // if the user doesn't exist in the database, send them to the "" page
