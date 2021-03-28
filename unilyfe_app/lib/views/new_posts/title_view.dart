@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:profanity_filter/profanity_filter.dart';
+import 'package:unilyfe_app/customized_items/custom_warning.dart';
 import 'package:unilyfe_app/models/post.dart';
 import 'package:unilyfe_app/views/new_posts/text_view.dart';
+
+String censorBadWords(String badString) {
+  final filter = ProfanityFilter();
+  //Censor the string - returns a 'cleaned' string.
+  var cleanString = filter.censor(badString);
+  return cleanString;
+}
 
 class NewPostLocationView extends StatelessWidget {
   NewPostLocationView({Key key, @required this.post}) : super(key: key);
@@ -35,15 +44,51 @@ class NewPostLocationView extends StatelessWidget {
               ),
             ),
             ElevatedButton(
-                
-                onPressed: () {
-                  post.title = _titleController.text;
-                  Navigator.push(
+              onPressed: () async {
+                post.title = _titleController.text;
+
+                final filter = ProfanityFilter();
+                var hasProfanity = filter.hasProfanity(post.title);
+                var postIt = true;
+
+                if (hasProfanity) {
+                  postIt = false;
+                  //Get the profanity used - returns a List<String>
+                  var wordsFound = filter.getAllProfanity(post.title);
+                  var dialog = CustomAlertDialog(
+                      title: 'Do you continue submitting?',
+                      message:
+                          'The following words will be censored:\n${wordsFound.join(", ")}',
+                      onFirstPressed: () {
+                        postIt = true;
+                        post.title = censorBadWords(post.title);
+                        Navigator.of(context, rootNavigator: true).pop();
+                      },
+                      onSecondPressed: () {
+                        postIt = false;
+                        //Navigator.of(context).pop();
+                        _titleController.clear();
+                      },
+                      firstText: 'Yes',
+                      secondText: 'No');
+                  await showDialog(
+                      context: context,
+                      builder: (BuildContext context) => dialog);
+                  wordsFound.forEach((element) {
+                    print(element);
+                  });
+                }
+
+                if (postIt) {
+                  await Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => NewPostDateView(post: post)),
                   );
-                },child: Text('Continue'),),
+                }
+              },
+              child: Text('Continue'),
+            ),
           ],
         ),
       ),
