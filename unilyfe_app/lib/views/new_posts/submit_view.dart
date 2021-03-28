@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:unilyfe_app/customized_items/custom_warning.dart';
 import 'package:unilyfe_app/models/post.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
+import 'package:profanity_filter/profanity_filter.dart';
 
 int selection = 0;
+
+String censorBadWords(String badString) {
+  final filter = ProfanityFilter();
+  //Censor the string - returns a 'cleaned' string.
+  var cleanString = filter.censor(badString);
+  return cleanString;
+}
 
 class NewPostBudgetView extends StatelessWidget {
   NewPostBudgetView({Key key, @required this.post}) : super(key: key);
@@ -37,6 +46,35 @@ class NewPostBudgetView extends StatelessWidget {
               onPressed: () async {
                 // save data to firebase
                 //print("FINAL SELECTION ${selection}");
+                final filter = ProfanityFilter();
+                var hasProfanity = filter.hasProfanity(post.text);
+                var postIt = true;
+
+                if (hasProfanity) {
+                  postIt = false;
+                  //Get the profanity used - returns a List<String>
+                  var wordsFound = filter.getAllProfanity(post.text);
+                  var dialog = CustomAlertDialog(
+                      title: 'Do you continue submitting?',
+                      message:
+                          'The following words will be censored:\n${wordsFound.join(", ")}',
+                      onFirstPressed: () {
+                        postIt = true;
+                      },
+                      onSecondPressed: () {
+                        postIt = false;
+                      },
+                      firstText: 'Yes',
+                      secondText: 'No');
+                  await showDialog(
+                      context: context,
+                      builder: (BuildContext context) => dialog);
+                  wordsFound.forEach((element) {
+                    print(element);
+                  });
+                  post.text = censorBadWords(post.text);
+                }
+
                 if (selection == 0) {
                   post.postChannel = 'FOOD';
                 } else if (selection == 1) {
@@ -45,47 +83,50 @@ class NewPostBudgetView extends StatelessWidget {
                   //print(selection);
                   post.postChannel = 'SOCIAL';
                 }
-                final uid = await Provider.of(context).auth.getCurrentUID();
-                post.uid = uid;
-                // post.map_liked = {'uid', false};
-                post.map_liked['uid'] = false;
-                var doc = db.collection('posts').doc();
-                post.postid = doc.id;
-                // DocumentReference doc2 =
-                //     await db.collection("posts").add(post.toJson());
-                //print("DOCUMENT: " + doc.id);
-                //print("DOC2: " + doc2.id);
-                await db.collection('posts').doc(doc.id).set(post.toJson());
 
-                //DocumentReference channel;
-                if (selection == 0) {
-                  //await db.collection("food_posts").add(post.toJson());
+                if (postIt) {
+                  final uid = await Provider.of(context).auth.getCurrentUID();
+                  post.uid = uid;
+                  // post.map_liked = {'uid', false};
+                  post.map_liked['uid'] = false;
+                  var doc = db.collection('posts').doc();
+                  post.postid = doc.id;
+                  // DocumentReference doc2 =
+                  //     await db.collection("posts").add(post.toJson());
+                  //print("DOCUMENT: " + doc.id);
+                  //print("DOC2: " + doc2.id);
+                  await db.collection('posts').doc(doc.id).set(post.toJson());
+
+                  //DocumentReference channel;
+                  if (selection == 0) {
+                    //await db.collection("food_posts").add(post.toJson());
+                    await db
+                        .collection('food_posts')
+                        .doc(doc.id)
+                        .set(post.toJson());
+                  } else if (selection == 1) {
+                    //await db.collection("study_posts").add(post.toJson());
+                    await db
+                        .collection('study_posts')
+                        .doc(doc.id)
+                        .set(post.toJson());
+                  } else {
+                    //await db.collection("social_posts").add(post.toJson());
+                    await db
+                        .collection('social_posts')
+                        .doc(doc.id)
+                        .set(post.toJson());
+                  }
+
                   await db
-                      .collection('food_posts')
+                      .collection('userData')
+                      .doc(uid)
+                      .collection('posts')
                       .doc(doc.id)
                       .set(post.toJson());
-                } else if (selection == 1) {
-                  //await db.collection("study_posts").add(post.toJson());
-                  await db
-                      .collection('study_posts')
-                      .doc(doc.id)
-                      .set(post.toJson());
-                } else {
-                  //await db.collection("social_posts").add(post.toJson());
-                  await db
-                      .collection('social_posts')
-                      .doc(doc.id)
-                      .set(post.toJson());
+
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                 }
-
-                await db
-                    .collection('userData')
-                    .doc(uid)
-                    .collection('posts')
-                    .doc(doc.id)
-                    .set(post.toJson());
-
-                Navigator.of(context).popUntil((route) => route.isFirst);
               },
               child: Text('SUBMIT'),
             ),
