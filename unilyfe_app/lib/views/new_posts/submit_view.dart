@@ -60,6 +60,8 @@ class NewPostBudgetView extends StatelessWidget {
                           'The following words will be censored:\n${wordsFound.join(", ")}',
                       onFirstPressed: () {
                         postIt = true;
+                        post.text = censorBadWords(post.text);
+                        Navigator.of(context, rootNavigator: true).pop();
                       },
                       onSecondPressed: () {
                         postIt = false;
@@ -73,7 +75,6 @@ class NewPostBudgetView extends StatelessWidget {
                   wordsFound.forEach((element) {
                     print(element);
                   });
-                  post.text = censorBadWords(post.text);
                 }
 
                 if (selection == 0) {
