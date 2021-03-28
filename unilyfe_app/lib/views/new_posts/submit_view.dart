@@ -63,6 +63,7 @@ class NewPostBudgetView extends StatelessWidget {
                       },
                       onSecondPressed: () {
                         postIt = false;
+                        Navigator.of(context).pop();
                       },
                       firstText: 'Yes',
                       secondText: 'No');
@@ -80,38 +81,29 @@ class NewPostBudgetView extends StatelessWidget {
                 } else if (selection == 1) {
                   post.postChannel = 'STUDY';
                 } else {
-                  //print(selection);
                   post.postChannel = 'SOCIAL';
                 }
 
                 if (postIt) {
                   final uid = await Provider.of(context).auth.getCurrentUID();
                   post.uid = uid;
-                  // post.map_liked = {'uid', false};
                   post.map_liked['uid'] = false;
                   var doc = db.collection('posts').doc();
                   post.postid = doc.id;
-                  // DocumentReference doc2 =
-                  //     await db.collection("posts").add(post.toJson());
-                  //print("DOCUMENT: " + doc.id);
-                  //print("DOC2: " + doc2.id);
                   await db.collection('posts').doc(doc.id).set(post.toJson());
 
                   //DocumentReference channel;
                   if (selection == 0) {
-                    //await db.collection("food_posts").add(post.toJson());
                     await db
                         .collection('food_posts')
                         .doc(doc.id)
                         .set(post.toJson());
                   } else if (selection == 1) {
-                    //await db.collection("study_posts").add(post.toJson());
                     await db
                         .collection('study_posts')
                         .doc(doc.id)
                         .set(post.toJson());
                   } else {
-                    //await db.collection("social_posts").add(post.toJson());
                     await db
                         .collection('social_posts')
                         .doc(doc.id)

@@ -26,14 +26,6 @@ class CommentButtonWidget extends StatelessWidget {
           color: Colors.grey[900],
         ),
       ),
-      // IconButton(
-      //   iconSize: 35.0,
-      //   icon: Icon(Icons.chat_bubble_outline, color: Colors.grey),
-      //   onPressed: () => {
-      //     Navigator.push(context,
-      //         MaterialPageRoute(builder: (context) => CommentsPage()))
-      //   },
-      // ),
     );
   }
 }
