@@ -9,8 +9,8 @@ int selection = 0;
 String censorBadWords(String badString) {
   final filter = ProfanityFilter();
   //Censor the string - returns a 'cleaned' string.
-  String cleanString = filter.censor(badString);
-  print('Censored version of "$badString" is "$cleanString"');
+  var cleanString = filter.censor(badString);
+  return cleanString;
 }
 
 class NewPostBudgetView extends StatelessWidget {
@@ -46,9 +46,18 @@ class NewPostBudgetView extends StatelessWidget {
                 // save data to firebase
                 //print("FINAL SELECTION ${selection}");
                 final filter = ProfanityFilter();
-                bool hasProfanity = filter.hasProfanity(post.text);
+                var hasProfanity = filter.hasProfanity(post.text);
+
                 if (hasProfanity) {
-                  print("BAD STRING, THIS WILL BE CENSORED IF YOU PROCEED TO SUBMIT");
+                  print('WILL BE CENSORED IF YOU PROCEED TO SUBMIT');
+                  //Get the profanity used - returns a List<String>
+                  var wordsFound = filter.getAllProfanity(post.text);
+                  print('WORDS THAT WILL BE CENSORED\n');
+                  wordsFound.forEach((element) {
+                    print(element);
+                  });
+                  print('The string contains the words: $wordsFound');
+                  post.text = censorBadWords(post.text);
                 }
 
                 if (selection == 0) {
