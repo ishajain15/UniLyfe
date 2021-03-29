@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
 import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
+import 'package:unilyfe_app/page/enterinfo_page.dart';
 import 'package:unilyfe_app/page/profile_page.dart';
 import 'package:unilyfe_app/page/start_page.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -56,7 +57,7 @@ class HomeController extends StatelessWidget {
           var newUser = auth.getNewUser();
           if (newUser) {
             print('New User Signed In');
-            return signedIn ? ProfilePage() : StartPage();
+            return signedIn ? EnterInfoPage() : StartPage();
           } else {
             print('Old User Signed In');
             return signedIn ? TabsPage() : StartPage();
