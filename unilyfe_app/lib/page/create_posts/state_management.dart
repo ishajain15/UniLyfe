@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import 'text_field.dart';
 
 class EditorProvider extends ChangeNotifier {
   SmartTextType selectedType;
 
+  // ignore: sort_constructors_first
   EditorProvider({SmartTextType defaultType = SmartTextType.T})
     : selectedType = defaultType;
 

@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
 import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
-import 'package:unilyfe_app/page/profile_page.dart';
 import 'package:unilyfe_app/page/enterinfo_page.dart';
+import 'package:unilyfe_app/page/profile_page.dart';
 import 'package:unilyfe_app/page/start_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:unilyfe_app/page/tabs/tabs_page.dart';
@@ -56,10 +56,10 @@ class HomeController extends StatelessWidget {
           final signedIn = snapshot.hasData;
           var newUser = auth.getNewUser();
           if (newUser) {
-            print("NEWWWWWWWWWWWWWWWW");
+            print('New User Signed In');
             return signedIn ? EnterInfoPage() : StartPage();
           } else {
-            print("OLDDDDDDDDDD");
+            print('Old User Signed In');
             return signedIn ? TabsPage() : StartPage();
           }
         }
@@ -78,37 +78,3 @@ Widget buildLoading() => Center(
       dotType: DotType.square,
       duration: Duration(milliseconds: 1200),
     ));
-
-/* class MyMap extends StatefulWidget {
-  @override
-  _MyMapState createState() => _MyMapState();
-}
-
-class _MyMapState extends State<MyMap> {
-  GoogleMapController mapController;
-
-  final LatLng _center = const LatLng(40.42395040517343, -86.92120533110851);
-
-  void _onMapCreated(GoogleMapController controller) {
-    mapController = controller;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('COVID-19 Tracker'),
-          backgroundColor: Color(0xFFF47C54),
-        ),
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
-          ),
-        ),
-      ),
-    );
-  }
-}*/

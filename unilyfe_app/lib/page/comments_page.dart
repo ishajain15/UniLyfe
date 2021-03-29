@@ -1,10 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:profanity_filter/profanity_filter.dart';
+import 'package:unilyfe_app/customized_items/custom_warning.dart';
 
 final commentsRef = FirebaseFirestore.instance.collection('comments');
 bool replying = false;
 String replyTo = 'replying to';
+
+String censorBadWords(String badString) {
+  final filter = ProfanityFilter();
+  //Censor the string - returns a 'cleaned' string.
+  var cleanString = filter.censor(badString);
+  return cleanString;
+}
 
 class CommentsPage extends StatefulWidget {
   CommentsPage({this.postid, this.uid});
@@ -47,23 +56,56 @@ class CommentsPageState extends State<CommentsPage> {
   }
 
   // ignore: always_declare_return_types
-  addComment() {
-    if (replying) {
-      commentsRef.doc(postid).collection('comments').add({
-        'comment': 'Replying to ' + replyTo + ': ' + commentController.text,
-        'time': DateTime.now(),
-        'uid': uid,
-      });
-      replying = false;
-      replyTo = '';
-    } else {
-      commentsRef.doc(postid).collection('comments').add({
-        'comment': commentController.text,
-        'time': DateTime.now(),
-        'uid': uid,
+  addComment() async {
+    final filter = ProfanityFilter();
+    var hasProfanity = filter.hasProfanity(commentController.text);
+    var postIt = true;
+
+    if (hasProfanity) {
+      postIt = false;
+      //Get the profanity used - returns a List<String>
+      var wordsFound = filter.getAllProfanity(commentController.text);
+      var dialog = CustomAlertDialog(
+          title: 'Do you continue submitting?',
+          message:
+              'The following words will be censored:\n${wordsFound.join(", ")}',
+          onFirstPressed: () {
+            postIt = true;
+            commentController.text = censorBadWords(commentController.text);
+            Navigator.of(context, rootNavigator: true).pop();
+          },
+          onSecondPressed: () {
+            postIt = false;
+            //Navigator.of(context).pop();
+            commentController.clear();
+          },
+          firstText: 'Yes',
+          secondText: 'No');
+      await showDialog(
+          context: context, builder: (BuildContext context) => dialog);
+      wordsFound.forEach((element) {
+        print(element);
       });
     }
-    commentController.clear();
+
+    if (postIt) {
+      if (replying) {
+        await commentsRef.doc(postid).collection('comments').add({
+          'comment': 'Replying to ' + replyTo + ': ' + commentController.text,
+          'time': DateTime.now(),
+          'uid': uid,
+        });
+        replying = false;
+        replyTo = '';
+      } else {
+        await commentsRef.doc(postid).collection('comments').add({
+          'comment': commentController.text,
+          'time': DateTime.now(),
+          'uid': uid,
+        });
+      }
+      commentController.clear();
+    }
   }
 
   @override

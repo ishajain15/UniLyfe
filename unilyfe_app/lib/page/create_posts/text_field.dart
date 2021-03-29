@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// ignore: constant_identifier_names
 enum SmartTextType { H1, T, QUOTE, BULLET }
 
 extension SmartTextStyle on SmartTextType {
@@ -41,6 +42,7 @@ extension SmartTextStyle on SmartTextType {
     }
   }
 
+  // ignore: missing_return
   String get prefix {
     switch (this) {
       case SmartTextType.BULLET:

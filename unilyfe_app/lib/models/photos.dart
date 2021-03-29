@@ -1,8 +1,6 @@
-import 'dart:html';
-
-import 'package:flutter/material.dart';
-
 class Photo {
+  Photo(this.postType, this.title, this.time, this.text, this.postChannel,
+      this.uid, this.likes, this.liked);
   //File image;
   int postType;
   String title;
@@ -12,9 +10,6 @@ class Photo {
   String uid;
   int likes;
   bool liked;
-
-  Photo(this.postType, this.title, this.time, this.text, this.postChannel,
-      this.uid, this.likes, this.liked);
 
   Map<String, dynamic> toJson() => {
         //'image': image,

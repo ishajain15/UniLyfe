@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:unilyfe_app/models/post.dart';
 import 'package:unilyfe_app/views/new_posts/submit_view.dart';
 
+
 class NewPostDateView extends StatelessWidget {
   NewPostDateView({Key key, @required this.post}) : super(key: key);
   final Post post;
@@ -46,7 +47,9 @@ class NewPostDateView extends StatelessWidget {
             ElevatedButton(
                 onPressed: () {
                   post.time = DateTime.now();
+
                   post.text = _textController.text;
+                  
                   Navigator.push(
                     context,
                     MaterialPageRoute(

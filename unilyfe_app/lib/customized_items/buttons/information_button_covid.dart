@@ -15,19 +15,21 @@ class InformationButtonCovid extends StatelessWidget {
       );
 }
 
+// ignore: always_declare_return_types
 showAlertDialog(BuildContext context) {
   // set up the button
+  // ignore: deprecated_member_use
   Widget dismissButton = RaisedButton(
-    child: Text("Dismiss"),
     onPressed: () {
       Navigator.of(context).pop();
     },
+    child: Text('Dismiss'),
   );
 
   // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    title: Text("Covid Tracker Key"),
-    content: Text("covid text"),
+  var alert = AlertDialog(
+    title: Text('Covid Tracker Key'),
+    content: Text('covid text'),
     actions: [
       dismissButton,
     ],

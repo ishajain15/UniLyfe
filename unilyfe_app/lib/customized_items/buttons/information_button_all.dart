@@ -18,6 +18,7 @@ class InformationButtonAll extends StatelessWidget {
 // ignore: always_declare_return_types
 showAlertDialog(BuildContext context) {
   // set up the button
+  // ignore: deprecated_member_use
   Widget dismissButton = RaisedButton(
     onPressed: () {
       Navigator.of(context).pop();
