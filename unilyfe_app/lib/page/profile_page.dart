@@ -18,6 +18,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  bool _validUsername = true;
   User user = User('', '', '', '', [], []);
   String _currentUsername = '';
   //String _currentYear = "";
@@ -75,9 +76,9 @@ class _ProfilePageState extends State<ProfilePage> {
             }
           },
         ),
-        LetsGoButton(),
+        //LetsGoButton(),
         //BackButtonWidget(),
-        LogoutButtonWidget(),
+
         // ignore: deprecated_member_use
         FlatButton(
             onPressed: () => debugPrint('points lol pressed'),
@@ -393,7 +394,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               !await usernameCheck(_usernameController.text)) {
                             print('ALREADY TAKEN');
                             showAlertDialog(context);
+                            _validUsername = false;
                           } else {
+                            _validUsername = true;
                             user.username = _usernameController.text;
                             setState(() {
                               _usernameController.text = user.username;
@@ -471,10 +474,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                 .doc(uid)
                                 .set(user.toJson());
                           }*/
-                        //_getProfileData();
-                        //print("user.year: " + user.year);
-
-                        Navigator.of(context).pop();
+                    if (_validUsername) {
+                      print("username is valid?");
+                      Navigator.of(context).pop();
+                    }
                       },
                       child: Text('Submit'),
                     )
