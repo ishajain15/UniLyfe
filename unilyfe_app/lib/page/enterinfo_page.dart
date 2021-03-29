@@ -22,8 +22,7 @@ class EnterInfoPage extends StatefulWidget {
 
 class _EnterInfoPageState extends State<EnterInfoPage> {
   User user = User('', '', '', '', [], []);
-  String _currentUsername = '';
-  //String _currentYear = "";
+  bool _validUsername = true;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _displayNameController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
@@ -31,6 +30,15 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
       TextEditingController();
   final TextEditingController _covidController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
+  String _name = '';
+
+  _getName() async {
+    final uid = await Provider.of(context).auth.getCurrentUID();
+    await db.collection('userData').doc(uid).get().then((result) {
+      _name = result['name'].toString();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,14 +47,24 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
         child: Column(
           children: <Widget>[
             pad,
-            Text(
+            FutureBuilder(
+              future: Provider.of(context).auth.getCurrentUID(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return displayTitle(context, snapshot);
+                } else {
+                  return CircularProgressIndicator();
+                }
+              },
+            ),
+            /*Text(
               'Tell Us About Yourself',
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 30,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Raleway'),
-            ),
+            ),*/
             pad,
             _changeInfo('username...', _usernameController),
             Container(
@@ -96,11 +114,12 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                           !await usernameCheck(_usernameController.text)) {
                         print('ALREADY TAKEN');
                         showAlertDialog(context);
+                        //set valid username boolean to false
+                        print("username is bad :(");
+                        _validUsername = false;
                       } else {
+                        _validUsername = true;
                         user.username = _usernameController.text;
-                        /*setState(() {
-                              _usernameController.text = user.username;
-                            });*/
                         await Provider.of(context)
                             .db
                             .collection('userData')
@@ -112,9 +131,6 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                         _displayNameController.text != '') {
                       user.displayName = _displayNameController.text;
                       print(_displayNameController.text);
-                      /*setState(() {
-                            _displayNameController.text = user.displayName;
-                          });*/
                       await Provider.of(context)
                           .db
                           .collection('userData')
@@ -136,9 +152,6 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                     }
 
                     user.year = year;
-                    /*setState(() {
-                            year = user.year;
-                          });*/
                     await Provider.of(context)
                         .db
                         .collection('userData')
@@ -177,10 +190,16 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                     //print("user.year: " + user.year);
 
                     // Navigator.of(context).pop();
-                    await Navigator.push(
+                    /*await Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => TabsPage()),
-                    );
+                    );*/
+                    if (_validUsername) {
+                      print("username is valid?");
+                      final auth = Provider.of(context).auth;
+                      auth.setNewUser(false);
+                      Navigator.of(context).pushReplacementNamed('/home');
+                    }
                     //return HomePage();
                   },
                   child: Text('Submit'),
@@ -194,6 +213,25 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget displayTitle(context, snapshot) {
+    return Column(
+      children: <Widget>[
+    FutureBuilder(
+        future: _getName(),
+        builder: (context, snapshot) {
+            return Text(
+              'Hi ' + _name + '! ' + 'Tell us about yourself',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Raleway'),
+            );
+        })
+      ]
     );
   }
 
@@ -339,8 +377,6 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
           year = newValue;
           print('global variable year: ' + year);
           dropdownValue = newValue;
-          //_currentYear = newValue;
-          //print("_currentYear: " + _currentYear);
         });
         /*final uid = await Provider.of(context).auth.getCurrentUID();
                   await Provider.of(context)
@@ -359,5 +395,3 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
     );
   }
 }
-
-/*hello*/

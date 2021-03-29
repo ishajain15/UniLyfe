@@ -71,6 +71,11 @@ class _SignUpViewState extends State<SignUpView> {
           await auth.createUserInFirestore();
           await auth.sendEmailVerification();
           print('Signed up with New ID $uid');
+          await Provider.of(context)
+              .db
+              .collection('userData')
+              .doc(uid)
+              .update({'name': _name});
           await Navigator.of(context).pushReplacementNamed('/home');
           //logout button does not work if this is used
           //new plan to make the email verification useful: generate random username
