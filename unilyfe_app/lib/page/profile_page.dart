@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart' as fire_auth;
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/customized_items/buttons/lets_go_button.dart';
@@ -5,6 +7,8 @@ import 'package:unilyfe_app/customized_items/buttons/logout_button.dart';
 import 'package:unilyfe_app/models/User.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
+//import 'package:network/network.dart';
 
 String year = '';
 
@@ -55,7 +59,8 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ])),
-        _profilePicture(),
+        //_profilePicture(),
+        _CreateProfileState()._imageProfile(context),
         FutureBuilder(
           future: Provider.of(context).auth.getCurrentUID(),
           builder: (context, snapshot) {
@@ -83,12 +88,7 @@ class _ProfilePageState extends State<ProfilePage> {
         FlatButton(
             onPressed: () => debugPrint('points lol pressed'),
             child: Text('Points: 0',
-              style: TextStyle(
-                fontSize: 16,
-                color: Color(0xFFF46C6B)
-              )
-            )
-          ),
+                style: TextStyle(fontSize: 16, color: Color(0xFFF46C6B)))),
       ],
     ));
   }
@@ -474,10 +474,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                 .doc(uid)
                                 .set(user.toJson());
                           }*/
-                    if (_validUsername) {
-                      print("username is valid?");
-                      Navigator.of(context).pop();
-                    }
+                        if (_validUsername) {
+                          print("username is valid?");
+                          Navigator.of(context).pop();
+                        }
                       },
                       child: Text('Submit'),
                     )
@@ -496,30 +496,126 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 }
 
+class CreateProfile extends StatefulWidget {
+  CreateProfile({Key key}) : super(key: key);
+
+  @override
+  _CreateProfileState createState() => _CreateProfileState();
+}
+
+class _CreateProfileState extends State<CreateProfile> {
+  bool circular = false;
+  PickedFile _imageFile;
+  final _globalkey = GlobalKey<FormState>();
+  final ImagePicker _picker = ImagePicker();
+
+  @override
+  Widget build(BuildContext context) {
+    return _imageProfile(context);
+  }
+
+  Widget _imageProfile(context) {
+    return Center(
+      child: Stack(children: <Widget>[
+        CircleAvatar(
+          radius: 100.0,
+          backgroundImage: _imageFile == null
+              ? AssetImage('assets/gayathri_armstrong.png')
+              : FileImage(File(_imageFile.path)),
+        ),
+        Positioned(
+          bottom: 20.0,
+          right: 20.0,
+          child: InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: ((builder) => bottomSheet(context)),
+              );
+            },
+            child: Icon(
+              Icons.camera_alt,
+              color: const Color(0xFFF99E3E),
+              size: 28.0,
+            ),
+          ),
+        ),
+      ]),
+    );
+  }
+
+  void takePhoto(ImageSource source) async {
+    print("yup im here");
+    var pickedFile = await _picker.getImage(
+      source: source,
+    );
+    print("clicked smth");
+    setState(() {
+      _imageFile = pickedFile;
+      print('_imageFile: $_imageFile');
+    });
+  }
+
+  /*void _imgFromGallery() async {
+    final pickedFile  = await  ImagePicker.pickImage(
+      source: ImageSource.gallery, imageQuality: 50
+    );
+    setState(() {
+      _imageFile = pickedFile;
+    });
+}*/
+
+  Widget bottomSheet(context) {
+    return Container(
+      height: 100.0,
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+        children: <Widget>[
+          Text(
+            "Choose Profile photo",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            FlatButton.icon(
+              icon: Icon(Icons.camera),
+              onPressed: () {
+                takePhoto(ImageSource.camera);
+                print('in take photo');
+              },
+              label: Text("Camera"),
+            ),
+            FlatButton.icon(
+              icon: Icon(Icons.image),
+              onPressed: () {
+                takePhoto(ImageSource.gallery);
+                print('in take photo');
+              },
+              label: Text("Gallery"),
+            ),
+          ])
+        ],
+      ),
+    );
+  }
+}
+
 // ignore: camel_case_types
-class _profilePicture extends StatefulWidget {
+/*class _profilePicture extends StatefulWidget {
   @override
   _myProfilePictureState createState() => _myProfilePictureState();
 }
 
 // ignore: camel_case_types
 class _myProfilePictureState extends State<_profilePicture> {
-  //String picture = 'assets/gayathri.png';
-  /*void _changePicture(String path) {
-    setState(() {
-      if (picture == 'assets/gayathri_armstrong.png') {
-        picture = path;
-        print("new picture: " + picture);
-        return;
-      }
-      if (picture == 'assets/gayathri.png') {
-        picture = path;
-        print("new picture: " + picture);
-        return;
-      }
-    });
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -537,7 +633,7 @@ class _myProfilePictureState extends State<_profilePicture> {
           ),
         ));
   }
-}
+}*/
 
 class _MyYearDropDownWidget extends StatefulWidget {
   const _MyYearDropDownWidget({Key key}) : super(key: key);
@@ -582,7 +678,6 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
   }
 
   Widget _displayDropDown(context, snapshot) {
-
     return Column(
       children: <Widget>[
         FutureBuilder(
@@ -605,8 +700,6 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
                     year = newValue;
                     print('global variable year: ' + year);
                     dropdownValue = newValue;
-                    //_currentYear = newValue;
-                    //print("_currentYear: " + _currentYear);
                   });
                   /*final uid = await Provider.of(context).auth.getCurrentUID();
                   await Provider.of(context)

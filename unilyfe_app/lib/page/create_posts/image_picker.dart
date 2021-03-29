@@ -23,17 +23,17 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 class _MyHomePageState extends State<MyHomePage> {
-  File _image;
+  PickedFile _image;
   Future getImagefromcamera() async {
     // ignore: deprecated_member_use
-    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    var image = await ImagePicker().getImage(source: ImageSource.camera);
     setState(() {
       _image = image;
     });
   }
   Future getImagefromGallery() async {
     // ignore: deprecated_member_use
-    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    var image = await ImagePicker().getImage(source: ImageSource.gallery);
     setState(() {
       _image = image;
     });
@@ -79,7 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Center(
                 child: _image == null
                     ? Text('No Image is picked')
-                    : Image.file(_image),
+                    : FileImage(File(_image.path)),
+                    //FileImage(File(_imageFile.path))
               ),
             ),
           ),
