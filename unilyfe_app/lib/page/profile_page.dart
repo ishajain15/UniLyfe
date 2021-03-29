@@ -368,7 +368,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         'I am a...  ',
                         style: TextStyle(color: Colors.grey, fontSize: 24),
                       ),
-                      //_dropDown,
+                      _dropDown,
                     ]),
                 pad,
                 Row(
