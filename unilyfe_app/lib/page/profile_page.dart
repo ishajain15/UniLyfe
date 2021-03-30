@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart' as fire_auth;
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:unilyfe_app/customized_items/buttons/lets_go_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/logout_button.dart';
 import 'package:unilyfe_app/models/User.dart';
@@ -25,7 +27,6 @@ class _ProfilePageState extends State<ProfilePage> {
   bool _validUsername = true;
   User user = User('', '', '', '', [], []);
   String _currentUsername = '';
-  //String _currentYear = "";
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _displayNameController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
@@ -33,12 +34,13 @@ class _ProfilePageState extends State<ProfilePage> {
       TextEditingController();
   final TextEditingController _covidController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
+  TextEditingController _classesController = TextEditingController(text: '');
+  TextEditingController _hobbiesController = TextEditingController(text: '');
   bool circular = false;
   PickedFile _imageFile;
-  final _globalkey = GlobalKey<FormState>();
+  //final _globalkey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
-
-  //final db = FirebaseFirestore.instance;
+  final db = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -84,8 +86,6 @@ class _ProfilePageState extends State<ProfilePage> {
             }
           },
         ),
-        //LetsGoButton(),
-        //BackButtonWidget(),
 
         // ignore: deprecated_member_use
         FlatButton(
@@ -102,7 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
         CircleAvatar(
           radius: 100.0,
           backgroundImage: _imageFile == null
-              ? AssetImage('assets/gayathri_armstrong.png')
+              ? AssetImage('assets/empty-profile.png')
               : FileImage(File(_imageFile.path)),
         ),
         Positioned(
@@ -151,7 +151,6 @@ class _ProfilePageState extends State<ProfilePage> {
               icon: Icon(Icons.camera),
               onPressed: () {
                 takePhoto(ImageSource.camera);
-                print('in take photo');
               },
               label: Text("Camera",
                   style: TextStyle(
@@ -163,7 +162,6 @@ class _ProfilePageState extends State<ProfilePage> {
               icon: Icon(Icons.image),
               onPressed: () {
                 takePhoto(ImageSource.gallery);
-                print('in take photo');
               },
               label: Text("Gallery",
                   style: TextStyle(
@@ -246,19 +244,12 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _displayClasses(context, snapshot) {
-    //print('helllooooooooo');
     return Column(
       children: <Widget>[
         FutureBuilder(
             future: _getProfileData(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {}
-              /*for (int i = 0; i < user.classes.length; i++) {
-                print("classsss: " + user.classes[i]);
-              }*/
-              //return chipList(
-              //    user.classes,
-              //    const Color(0xFFF99E3E));
               return Container(
                   child: Column(
                 children: [
@@ -307,15 +298,25 @@ class _ProfilePageState extends State<ProfilePage> {
     return TextField(
       controller: editingController,
       autofocus: false,
-      style: TextStyle(fontSize: 22.0, color: Colors.black),
+      style: TextStyle(
+          fontSize: 22,
+          color: Colors.black,
+          fontFamily: 'Raleway',
+          fontWeight: FontWeight.bold),
       decoration: InputDecoration(
         filled: true,
         fillColor: Color(0xFFfae9d7),
         hintText: textBoxText,
+        hintStyle: TextStyle(
+          color: Colors.grey,
+          fontSize: 20,
+          fontFamily: 'Raleway',
+          fontWeight: FontWeight.bold,
+        ),
         contentPadding:
             const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black),
+          borderSide: BorderSide(color: Colors.grey),
           borderRadius: BorderRadius.circular(25.7),
         ),
         enabledBorder: UnderlineInputBorder(
@@ -326,7 +327,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  final db = FirebaseFirestore.instance;
+  //final db = FirebaseFirestore.instance;
 
   // ignore: always_declare_return_types
   showAlertDialog(BuildContext context) async {
@@ -374,6 +375,14 @@ class _ProfilePageState extends State<ProfilePage> {
       _currentUsername = result['username'].toString();
       user.classes = List.from(result['classes']);
       user.hobbies = List.from(result['hobbies']);
+      _classesController = TextEditingController(
+          text: user.classes
+              .toString()
+              .substring(1, ((user.classes.toString()).length - 1)));
+      _hobbiesController = TextEditingController(
+          text: user.hobbies
+              .toString()
+              .substring(1, ((user.hobbies.toString()).length - 1)));
     });
   }
 
@@ -467,10 +476,25 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: <Widget>[
                       Text(
                         'I am a...  ',
-                        style: TextStyle(color: Colors.grey, fontSize: 24),
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 24,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                       _dropDown,
                     ]),
+                FutureBuilder(
+                  future: Provider.of(context).auth.getCurrentUID(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return _displayClassandHobbyBoxes(context, snapshot);
+                    } else {
+                      return CircularProgressIndicator();
+                    }
+                  },
+                ),
                 pad,
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -507,6 +531,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                 .doc(uid)
                                 .update({'username': user.username});
                           }
+                        }
+                        if (_usernameController.text == '' ||
+                            _usernameController.text == null) {
+                          _validUsername = true;
                         }
                         if (_displayNameController.text != null &&
                             _displayNameController.text != '') {
@@ -546,6 +574,37 @@ class _ProfilePageState extends State<ProfilePage> {
                               .update({'year': year});
                         }
 
+                        if (_hobbiesController.text != null) {
+                          user.hobbies = (_hobbiesController.text.split(', '));
+                          print("hobbies: " + _hobbiesController.text);
+                          setState(() {
+                            user.hobbies =
+                                (_hobbiesController.text.split(', '));
+                          });
+                          await Provider.of(context)
+                              .db
+                              .collection('userData')
+                              .doc(uid)
+                              .update({
+                            'hobbies': _hobbiesController.text.split(', ')
+                          });
+                        }
+                        if (_classesController.text != null) {
+                          user.classes = (_classesController.text.split(', '));
+                          print("classes: " + _classesController.text);
+                          setState(() {
+                            user.classes =
+                                (_classesController.text.split(', '));
+                          });
+                          await Provider.of(context)
+                              .db
+                              .collection('userData')
+                              .doc(uid)
+                              .update({
+                            'classes': _classesController.text.split(', ')
+                          });
+                        }
+
                         /*if (_profilePictureController.text != null &&
                               _profilePictureController.text != "") {
                             user.picturePath = _profilePictureController.text;
@@ -583,10 +642,6 @@ class _ProfilePageState extends State<ProfilePage> {
                     )
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[],
-                )
               ],
             ),
           ),
@@ -594,34 +649,65 @@ class _ProfilePageState extends State<ProfilePage> {
       },
     );
   }
-}
 
-// ignore: camel_case_types
-/*class _profilePicture extends StatefulWidget {
-  @override
-  _myProfilePictureState createState() => _myProfilePictureState();
-}
-
-// ignore: camel_case_types
-class _myProfilePictureState extends State<_profilePicture> {
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-        onTap: () {
-          print('hello');
-        },
-        child: Container(
-          width: 200,
-          height: 200,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            image: DecorationImage(
-              image: AssetImage('assets/gayathri_armstrong.png'),
-            ),
-          ),
-        ));
+  Widget _displayClassandHobbyBoxes(context, snapshot) {
+    return Column(children: <Widget>[
+      FutureBuilder(
+          future: _getProfileData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {}
+            return Column(children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints.tight(const Size(300, 60)),
+                  child: TextField(
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.bold),
+                      autofocus: false,
+                      controller: _classesController,
+                      decoration: InputDecoration(
+                        hintText: 'Your classes',
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 20,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ConstrainedBox(
+                  constraints: BoxConstraints.tight(const Size(300, 60)),
+                  child: TextField(
+                      style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.black,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.bold),
+                      autofocus: false,
+                      controller: _hobbiesController,
+                      decoration: InputDecoration(
+                        hintText: 'Your hobbies',
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 20,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
+                ),
+              ),
+            ]);
+          })
+    ]);
   }
-}*/
+}
 
 class _MyYearDropDownWidget extends StatefulWidget {
   const _MyYearDropDownWidget({Key key}) : super(key: key);
@@ -672,21 +758,22 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
             future: _getYearData(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {}
-              return DropdownButton<String>(
+              return Container(
+                  child: DropdownButton<String>(
                 value: user.year,
                 //icon: const Icon(Icons.arrow_downward),
                 iconSize: 24,
                 elevation: 16,
                 style: const TextStyle(color: Colors.grey, fontSize: 24),
                 underline: Container(
-                  height: 3,
+                  height: 2.5,
                   color: const Color(0xFFF99E3E),
                 ),
                 onChanged: (String newValue) async {
                   user.year = newValue;
                   setState(() {
                     year = newValue;
-                    print('global variable year: ' + year);
+                    //print('global variable year: ' + year);
                     dropdownValue = newValue;
                   });
                   /*final uid = await Provider.of(context).auth.getCurrentUID();
@@ -700,10 +787,16 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
                     .map<DropdownMenuItem<String>>((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
-                    child: Text(value),
+                    child: Text(value,
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 24,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.bold,
+                        )),
                   );
                 }).toList(),
-              );
+              ));
             }),
       ],
     );
