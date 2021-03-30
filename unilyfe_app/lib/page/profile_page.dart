@@ -63,7 +63,6 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ])),
-        //_profilePicture(),
         _imageProfile(context),
         FutureBuilder(
           future: Provider.of(context).auth.getCurrentUID(),
@@ -97,7 +96,7 @@ class _ProfilePageState extends State<ProfilePage> {
     ));
   }
 
-    Widget _imageProfile(context) {
+  Widget _imageProfile(context) {
     return Center(
       child: Stack(children: <Widget>[
         CircleAvatar(
@@ -127,7 +126,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-    Widget bottomSheet(context) {
+  Widget bottomSheet(context) {
     return Container(
       height: 100.0,
       width: MediaQuery.of(context).size.width,
@@ -138,10 +137,11 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Column(
         children: <Widget>[
           Text(
-            "Choose Profile photo",
+            "Choose Profile Photo",
             style: TextStyle(
-              fontSize: 20.0,
-            ),
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0,
+                fontFamily: 'Raleway'),
           ),
           SizedBox(
             height: 20,
@@ -153,7 +153,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 takePhoto(ImageSource.camera);
                 print('in take photo');
               },
-              label: Text("Camera"),
+              label: Text("Camera",
+                  style: TextStyle(
+                    fontFamily: 'Raleway',
+                    fontWeight: FontWeight.bold,
+                  )),
             ),
             FlatButton.icon(
               icon: Icon(Icons.image),
@@ -161,7 +165,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 takePhoto(ImageSource.gallery);
                 print('in take photo');
               },
-              label: Text("Gallery"),
+              label: Text("Gallery",
+                  style: TextStyle(
+                    fontFamily: 'Raleway',
+                    fontWeight: FontWeight.bold,
+                  )),
             ),
           ])
         ],
@@ -169,20 +177,21 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-    void takePhoto(ImageSource source) async {
-    print("yup im here");
+  void takePhoto(ImageSource source) async {
     var pickedFile = await _picker.getImage(
       source: source,
     );
-    print("clicked smth");
     setState(() {
-    _imageFile = pickedFile;
-    //_imageFile = ;
-    print('_imageFile: $_imageFile');
+      _imageFile = pickedFile;
+      print('_imageFile: $_imageFile');
     });
+    final uid = await Provider.of(context).auth.getCurrentUID();
+    await Provider.of(context)
+        .db
+        .collection('userData')
+        .doc(uid)
+        .set({'profilepicture': pickedFile});
   }
-
-
 
   Widget displayUserInformation(context, snapshot) {
     // ignore: unused_local_variable
@@ -583,119 +592,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         );
       },
-    );
-  }
-}
-
-class CreateProfile extends StatefulWidget {
-  CreateProfile({Key key}) : super(key: key);
-
-  @override
-  _CreateProfileState createState() => _CreateProfileState();
-}
-
-class _CreateProfileState extends State<CreateProfile> {
-  bool circular = false;
-  PickedFile _imageFile;
-  final _globalkey = GlobalKey<FormState>();
-  final ImagePicker _picker = ImagePicker();
-
-  @override
-  Widget build(BuildContext context) {
-    return _imageProfile(context);
-  }
-
-  Widget _imageProfile(context) {
-    return Center(
-      child: Stack(children: <Widget>[
-        CircleAvatar(
-          radius: 100.0,
-          backgroundImage: _imageFile == null
-              ? AssetImage('assets/gayathri_armstrong.png')
-              : FileImage(File(_imageFile.path)),
-        ),
-        Positioned(
-          bottom: 20.0,
-          right: 20.0,
-          child: InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
-                builder: ((builder) => bottomSheet(context)),
-              );
-            },
-            child: Icon(
-              Icons.camera_alt,
-              color: const Color(0xFFF99E3E),
-              size: 28.0,
-            ),
-          ),
-        ),
-      ]),
-    );
-  }
-
-  void takePhoto(ImageSource source) async {
-    print("yup im here");
-    var pickedFile = await _picker.getImage(
-      source: source,
-    );
-    print("clicked smth");
-    //setState(() {
-    _imageFile = pickedFile;
-    //_imageFile = ;
-    print('_imageFile: $_imageFile');
-    //});
-  }
-
-  /*void _imgFromGallery() async {
-    final pickedFile  = await  ImagePicker.pickImage(
-      source: ImageSource.gallery, imageQuality: 50
-    );
-    setState(() {
-      _imageFile = pickedFile;
-    });
-}*/
-
-  Widget bottomSheet(context) {
-    return Container(
-      height: 100.0,
-      width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 20,
-      ),
-      child: Column(
-        children: <Widget>[
-          Text(
-            "Choose Profile photo",
-            style: TextStyle(
-              fontSize: 20.0,
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            FlatButton.icon(
-              icon: Icon(Icons.camera),
-              onPressed: () {
-                takePhoto(ImageSource.camera);
-                print('in take photo');
-              },
-              label: Text("Camera"),
-            ),
-            FlatButton.icon(
-              icon: Icon(Icons.image),
-              onPressed: () {
-                takePhoto(ImageSource.gallery);
-                print('in take photo');
-              },
-              label: Text("Gallery"),
-            ),
-          ])
-        ],
-      ),
     );
   }
 }
