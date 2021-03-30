@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 // ignore: must_be_immutable
 bool liked;
 // ignore: must_be_immutable
@@ -24,11 +25,14 @@ class LikeState extends State<Likes>{
   dynamic map_liked; 
   String uid;
   String current_uid;
+  final db = FirebaseFirestore.instance;
   // ignore: always_declare_return_types
   handleLikePost() async{
   current_uid = await Provider.of(context).auth.getCurrentUID();
   var isliked = map_liked[current_uid] == true;
   liked = map_liked[current_uid] == true;
+  var doc = db.collection('liked_posts').doc();
+
     if(postChannel == 'FOOD'){
       postChannel = 'food_posts';
     }else if(postChannel == 'STUDY'){
@@ -58,6 +62,14 @@ class LikeState extends State<Likes>{
         liked = true;
         map_liked[current_uid] = true;
       }); 
+
+      print("here in the liked thingy!");
+       await db
+        .collection('userData')
+        .doc(uid)
+        .collection('liked_posts')
+        .doc(doc.id)
+        .set(db.collection('posts').doc(postid));
     }
   }
       @override
