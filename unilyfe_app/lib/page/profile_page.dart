@@ -33,6 +33,10 @@ class _ProfilePageState extends State<ProfilePage> {
       TextEditingController();
   final TextEditingController _covidController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
+  bool circular = false;
+  PickedFile _imageFile;
+  final _globalkey = GlobalKey<FormState>();
+  final ImagePicker _picker = ImagePicker();
 
   //final db = FirebaseFirestore.instance;
 
@@ -60,7 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ])),
         //_profilePicture(),
-        _CreateProfileState()._imageProfile(context),
+        _imageProfile(context),
         FutureBuilder(
           future: Provider.of(context).auth.getCurrentUID(),
           builder: (context, snapshot) {
@@ -92,6 +96,93 @@ class _ProfilePageState extends State<ProfilePage> {
       ],
     ));
   }
+
+    Widget _imageProfile(context) {
+    return Center(
+      child: Stack(children: <Widget>[
+        CircleAvatar(
+          radius: 100.0,
+          backgroundImage: _imageFile == null
+              ? AssetImage('assets/gayathri_armstrong.png')
+              : FileImage(File(_imageFile.path)),
+        ),
+        Positioned(
+          bottom: 20.0,
+          right: 20.0,
+          child: InkWell(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                builder: ((builder) => bottomSheet(context)),
+              );
+            },
+            child: Icon(
+              Icons.camera_alt,
+              color: const Color(0xFFF99E3E),
+              size: 28.0,
+            ),
+          ),
+        ),
+      ]),
+    );
+  }
+
+    Widget bottomSheet(context) {
+    return Container(
+      height: 100.0,
+      width: MediaQuery.of(context).size.width,
+      margin: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 20,
+      ),
+      child: Column(
+        children: <Widget>[
+          Text(
+            "Choose Profile photo",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            FlatButton.icon(
+              icon: Icon(Icons.camera),
+              onPressed: () {
+                takePhoto(ImageSource.camera);
+                print('in take photo');
+              },
+              label: Text("Camera"),
+            ),
+            FlatButton.icon(
+              icon: Icon(Icons.image),
+              onPressed: () {
+                takePhoto(ImageSource.gallery);
+                print('in take photo');
+              },
+              label: Text("Gallery"),
+            ),
+          ])
+        ],
+      ),
+    );
+  }
+
+    void takePhoto(ImageSource source) async {
+    print("yup im here");
+    var pickedFile = await _picker.getImage(
+      source: source,
+    );
+    print("clicked smth");
+    setState(() {
+    _imageFile = pickedFile;
+    //_imageFile = ;
+    print('_imageFile: $_imageFile');
+    });
+  }
+
+
 
   Widget displayUserInformation(context, snapshot) {
     // ignore: unused_local_variable
@@ -550,10 +641,11 @@ class _CreateProfileState extends State<CreateProfile> {
       source: source,
     );
     print("clicked smth");
-    setState(() {
-      _imageFile = pickedFile;
-      print('_imageFile: $_imageFile');
-    });
+    //setState(() {
+    _imageFile = pickedFile;
+    //_imageFile = ;
+    print('_imageFile: $_imageFile');
+    //});
   }
 
   /*void _imgFromGallery() async {
