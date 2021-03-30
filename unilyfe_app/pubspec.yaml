@@ -23,23 +23,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  #google_maps_flutter: ^0.5.27+3
-  google_maps_flutter: ^2.0.1
+  google_maps_flutter: ^0.5.27+3
   flutter_rating_bar: ^4.0.0
-  #firebase_core: ^0.7.0
-  firebase_core: ^1.0.2
+  firebase_core: ^0.7.0
   firebase_analytics: ^7.0.1
-  #firebase_auth: ^0.20.1
-  firebase_auth: ^1.0.1
-  #cloud_firestore: ^0.16.0+1
-  cloud_firestore: ^1.0.3
+  firebase_auth: ^0.20.1
+  cloud_firestore: ^0.16.0+1
   # Add the following two lines
-  #http: ^0.12.0+1
-  http: ^0.13.1
+  http: ^0.12.0+1
   json_serializable: ^3.3.0
   # Imager picker dependency
-  #image_picker: ^0.6.3+4
-  image_picker: ^0.7.3
+  image_picker: ^0.6.3+4
   # Smooth star rating
   smooth_star_rating: ^1.1.1
   profanity_filter: ^1.0.4
@@ -55,7 +49,6 @@ dependencies:
   polls: ^0.2.1
   community_material_icon: ^5.3.45
   keyboard_visibility: ^0.5.6
-  #network: ^0.10.0+1
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -82,7 +82,7 @@ Future<Locations> getGoogleOffices() async {
   const googleLocationsURL = 'https://about.google/static/data/locations.json';
 
   // Retrieve the locations of Google offices
-  /*final response = await http.get(googleLocationsURL);
+  final response = await http.get(googleLocationsURL);
   if (response.statusCode == 200) {
     return Locations.fromJson(json.decode(response.body));
   } else {
@@ -90,5 +90,5 @@ Future<Locations> getGoogleOffices() async {
         'Unexpected status code ${response.statusCode}:'
         ' ${response.reasonPhrase}',
         uri: Uri.parse(googleLocationsURL));
-  }*/
+  }
 }
