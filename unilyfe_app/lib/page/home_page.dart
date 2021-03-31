@@ -4,6 +4,7 @@ import 'package:unilyfe_app/views/food_view.dart';
 import 'package:unilyfe_app/views/home_view.dart';
 import 'package:unilyfe_app/views/social_view.dart';
 import 'package:unilyfe_app/views/study_view.dart';
+import 'package:unilyfe_app/views/liked_posts_view.dart';
 //import 'package:unilyfe_app/provider/google_sign_in.dart';
 //import 'package:unilyfe_app/page/profile_page.dart';
 
@@ -25,6 +26,7 @@ class HomePage extends StatelessWidget {
           Tab(text: 'FOOD'),
           Tab(text: 'STUDY'),
           Tab(text: 'SOCIAL'),
+          Tab(text: 'LIKED')
         ],
         unselectedLabelColor: Colors.grey,
       ),
@@ -39,6 +41,7 @@ class HomePage extends StatelessWidget {
           FoodView(),
           StudyView(),
           SocialView(),
+          LikedPostsView()
         ],
       ),
       //bottomSheet: LogoutButtonWidget(),
