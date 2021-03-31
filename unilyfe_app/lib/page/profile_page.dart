@@ -462,7 +462,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(
                   padding: const EdgeInsets.all(4),
                 ),
-                _changeInfo('change profile pic...', _profilePictureController),
+                /*_changeInfo('change profile pic...', _profilePictureController),
                 Container(
                   padding: const EdgeInsets.all(4),
                 ),
@@ -470,7 +470,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(
                   padding: const EdgeInsets.all(4),
                 ),
-                _changeInfo('where did you last go?', _locationController),
+                _changeInfo('where did you last go?', _locationController),*/
                 Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
@@ -574,7 +574,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               .update({'year': year});
                         }
 
-                        if (_hobbiesController.text != null) {
+                        if (_hobbiesController.text != null || _hobbiesController.text != '') {
                           user.hobbies = (_hobbiesController.text.split(', '));
                           print("hobbies: " + _hobbiesController.text);
                           setState(() {
@@ -589,7 +589,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             'hobbies': _hobbiesController.text.split(', ')
                           });
                         }
-                        if (_classesController.text != null) {
+                        if (_classesController.text != null || _classesController.text != '') {
                           user.classes = (_classesController.text.split(', '));
                           print("classes: " + _classesController.text);
                           setState(() {
