@@ -2,25 +2,60 @@
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:unilyfe_app/models/post.dart';
 // ignore: must_be_immutable
 bool liked;
 // ignore: must_be_immutable
 class Likes extends StatefulWidget{
-  Likes({Key key, @required this.postid, @required this.likes, @required this.postChannel, @required this.map_liked, @required this.uid})
+  Likes({Key key, @required this.postid, 
+  @required this.title, 
+  @required this.time, 
+  @required this.text, 
+  @required this.likes, 
+  @required this.liked, 
+  @required this.postChannel, 
+  @required this.map_liked, 
+  @required this.uid,})
       : super(key: key);
   String postid;
+  String title;
+  DateTime time;
+  String text;
   int likes;
+  bool liked;
   String postChannel;
   dynamic map_liked; 
   String uid;
   @override
-  LikeState createState()=> LikeState(postid: postid, likes:likes, postChannel: postChannel,map_liked: map_liked, uid:uid);
+  LikeState createState()=> LikeState(
+  postid: postid, 
+  title: title,
+  time: time,
+  text: text,
+  likes:likes, 
+  liked: liked,
+  postChannel: postChannel,
+  map_liked: map_liked, 
+  uid:uid,
+  );
 }
 
 class LikeState extends State<Likes>{
-  LikeState({Key key, @required this.postid, @required this.likes, @required this.postChannel, @required this.map_liked, @required this.uid});
-  int likes;
+  LikeState({Key key, @required this.postid, 
+  @required this.title, 
+  @required this.time, 
+  @required this.text, 
+  @required this.likes, 
+  @required this.liked, 
+  @required this.postChannel, 
+  @required this.map_liked, 
+  @required this.uid,});/*({Key key, @required this.postid, @required this.likes, @required this.postChannel, @required this.map_liked, @required this.uid});*/
   String postid;
+  String title;
+  DateTime time;
+  String text;
+  int likes;
+  bool liked;
   String postChannel;
   dynamic map_liked; 
   String uid;
@@ -51,6 +86,18 @@ class LikeState extends State<Likes>{
         liked = false;
         map_liked[current_uid] = false;
       });
+      print("UNLIKED!");
+      print("post id: " + postid);
+
+      //db.collection("cities").doc("DC").delete()
+      await db
+        .collection('userData')
+        .doc(current_uid)
+        .collection('liked_posts').doc(postid).delete();
+        //.collection('liked_posts').where('postid', isEqualTo: postid)
+        //.get();
+        //.delete();
+    
     }else if (!isliked){
       likes+=1;
       Provider.of(context).db.collection(postChannel).doc(postid).update({'likes': likes});
@@ -63,13 +110,46 @@ class LikeState extends State<Likes>{
         map_liked[current_uid] = true;
       }); 
 
-      print("here in the liked thingy!");
+      print("LIKED!");
+
+      Post post = Post(postid, title, time, text, postChannel, uid, likes, liked, map_liked);
+
+      //Post post = Provider.of(context).db.collection('posts').doc(postid).get();
+      /*String title = '';
+       Post post = Post('', '', DateTime.now(), '', '', '', 0, true, Map());
+       await db.collection('posts').doc(postid).get().then((result) {
+         post.postid = result['postid'].toString();
+         post.title = result['title'].toString();
+         post.time = result['time'];
+         post.text = result['text'].toString();
+         post.postChannel = result['postChannel'].toString();
+         post.uid = result['uid'].toString();
+         post.likes = result['likes'];
+         post.liked = result['liked'];
+         post.map_liked = result['map_liked'];
+         title = result['title'].toString();
+       });*/
+
+       /* 'postid': postid,
+        'postType': 0,
+        'title': title,
+        'time': time,
+        'text': text,
+        'postChannel': postChannel,
+        'uid': uid,
+        'likes': likes,
+        'liked': liked,
+        'map_liked':map_liked */
+
        await db
         .collection('userData')
-        .doc(uid)
+        .doc(current_uid)
         .collection('liked_posts')
-        .doc(doc.id)
-        .set(db.collection('posts').doc(postid));
+        //.doc(doc.id)
+        .doc(postid)
+        .set(post.toJson());
+        //.set({'title' : title});
+        //.set(db.collection('posts').doc(postid));
     }
   }
       @override

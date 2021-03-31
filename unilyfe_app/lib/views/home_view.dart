@@ -135,7 +135,11 @@ class HomeView extends StatelessWidget {
                     children: <Widget>[
                       Likes(
                           postid: post['postid'],
+                          title: post['title'],
+                          time: post['time'].toDate(),
+                          text: post['text'],
                           likes: post['likes'],
+                          liked: post['liked'],
                           postChannel: post['postChannel'],
                           map_liked: post['map_liked'],
                           uid: post['uid']),
