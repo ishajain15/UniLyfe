@@ -87,11 +87,21 @@ class _ProfilePageState extends State<ProfilePage> {
           },
         ),
 
-        // ignore: deprecated_member_use
+        /* // ignore: deprecated_member_use
         FlatButton(
             onPressed: () => debugPrint('points lol pressed'),
             child: Text('Points: 0',
-                style: TextStyle(fontSize: 16, color: Color(0xFFF46C6B)))),
+                style: TextStyle(fontSize: 16, color: Color(0xFFF46C6B)))
+        ), */
+        Text(
+                'Points: 0',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+        ),
       ],
     ));
   }
