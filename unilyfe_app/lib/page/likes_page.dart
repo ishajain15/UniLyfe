@@ -75,17 +75,24 @@ class LikeState extends State<Likes> {
   }
 
   Widget displayLikeButton(context, snapshot) {
+    print('in display like button');
+    // ignore: unused_local_variable
+    final authData = snapshot.data;
     return Column(
       children: <Widget>[
         FutureBuilder(
             future: getLikeData(),
+            // ignore: missing_return
             builder: (context, snapshot) {
-              print('current_uid: ' + current_uid);
-              var liked = map_liked[current_uid] == true;
-              return IconButton(
-                  icon: Icon(liked ? Icons.favorite : Icons.favorite_border,
-                      color: liked ? Colors.red : Colors.grey),
-                  onPressed: () => handleLikePost());
+              if (snapshot.connectionState == ConnectionState.done) {
+                print('current_uid: ' + current_uid);
+                var liked = map_liked[current_uid] == true;
+                return IconButton(
+                    icon: Icon(liked ? Icons.favorite : Icons.favorite_border,
+                        color: liked ? Colors.red : Colors.grey),
+                    onPressed: () => handleLikePost());
+              }
+              return Container();
             }),
       ],
     );
