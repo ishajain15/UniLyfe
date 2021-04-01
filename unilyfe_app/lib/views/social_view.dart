@@ -13,8 +13,8 @@ class SocialView extends StatelessWidget {
       child: Column(
         children: [
           InformationButtonSocial(),
-          RandomizePage(),
-          RevertPage(),
+          //RandomizePage(),
+          //RevertPage(),
           Flexible(
             child: StreamBuilder(
                 stream: getUserPostsStreamSnapshots(context),
@@ -40,19 +40,19 @@ class SocialView extends StatelessWidget {
           .collection('social_posts')
           .orderBy('time', descending: true)
           .snapshots();
-      if (RandomizePage().randomizing_criteria() == true) {
-          print('randomize SHOULDVE been clicked!');
-          yield* FirebaseFirestore.instance
-            .collection('posts')
-            .snapshots();
-      }
-      if (RevertPage().revert_criteria() == true) {
-          print('revert SHOULDVE been clicked');
-        yield* FirebaseFirestore.instance
-          .collection('posts')
-          .orderBy('time', descending: true)
-          .snapshots();
-      }
+      // if (RandomizePage().randomizing_criteria() == true) {
+      //     print('randomize SHOULDVE been clicked!');
+      //     yield* FirebaseFirestore.instance
+      //       .collection('posts')
+      //       .snapshots();
+      // }
+      // if (RevertPage().revert_criteria() == true) {
+      //     print('revert SHOULDVE been clicked');
+      //   yield* FirebaseFirestore.instance
+      //     .collection('posts')
+      //     .orderBy('time', descending: true)
+      //     .snapshots();
+      // }
       
       // .collection("userData")
       // .doc(uid)

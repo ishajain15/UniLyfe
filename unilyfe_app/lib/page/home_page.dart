@@ -37,7 +37,7 @@ class HomePage extends StatelessWidget {
           //Icon(Icons.directions_car),
           //Text('feedfeedfeed', textAlign: TextAlign.center,),
           //Posts(),
-          HomeView(),
+          HomeViewState(),
           FoodView(),
           StudyView(),
           SocialView(),
