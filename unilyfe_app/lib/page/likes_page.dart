@@ -75,7 +75,7 @@ class LikeState extends State<Likes> {
   }
 
   Widget displayLikeButton(context, snapshot) {
-    print('in display like button');
+   // print('in display like button');
     // ignore: unused_local_variable
     final authData = snapshot.data;
     return Column(
@@ -85,7 +85,7 @@ class LikeState extends State<Likes> {
             // ignore: missing_return
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-                print('current_uid: ' + current_uid);
+               // print('current_uid: ' + current_uid);
                 var liked = map_liked[current_uid] == true;
                 return IconButton(
                     icon: Icon(liked ? Icons.favorite : Icons.favorite_border,
