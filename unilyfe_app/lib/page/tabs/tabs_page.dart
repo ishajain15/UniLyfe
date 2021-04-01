@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import 'package:unilyfe_app/customized_items/buttons/incentives_button.dart';
 import 'package:unilyfe_app/page/tabs/models/tab_navigation_item.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
@@ -102,7 +104,7 @@ class _TabsPageState extends State<TabsPage> {
           ),
           ListTile(
             title: Text(
-              'Help',
+              'About Us',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.grey,
@@ -111,8 +113,10 @@ class _TabsPageState extends State<TabsPage> {
               ),
             ),
             onTap: () {
-              // Update the state of the app.
-              // ...
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutUs()),
+              );
             },
           ),
           ListTile(
@@ -130,25 +134,6 @@ class _TabsPageState extends State<TabsPage> {
                 context,
                 MaterialPageRoute(builder: (context) => AboutApp()),
               );
-            },
-          ),
-          ListTile(
-            title: Text(
-              'About the creators',
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.grey,
-                fontFamily: 'Raleway',
-                fontSize: 17,
-              ),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AboutUs()),
-              );
-              print('here');
-              //SearchPage();
             },
           ),
           ListTile(
@@ -185,6 +170,24 @@ class _TabsPageState extends State<TabsPage> {
                 MaterialPageRoute(builder: (context) => COVIDLegend()),
               );
               print('COVID Map Legend pressed');
+            },
+          ),
+          ListTile(
+            title: Text(
+              'Incentives',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+                fontFamily: 'Raleway',
+                fontSize: 17,
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => IncentivesPage()),
+              );
+              print('Incentives page pressed');
             },
           ),
         ],
@@ -350,7 +353,7 @@ class AboutApp extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(
-                'About the App',
+                'About the App\n',
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   fontFamily: 'Raleway',
@@ -488,3 +491,55 @@ class COVIDLegend extends StatelessWidget {
         ));
   }
 }
+
+// ignore: must_be_immutable
+class IncentivesPage extends StatelessWidget {
+  Widget pad = Container(
+    padding: const EdgeInsets.all(16),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    var c_width = MediaQuery.of(context).size.width;
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xFFFFFFFF),
+          title: Text(
+            'Incentives',
+            style: TextStyle(color: Colors.grey),
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.grey, //change your color here
+          ),
+        ),
+        body: Container(
+          padding: const EdgeInsets.all(32.0),
+          width: c_width,
+          child: Column(
+            children: <Widget>[
+              Text(
+                'You have: 0 points',
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'Click here to redeem a free Chipotle meal!\n Cost: 500 points',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  color: Colors.grey,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              IncentivesButton()
+            ],
+          ),
+        ));
+  }
+}
+
