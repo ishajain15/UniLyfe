@@ -188,7 +188,7 @@ class _ProfilePageState extends State<ProfilePage> {
         .db
         .collection('userData')
         .doc(uid)
-        .set({'profilepicture': pickedFile});
+        .update({'profilepicture': pickedFile});
   }
 
   Widget displayUserInformation(context, snapshot) {
