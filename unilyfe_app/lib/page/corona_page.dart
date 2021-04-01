@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:unilyfe_app/widgets/provider_widget.dart';
 import '../src/locations.dart' as locations;
 
 class CoronaPage extends StatelessWidget {
@@ -48,10 +50,56 @@ class _MyMapState extends State<MyMap> {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        /* appBar: AppBar(
-          title: const Text('Google Office Locations'),
-          backgroundColor: Colors.green[700],
-        ), */
+      appBar: new AppBar(
+      backgroundColor: Color(0xFFF46C6B),
+      centerTitle: true,
+      title: Row(children: [
+        Text(
+         'Do you have Covid?',
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.white,
+          ),
+        ),
+        SizedBox(width: 5), 
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Color(0xFFF99E3E), // background
+              onPrimary: Colors.white, // foreground
+            ),
+          child: Text('Yes'),
+          onPressed: () async {
+            String  current_uid = await Provider.of(context).auth.getCurrentUID();
+            final db = FirebaseFirestore.instance;
+            db.collection("Covid_info").doc(current_uid).set({'country': "USA"});
+            db.collection("Covid_info").doc('information').set({'counts': FieldValue.increment(1)});
+          },
+        ),
+        SizedBox(width: 1), 
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              primary: Color(0xFFF99E3E), // background
+              onPrimary: Colors.white, // foreground
+          ),
+          child: Text('No'),
+          onPressed: () async {
+            String  current_uid = await Provider.of(context).auth.getCurrentUID();
+            final db = FirebaseFirestore.instance;
+            db.collection("Covid_info").doc(current_uid).delete();
+            db.collection("Covid_info").doc('information').set({'counts': FieldValue.increment(0)});
+          },
+        ),
+        SizedBox(width: 4), 
+        Text(
+          "Cases: ",
+        ),
+        
+        Text(
+
+         'hi'
+        ),
+      ]),
+    ), 
         body: 
           GoogleMap(
           onMapCreated: _onMapCreated,
@@ -64,24 +112,6 @@ class _MyMapState extends State<MyMap> {
         ),
     );
   }
-
-  /* child: Column(
-        children: [
-          InformationButtonFood(),
-          Flexible(
-            child: StreamBuilder(
-                stream: getUserPostsStreamSnapshots(context),
-                builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const Text("Loading...");
-                  return new ListView.builder(
-                      itemCount: snapshot.data.docs.length,
-                      itemBuilder: (BuildContext context, int index) =>
-                          buildPostCard(context, snapshot.data.docs[index]));
-                }),
-          ),
-        ],
-      ), */
-
 }
 
 
