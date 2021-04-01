@@ -9,8 +9,9 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 6 / 3,
+    //return AspectRatio(
+    //  aspectRatio: 6 / 3,
+    return Flexible(
       child: Card(
         elevation: 2,
         child: Container(
