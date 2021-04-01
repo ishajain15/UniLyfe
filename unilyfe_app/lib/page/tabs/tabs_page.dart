@@ -190,6 +190,24 @@ class _TabsPageState extends State<TabsPage> {
               print('Incentives page pressed');
             },
           ),
+           ListTile(
+            title: Text(
+              'FAQ',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+                fontFamily: 'Raleway',
+                fontSize: 17,
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FAQTab()),
+              );
+              print('FAQ Page pressed');
+            },
+          ),
         ],
       ),
     );
@@ -542,4 +560,116 @@ class IncentivesPage extends StatelessWidget {
         ));
   }
 }
+
+class FAQTab extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // double c_width = MediaQuery.of(context).size.width * 0.9;
+    var c_width = MediaQuery.of(context).size.width;
+
+    Widget pad = Container(
+      padding: const EdgeInsets.all(16),
+    );
+    //var c_width = MediaQuery.of(context).size.width * 0.9;
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xFFFFFFFF),
+          title: Text(
+            'Freqently Asked Questions',
+            style: TextStyle(color: Colors.grey),
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.grey, //change your color here
+          ),
+        ),
+        body: Container(
+          padding: const EdgeInsets.all(32.0),
+          width: c_width,
+          child: Column(
+            children: <Widget>[
+              Text(
+                'Question 1: How do I choose what category to label the post I create?',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'Answer: When you click on the \'+\' to create a post, you are able to categorize that post as \'food\', \'study\', or \'social\' by selecting the corresponding button.',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  color: Colors.grey,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              pad,
+              Text(
+                'Question 2: How can I get more information about the subpage that I am currently in?',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'Answer: Click on the orange information button located in the top left corner of the page.',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  color: Colors.grey,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              pad,
+              Text(
+                'Question 3: How can I report a post if I find its contents harmful?',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'Answer: Located in the top right corner of every post are three vertical dots. When you click on these dots, you can report a post. You can also specify the reason for reporting the post.',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  color: Colors.grey,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              pad,
+              Text(
+                'Question 4: How do I edit certain elements of my user profile?',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'Answer: Click on the \'me\' button located in the bottom right corner of the app. Click on the \'edit profile\' button located in the top right corner of the page. Here you can edit your display name, username, and/or biography. ',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  color: Colors.grey,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ));
+  }
+}
+
 
