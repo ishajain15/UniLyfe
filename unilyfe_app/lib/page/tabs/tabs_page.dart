@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/page/tabs/models/tab_navigation_item.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
@@ -102,6 +103,23 @@ class _TabsPageState extends State<TabsPage> {
           ),
           ListTile(
             title: Text(
+              'About the app',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+                fontFamily: 'Raleway',
+                fontSize: 17,
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => AboutApp()),
+              );
+            },
+          ),
+          ListTile(
+            title: Text(
               'Point System',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
@@ -141,6 +159,62 @@ class _TabsPageState extends State<TabsPage> {
     );
   }
 }
+// ignore: must_be_immutable
+class AboutApp extends StatelessWidget {
+  Widget pad = Container(
+    padding: const EdgeInsets.all(16),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    var c_width = MediaQuery.of(context).size.width;
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xFFFFFFFF),
+          title: Text(
+            'About the App',
+            style: TextStyle(color: Colors.grey),
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.grey, //change your color here
+          ),
+        ),
+        body: Container(
+          padding: const EdgeInsets.all(32.0),
+          width: c_width,
+          child: Column(
+            children: <Widget>[
+              Text(
+                'About the App',
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'The recent outbreak of COVID-19 has undoubtedly transformed everyday life - the shift from regular '
+                'college campus life to a fully online or hybrid experience has left students feeling disconnected from '
+                'their peers and their university campus. With UniLyfe, students can make the best use of their campus '
+                'by choosing to eat, study, or have fun in places that are recommended highly by their peers. While '
+                'there are other existing online review applications such as Yelp or Tripadvisor, none of them are '
+                'geared solely towards college students. UniLyfe will stand out because of its ability to provide '
+                'personalized recommendations for locations on university campuses.',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  color: Colors.grey,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ));
+  }
+}
+
 // ignore: must_be_immutable
 class PointsRules extends StatelessWidget {
   Widget pad = Container(
@@ -249,3 +323,4 @@ class COVIDLegend extends StatelessWidget {
         ));
   }
 }
+
