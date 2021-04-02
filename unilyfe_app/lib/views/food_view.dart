@@ -38,7 +38,7 @@ class FoodView extends State<FoodViewState> {
     );
   }
 
- Stream<QuerySnapshot> getUserPostsStreamSnapshots(
+  Stream<QuerySnapshot> getUserPostsStreamSnapshots(
       BuildContext context) async* {
     // ignore: unused_local_variable
     final uid = await Provider.of(context).auth.getCurrentUID();
@@ -46,10 +46,10 @@ class FoodView extends State<FoodViewState> {
     // the user clicked the "randomized" button
     if (hasBeenPressed == true) {
       print('randomize SHOULDVE been clicked!');
-      yield* FirebaseFirestore.instance.collection('posts').snapshots();
+      yield* FirebaseFirestore.instance.collection('food_posts').snapshots();
     } else {
       yield* FirebaseFirestore.instance
-          .collection('posts')
+          .collection('food_posts')
           .orderBy('time', descending: true)
           .snapshots();
     }
@@ -58,7 +58,7 @@ class FoodView extends State<FoodViewState> {
     if (hasBeenPressed == false) {
       print('revert SHOULDVE been clicked!');
       yield* FirebaseFirestore.instance
-          .collection('posts')
+          .collection('food_posts')
           .orderBy('time', descending: true)
           .snapshots();
     }
@@ -69,7 +69,6 @@ class FoodView extends State<FoodViewState> {
     // .snapshots();
   }
 
-
   // Randomizing Posts
   onPressed() {
     setState(() {
@@ -77,6 +76,7 @@ class FoodView extends State<FoodViewState> {
       //print('on press: the randomized button has been clicked');
     });
   }
+
   Widget buildRandomizeButton() {
     Alignment.topLeft;
     return ElevatedButton(
@@ -100,6 +100,7 @@ class FoodView extends State<FoodViewState> {
       //print('on press: the revert button has been clicked');
     });
   }
+
   Widget buildRevertButton() {
     Alignment.topLeft;
     return ElevatedButton(
@@ -115,5 +116,4 @@ class FoodView extends State<FoodViewState> {
       ),
     );
   }
-
 }
