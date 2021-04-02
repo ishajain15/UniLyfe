@@ -135,11 +135,10 @@ class UserNameState extends State<UserName> {
                         chipList(user.hobbies, const Color(0xFFF56D6B)),
                         chipList(user.classes, const Color(0xFFF99E3E))
                       ],
-
                     )),
                     Padding(
                       padding: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                    child: Text(
+                      child: Text(
                         'Points: ' + user.points.toString(),
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -184,9 +183,13 @@ class UserNameState extends State<UserName> {
   @override
   Widget build(BuildContext context) {
     return TextButton(
+        style: TextButton.styleFrom(
+          padding: EdgeInsets.zero,
+          minimumSize: Size(50, 30),
+        ),
         child: Text(username,
             style: TextStyle(
-                fontSize: 15,
+                fontSize: 16,
                 color: Color(0xFFF46C6B),
                 fontWeight: FontWeight.bold)),
         onPressed: () => bottom_Sheet(context));

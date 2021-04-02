@@ -55,9 +55,11 @@ class CommentHistoryView extends StatelessWidget {
   Widget buildPostCard(BuildContext context, DocumentSnapshot comment) {
     return Column(children: <Widget>[
       ListTile(
-        title: Text(comment['comment']),
+        dense: true,
+        title: Text(comment['comment'] + '\n'),
         leading: CircleAvatar(
           backgroundColor: Colors.blue,
+          backgroundImage: AssetImage('assets/empty-profile.png'),
         ),
         subtitle: Text(DateFormat('MM/dd/yyyy (h:mm a)')
             .format(comment['time'].toDate())
