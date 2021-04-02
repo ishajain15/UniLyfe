@@ -6,20 +6,20 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import '../src/locations.dart' as locations;
 
-class CoronaPage extends StatelessWidget {
-  static Route<dynamic> route() => MaterialPageRoute(
-        builder: (context) => CoronaPage(),
-      );
+// class CoronaPage extends StatelessWidget {
+//   static Route<dynamic> route() => MaterialPageRoute(
+//         builder: (context) => CoronaPage(),
+//       );
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('ayo its coronatime'),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: Center(
+//         child: Text('ayo its coronatime'),
+//       ),
+//     );
+//   }
+// }
 
 class MyMap extends StatefulWidget {
   @override
@@ -45,15 +45,21 @@ class _MyMapState extends State<MyMap> {
       }
     });
   }
-
-  @override
-  Widget build(BuildContext context) {
-String _getData;
   Future<String> get_info() async {
-QuerySnapshot doc= await FirebaseFirestore.instance.collection('Covid_info').get();
-print(doc.size.toString());
-return doc.size.toString();
-}
+    QuerySnapshot doc= await FirebaseFirestore.instance.collection('Covid_info').get();
+    print(doc.size.toString());
+    numbers = doc.size as int;
+    return doc.size.toString();
+  }
+// Stream<QuerySnapshot> get_info() async* {
+//     Stream<QuerySnapshot> doc= await FirebaseFirestore.instance.collection('Covid_info').get().asStream();
+//     print(doc);
+//     // return doc;
+//   }
+// 
+  @override
+  int numbers = 0; 
+  Widget build(BuildContext context) {
 
 
 String count = "";
@@ -71,38 +77,10 @@ String count = "";
           ),
         ),
         SizedBox(width: 5), 
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: Color(0xFFF99E3E), // background
-              onPrimary: Colors.white, // foreground
-            ),
-          child: Text('Yes'),
-          onPressed: () async {
-            String  current_uid = await Provider.of(context).auth.getCurrentUID();
-            final db = FirebaseFirestore.instance;
-            db.collection("Covid_info").doc(current_uid).set({'country': "USA"});
-            db.collection("Covid_info").doc('information').set({'counts': FieldValue.increment(1)});
-            count = await get_info();
-            print(count);
-          },
-        ),
+        yesButton(),
         SizedBox(width: 1), 
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-              primary: Color(0xFFF99E3E), // background
-              onPrimary: Colors.white, // foreground
-          ),
-          child: Text('No'),
-          onPressed: () async {
-            String  current_uid = await Provider.of(context).auth.getCurrentUID();
-            final db = FirebaseFirestore.instance;
-            db.collection("Covid_info").doc(current_uid).delete();
-            db.collection("Covid_info").doc('information').set({'counts': FieldValue.increment(0)});
-            count = await get_info();
-            print(count);
-          },
-        ),
-        Text('cases: ' + count),
+        nobutton(),
+        // Text('cases: ' + info),
      FutureBuilder(
       future: get_info(),
       initialData: "Loading text..",
@@ -110,28 +88,13 @@ String count = "";
         return new SingleChildScrollView(
           padding: new EdgeInsets.all(8.0),
           child: new Text(
-            text.data,
+            numbers.toString(),
             style: new TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 19.0,
             ),
           ));
       })
-    //  FutureBuilder(
-    //   future: _getData,
-    //   initialData: "Loading text..",
-    //   builder: (BuildContext context, AsyncSnapshot<String> text) {
-    //     return new SingleChildScrollView(
-    //       padding: new EdgeInsets.all(8.0),
-    //       child: new Text(
-    //         text.data,
-    //         style: new TextStyle(
-    //           fontWeight: FontWeight.bold,
-    //           fontSize: 19.0,
-    //         ),
-    //       ));
-    //   })
-    // Text(_getData),
       ]),
     ), 
         body: 
@@ -146,6 +109,63 @@ String count = "";
         ),
     );
   }
+
+onPressed_NO() async{
+  // setState(() async{
+              String  current_uid = await Provider.of(context).auth.getCurrentUID();
+              final db = FirebaseFirestore.instance;
+              db.collection("Covid_info").doc(current_uid).delete();
+              db.collection("Covid_info").doc('information').set({'counts': FieldValue.increment(0)});
+              setState(() {
+              numbers = numbers;
+              print("numbers");
+              print(numbers);
+            });
+              // count = await get_info();
+              // print(count);
+              //  });
+  }
+  
+  Widget nobutton() {
+          return ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              primary: Color(0xFFF99E3E), // background
+              onPrimary: Colors.white, // foreground
+          ),
+          child: Text('No'),
+          onPressed: onPressed_NO,
+
+          // setState(() {
+          //     numbers--;
+          //   });
+        );
+  }
+
+onPressed_yes() async{
+            //  setState(() async {
+            String  current_uid = await Provider.of(context).auth.getCurrentUID();
+            final db = FirebaseFirestore.instance;
+            db.collection("Covid_info").doc(current_uid).set({'country': "USA"});
+            db.collection("Covid_info").doc('information').set({'counts': FieldValue.increment(1)});
+            setState(() {
+              numbers++;
+              print("numbers");
+              print(numbers);
+            });
+            // count = await get_info();
+            // print(count);
+            // });
+  }
+  
+  Widget yesButton() {
+        return ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Color(0xFFF99E3E), // background
+              onPrimary: Colors.white, // foreground
+            ),
+          
+          child: Text('Yes'),
+          onPressed: onPressed_yes,
+        );
+  }
 }
-
-
