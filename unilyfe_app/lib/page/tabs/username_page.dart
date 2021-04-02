@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
+import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
 import 'package:unilyfe_app/models/User.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
-import 'package:unilyfe_app/page/profile_page.dart';
 
 // ignore: must_be_immutable
 String reason = '';
@@ -43,25 +44,13 @@ class UserNameState extends State<UserName> {
             height: MediaQuery.of(context).size.height * .60,
             child: Column(
               children: <Widget>[
-                //ElevatedButton(
-                //onPressed: () => {},
-                /*style: ElevatedButton.styleFrom(
-                    primary: Color(0xFFF46C6B),
-                    onPrimary: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0)),
-                  ),*/
-                //child:
-                /*Text(
-                    'HI',
-                  ),*/
                 FutureBuilder(
                   future: Provider.of(context).auth.getCurrentUID(),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.done) {
                       return displayUserData(context, snapshot);
                     } else {
-                      return CircularProgressIndicator();
+                      return buildLoading();
                     }
                   },
                 ),
@@ -195,3 +184,12 @@ class UserNameState extends State<UserName> {
         onPressed: () => bottom_Sheet(context));
   }
 }
+
+Widget buildLoading() => Center(
+        child: ColorLoader4(
+      dotOneColor: Color(0xFFF46C6B),
+      dotTwoColor: Color(0xFFF47C54),
+      dotThreeColor: Color(0xFFFCAC54),
+      dotType: DotType.square,
+      duration: Duration(milliseconds: 1200),
+    ));

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
+import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/models/post.dart';
@@ -255,9 +257,18 @@ class LikeState extends State<Likes> {
         if (snapshot.connectionState == ConnectionState.done) {
           return displayLikeButton(context, snapshot);
         } else {
-          return CircularProgressIndicator();
+          return buildLoading();
         }
       },
     );
   }
 }
+
+Widget buildLoading() => Center(
+        child: ColorLoader4(
+      dotOneColor: Color(0xFFF46C6B),
+      dotTwoColor: Color(0xFFF47C54),
+      dotThreeColor: Color(0xFFFCAC54),
+      dotType: DotType.square,
+      duration: Duration(milliseconds: 1200),
+    ));

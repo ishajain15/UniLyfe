@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:profanity_filter/profanity_filter.dart';
 import 'package:unilyfe_app/customized_items/custom_warning.dart';
+import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
+import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
 import 'package:unilyfe_app/page/tabs/username_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
@@ -48,7 +50,7 @@ class CommentsPageState extends State<CommentsPage> {
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return const Text('Loading...');
+          return buildLoading();
         }
         var comments = <Comment>[];
         snapshot.data.docs.forEach((doc) {
@@ -263,3 +265,12 @@ class Comment extends StatelessWidget {
     );
   }
 }
+
+Widget buildLoading() => Center(
+        child: ColorLoader4(
+      dotOneColor: Color(0xFFF46C6B),
+      dotTwoColor: Color(0xFFF47C54),
+      dotThreeColor: Color(0xFFFCAC54),
+      dotType: DotType.square,
+      duration: Duration(milliseconds: 1200),
+    ));
