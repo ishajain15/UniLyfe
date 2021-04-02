@@ -144,7 +144,7 @@ class HomeView extends State<HomeViewState> {
                   padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
                    child: Row(
                     children: <Widget>[
-                      UserName(postid: post['postid'],postChannel: post['postChannel'], username: post['username'])
+                      UserName(postid: post['postid'],uid: post['uid'], username: post['username'])
                       // TextButton(
                       // child:Text(post['username'], style: TextStyle(fontSize: 15, color: Color(0xFFF46C6B), fontWeight: FontWeight.bold) ),
                       // onPressed: () => UserName(postid: post['postid'],postChannel: post['postChannel'])
