@@ -15,9 +15,9 @@ Widget realGetTitles() {
   db.collection('posts').get().then((QuerySnapshot querySnapshot) {
     querySnapshot.docs.forEach((doc) {
       //titlesList[index] = (Text(doc['title'].toString()));
-      String title = doc['title'].toString();
-      String postid = doc['postid'].toString();
-      String entry = title + "=" + postid;
+      var title = doc['title'].toString();
+      var postid = doc['postid'].toString();
+      var entry = title + '=' + postid;
       //titlesList.add(doc['title'].toString());
       titlesList.add(entry);
       //print(doc["title"]);
@@ -60,7 +60,6 @@ class SearchPage extends StatelessWidget {
 }
 
 class DataSearch extends SearchDelegate<String> {
-
   DocumentSnapshot postDocument;
 
   getPost(postid) async {
@@ -87,7 +86,6 @@ class DataSearch extends SearchDelegate<String> {
           return Container();
         });
   }
-
 
   final recentFlowers = [];
   String chosen = '';
@@ -128,13 +126,13 @@ class DataSearch extends SearchDelegate<String> {
     return FutureBuilder(
       future: Provider.of(context).auth.getCurrentUID(),
       builder: (context, snapshot) {
-      if (snapshot.connectionState == ConnectionState.done) {
-        return generatePost(context, snapshot, chosen);
+        if (snapshot.connectionState == ConnectionState.done) {
+          return generatePost(context, snapshot, chosen);
         } else {
-        return CircularProgressIndicator();
+          return buildLoading();
         }
       },
-      );
+    );
     throw UnimplementedError();
   }
 
@@ -186,7 +184,7 @@ class QueryTitles extends StatelessWidget {
         stream: db.collection('posts').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: buildLoading());
           } else {
             return ListView(
                 children: snapshot.data.docs.map((document) {

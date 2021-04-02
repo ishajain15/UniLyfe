@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:unilyfe_app/customized_items/buttons/comment_history.dart';
 import 'package:unilyfe_app/customized_items/buttons/lets_go_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/logout_button.dart';
+import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
+import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
 import 'package:unilyfe_app/models/User.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -80,7 +82,7 @@ class _ProfilePageState extends State<ProfilePage> {
             if (snapshot.connectionState == ConnectionState.done) {
               return displayUserInformation(context, snapshot);
             } else {
-              return CircularProgressIndicator();
+              return buildLoading();
             }
           },
         ),
@@ -90,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
             if (snapshot.connectionState == ConnectionState.done) {
               return _displayClasses(context, snapshot);
             } else {
-              return CircularProgressIndicator();
+              return buildLoading();
             }
           },
         ),
@@ -113,7 +115,7 @@ class _ProfilePageState extends State<ProfilePage> {
               //print('returning display points!');
               return _displayPoints(context, snapshot);
             } else {
-              return CircularProgressIndicator();
+              return buildLoading();
             }
           },
         ),
@@ -538,7 +540,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     if (snapshot.connectionState == ConnectionState.done) {
                       return _displayClassandHobbyBoxes(context, snapshot);
                     } else {
-                      return CircularProgressIndicator();
+                      return buildLoading();
                     }
                   },
                 ),
@@ -774,7 +776,7 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
         if (snapshot.connectionState == ConnectionState.done) {
           return _displayDropDown(context, snapshot);
         } else {
-          return CircularProgressIndicator();
+          return buildLoading();
         }
       },
     );
@@ -831,3 +833,12 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
     );
   }
 }
+
+Widget buildLoading() => Center(
+        child: ColorLoader4(
+      dotOneColor: Color(0xFFF46C6B),
+      dotTwoColor: Color(0xFFF47C54),
+      dotThreeColor: Color(0xFFFCAC54),
+      dotType: DotType.square,
+      duration: Duration(milliseconds: 1200),
+    ));

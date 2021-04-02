@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:profanity_filter/profanity_filter.dart';
 import 'package:unilyfe_app/customized_items/custom_warning.dart';
+import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
+import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
 import 'package:unilyfe_app/page/tabs/username_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
@@ -48,7 +50,7 @@ class CommentsPageState extends State<CommentsPage> {
           .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
-          return const Text('Loading...');
+          return buildLoading();
         }
         var comments = <Comment>[];
         snapshot.data.docs.forEach((doc) {
@@ -204,32 +206,40 @@ class Comment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //FocusScopeNode currentFocus = FocusScope.of(context);
     return Column(
       children: <Widget>[
         ListTile(
-          //title: Text(comment),
-          // title: Text('\n$username''\n\n$comment'),
-          title: UserName(postid: '', uid: uid, username: username),
-          leading: CircleAvatar(
-            backgroundColor: Colors.blue,
-          ),
-          subtitle: Column(
-            /*TextStyle(
-            fontFamily: 'Raleway',
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),*/
-            children: [
-              Text('\n$comment\n',
-                  style: TextStyle(
-                      fontFamily: 'Raleway',
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black)),
-              Text(DateFormat('MM/dd/yyyy (h:mm a)').format(time).toString()),
+          contentPadding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+          dense: true,
+          visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+          title: Row(
+            children: <Widget>[
+              UserName(postid: '', uid: uid, username: username),
             ],
           ),
+          leading: CircleAvatar(
+            backgroundColor: Colors.blue,
+            //radius: 18,
+            backgroundImage: AssetImage('assets/empty-profile.png'),
+          ),
+          subtitle: Column(children: <Widget>[
+            Row(
+              children: <Widget>[
+                Expanded(
+                  flex: 20,
+                  child: Text('\n$comment\n',
+                      style: TextStyle(
+                          fontFamily: 'Raleway',
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black)),
+                ),
+              ],
+            ),
+            Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+              Text(DateFormat('MM/dd/yyyy (h:mm a)').format(time).toString()),
+            ]),
+          ]),
           trailing: OutlinedButton(
             onPressed: () {
               replying = !replying;
@@ -244,7 +254,9 @@ class Comment extends StatelessWidget {
               replyTo = uid;
               print(uid);
             },
-            child: Text('Reply'),
+            style: OutlinedButton.styleFrom(padding: EdgeInsets.zero),
+            child: Text('Reply',
+                style: TextStyle(fontSize: 16, color: Color(0xFFF46C6B))),
           ),
           isThreeLine: true,
         ),
@@ -253,3 +265,12 @@ class Comment extends StatelessWidget {
     );
   }
 }
+
+Widget buildLoading() => Center(
+        child: ColorLoader4(
+      dotOneColor: Color(0xFFF46C6B),
+      dotTwoColor: Color(0xFFF47C54),
+      dotThreeColor: Color(0xFFFCAC54),
+      dotType: DotType.square,
+      duration: Duration(milliseconds: 1200),
+    ));
