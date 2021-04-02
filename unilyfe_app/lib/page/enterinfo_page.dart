@@ -30,6 +30,8 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
       TextEditingController();
   final TextEditingController _covidController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
+  TextEditingController _classesController = TextEditingController();
+  TextEditingController _hobbiesController = TextEditingController();
   String _name = '';
 
   _getName() async {
@@ -92,13 +94,25 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                 'I am a...  ',
                 //style: TextStyle(color: Colors.grey, fontSize: 24),
                 style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Raleway'),
+                  color: Colors.grey,
+                  fontSize: 24,
+                  fontFamily: 'Raleway',
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               _MyYearDropDownWidget(),
             ]),
             pad,
+            FutureBuilder(
+              future: Provider.of(context).auth.getCurrentUID(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return _displayClassandHobbyBoxes(context, snapshot);
+                } else {
+                  return CircularProgressIndicator();
+                }
+              },
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -162,42 +176,36 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                         .doc(uid)
                         .update({'year': year});
 
-                    /*if (_profilePictureController.text != null &&
-                              _profilePictureController.text != "") {
-                            user.picturePath = _profilePictureController.text;
-                            print(_profilePictureController.text);
-                            await Provider.of(context)
-                                .db
-                                .collection('userData')
-                                .doc(uid)
-                                .set(user.toJson());
-                          }*/
-                    /*if (_covidController.text != null) {
-                            user.covid = _covidController.text;
-                            print(_covidController.text);
-                            await Provider.of(context)
-                                .db
-                                .collection('userData')
-                                .doc(uid)
-                                .set(user.toJson());
-                          }*/
-                    /*if (_locationController.text != null) {
-                            user.location = _locationController.text;
-                            print(_locationController.text);
-                            await Provider.of(context)
-                                .db
-                                .collection('userData')
-                                .doc(uid)
-                                .set(user.toJson());
-                          }*/
-                    //_getProfileData();
-                    //print("user.year: " + user.year);
+                    if (_hobbiesController.text != null ||
+                        _hobbiesController.text != '') {
+                      user.hobbies = (_hobbiesController.text.split(', '));
+                      print("hobbies: " + _hobbiesController.text);
+                      setState(() {
+                        user.hobbies = (_hobbiesController.text.split(', '));
+                      });
+                      await Provider.of(context)
+                          .db
+                          .collection('userData')
+                          .doc(uid)
+                          .update(
+                              {'hobbies': _hobbiesController.text.split(', ')});
+                    }
 
-                    // Navigator.of(context).pop();
-                    /*await Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => TabsPage()),
-                    );*/
+                    if (_classesController.text != null ||
+                        _classesController.text != '') {
+                      user.classes = (_classesController.text.split(', '));
+                      print("classes: " + _classesController.text);
+                      setState(() {
+                        user.classes = (_classesController.text.split(', '));
+                      });
+                      await Provider.of(context)
+                          .db
+                          .collection('userData')
+                          .doc(uid)
+                          .update(
+                              {'classes': _classesController.text.split(', ')});
+                    }
+
                     if (_validUsername) {
                       print("username is valid?");
                       final auth = Provider.of(context).auth;
@@ -241,31 +249,58 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
     padding: const EdgeInsets.all(32),
   );
 
-  /*Widget _changeInfo(
-      String textBoxText, TextEditingController editingController) {
-    return TextField(
-      controller: editingController,
-      autofocus: false,
-      style: TextStyle(fontSize: 22.0, color: Colors.black),
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Color(0xFFfae9d7),
-        hintText: textBoxText,
-        contentPadding:
-            const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black),
-          borderRadius: BorderRadius.circular(25.7),
-        ),
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(25.7),
+  Widget _displayClassandHobbyBoxes(context, snapshot) {
+    return Column(children: <Widget>[
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ConstrainedBox(
+          constraints: BoxConstraints.tight(const Size(300, 60)),
+          child: TextField(
+              style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                  fontFamily: 'Raleway',
+                  fontWeight: FontWeight.bold),
+              autofocus: false,
+              controller: _classesController,
+              decoration: InputDecoration(
+                hintText: 'Your classes',
+                hintStyle: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 20,
+                  fontFamily: 'Raleway',
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
         ),
       ),
-    );
-  }*/
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ConstrainedBox(
+          constraints: BoxConstraints.tight(const Size(300, 60)),
+          child: TextField(
+              style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                  fontFamily: 'Raleway',
+                  fontWeight: FontWeight.bold),
+              autofocus: false,
+              controller: _hobbiesController,
+              decoration: InputDecoration(
+                hintText: 'Your hobbies',
+                hintStyle: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 20,
+                  fontFamily: 'Raleway',
+                  fontWeight: FontWeight.bold,
+                ),
+              )),
+        ),
+      ),
+    ]);
+  }
 
-    Widget _changeInfo(
+  Widget _changeInfo(
       String textBoxText, TextEditingController editingController) {
     return TextField(
       controller: editingController,
@@ -428,7 +463,7 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
           child: Text(
             value,
             style: TextStyle(
-              color: Colors.grey,
+                color: Colors.grey,
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Raleway'),
