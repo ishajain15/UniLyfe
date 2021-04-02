@@ -16,12 +16,12 @@ class LikedPostsView extends StatelessWidget {
         children: [
           //InformationButtonFood(),
           //RandomizePage(),
-         // RevertPage(),
+          // RevertPage(),
           Flexible(
             child: StreamBuilder(
                 stream: getUserPostsStreamSnapshots(context),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const Text('Loading...');
+                  if (!snapshot.hasData) return buildLoading();
                   return ListView.builder(
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (BuildContext context, int index) =>
@@ -34,33 +34,33 @@ class LikedPostsView extends StatelessWidget {
     );
   }
 
-    Stream<QuerySnapshot> getUserPostsStreamSnapshots(
+  Stream<QuerySnapshot> getUserPostsStreamSnapshots(
       BuildContext context) async* {
     // ignore: unused_local_variable
     final uid = await Provider.of(context).auth.getCurrentUID();
-      yield* FirebaseFirestore.instance
-      .collection('userData')
+    yield* FirebaseFirestore.instance
+        .collection('userData')
         .doc(uid)
         .collection('liked_posts')
-          .orderBy('time', descending: true)
-          .snapshots();
-      /*if (RandomizePage().randomizing_criteria() == true) {
+        .orderBy('time', descending: true)
+        .snapshots();
+    /*if (RandomizePage().randomizing_criteria() == true) {
           print('randomize SHOULDVE been clicked!');
           yield* FirebaseFirestore.instance
             .collection('posts')
             .snapshots();
       }*/
-      /*if (RevertPage().revert_criteria() == true) {
+    /*if (RevertPage().revert_criteria() == true) {
           print('revert SHOULDVE been clicked');
         yield* FirebaseFirestore.instance
           .collection('posts')
           .orderBy('time', descending: true)
           .snapshots();
       }*/
-      
-      // .collection("userData")
-      // .doc(uid)
-      // .collection("posts")
-      // .snapshots();
+
+    // .collection("userData")
+    // .doc(uid)
+    // .collection("posts")
+    // .snapshots();
   }
 }

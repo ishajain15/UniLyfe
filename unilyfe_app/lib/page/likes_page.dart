@@ -117,23 +117,25 @@ class LikeState extends State<Likes> {
     liked = map_liked[current_uid] == true;
     var doc = db.collection('liked_posts').doc();
 
+    String postCollection = '';
+
     if (postChannel == 'FOOD') {
-      postChannel = 'food_posts';
+      postCollection = 'food_posts';
     } else if (postChannel == 'STUDY') {
-      postChannel = 'study_posts';
+      postCollection = 'study_posts';
     } else {
-      postChannel = 'social_posts';
+      postCollection = 'social_posts';
     }
     if (isliked) {
       likes -= 1;
       Provider.of(context)
           .db
-          .collection(postChannel)
+          .collection(postCollection)
           .doc(postid)
           .update({'likes': likes});
       Provider.of(context)
           .db
-          .collection(postChannel)
+          .collection(postCollection)
           .doc(postid)
           .update({'map_liked.$current_uid': false});
       Provider.of(context)
@@ -169,12 +171,12 @@ class LikeState extends State<Likes> {
       likes += 1;
       Provider.of(context)
           .db
-          .collection(postChannel)
+          .collection(postCollection)
           .doc(postid)
           .update({'likes': likes});
       Provider.of(context)
           .db
-          .collection(postChannel)
+          .collection(postCollection)
           .doc(postid)
           .update({'map_liked.$current_uid': true});
       Provider.of(context)
