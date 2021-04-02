@@ -86,15 +86,6 @@ class _ProfilePageState extends State<ProfilePage> {
             }
           },
         ),
-       /* Text(
-          'Points: 0',
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontFamily: 'Raleway',
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),*/
         FutureBuilder(
           future: Provider.of(context).auth.getCurrentUID(),
           builder: (context, snapshot) {
