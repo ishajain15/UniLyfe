@@ -110,7 +110,7 @@ class _ProfilePageState extends State<ProfilePage> {
           future: Provider.of(context).auth.getCurrentUID(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              print('returning display points!');
+              //print('returning display points!');
               return _displayPoints(context, snapshot);
             } else {
               return CircularProgressIndicator();
@@ -126,23 +126,24 @@ class _ProfilePageState extends State<ProfilePage> {
       FutureBuilder(
           future: _getProfileData(),
           builder: (context, snapshot) {
-            print('points: ' + user.points.toString());
+            //print('points: ' + user.points.toString());
             if (snapshot.connectionState == ConnectionState.done) {
-            return Container(
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                child: Text(
-                  'Points: ' + user.points.toString(),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontFamily: 'Raleway',
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+              return Container(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                  child: Text(
+                    'Points: ' + user.points.toString(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontFamily: 'Raleway',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
-              ),
-            );
-             }
+              );
+            }
+            return Container();
           })
     ]);
   }
