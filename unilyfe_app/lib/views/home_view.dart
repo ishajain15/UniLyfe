@@ -24,6 +24,7 @@ class HomeViewState extends StatefulWidget {
 class HomeView extends State<HomeViewState> {
   @override
   bool hasBeenPressed = false;
+
   Widget build(BuildContext context) {
     //print("rebuilding!");
     //print(hasBeenPressed);
@@ -213,7 +214,8 @@ class HomeView extends State<HomeViewState> {
                           liked: post['liked'],
                           postChannel: post['postChannel'],
                           map_liked: post['map_liked'],
-                          uid: post['uid']),
+                          uid: post['uid'],
+                          username: post['username']),
                       CommentButtonWidget(
                         postid: post['postid'],
                       ),
@@ -318,7 +320,8 @@ class HomeView extends State<HomeViewState> {
                           likes: post['likes'],
                           postChannel: post['postChannel'],
                           map_liked: post['map_liked'],
-                          uid: post['uid']),
+                          uid: post['uid'],
+                          username: post['username']),
                       CommentButtonWidget(
                         postid: post['postid'],
                       ),
