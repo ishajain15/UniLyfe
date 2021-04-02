@@ -45,10 +45,10 @@ class StudyView extends State<StudyViewState> {
     // the user clicked the "randomized" button
     if (hasBeenPressed == true) {
       print('randomize SHOULDVE been clicked!');
-      yield* FirebaseFirestore.instance.collection('posts').snapshots();
+      yield* FirebaseFirestore.instance.collection('study_posts').snapshots();
     } else {
       yield* FirebaseFirestore.instance
-          .collection('posts')
+          .collection('study_posts')
           .orderBy('time', descending: true)
           .snapshots();
     }
@@ -57,7 +57,7 @@ class StudyView extends State<StudyViewState> {
     if (hasBeenPressed == false) {
       print('revert SHOULDVE been clicked!');
       yield* FirebaseFirestore.instance
-          .collection('posts')
+          .collection('study_posts')
           .orderBy('time', descending: true)
           .snapshots();
     }
