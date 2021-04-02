@@ -78,7 +78,7 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
             Container(
               padding: const EdgeInsets.all(4),
             ),
-            _changeInfo('profile pic...', _profilePictureController),
+            /*_changeInfo('profile pic...', _profilePictureController),
             Container(
               padding: const EdgeInsets.all(4),
             ),
@@ -86,11 +86,15 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
             Container(
               padding: const EdgeInsets.all(4),
             ),
-            _changeInfo('where did you last go?', _locationController),
+            _changeInfo('where did you last go?', _locationController),*/
             Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
               Text(
                 'I am a...  ',
-                style: TextStyle(color: Colors.grey, fontSize: 24),
+                //style: TextStyle(color: Colors.grey, fontSize: 24),
+                style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Raleway'),
               ),
               _MyYearDropDownWidget(),
             ]),
@@ -217,11 +221,10 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
   }
 
   Widget displayTitle(context, snapshot) {
-    return Column(
-      children: <Widget>[
-    FutureBuilder(
-        future: _getName(),
-        builder: (context, snapshot) {
+    return Column(children: <Widget>[
+      FutureBuilder(
+          future: _getName(),
+          builder: (context, snapshot) {
             return Text(
               'Hi ' + _name + '! ' + 'Tell us about yourself',
               textAlign: TextAlign.center,
@@ -230,16 +233,15 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Raleway'),
             );
-        })
-      ]
-    );
+          })
+    ]);
   }
 
   Widget pad = Container(
     padding: const EdgeInsets.all(32),
   );
 
-  Widget _changeInfo(
+  /*Widget _changeInfo(
       String textBoxText, TextEditingController editingController) {
     return TextField(
       controller: editingController,
@@ -253,6 +255,40 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
             const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: Colors.black),
+          borderRadius: BorderRadius.circular(25.7),
+        ),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide.none,
+          borderRadius: BorderRadius.circular(25.7),
+        ),
+      ),
+    );
+  }*/
+
+    Widget _changeInfo(
+      String textBoxText, TextEditingController editingController) {
+    return TextField(
+      controller: editingController,
+      autofocus: false,
+      style: TextStyle(
+          fontSize: 22,
+          color: Colors.black,
+          fontFamily: 'Raleway',
+          fontWeight: FontWeight.bold),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Color(0xFFfae9d7),
+        hintText: textBoxText,
+        hintStyle: TextStyle(
+          color: Colors.grey,
+          fontSize: 20,
+          fontFamily: 'Raleway',
+          fontWeight: FontWeight.bold,
+        ),
+        contentPadding:
+            const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.grey),
           borderRadius: BorderRadius.circular(25.7),
         ),
         enabledBorder: UnderlineInputBorder(
@@ -368,7 +404,7 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
       elevation: 16,
       style: const TextStyle(color: Colors.grey, fontSize: 24),
       underline: Container(
-        height: 3,
+        height: 2.5,
         color: const Color(0xFFF99E3E),
       ),
       onChanged: (String newValue) async {
@@ -389,7 +425,14 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
           .map<DropdownMenuItem<String>>((String value) {
         return DropdownMenuItem<String>(
           value: value,
-          child: Text(value),
+          child: Text(
+            value,
+            style: TextStyle(
+              color: Colors.grey,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Raleway'),
+          ),
         );
       }).toList(),
     );
