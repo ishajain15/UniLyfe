@@ -200,12 +200,26 @@ class Comment extends StatelessWidget {
         ListTile(
           //title: Text(comment),
           // title: Text('\n$username''\n\n$comment'),
-          title: UserName(postid: '',postChannel: '', username: username),
+          title: UserName(postid: '', uid: uid, username: username),
           leading: CircleAvatar(
             backgroundColor: Colors.blue,
           ),
-          subtitle:
+          subtitle: Column(
+            /*TextStyle(
+            fontFamily: 'Raleway',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),*/
+            children: [
+              Text('\n$comment\n',
+                  style: TextStyle(
+                      fontFamily: 'Raleway',
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black)),
               Text(DateFormat('MM/dd/yyyy (h:mm a)').format(time).toString()),
+            ],
+          ),
           trailing: OutlinedButton(
             onPressed: () {
               replying = !replying;
@@ -222,6 +236,7 @@ class Comment extends StatelessWidget {
             },
             child: Text('Reply'),
           ),
+          isThreeLine: true,
         ),
         Divider(),
       ],
