@@ -51,36 +51,34 @@ class _MyMapState extends State<MyMap> {
     numbers = doc.size as int;
     return doc.size.toString();
   }
-// Stream<QuerySnapshot> get_info() async* {
-//     Stream<QuerySnapshot> doc= await FirebaseFirestore.instance.collection('Covid_info').get().asStream();
-//     print(doc);
-//     // return doc;
-//   }
-// 
   @override
   int numbers = 0; 
   Widget build(BuildContext context) {
-
-
-String count = "";
     return MaterialApp(
       home: Scaffold(
       appBar: new AppBar(
-      backgroundColor: Color(0xFFF46C6B),
+      backgroundColor: Colors.white,
       centerTitle: true,
       title: Row(children: [
         Text(
          'Do you have Covid?',
           style: TextStyle(
             fontSize: 15,
-            color: Colors.white,
+            color: Color(0xFFF46C6B),
           ),
         ),
         SizedBox(width: 5), 
         yesButton(),
         SizedBox(width: 1), 
         nobutton(),
-        // Text('cases: ' + info),
+         SizedBox(width: 5), 
+        Text(
+         'Cases: ',
+          style: TextStyle(
+            fontSize: 15,
+            color: Color(0xFFF46C6B),
+          ),
+        ),
      FutureBuilder(
       future: get_info(),
       initialData: "Loading text..",
@@ -92,6 +90,7 @@ String count = "";
             style: new TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 19.0,
+              color: Color(0xFFF46C6B),
             ),
           ));
       })
@@ -110,62 +109,42 @@ String count = "";
     );
   }
 
-onPressed_NO() async{
-  // setState(() async{
-              String  current_uid = await Provider.of(context).auth.getCurrentUID();
-              final db = FirebaseFirestore.instance;
-              db.collection("Covid_info").doc(current_uid).delete();
-              db.collection("Covid_info").doc('information').set({'counts': FieldValue.increment(0)});
-              setState(() {
-              numbers = numbers;
-              print("numbers");
-              print(numbers);
-            });
-              // count = await get_info();
-              // print(count);
-              //  });
-  }
+  onPressed_NO() async{
+    String  current_uid = await Provider.of(context).auth.getCurrentUID();
+    final db = FirebaseFirestore.instance;
+    db.collection("Covid_info").doc(current_uid).delete();
+    setState(() {
+    numbers = numbers;
+  });}
   
   Widget nobutton() {
           return ElevatedButton(
           style: ElevatedButton.styleFrom(
-              primary: Color(0xFFF99E3E), // background
+              primary: Color(0xFFF46C6B), // background
               onPrimary: Colors.white, // foreground
           ),
           child: Text('No'),
           onPressed: onPressed_NO,
-
-          // setState(() {
-          //     numbers--;
-          //   });
         );
   }
 
-onPressed_yes() async{
-            //  setState(() async {
-            String  current_uid = await Provider.of(context).auth.getCurrentUID();
-            final db = FirebaseFirestore.instance;
-            db.collection("Covid_info").doc(current_uid).set({'country': "USA"});
-            db.collection("Covid_info").doc('information').set({'counts': FieldValue.increment(1)});
-            setState(() {
-              numbers++;
-              print("numbers");
-              print(numbers);
-            });
-            // count = await get_info();
-            // print(count);
-            // });
+  onPressed_yes() async{
+    String  current_uid = await Provider.of(context).auth.getCurrentUID();
+    final db = FirebaseFirestore.instance;
+    db.collection("Covid_info").doc(current_uid).set({'country': "USA"});
+    setState(() {
+      numbers++;
+      });
   }
   
   Widget yesButton() {
-        return ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              primary: Color(0xFFF99E3E), // background
-              onPrimary: Colors.white, // foreground
-            ),
-          
-          child: Text('Yes'),
-          onPressed: onPressed_yes,
-        );
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: Color(0xFFF46C6B), // background
+        onPrimary: Colors.white, // foreground
+      ),
+      child: Text('Yes'),
+      onPressed: onPressed_yes,
+    );
   }
 }
