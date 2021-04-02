@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:unilyfe_app/customized_items/buttons/incentives_button.dart';
 import 'package:unilyfe_app/page/tabs/models/tab_navigation_item.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart' as fire_auth;
+import 'package:unilyfe_app/models/User.dart';
+import 'package:unilyfe_app/page/profile_page.dart';
 
 class TabsPage extends StatefulWidget {
   @override
@@ -554,16 +557,17 @@ class IncentivesPage extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(
-                'You have: 0 points',
-                textAlign: TextAlign.left,
+                'Rules: If you have enough points specified for the rewards below, you can redeem them by clicking the Redeem button, and your points will be decreased by that number.\n',
+                textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontFamily: 'Raleway',
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
               ),
+              //_displayPoints();
               Text(
-                'Click here to redeem a free Chipotle meal!\n Cost: 500 points',
+                'Click here to redeem a free Chipotle meal!\n Cost: 10 points',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontFamily: 'Raleway',

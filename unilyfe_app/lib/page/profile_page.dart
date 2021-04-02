@@ -105,6 +105,7 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
 
         ),*/
+
         FutureBuilder(
           future: Provider.of(context).auth.getCurrentUID(),
           builder: (context, snapshot) {
