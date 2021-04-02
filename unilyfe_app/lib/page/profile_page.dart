@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart' as fire_auth;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:unilyfe_app/customized_items/buttons/comment_history.dart';
 import 'package:unilyfe_app/customized_items/buttons/lets_go_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/logout_button.dart';
 import 'package:unilyfe_app/models/User.dart';
@@ -47,6 +48,12 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
         body: ListView(
       children: <Widget>[
+        //added this below
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: CommentHistoryButton(),
+          ),
+          //added this above
         Container(
             child: Row(children: [
           Container(
@@ -86,6 +93,7 @@ class _ProfilePageState extends State<ProfilePage> {
             }
           },
         ),
+
        /* Text(
           'Points: 0',
           textAlign: TextAlign.center,
@@ -94,6 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
+
         ),*/
         FutureBuilder(
           future: Provider.of(context).auth.getCurrentUID(),
