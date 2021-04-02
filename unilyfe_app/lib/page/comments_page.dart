@@ -163,7 +163,17 @@ class CommentsPageState extends State<CommentsPage> {
               decoration: InputDecoration(labelText: 'Write a comment...'),
             ),
             trailing: OutlinedButton(
-              onPressed: addComment,
+              //onPressed: addComment,
+              onPressed: () async {
+                addComment();
+                String uid = await Provider.of(context).auth.getCurrentUID();
+                await db
+                    .collection('userData')
+                    .doc(uid)
+                    .update({'points_field': FieldValue.increment(5)});
+
+                await db.collection('userData').doc(uid);
+              },
               child: Text('Post'),
             ),
           ),
