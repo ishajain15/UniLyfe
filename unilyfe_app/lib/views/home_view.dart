@@ -5,8 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/customized_items/buttons/comment_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_all.dart';
-import 'package:unilyfe_app/customized_items/buttons/randomize_page.dart';
-import 'package:unilyfe_app/customized_items/buttons/revert.dart';
 import 'package:unilyfe_app/page/report_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -15,15 +13,28 @@ import 'package:polls/polls.dart';
 
 import 'package:unilyfe_app/models/global.dart' as global;
 
-class HomeView extends StatelessWidget {
+//bool hasBeenPressed = false;
+
+class HomeViewState extends StatefulWidget {
   @override
+  State<StatefulWidget> createState() => HomeView();
+}
+
+//class Posts extends State<DisplayPosts> {
+class HomeView extends State<HomeViewState> {
+  @override
+  bool hasBeenPressed = false;
   Widget build(BuildContext context) {
+    //print("rebuilding!");
+    //print(hasBeenPressed);
     return Container(
       child: Column(
         children: [
           InformationButtonAll(),
-          RandomizePage(),
-          RevertPage(),
+          //RandomizePage(),
+          buildRandomizeButton(),
+          //RevertPage(),
+          buildRevertButton(),
           Flexible(
             child: StreamBuilder(
                 stream: getUserPostsStreamSnapshots(context),
@@ -44,29 +55,77 @@ class HomeView extends StatelessWidget {
       BuildContext context) async* {
     // ignore: unused_local_variable
     final uid = await Provider.of(context).auth.getCurrentUID();
+
+    // the user clicked the "randomized" button
+    if (hasBeenPressed == true) {
+      print('randomize SHOULDVE been clicked!');
+      yield* FirebaseFirestore.instance.collection('posts').snapshots();
+    } else {
       yield* FirebaseFirestore.instance
           .collection('posts')
           .orderBy('time', descending: true)
           .snapshots();
-      if (RandomizePage().randomizing_criteria() == true) {
-          print('randomize SHOULDVE been clicked!');
-          yield* FirebaseFirestore.instance
-            .collection('posts')
-            .snapshots();
-      }
-      if (RevertPage().revert_criteria() == true) {
-          print('revert SHOULDVE been clicked');
-        yield* FirebaseFirestore.instance
+    }
+
+    // the user clicked the "revert" button
+    if (hasBeenPressed == false) {
+      print('revert SHOULDVE been clicked!');
+      yield* FirebaseFirestore.instance
           .collection('posts')
           .orderBy('time', descending: true)
           .snapshots();
-      }
-      
-      // .collection("userData")
-      // .doc(uid)
-      // .collection("posts")
-      // .snapshots();
- 
+    }
+
+    // .collection("userData")
+    // .doc(uid)
+    // .collection("posts")
+    // .snapshots();
+  }
+
+  // Randomizing Posts
+  onPressed() {
+    setState(() {
+      hasBeenPressed = !hasBeenPressed;
+      //print('on press: the randomized button has been clicked');
+    });
+  }
+  Widget buildRandomizeButton() {
+    Alignment.topLeft;
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: Color(0xFFF46C6B),
+        onPrimary: Colors.white,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      ),
+      onPressed: onPressed,
+      child: Text(
+        'Randomize Posts',
+      ),
+    );
+  }
+
+  // Reverting Posts
+  onPressed_2() {
+    setState(() {
+      hasBeenPressed = !hasBeenPressed;
+      //print('on press: the revert button has been clicked');
+    });
+  }
+  Widget buildRevertButton() {
+    Alignment.topLeft;
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: Color(0xFFF46C6B),
+        onPrimary: Colors.white,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      ),
+      onPressed: onPressed_2,
+      child: Text(
+        'Revert Changes',
+      ),
+    );
   }
 
   Widget buildPostCard(BuildContext context, DocumentSnapshot post) {
@@ -259,7 +318,7 @@ class HomeView extends StatelessWidget {
       );
     }
   }
-}
+} // end of HomeView
 
 // ignore: must_be_immutable
 class DisplayPosts extends StatefulWidget {
@@ -271,7 +330,7 @@ class DisplayPosts extends StatefulWidget {
   String uid;
   @override
   Posts createState() => Posts();
-}
+} // end of DiplayPosts
 
 class Posts extends State<DisplayPosts> {
   Posts();
@@ -292,10 +351,10 @@ class Posts extends State<DisplayPosts> {
     return Polls(
       children: [
         // This cannot be less than 2, else will throw an exception
-        Polls.options(title: 'hi', value: option1),
-        Polls.options(title: 'bye', value: option2),
-        Polls.options(title: 'hi', value: option3),
-        Polls.options(title: 'si', value: option4),
+        Polls.options(title: 'option a', value: option1),
+        Polls.options(title: 'option b', value: option2),
+        Polls.options(title: 'option c', value: option3),
+        Polls.options(title: 'option d', value: option4),
       ],
       question: Text(global.question),
       currentUser: user,
@@ -333,4 +392,4 @@ class Posts extends State<DisplayPosts> {
       },
     );
   }
-}
+} // end of posts

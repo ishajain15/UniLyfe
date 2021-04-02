@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:profanity_filter/profanity_filter.dart';
 import 'package:unilyfe_app/customized_items/custom_warning.dart';
+import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 final commentsRef = FirebaseFirestore.instance.collection('comments');
+final db = FirebaseFirestore.instance;
 bool replying = false;
 String replyTo = 'replying to';
 
@@ -89,8 +91,19 @@ class CommentsPageState extends State<CommentsPage> {
     }
 
     if (postIt) {
+      var doc = commentsRef.doc(postid).collection('comments').doc();
       if (replying) {
-        await commentsRef.doc(postid).collection('comments').add({
+        await commentsRef.doc(postid).collection('comments').doc(doc.id).set({
+          'comment': 'Replying to ' + replyTo + ': ' + commentController.text,
+          'time': DateTime.now(),
+          'uid': uid,
+        });
+        await db
+            .collection('userData')
+            .doc(uid)
+            .collection('comment_history')
+            .doc(doc.id)
+            .set({
           'comment': 'Replying to ' + replyTo + ': ' + commentController.text,
           'time': DateTime.now(),
           'uid': uid,
@@ -98,7 +111,17 @@ class CommentsPageState extends State<CommentsPage> {
         replying = false;
         replyTo = '';
       } else {
-        await commentsRef.doc(postid).collection('comments').add({
+        await commentsRef.doc(postid).collection('comments').doc(doc.id).set({
+          'comment': commentController.text,
+          'time': DateTime.now(),
+          'uid': uid,
+        });
+        await db
+            .collection('userData')
+            .doc(uid)
+            .collection('comment_history')
+            .doc(doc.id)
+            .set({
           'comment': commentController.text,
           'time': DateTime.now(),
           'uid': uid,

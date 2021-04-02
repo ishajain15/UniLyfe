@@ -20,7 +20,7 @@ Widget realGetTitles() {
       String entry = title + "=" + postid;
       //titlesList.add(doc['title'].toString());
       titlesList.add(entry);
-      print(doc["title"]);
+      //print(doc["title"]);
       index++;
     });
   });
@@ -123,7 +123,7 @@ class DataSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    print(chosen);
+    //print(chosen);
     //return getPost(chosen);
     return FutureBuilder(
       future: Provider.of(context).auth.getCurrentUID(),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_food.dart';
-import 'package:unilyfe_app/customized_items/buttons/randomize_page.dart';
-import 'package:unilyfe_app/customized_items/buttons/revert.dart';
 import 'package:unilyfe_app/views/home_view.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
