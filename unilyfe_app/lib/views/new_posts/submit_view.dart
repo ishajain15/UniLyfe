@@ -44,18 +44,18 @@ class NewPostBudgetView extends StatelessWidget {
             MyAppOne(),
             ElevatedButton(
               onPressed: () async {
-                String current_uid =
+                String uid =
                     await Provider.of(context).auth.getCurrentUID();
-                await db.collection('userData').doc(current_uid).update({'points_field': FieldValue.increment(10)});
+                await db.collection('userData').doc(uid).update({'points_field': FieldValue.increment(10)});
 
                 await db
                     .collection('userData')
-                    .doc(current_uid)
+                    .doc(uid)
                     .update({'points_field': FieldValue.increment(5)});
 
                 await db
                     .collection('userData')
-                    .doc(current_uid)
+                    .doc(uid)
                     .get()
                     .then((result) {
                   post.username = result['username'];
