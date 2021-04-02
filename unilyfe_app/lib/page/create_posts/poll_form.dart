@@ -91,13 +91,22 @@ class PollForm extends StatelessWidget {
                  final uid = await Provider.of(context).auth.getCurrentUID();
                  var doc = db.collection('posts').doc();
                 //  final PollPost post = new PollPost(_question, DateTime.now(), _option1, true, "Food", uid);
-                 final post = PollPost(doc.id,_question, DateTime.now(), _option1, channel, uid, 0,false,{uid: false});
+                 final post = PollPost(doc.id,_question, DateTime.now(), _option1, channel, uid, 0,false,{uid: false}, null);
+
                   post.postid = doc.id;
                   global.question = _question;
                   global.option1 = _option1;
                   global.option2 = _option2;
                    global.option3 = _option3;
                     global.option4 = _option4;
+
+                    await db
+                    .collection('userData')
+                    .doc(uid)
+                    .get()
+                    .then((result) {
+                  post.username = result['username'];
+                });
                     
                   //DocumentReference channel;
                   if (selection == 0) {

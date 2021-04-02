@@ -44,8 +44,21 @@ class NewPostBudgetView extends StatelessWidget {
             MyAppOne(),
             ElevatedButton(
               onPressed: () async {
-                String  current_uid = await Provider.of(context).auth.getCurrentUID();
-                await db.collection('userData').doc(current_uid).update({'points_field': FieldValue.increment(5)});
+                String current_uid =
+                    await Provider.of(context).auth.getCurrentUID();
+                await db
+                    .collection('userData')
+                    .doc(current_uid)
+                    .update({'points_field': FieldValue.increment(5)});
+
+                await db
+                    .collection('userData')
+                    .doc(current_uid)
+                    .get()
+                    .then((result) {
+                  post.username = result['username'];
+                });
+
                 // save data to firebase
                 //print("FINAL SELECTION ${selection}");
                 final filter = ProfanityFilter();

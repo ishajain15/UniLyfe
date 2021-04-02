@@ -89,6 +89,7 @@ class HomeView extends State<HomeViewState> {
       //print('on press: the randomized button has been clicked');
     });
   }
+
   Widget buildRandomizeButton() {
     Alignment.topLeft;
     return ElevatedButton(
@@ -112,6 +113,7 @@ class HomeView extends State<HomeViewState> {
       //print('on press: the revert button has been clicked');
     });
   }
+
   Widget buildRevertButton() {
     Alignment.topLeft;
     return ElevatedButton(
@@ -136,6 +138,16 @@ class HomeView extends State<HomeViewState> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
+                   child: Row(
+                    children: <Widget>[
+                      Text(post['username'], style: TextStyle(fontSize: 15, color: Color(0xFFF46C6B), fontWeight: FontWeight.bold) ), Spacer(),
+                    ],
+                  ),
+                  //child: Text(post['username'], style: TextStyle(fontSize: 20) ),
+                ),
+                
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
                   child: Row(
@@ -227,6 +239,15 @@ class HomeView extends State<HomeViewState> {
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
+                   child: Row(
+                    children: <Widget>[
+                      Text(post['username'], style: TextStyle(fontSize: 15, color: Color(0xFFF46C6B), fontWeight: FontWeight.bold) ), Spacer(),
+                    ],
+                  ),
+                  //child: Text(post['username'], style: TextStyle(fontSize: 20) ),
+                ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
                   child: Row(
