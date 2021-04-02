@@ -45,15 +45,16 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    _getProfileData();
     return Scaffold(
         body: ListView(
       children: <Widget>[
         //added this below
-          Container(
-            padding: const EdgeInsets.all(10),
-            child: CommentHistoryButton(),
-          ),
-          //added this above
+        Container(
+          padding: const EdgeInsets.all(10),
+          child: CommentHistoryButton(),
+        ),
+        //added this above
         Container(
             child: Row(children: [
           Container(
@@ -94,7 +95,7 @@ class _ProfilePageState extends State<ProfilePage> {
           },
         ),
 
-       /* Text(
+        /* Text(
           'Points: 0',
           textAlign: TextAlign.center,
           style: const TextStyle(
@@ -108,6 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
           future: Provider.of(context).auth.getCurrentUID(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
+              print('returning display points!');
               return _displayPoints(context, snapshot);
             } else {
               return CircularProgressIndicator();
@@ -123,18 +125,22 @@ class _ProfilePageState extends State<ProfilePage> {
       FutureBuilder(
           future: _getProfileData(),
           builder: (context, snapshot) {
-            return Padding(
+            if (snapshot.connectionState == ConnectionState.done) {}
+            return Container(
+              child: Padding(
               padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
               child: Text(
-              'Points: ' + user.points.toString(),
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontFamily: 'Raleway',
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+                'Points: ' + user.points.toString(),
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
+              ),
             );
+            // }
           })
     ]);
   }
@@ -409,6 +415,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   // ignore: always_declare_return_types
   _getProfileData() async {
+    print('getting profile data!');
     final uid = await Provider.of(context).auth.getCurrentUID();
     await db.collection('userData').doc(uid).get().then((result) {
       user.username = result['username'].toString();
@@ -419,6 +426,7 @@ class _ProfilePageState extends State<ProfilePage> {
       user.classes = List.from(result['classes']);
       user.hobbies = List.from(result['hobbies']);
       user.points = result['points_field'];
+      print('POINTS FIELD: ' + user.points.toString());
       _classesController = TextEditingController(
           text: user.classes
               .toString()
