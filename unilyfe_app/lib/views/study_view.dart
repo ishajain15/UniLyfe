@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_study.dart';
+import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
+import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
 import 'package:unilyfe_app/views/home_view.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
@@ -16,16 +18,25 @@ class StudyView extends State<StudyViewState> {
     return Container(
       child: Column(
         children: [
-          InformationButtonStudy(),
-        //RandomizePage(),
-          buildRandomizeButton(),
-          //RevertPage(),
-          buildRevertButton(),
+          Row(
+            children: <Widget>[
+              Spacer(),
+              //RandomizePage(),
+              buildRandomizeButton(),
+              Spacer(),
+              //RevertPage(),
+              buildRevertButton(),
+              Spacer(),
+              InformationButtonStudy(),
+              Spacer(),
+            ],
+          ),
           Flexible(
             child: StreamBuilder(
                 stream: getUserPostsStreamSnapshots(context),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const Text('Loading...');
+                  if (!snapshot.hasData)
+                    return buildLoading(); //const Text('Loading...');
                   return ListView.builder(
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (BuildContext context, int index) =>
@@ -37,6 +48,7 @@ class StudyView extends State<StudyViewState> {
       ),
     );
   }
+
   Stream<QuerySnapshot> getUserPostsStreamSnapshots(
       BuildContext context) async* {
     // ignore: unused_local_variable
@@ -68,7 +80,6 @@ class StudyView extends State<StudyViewState> {
     // .snapshots();
   }
 
-
   // Randomizing Posts
   onPressed() {
     setState(() {
@@ -76,6 +87,7 @@ class StudyView extends State<StudyViewState> {
       //print('on press: the randomized button has been clicked');
     });
   }
+
   Widget buildRandomizeButton() {
     Alignment.topLeft;
     return ElevatedButton(
@@ -99,6 +111,7 @@ class StudyView extends State<StudyViewState> {
       //print('on press: the revert button has been clicked');
     });
   }
+
   Widget buildRevertButton() {
     Alignment.topLeft;
     return ElevatedButton(
@@ -115,3 +128,12 @@ class StudyView extends State<StudyViewState> {
     );
   }
 }
+
+// Widget buildLoading() => Center(
+//         child: ColorLoader4(
+//       dotOneColor: Color(0xFFF46C6B),
+//       dotTwoColor: Color(0xFFF47C54),
+//       dotThreeColor: Color(0xFFFCAC54),
+//       dotType: DotType.square,
+//       duration: Duration(milliseconds: 1200),
+//     ));

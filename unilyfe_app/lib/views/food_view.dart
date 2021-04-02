@@ -16,16 +16,24 @@ class FoodView extends State<FoodViewState> {
     return Container(
       child: Column(
         children: [
-          InformationButtonFood(),
-          //RandomizePage(),
-          buildRandomizeButton(),
-          //RevertPage(),
-          buildRevertButton(),
+          Row(
+            children: <Widget>[
+              Spacer(),
+              //RandomizePage(),
+              buildRandomizeButton(),
+              Spacer(),
+              //RevertPage(),
+              buildRevertButton(),
+              Spacer(),
+              InformationButtonFood(),
+              Spacer(),
+            ],
+          ),
           Flexible(
             child: StreamBuilder(
                 stream: getUserPostsStreamSnapshots(context),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const Text('Loading...');
+                  if (!snapshot.hasData) return buildLoading();
                   return ListView.builder(
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (BuildContext context, int index) =>

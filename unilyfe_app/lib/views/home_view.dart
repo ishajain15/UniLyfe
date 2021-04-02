@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/customized_items/buttons/comment_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_all.dart';
+import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
+import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
 import 'package:unilyfe_app/page/report_page.dart';
 import 'package:unilyfe_app/page/tabs/username_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
@@ -32,16 +34,24 @@ class HomeView extends State<HomeViewState> {
     return Container(
       child: Column(
         children: [
-          InformationButtonAll(),
-          //RandomizePage(),
-          buildRandomizeButton(),
-          //RevertPage(),
-          buildRevertButton(),
+          Row(
+            children: <Widget>[
+              Spacer(),
+              //RandomizePage(),
+              buildRandomizeButton(),
+              Spacer(),
+              //RevertPage(),
+              buildRevertButton(),
+              Spacer(),
+              InformationButtonAll(),
+              Spacer(),
+            ],
+          ),
           Flexible(
             child: StreamBuilder(
                 stream: getUserPostsStreamSnapshots(context),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData) return const Text('Loading...');
+                  if (!snapshot.hasData) return buildLoading();
                   return ListView.builder(
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (BuildContext context, int index) =>
@@ -142,19 +152,20 @@ class HomeView extends State<HomeViewState> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
-                   child: Row(
+                  child: Row(
                     children: <Widget>[
-                      UserName(postid: post['postid'],uid: post['uid'], username: post['username'])
+                      UserName(
+                          postid: post['postid'],
+                          uid: post['uid'],
+                          username: post['username'])
                       // TextButton(
                       // child:Text(post['username'], style: TextStyle(fontSize: 15, color: Color(0xFFF46C6B), fontWeight: FontWeight.bold) ),
                       // onPressed: () => UserName(postid: post['postid'],postChannel: post['postChannel'])
                       // )
-
                     ],
                   ),
                   //child: Text(post['username'], style: TextStyle(fontSize: 20) ),
                 ),
-                
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
                   child: Row(
@@ -249,9 +260,14 @@ class HomeView extends State<HomeViewState> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
-                   child: Row(
+                  child: Row(
                     children: <Widget>[
-                      Text(post['username'], style: TextStyle(fontSize: 15, color: Color(0xFFF46C6B), fontWeight: FontWeight.bold) ), Spacer(),
+                      Text(post['username'],
+                          style: TextStyle(
+                              fontSize: 15,
+                              color: Color(0xFFF46C6B),
+                              fontWeight: FontWeight.bold)),
+                      Spacer(),
                     ],
                   ),
                   //child: Text(post['username'], style: TextStyle(fontSize: 20) ),
@@ -423,3 +439,12 @@ class Posts extends State<DisplayPosts> {
     );
   }
 } // end of posts
+
+Widget buildLoading() => Center(
+        child: ColorLoader4(
+      dotOneColor: Color(0xFFF46C6B),
+      dotTwoColor: Color(0xFFF47C54),
+      dotThreeColor: Color(0xFFFCAC54),
+      dotType: DotType.square,
+      duration: Duration(milliseconds: 1200),
+    ));
