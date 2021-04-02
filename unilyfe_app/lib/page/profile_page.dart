@@ -125,22 +125,23 @@ class _ProfilePageState extends State<ProfilePage> {
       FutureBuilder(
           future: _getProfileData(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {}
+            print('points: ' + user.points.toString());
+            if (snapshot.connectionState == ConnectionState.done) {
             return Container(
               child: Padding(
-              padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-              child: Text(
-                'Points: ' + user.points.toString(),
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontFamily: 'Raleway',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                child: Text(
+                  'Points: ' + user.points.toString(),
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontFamily: 'Raleway',
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-              ),
             );
-            // }
+             }
           })
     ]);
   }
@@ -427,14 +428,6 @@ class _ProfilePageState extends State<ProfilePage> {
       user.hobbies = List.from(result['hobbies']);
       user.points = result['points_field'];
       print('POINTS FIELD: ' + user.points.toString());
-      _classesController = TextEditingController(
-          text: user.classes
-              .toString()
-              .substring(1, ((user.classes.toString()).length - 1)));
-      _hobbiesController = TextEditingController(
-          text: user.hobbies
-              .toString()
-              .substring(1, ((user.hobbies.toString()).length - 1)));
     });
   }
 
@@ -658,35 +651,6 @@ class _ProfilePageState extends State<ProfilePage> {
                             'classes': _classesController.text.split(', ')
                           });
                         }
-
-                        /*if (_profilePictureController.text != null &&
-                              _profilePictureController.text != "") {
-                            user.picturePath = _profilePictureController.text;
-                            print(_profilePictureController.text);
-                            await Provider.of(context)
-                                .db
-                                .collection('userData')
-                                .doc(uid)
-                                .set(user.toJson());
-                          }*/
-                        /*if (_covidController.text != null) {
-                            user.covid = _covidController.text;
-                            print(_covidController.text);
-                            await Provider.of(context)
-                                .db
-                                .collection('userData')
-                                .doc(uid)
-                                .set(user.toJson());
-                          }*/
-                        /*if (_locationController.text != null) {
-                            user.location = _locationController.text;
-                            print(_locationController.text);
-                            await Provider.of(context)
-                                .db
-                                .collection('userData')
-                                .doc(uid)
-                                .set(user.toJson());
-                          }*/
                         if (_validUsername) {
                           print("username is valid?");
                           Navigator.of(context).pop();
@@ -709,55 +673,64 @@ class _ProfilePageState extends State<ProfilePage> {
       FutureBuilder(
           future: _getProfileData(),
           builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {}
-            return Column(children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints.tight(const Size(300, 60)),
-                  child: TextField(
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.bold),
-                      autofocus: false,
-                      controller: _classesController,
-                      decoration: InputDecoration(
-                        hintText: 'Your classes',
-                        hintStyle: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 20,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )),
+            if (snapshot.connectionState == ConnectionState.done) {
+              _classesController = TextEditingController(
+                  text: user.classes
+                      .toString()
+                      .substring(1, ((user.classes.toString()).length - 1)));
+              _hobbiesController = TextEditingController(
+                  text: user.hobbies
+                      .toString()
+                      .substring(1, ((user.hobbies.toString()).length - 1)));
+              return Column(children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints.tight(const Size(300, 60)),
+                    child: TextField(
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.black,
+                            fontFamily: 'Raleway',
+                            fontWeight: FontWeight.bold),
+                        autofocus: false,
+                        controller: _classesController,
+                        decoration: InputDecoration(
+                          hintText: 'Your classes',
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 20,
+                            fontFamily: 'Raleway',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )),
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints.tight(const Size(300, 60)),
-                  child: TextField(
-                      style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.black,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.bold),
-                      autofocus: false,
-                      controller: _hobbiesController,
-                      decoration: InputDecoration(
-                        hintText: 'Your hobbies',
-                        hintStyle: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 20,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints.tight(const Size(300, 60)),
+                    child: TextField(
+                        style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.black,
+                            fontFamily: 'Raleway',
+                            fontWeight: FontWeight.bold),
+                        autofocus: false,
+                        controller: _hobbiesController,
+                        decoration: InputDecoration(
+                          hintText: 'Your hobbies',
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 20,
+                            fontFamily: 'Raleway',
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )),
+                  ),
                 ),
-              ),
-            ]);
+              ]);
+            }
           })
     ]);
   }
