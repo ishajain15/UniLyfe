@@ -18,22 +18,25 @@ String censorBadWords(String badString) {
 }
 
 class CommentsPage extends StatefulWidget {
-  CommentsPage({this.postid, this.uid});
+  CommentsPage({this.postid, this.uid, this.username});
   final String postid;
   final String uid;
+  final String username;
   @override
   CommentsPageState createState() => CommentsPageState(
         postid: postid,
         uid: uid,
+        username: username,
       );
 }
 
 class CommentsPageState extends State<CommentsPage> {
-  CommentsPageState({this.postid, this.uid});
+  CommentsPageState({this.postid, this.uid, this.username});
   TextEditingController commentController = TextEditingController();
 
   final String postid;
   final String uid;
+  final String username;
 
   StreamBuilder<QuerySnapshot> buildComments() {
     return StreamBuilder(
@@ -97,6 +100,7 @@ class CommentsPageState extends State<CommentsPage> {
           'comment': 'Replying to ' + replyTo + ': ' + commentController.text,
           'time': DateTime.now(),
           'uid': uid,
+          'username': username,
         });
         await db
             .collection('userData')
@@ -107,6 +111,7 @@ class CommentsPageState extends State<CommentsPage> {
           'comment': 'Replying to ' + replyTo + ': ' + commentController.text,
           'time': DateTime.now(),
           'uid': uid,
+          'username': username,
         });
         replying = false;
         replyTo = '';
@@ -115,6 +120,7 @@ class CommentsPageState extends State<CommentsPage> {
           'comment': commentController.text,
           'time': DateTime.now(),
           'uid': uid,
+          'username': username,
         });
         await db
             .collection('userData')
@@ -125,6 +131,7 @@ class CommentsPageState extends State<CommentsPage> {
           'comment': commentController.text,
           'time': DateTime.now(),
           'uid': uid,
+          'username': username,
         });
       }
       commentController.clear();
@@ -175,7 +182,9 @@ class Comment extends StatelessWidget {
 
   // ignore: sort_constructors_first
   factory Comment.fromDocument(DocumentSnapshot doc) {
+    //print("THIS: " + doc['username']);
     return Comment(
+      username: doc['username'],
       uid: doc['uid'],
       comment: doc['comment'],
       time: doc['time'].toDate(),
@@ -188,7 +197,8 @@ class Comment extends StatelessWidget {
     return Column(
       children: <Widget>[
         ListTile(
-          title: Text(comment),
+          //title: Text(comment),
+          title: Text('\n$username''\n\n$comment'),
           leading: CircleAvatar(
             backgroundColor: Colors.blue,
           ),

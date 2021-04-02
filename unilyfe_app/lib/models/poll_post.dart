@@ -1,6 +1,6 @@
 class PollPost {
-  
-  PollPost(this.postid,this.title, this.time, this.text,  this.postChannel, this.uid,this.likes, this.liked, this.map_liked);
+  PollPost(this.postid, this.title, this.time, this.text, this.postChannel,
+      this.uid, this.likes, this.liked, this.map_liked, this.username);
 
   String postid;
   int postType;
@@ -12,6 +12,7 @@ class PollPost {
   int likes;
   bool liked;
   Map<String, dynamic> map_liked;
+  String username;
   Map<String, dynamic> toJson() => {
         'postType': 1,
         'title': title,
@@ -22,6 +23,7 @@ class PollPost {
         'likes': likes,
         'liked': liked,
         'postid': postid,
-        'map_liked':map_liked
+        'map_liked': map_liked,
+        'username': username
       };
 }

@@ -19,6 +19,7 @@ class Likes extends StatefulWidget {
     @required this.postChannel,
     @required this.map_liked,
     @required this.uid,
+    @required this.username,
   }) : super(key: key);
   String postid;
   String title;
@@ -29,6 +30,7 @@ class Likes extends StatefulWidget {
   String postChannel;
   dynamic map_liked;
   String uid;
+  String username;
   @override
   LikeState createState() => LikeState(
         postid: postid,
@@ -40,6 +42,7 @@ class Likes extends StatefulWidget {
         postChannel: postChannel,
         map_liked: map_liked,
         uid: uid,
+        username: username,
       );
 }
 
@@ -55,6 +58,7 @@ class LikeState extends State<Likes> {
     @required this.postChannel,
     @required this.map_liked,
     @required this.uid,
+    @required this.username,
   }); /*({Key key, @required this.postid, @required this.likes, @required this.postChannel, @required this.map_liked, @required this.uid});*/
   String postid;
   String title;
@@ -66,6 +70,7 @@ class LikeState extends State<Likes> {
   dynamic map_liked;
   String uid;
   String current_uid;
+  String username;
   final db = FirebaseFirestore.instance;
   // ignore: always_declare_return_types
   //
@@ -75,7 +80,7 @@ class LikeState extends State<Likes> {
   }
 
   Widget displayLikeButton(context, snapshot) {
-   // print('in display like button');
+    // print('in display like button');
     // ignore: unused_local_variable
     final authData = snapshot.data;
     return Column(
@@ -85,7 +90,7 @@ class LikeState extends State<Likes> {
             // ignore: missing_return
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-               // print('current_uid: ' + current_uid);
+                // print('current_uid: ' + current_uid);
                 var liked = map_liked[current_uid] == true;
                 return IconButton(
                     icon: Icon(liked ? Icons.favorite : Icons.favorite_border,
@@ -190,8 +195,8 @@ class LikeState extends State<Likes> {
 
       print("LIKED!");
 
-      Post post = Post(
-          postid, title, time, text, postChannel, uid, likes, liked, map_liked);
+      Post post = Post(postid, title, time, text, postChannel, uid, likes,
+          liked, map_liked, username);
 
       //Post post = Provider.of(context).db.collection('posts').doc(postid).get();
       /*String title = '';
