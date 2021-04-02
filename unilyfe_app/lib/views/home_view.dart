@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/customized_items/buttons/comment_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_all.dart';
 import 'package:unilyfe_app/page/report_page.dart';
+import 'package:unilyfe_app/page/tabs/username_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:unilyfe_app/page/likes_page.dart';
@@ -143,7 +144,12 @@ class HomeView extends State<HomeViewState> {
                   padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
                    child: Row(
                     children: <Widget>[
-                      Text(post['username'], style: TextStyle(fontSize: 15, color: Color(0xFFF46C6B), fontWeight: FontWeight.bold) ), Spacer(),
+                      UserName(postid: post['postid'],postChannel: post['postChannel'], username: post['username'])
+                      // TextButton(
+                      // child:Text(post['username'], style: TextStyle(fontSize: 15, color: Color(0xFFF46C6B), fontWeight: FontWeight.bold) ),
+                      // onPressed: () => UserName(postid: post['postid'],postChannel: post['postChannel'])
+                      // )
+
                     ],
                   ),
                   //child: Text(post['username'], style: TextStyle(fontSize: 20) ),

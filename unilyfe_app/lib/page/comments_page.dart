@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:profanity_filter/profanity_filter.dart';
 import 'package:unilyfe_app/customized_items/custom_warning.dart';
+import 'package:unilyfe_app/page/tabs/username_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 final commentsRef = FirebaseFirestore.instance.collection('comments');
@@ -198,7 +199,8 @@ class Comment extends StatelessWidget {
       children: <Widget>[
         ListTile(
           //title: Text(comment),
-          title: Text('\n$username''\n\n$comment'),
+          // title: Text('\n$username''\n\n$comment'),
+          title: UserName(postid: '',postChannel: '', username: username),
           leading: CircleAvatar(
             backgroundColor: Colors.blue,
           ),
