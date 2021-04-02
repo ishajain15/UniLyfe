@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart' as fire_auth;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:unilyfe_app/customized_items/buttons/comment_history.dart';
 import 'package:unilyfe_app/customized_items/buttons/lets_go_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/logout_button.dart';
 import 'package:unilyfe_app/models/User.dart';
@@ -47,6 +48,12 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
         body: ListView(
       children: <Widget>[
+        //added this below
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: CommentHistoryButton(),
+          ),
+          //added this above
         Container(
             child: Row(children: [
           Container(
@@ -94,13 +101,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 style: TextStyle(fontSize: 16, color: Color(0xFFF46C6B)))
         ), */
         Text(
-                'Points: 0',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontFamily: 'Raleway',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+          'Points: 0',
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontFamily: 'Raleway',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
         ),
       ],
     ));
@@ -584,7 +591,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               .update({'year': year});
                         }
 
-                        if (_hobbiesController.text != null || _hobbiesController.text != '') {
+                        if (_hobbiesController.text != null ||
+                            _hobbiesController.text != '') {
                           user.hobbies = (_hobbiesController.text.split(', '));
                           print("hobbies: " + _hobbiesController.text);
                           setState(() {
@@ -599,7 +607,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             'hobbies': _hobbiesController.text.split(', ')
                           });
                         }
-                        if (_classesController.text != null || _classesController.text != '') {
+                        if (_classesController.text != null ||
+                            _classesController.text != '') {
                           user.classes = (_classesController.text.split(', '));
                           print("classes: " + _classesController.text);
                           setState(() {
