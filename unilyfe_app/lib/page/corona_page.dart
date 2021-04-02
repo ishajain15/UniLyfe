@@ -48,6 +48,15 @@ class _MyMapState extends State<MyMap> {
 
   @override
   Widget build(BuildContext context) {
+String _getData;
+  Future<String> get_info() async {
+QuerySnapshot doc= await FirebaseFirestore.instance.collection('Covid_info').get();
+print(doc.size.toString());
+return doc.size.toString();
+}
+
+
+String count = "";
     return MaterialApp(
       home: Scaffold(
       appBar: new AppBar(
@@ -73,6 +82,8 @@ class _MyMapState extends State<MyMap> {
             final db = FirebaseFirestore.instance;
             db.collection("Covid_info").doc(current_uid).set({'country': "USA"});
             db.collection("Covid_info").doc('information').set({'counts': FieldValue.increment(1)});
+            count = await get_info();
+            print(count);
           },
         ),
         SizedBox(width: 1), 
@@ -87,17 +98,40 @@ class _MyMapState extends State<MyMap> {
             final db = FirebaseFirestore.instance;
             db.collection("Covid_info").doc(current_uid).delete();
             db.collection("Covid_info").doc('information').set({'counts': FieldValue.increment(0)});
+            count = await get_info();
+            print(count);
           },
         ),
-        SizedBox(width: 4), 
-        Text(
-          "Cases: ",
-        ),
-        
-        Text(
-
-         'hi'
-        ),
+        Text('cases: ' + count),
+     FutureBuilder(
+      future: get_info(),
+      initialData: "Loading text..",
+      builder: (BuildContext context, AsyncSnapshot<String> text) {
+        return new SingleChildScrollView(
+          padding: new EdgeInsets.all(8.0),
+          child: new Text(
+            text.data,
+            style: new TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 19.0,
+            ),
+          ));
+      })
+    //  FutureBuilder(
+    //   future: _getData,
+    //   initialData: "Loading text..",
+    //   builder: (BuildContext context, AsyncSnapshot<String> text) {
+    //     return new SingleChildScrollView(
+    //       padding: new EdgeInsets.all(8.0),
+    //       child: new Text(
+    //         text.data,
+    //         style: new TextStyle(
+    //           fontWeight: FontWeight.bold,
+    //           fontSize: 19.0,
+    //         ),
+    //       ));
+    //   })
+    // Text(_getData),
       ]),
     ), 
         body: 
