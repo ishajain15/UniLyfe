@@ -190,6 +190,24 @@ class _TabsPageState extends State<TabsPage> {
               print('Incentives page pressed');
             },
           ),
+          ListTile(
+            title: Text(
+              'Help',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+                fontFamily: 'Raleway',
+                fontSize: 17,
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => HelpTab()),
+              );
+              print('Help Page pressed');
+            },
+          ),
            ListTile(
             title: Text(
               'FAQ',
@@ -555,6 +573,64 @@ class IncentivesPage extends StatelessWidget {
                 ),
               ),
               IncentivesButton()
+            ],
+          ),
+        ));
+  }
+}
+
+// ignore: must_be_immutable
+class HelpTab extends StatelessWidget {
+  Widget pad = Container(
+    padding: const EdgeInsets.all(16),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    var c_width = MediaQuery.of(context).size.width;
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xFFFFFFFF),
+          title: Text(
+            'Help',
+            style: TextStyle(color: Colors.grey),
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.grey, //change your color here
+          ),
+        ),
+        body: Container(
+          padding: const EdgeInsets.all(32.0),
+          width: c_width,
+          child: Column(
+            children: <Widget>[
+              Text(
+                'User\'s Guide to UniLyfe\n',
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'Once the user opens the app, they are prompted to either sign in or sign up. '
+                'The user is able to sign in or sign up with their Google account or Purdue email. '
+                'If the user is signing in for the first time, they are taken to a page where they can input their username, display name, and biography for their user profile. '
+                'The user is then directed to the feed page where they can see all the posts made by their fellow peers. '
+                'The user is also able to filter the posts they want to see. For example, they can see only food posts by clicking on the \'food tab\'. Each page includes an information button if you wish to learn more. '
+                'The user can like a post by clicking on the like button. They can view all their liked posts by clicking on the liked tab located on the top of the app. '
+                'To create a post, the user presses on the create button located in the bottom center of the app. '
+                'They can choose to post a paul post, text post, or image post. '
+                'The user can also edit elements of their user profile by clicking on the \'me\' button located in the bottom right corner of the app and clicking on \'edit profile\' located in the top right corner of the app. ',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  color: Colors.grey,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ],
           ),
         ));

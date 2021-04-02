@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart' as fire_auth;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:unilyfe_app/customized_items/buttons/comment_history.dart';
 import 'package:unilyfe_app/customized_items/buttons/lets_go_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/logout_button.dart';
 import 'package:unilyfe_app/models/User.dart';
@@ -25,7 +26,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool _validUsername = true;
-  User user = User('', '', '', '', [], []);
+  User user = User('', '', '', '', [], [], 0);
   String _currentUsername = '';
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _displayNameController = TextEditingController();
@@ -47,6 +48,12 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
         body: ListView(
       children: <Widget>[
+        //added this below
+          Container(
+            padding: const EdgeInsets.all(10),
+            child: CommentHistoryButton(),
+          ),
+          //added this above
         Container(
             child: Row(children: [
           Container(
@@ -87,23 +94,49 @@ class _ProfilePageState extends State<ProfilePage> {
           },
         ),
 
-        /* // ignore: deprecated_member_use
-        FlatButton(
-            onPressed: () => debugPrint('points lol pressed'),
-            child: Text('Points: 0',
-                style: TextStyle(fontSize: 16, color: Color(0xFFF46C6B)))
-        ), */
-        Text(
-                'Points: 0',
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontFamily: 'Raleway',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+       /* Text(
+          'Points: 0',
+          textAlign: TextAlign.center,
+          style: const TextStyle(
+            fontFamily: 'Raleway',
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+
+        ),*/
+        FutureBuilder(
+          future: Provider.of(context).auth.getCurrentUID(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return _displayPoints(context, snapshot);
+            } else {
+              return CircularProgressIndicator();
+            }
+          },
         ),
       ],
     ));
+  }
+
+  Widget _displayPoints(context, snapshot) {
+    return Column(children: <Widget>[
+      FutureBuilder(
+          future: _getProfileData(),
+          builder: (context, snapshot) {
+            return Padding(
+              padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+              child: Text(
+              'Points: ' + user.points.toString(),
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontFamily: 'Raleway',
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            );
+          })
+    ]);
   }
 
   Widget _imageProfile(context) {
@@ -198,7 +231,7 @@ class _ProfilePageState extends State<ProfilePage> {
         .db
         .collection('userData')
         .doc(uid)
-        .set({'profilepicture': pickedFile});
+        .update({'profilepicture': pickedFile});
   }
 
   Widget displayUserInformation(context, snapshot) {
@@ -385,6 +418,7 @@ class _ProfilePageState extends State<ProfilePage> {
       _currentUsername = result['username'].toString();
       user.classes = List.from(result['classes']);
       user.hobbies = List.from(result['hobbies']);
+      user.points = result['points_field'];
       _classesController = TextEditingController(
           text: user.classes
               .toString()
@@ -584,7 +618,8 @@ class _ProfilePageState extends State<ProfilePage> {
                               .update({'year': year});
                         }
 
-                        if (_hobbiesController.text != null || _hobbiesController.text != '') {
+                        if (_hobbiesController.text != null ||
+                            _hobbiesController.text != '') {
                           user.hobbies = (_hobbiesController.text.split(', '));
                           print("hobbies: " + _hobbiesController.text);
                           setState(() {
@@ -599,7 +634,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             'hobbies': _hobbiesController.text.split(', ')
                           });
                         }
-                        if (_classesController.text != null || _classesController.text != '') {
+                        if (_classesController.text != null ||
+                            _classesController.text != '') {
                           user.classes = (_classesController.text.split(', '));
                           print("classes: " + _classesController.text);
                           setState(() {
@@ -727,7 +763,7 @@ class _MyYearDropDownWidget extends StatefulWidget {
 }
 
 class _MyYearDropDown extends State<_MyYearDropDownWidget> {
-  User user = User('', '', '', '', [], []);
+  User user = User('', '', '', '', [], [], 0);
   //String _currentYear = "";
 
   final db = FirebaseFirestore.instance;

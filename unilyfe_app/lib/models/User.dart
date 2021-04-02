@@ -1,6 +1,6 @@
 class User {
   User(this.username, this.displayName, this.bio, this.year, this.classes,
-      this.hobbies);
+      this.hobbies, this.points);
   String username;
   String displayName;
   String bio;
@@ -8,6 +8,7 @@ class User {
   String picturePath;
   String covid;
   String location;
+  int points;
   List<String> classes;
   List<String> hobbies;
 
