@@ -38,9 +38,9 @@ class HomePage extends StatelessWidget {
           //Text('feedfeedfeed', textAlign: TextAlign.center,),
           //Posts(),
           HomeViewState(),
-          FoodView(),
-          StudyView(),
-          SocialView(),
+          FoodViewState(),
+          StudyViewState(),
+          SocialViewState(),
           LikedPostsView()
         ],
       ),

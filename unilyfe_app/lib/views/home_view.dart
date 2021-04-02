@@ -5,8 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/customized_items/buttons/comment_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_all.dart';
-import 'package:unilyfe_app/customized_items/buttons/randomize_page.dart';
-import 'package:unilyfe_app/customized_items/buttons/revert.dart';
 import 'package:unilyfe_app/page/report_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -91,7 +89,6 @@ class HomeView extends State<HomeViewState> {
       //print('on press: the randomized button has been clicked');
     });
   }
-
   Widget buildRandomizeButton() {
     Alignment.topLeft;
     return ElevatedButton(
@@ -107,6 +104,7 @@ class HomeView extends State<HomeViewState> {
       ),
     );
   }
+
   // Reverting Posts
   onPressed_2() {
     setState(() {
@@ -114,7 +112,6 @@ class HomeView extends State<HomeViewState> {
       //print('on press: the revert button has been clicked');
     });
   }
-
   Widget buildRevertButton() {
     Alignment.topLeft;
     return ElevatedButton(
@@ -396,57 +393,3 @@ class Posts extends State<DisplayPosts> {
     );
   }
 } // end of posts
-/*
-// ignore: must_be_immutable
-class RandomizePage extends StatefulWidget {
-  @override
-  RandomizePageState createState() => RandomizePageState();
-}
-
-class RandomizePageState extends State<RandomizePage> {
-  @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
-  }
-  //bool hasBeenPressed = false;
-  void onPressed() {
-    setState(() {
-      hasBeenPressed = !hasBeenPressed;
-      print(hasBeenPressed);
-      print('on press: the randomized button has been clicked');
-      //HomeView().build(context);
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) => Container(
-        alignment: Alignment.topLeft,
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            primary: Color(0xFFF46C6B),
-            onPrimary: Colors.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-          ),
-          onPressed: onPressed,
-          child: Text(
-            'Randomize Posts',
-          ),
-        ),
-      );*/
-//}
-//   @override
-//   Widget build(BuildContext context) {
-//     Alignment.topLeft;
-//     return Scaffold(
-//       body: Container(
-//         child: Column(
-//           children: <Widget>[
-//             ElevatedButton(onPressed: onPressed, child: Text('Randomize Posts'))
-//           ]
-//         )
-//       )
-//     );
-//   }
-// }

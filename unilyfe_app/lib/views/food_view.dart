@@ -1,24 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_food.dart';
-import 'package:unilyfe_app/customized_items/buttons/randomize_page.dart';
-import 'package:unilyfe_app/customized_items/buttons/revert.dart';
 import 'package:unilyfe_app/views/home_view.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
-class FoodView extends StatelessWidget {
+class FoodViewState extends StatefulWidget {
   @override
+  State<StatefulWidget> createState() => FoodView();
+}
+
+class FoodView extends State<FoodViewState> {
+  @override
+  bool hasBeenPressed = false;
   Widget build(BuildContext context) {
     return Container(
-      //InformationButtonFood(),
-      //InformationButtonStudy(),
-      //InformationButtonSocial(),
-
       child: Column(
         children: [
           InformationButtonFood(),
           //RandomizePage(),
+          buildRandomizeButton(),
           //RevertPage(),
+          buildRevertButton(),
           Flexible(
             child: StreamBuilder(
                 stream: getUserPostsStreamSnapshots(context),
@@ -36,31 +38,82 @@ class FoodView extends StatelessWidget {
     );
   }
 
-    Stream<QuerySnapshot> getUserPostsStreamSnapshots(
+ Stream<QuerySnapshot> getUserPostsStreamSnapshots(
       BuildContext context) async* {
     // ignore: unused_local_variable
     final uid = await Provider.of(context).auth.getCurrentUID();
+
+    // the user clicked the "randomized" button
+    if (hasBeenPressed == true) {
+      print('randomize SHOULDVE been clicked!');
+      yield* FirebaseFirestore.instance.collection('posts').snapshots();
+    } else {
       yield* FirebaseFirestore.instance
-          .collection('food_posts')
+          .collection('posts')
           .orderBy('time', descending: true)
           .snapshots();
-      // if (RandomizePage().randomizing_criteria() == true) {
-      //     print('randomize SHOULDVE been clicked!');
-      //     yield* FirebaseFirestore.instance
-      //       .collection('posts')
-      //       .snapshots();
-      // }
-      // if (RevertPage().revert_criteria() == true) {
-      //     print('revert SHOULDVE been clicked');
-      //   yield* FirebaseFirestore.instance
-      //     .collection('posts')
-      //     .orderBy('time', descending: true)
-      //     .snapshots();
-      // }
-      
-      // .collection("userData")
-      // .doc(uid)
-      // .collection("posts")
-      // .snapshots();
+    }
+
+    // the user clicked the "revert" button
+    if (hasBeenPressed == false) {
+      print('revert SHOULDVE been clicked!');
+      yield* FirebaseFirestore.instance
+          .collection('posts')
+          .orderBy('time', descending: true)
+          .snapshots();
+    }
+
+    // .collection("userData")
+    // .doc(uid)
+    // .collection("posts")
+    // .snapshots();
   }
+
+
+  // Randomizing Posts
+  onPressed() {
+    setState(() {
+      hasBeenPressed = !hasBeenPressed;
+      //print('on press: the randomized button has been clicked');
+    });
+  }
+  Widget buildRandomizeButton() {
+    Alignment.topLeft;
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: Color(0xFFF46C6B),
+        onPrimary: Colors.white,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      ),
+      onPressed: onPressed,
+      child: Text(
+        'Randomize Posts',
+      ),
+    );
+  }
+
+  // Reverting Posts
+  onPressed_2() {
+    setState(() {
+      hasBeenPressed = !hasBeenPressed;
+      //print('on press: the revert button has been clicked');
+    });
+  }
+  Widget buildRevertButton() {
+    Alignment.topLeft;
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: Color(0xFFF46C6B),
+        onPrimary: Colors.white,
+        shape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+      ),
+      onPressed: onPressed_2,
+      child: Text(
+        'Revert Changes',
+      ),
+    );
+  }
+
 }
