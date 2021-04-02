@@ -46,6 +46,8 @@ class NewPostBudgetView extends StatelessWidget {
               onPressed: () async {
                 String current_uid =
                     await Provider.of(context).auth.getCurrentUID();
+                await db.collection('userData').doc(current_uid).update({'points_field': FieldValue.increment(10)});
+
                 await db
                     .collection('userData')
                     .doc(current_uid)
@@ -58,6 +60,7 @@ class NewPostBudgetView extends StatelessWidget {
                     .then((result) {
                   post.username = result['username'];
                 });
+
 
                 // save data to firebase
                 //print("FINAL SELECTION ${selection}");
@@ -101,7 +104,6 @@ class NewPostBudgetView extends StatelessWidget {
                 }
 
                 if (postIt) {
-                  final uid = await Provider.of(context).auth.getCurrentUID();
                   post.uid = uid;
                   post.map_liked['uid'] = false;
                   var doc = db.collection('posts').doc();
