@@ -1,9 +1,9 @@
-// import 'dart:html';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/customized_items/buttons/comment_button.dart';
+import 'package:unilyfe_app/customized_items/buttons/garbage_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_all.dart';
 import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
 import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
@@ -13,7 +13,6 @@ import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:unilyfe_app/page/likes_page.dart';
 import 'package:polls/polls.dart';
-
 import 'package:unilyfe_app/models/global.dart' as global;
 
 //bool hasBeenPressed = false;
@@ -228,10 +227,20 @@ class HomeView extends State<HomeViewState> {
                           map_liked: post['map_liked'],
                           uid: post['uid'],
                           username: post['username']),
+                      Spacer(),
+                      Visibility(
+                        visible: FirebaseAuth.instance.currentUser.uid ==
+                            post['uid'],
+                        child: GarbageButtonWidget(
+                          postid: post['postid'],
+                          postChannel: post['postChannel'],
+                        ),
+                      ),
+                      Spacer(),
                       CommentButtonWidget(
                         postid: post['postid'],
                       ),
-                      SmoothStarRating()
+                      //SmoothStarRating()
                     ],
                   ),
                 ),
@@ -339,10 +348,20 @@ class HomeView extends State<HomeViewState> {
                           map_liked: post['map_liked'],
                           uid: post['uid'],
                           username: post['username']),
+                      Spacer(),
+                      Visibility(
+                        visible: FirebaseAuth.instance.currentUser.uid ==
+                            post['uid'],
+                        child: GarbageButtonWidget(
+                          postid: post['postid'],
+                          postChannel: post['postChannel'],
+                        ),
+                      ),
+                      Spacer(),
                       CommentButtonWidget(
                         postid: post['postid'],
                       ),
-                      SmoothStarRating()
+                      //SmoothStarRating()
                     ],
                   ),
                 ),

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/page/comments_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
@@ -17,8 +16,13 @@ class CommentButtonWidget extends StatelessWidget {
 
     return Container(
       padding: EdgeInsets.all(4),
-      child: GestureDetector(
-        onTap: () async {
+      child: IconButton(
+        icon: Icon(
+          Icons.chat_bubble_outline_rounded,
+          size: 28.0,
+          color: Colors.grey[500],
+        ),
+        onPressed: () async {
           var uid = await auth.getCurrentUID();
           showComments(
             context,
@@ -30,11 +34,6 @@ class CommentButtonWidget extends StatelessWidget {
             }),
           );
         },
-        child: Icon(
-          Icons.chat,
-          size: 28.0,
-          color: Colors.grey[900],
-        ),
       ),
     );
   }
