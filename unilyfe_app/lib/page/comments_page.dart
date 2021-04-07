@@ -12,6 +12,8 @@ final commentsRef = FirebaseFirestore.instance.collection('comments');
 final db = FirebaseFirestore.instance;
 bool replying = false;
 String replyTo = 'replying to';
+var focusNode = FocusNode();
+TextEditingController commentController = TextEditingController();
 
 String censorBadWords(String badString) {
   final filter = ProfanityFilter();
@@ -35,7 +37,6 @@ class CommentsPage extends StatefulWidget {
 
 class CommentsPageState extends State<CommentsPage> {
   CommentsPageState({this.postid, this.uid, this.username});
-  TextEditingController commentController = TextEditingController();
 
   final String postid;
   final String uid;
@@ -98,45 +99,27 @@ class CommentsPageState extends State<CommentsPage> {
 
     if (postIt) {
       var doc = commentsRef.doc(postid).collection('comments').doc();
-      if (replying) {
-        await commentsRef.doc(postid).collection('comments').doc(doc.id).set({
-          'comment': 'Replying to ' + replyTo + ': ' + commentController.text,
-          'time': DateTime.now(),
-          'uid': uid,
-          'username': username,
-        });
-        await db
-            .collection('userData')
-            .doc(uid)
-            .collection('comment_history')
-            .doc(doc.id)
-            .set({
-          'comment': 'Replying to ' + replyTo + ': ' + commentController.text,
-          'time': DateTime.now(),
-          'uid': uid,
-          'username': username,
-        });
-        replying = false;
-        replyTo = '';
-      } else {
-        await commentsRef.doc(postid).collection('comments').doc(doc.id).set({
-          'comment': commentController.text,
-          'time': DateTime.now(),
-          'uid': uid,
-          'username': username,
-        });
-        await db
-            .collection('userData')
-            .doc(uid)
-            .collection('comment_history')
-            .doc(doc.id)
-            .set({
-          'comment': commentController.text,
-          'time': DateTime.now(),
-          'uid': uid,
-          'username': username,
-        });
-      }
+
+      await commentsRef.doc(postid).collection('comments').doc(doc.id).set({
+        'comment': commentController.text,
+        'time': DateTime.now(),
+        'uid': uid,
+        'username': username,
+      });
+      await db
+          .collection('userData')
+          .doc(uid)
+          .collection('comment_history')
+          .doc(doc.id)
+          .set({
+        'comment': commentController.text,
+        'time': DateTime.now(),
+        'uid': uid,
+        'username': username,
+      });
+      replying = false;
+      replyTo = '';
+
       commentController.clear();
     }
   }
@@ -160,21 +143,20 @@ class CommentsPageState extends State<CommentsPage> {
           Divider(),
           ListTile(
             title: TextFormField(
-              autofocus: true,
+              focusNode: focusNode,
               controller: commentController,
               decoration: InputDecoration(labelText: 'Write a comment...'),
             ),
             trailing: OutlinedButton(
-              //onPressed: addComment,
               onPressed: () async {
                 addComment();
-                String uid = await Provider.of(context).auth.getCurrentUID();
+                var uid = await Provider.of(context).auth.getCurrentUID();
                 await db
                     .collection('userData')
                     .doc(uid)
                     .update({'points_field': FieldValue.increment(5)});
 
-                await db.collection('userData').doc(uid);
+                db.collection('userData').doc(uid);
               },
               child: Text('Post'),
             ),
@@ -187,7 +169,6 @@ class CommentsPageState extends State<CommentsPage> {
 
 class Comment extends StatelessWidget {
   Comment({this.username, this.uid, this.comment, this.time});
-  //Comment({this.username, this.uid, this.comment});
   final String username;
   final String uid;
   final String comment;
@@ -195,7 +176,6 @@ class Comment extends StatelessWidget {
 
   // ignore: sort_constructors_first
   factory Comment.fromDocument(DocumentSnapshot doc) {
-    //print("THIS: " + doc['username']);
     return Comment(
       username: doc['username'],
       uid: doc['uid'],
@@ -243,16 +223,15 @@ class Comment extends StatelessWidget {
           trailing: OutlinedButton(
             onPressed: () {
               replying = !replying;
+              replyTo = username;
               if (replying) {
-                print('hereeee');
-
-                FocusScope.of(context)
-                    .requestFocus(FocusScope.of(context).focusedChild);
+                commentController.text =
+                    'Replying to ' + replyTo + ': ' + commentController.text;
+                FocusScope.of(context).requestFocus(focusNode);
               } else {
+                commentController.clear();
                 FocusScope.of(context).unfocus();
               }
-              replyTo = uid;
-              print(uid);
             },
             style: OutlinedButton.styleFrom(padding: EdgeInsets.zero),
             child: Text('Reply',
