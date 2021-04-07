@@ -31,9 +31,9 @@ class CommentButtonWidget extends StatelessWidget {
           );
         },
         child: Icon(
-          Icons.chat,
+          Icons.chat_bubble_outline_rounded,
           size: 28.0,
-          color: Colors.grey[900],
+          color: Colors.grey,
         ),
       ),
     );
