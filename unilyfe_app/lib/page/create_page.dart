@@ -54,16 +54,6 @@ class CreatePage extends StatelessWidget {
               newPost: newPost,
             ),
             PictureButton(),
-
-            // IconButton(
-            //   icon: Icon(Icons.add, color: Colors.orange,),
-            //   onPressed: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(builder: (context) => NewPostLocationView(post: newPost, )),
-            //     );
-            //   },
-            // ),
             Spacer(),
           ],
         ));
