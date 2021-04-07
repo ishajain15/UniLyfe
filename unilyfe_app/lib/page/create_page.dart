@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:unilyfe_app/customized_items/buttons/events_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/polls_post_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/text_post_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/picture_post_button.dart';
@@ -53,6 +54,7 @@ class CreatePage extends StatelessWidget {
             TextsButton(
               newPost: newPost,
             ),
+            EventsButton(),
             PictureButton(),
             Spacer(),
           ],
