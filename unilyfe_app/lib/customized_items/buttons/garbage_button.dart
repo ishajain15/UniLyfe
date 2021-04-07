@@ -42,6 +42,22 @@ class GarbageButtonWidget extends StatelessWidget {
           final db = FirebaseFirestore.instance;
           await db.collection('posts').doc(postid).delete();
           await db.collection(postCollection).doc(postid).delete();
+          await db.collection('userData').get().then((querySnapshot) {
+            querySnapshot.docs.forEach((result) {
+              db
+                  .collection('userData')
+                  .doc(result.id)
+                  .collection('liked_posts')
+                  .where('postid', isEqualTo: postid)
+                  .get()
+                  .then((querySnapshot) {
+                querySnapshot.docs.forEach((result) {
+                  print(result.data());
+                  result.reference.delete();
+                });
+              });
+            });
+          });
         },
       ),
     );
