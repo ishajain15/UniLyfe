@@ -22,6 +22,8 @@ class Likes extends StatefulWidget {
     @required this.map_liked,
     @required this.uid,
     @required this.username,
+    @required this.location, 
+    @required this.event_date
   }) : super(key: key);
   String postid;
   String title;
@@ -33,6 +35,8 @@ class Likes extends StatefulWidget {
   dynamic map_liked;
   String uid;
   String username;
+  String location;
+  String event_date;
   @override
   LikeState createState() => LikeState(
         postid: postid,
@@ -45,6 +49,8 @@ class Likes extends StatefulWidget {
         map_liked: map_liked,
         uid: uid,
         username: username,
+        location: location,
+        event_date: event_date,
       );
 }
 
@@ -61,6 +67,8 @@ class LikeState extends State<Likes> {
     @required this.map_liked,
     @required this.uid,
     @required this.username,
+    @required this.location,
+    @required this.event_date
   }); /*({Key key, @required this.postid, @required this.likes, @required this.postChannel, @required this.map_liked, @required this.uid});*/
   String postid;
   String title;
@@ -73,6 +81,8 @@ class LikeState extends State<Likes> {
   String uid;
   String current_uid;
   String username;
+  String location;
+  String event_date;
   final db = FirebaseFirestore.instance;
   // ignore: always_declare_return_types
   //
@@ -202,7 +212,7 @@ class LikeState extends State<Likes> {
       print("LIKED!");
 
       Post post = Post(postid, title, time, text, postChannel, uid, likes,
-          liked, map_liked, username);
+          liked, map_liked, username, location, event_date);
 
       //Post post = Provider.of(context).db.collection('posts').doc(postid).get();
       /*String title = '';

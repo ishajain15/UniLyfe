@@ -255,7 +255,7 @@ class HomeView extends State<HomeViewState> {
           ),
         ),
       );
-    } else {
+    } else if (post['postType'] == 1) {
       return Container(
         child: Card(
           child: Padding(
@@ -376,7 +376,141 @@ class HomeView extends State<HomeViewState> {
           ),
         ),
       );
+    } else if (post['postType'] == 2) {
+      return Container(
+        child: Card(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
+                  child: Row(
+                    children: <Widget>[
+                      UserName(
+                          postid: post['postid'],
+                          uid: post['uid'],
+                          username: post['username'])
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 15,
+                        child: Text(
+                          "Title: ${(post['title'] == null) ? "n/a" : post['title']}",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ),
+                      Spacer(),
+                      Report(
+                          postid: post['postid'],
+                          postChannel: post['postChannel']),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 25.0),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                          "Date posted: ${DateFormat('MM/dd/yyyy (h:mm a)').format(post['time'].toDate()).toString()}"),
+                      Spacer(),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        flex: 15,
+                        child: Text(
+                            "Text: ${(post['text'] == null) ? "n/a" : post['text']}"),
+                      ),
+                      Spacer(),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 25.0),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                          "Location: ${(post['location'] == null) ? "n/a" : post['location']}"),
+                      Spacer(),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 25.0),
+                  child: Row(
+                    children: <Widget>[
+                      Text(
+                          "Event Date: ${(post['event_date'] == null) ? "n/a" : post['event_date']}"),
+                      Spacer(),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                  child: Row(
+                    children: <Widget>[
+                      Text("Post channel: ${post['postChannel']}"),
+                      Spacer(),
+                      // ViewInfoButton(),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Likes(
+                          postid: post['postid'],
+                          title: post['title'],
+                          time: post['time'].toDate(),
+                          text: post['text'],
+                          likes: post['likes'],
+                          liked: post['liked'],
+                          postChannel: post['postChannel'],
+                          map_liked: post['map_liked'],
+                          uid: post['uid'],
+                          username: post['username']),
+                      Spacer(),
+                      Visibility(
+                        visible: FirebaseAuth.instance.currentUser.uid ==
+                            post['uid'],
+                        child: GarbageButtonWidget(
+                          postid: post['postid'],
+                          postChannel: post['postChannel'],
+                        ),
+                      ),
+                      Spacer(),
+                      CommentButtonWidget(
+                        postid: post['postid'],
+                      ),
+                      //SmoothStarRating()
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
+                  child: Row(
+                    children: <Widget>[Text("Likes: ${post['likes']}")],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
     }
+
   }
 } // end of HomeView
 

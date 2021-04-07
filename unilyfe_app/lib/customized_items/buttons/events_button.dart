@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/page/create_posts/poll_form.dart';
-
+import 'package:unilyfe_app/page/create_posts/events_form.dart';
 
 class EventsButton extends StatelessWidget {
   @override
@@ -9,7 +8,7 @@ class EventsButton extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () {
              Navigator.push(
-            context, MaterialPageRoute(builder: (context) => PollForm()));
+            context, MaterialPageRoute(builder: (context) => EventForm()));
           },
           style: ElevatedButton.styleFrom(
             primary: Color(0xFFF46C6B),
@@ -18,7 +17,7 @@ class EventsButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0)),
           ),
           child: Text(
-            'Create an Event Post',
+            'Create an event post',
             //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
           ),
         ),

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:unilyfe_app/models/event_post.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:unilyfe_app/models/poll_post.dart';
-import 'package:unilyfe_app/models/global.dart' as global;
 
 int selection = 0;
 
 // ignore: must_be_immutable
-class PollForm extends StatelessWidget {
+class EventForm extends StatelessWidget {
   final db = FirebaseFirestore.instance;
-  String _question, _option1, _option2, _option3, _option4;
+  String _location,_title, _event_date,_information;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +17,7 @@ class PollForm extends StatelessWidget {
           color: Colors.black, //change your color here
         ),
         title: Text(
-          'CREATE A POLL POST',
+          'CREATE A EVENT POST',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.white,
@@ -28,7 +27,7 @@ class PollForm extends StatelessWidget {
         children: <Widget>[
           TextField(
             decoration: InputDecoration(
-              hintText: 'Question',
+              hintText: 'Name of the event',
               contentPadding:
                   const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
               focusedBorder: OutlineInputBorder(
@@ -37,12 +36,12 @@ class PollForm extends StatelessWidget {
               ),
             ),
             onChanged: (value) {
-              _question = value.trim();
+              _title = value.trim();
             },
           ),
           TextField(
             decoration: InputDecoration(
-              hintText: 'Option 1',
+              hintText: 'Location of the event',
               contentPadding:
                   const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
               focusedBorder: OutlineInputBorder(
@@ -51,12 +50,12 @@ class PollForm extends StatelessWidget {
               ),
             ),
             onChanged: (value) {
-              _option1 = value.trim();
+              _location = value.trim();
             },
           ),
           TextField(
             decoration: InputDecoration(
-              hintText: 'Option 2',
+              hintText: 'Date of the event mm\dd\yyyy',
               contentPadding:
                   const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
               focusedBorder: OutlineInputBorder(
@@ -65,12 +64,12 @@ class PollForm extends StatelessWidget {
               ),
             ),
             onChanged: (value) {
-              _option2 = value.trim();
+              _event_date = value.trim();
             },
           ),
           TextField(
             decoration: InputDecoration(
-              hintText: 'Option 3',
+              hintText: 'Information about the event',
               contentPadding:
                   const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
               focusedBorder: OutlineInputBorder(
@@ -79,21 +78,7 @@ class PollForm extends StatelessWidget {
               ),
             ),
             onChanged: (value) {
-              _option3 = value.trim();
-            },
-          ),
-          TextField(
-            decoration: InputDecoration(
-              hintText: 'Option 4',
-              contentPadding:
-                  const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.black),
-                borderRadius: BorderRadius.circular(25.7),
-              ),
-            ),
-            onChanged: (value) {
-              _option4 = value.trim();
+              _information= value.trim();
             },
           ),
           MyAppOne(),
@@ -111,16 +96,12 @@ class PollForm extends StatelessWidget {
 
               final uid = await Provider.of(context).auth.getCurrentUID();
               var doc = db.collection('posts').doc();
-              //  final PollPost post = new PollPost(_question, DateTime.now(), _option1, true, "Food", uid);
-              final post = PollPost(doc.id, _question, DateTime.now(), _option1,
+              final post = EventPost(doc.id, _title, DateTime.now(), _information,
                   channel, uid, 0, false, {uid: false}, null, null, null);
 
               post.postid = doc.id;
-              global.question = _question;
-              global.option1 = _option1;
-              global.option2 = _option2;
-              global.option3 = _option3;
-              global.option4 = _option4;
+              post.location = _location;
+              post.event_date = _event_date;
 
               await db.collection('userData').doc(uid).get().then((result) {
                 post.username = result['username'];
@@ -150,7 +131,7 @@ class PollForm extends StatelessWidget {
               await db
                   .collection('userData')
                   .doc(uid)
-                  .collection('poll_posts')
+                  .collection('event_posts')
                   .doc(doc.id)
                   .set(post.toJson());
               //  Navigator.of(context).popUntil((route) => route.isFirst);

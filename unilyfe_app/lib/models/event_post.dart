@@ -1,6 +1,7 @@
-class Post {
-  Post(this.postid, this.title, this.time, this.text, this.postChannel,
+class EventPost {
+  EventPost(this.postid, this.title, this.time, this.text, this.postChannel,
       this.uid, this.likes, this.liked, this.map_liked, this.username, this.location, this.event_date);
+
   String postid;
   int postType;
   String title;
@@ -8,15 +9,14 @@ class Post {
   String text;
   String postChannel;
   String uid;
-  String username;
   int likes;
   bool liked;
+  Map<String, dynamic> map_liked;
+  String username;
   String location;
   String event_date;
-  Map<String, dynamic> map_liked;
   Map<String, dynamic> toJson() => {
-        'postid': postid,
-        'postType': 0,
+        'postType': 2,
         'title': title,
         'time': time,
         'text': text,
@@ -24,6 +24,7 @@ class Post {
         'uid': uid,
         'likes': likes,
         'liked': liked,
+        'postid': postid,
         'map_liked': map_liked,
         'username': username,
         'location': location,
