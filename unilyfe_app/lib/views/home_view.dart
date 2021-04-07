@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/customized_items/buttons/comment_button.dart';
+import 'package:unilyfe_app/customized_items/buttons/garbage_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_all.dart';
 import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
 import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
@@ -230,13 +231,9 @@ class HomeView extends State<HomeViewState> {
                       Visibility(
                         visible: FirebaseAuth.instance.currentUser.uid ==
                             post['uid'],
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.delete_outline_outlined,
-                            size: 25.0,
-                            color: Colors.grey,
-                          ),
-                          onPressed: () {},
+                        child: GarbageButtonWidget(
+                          postid: post['postid'],
+                          postChannel: post['postChannel'],
                         ),
                       ),
                       Spacer(),
@@ -355,13 +352,9 @@ class HomeView extends State<HomeViewState> {
                       Visibility(
                         visible: FirebaseAuth.instance.currentUser.uid ==
                             post['uid'],
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.delete_outline_outlined,
-                            size: 25.0,
-                            color: Colors.grey,
-                          ),
-                          onPressed: () {},
+                        child: GarbageButtonWidget(
+                          postid: post['postid'],
+                          postChannel: post['postChannel'],
                         ),
                       ),
                       Spacer(),

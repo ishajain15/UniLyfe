@@ -95,8 +95,10 @@ class LikeState extends State<Likes> {
                 // print('current_uid: ' + current_uid);
                 var liked = map_liked[current_uid] == true;
                 return IconButton(
-                    icon: Icon(liked ? Icons.favorite : Icons.favorite_border,
-                        color: liked ? Colors.red : Colors.grey),
+                    icon: Icon(
+                      liked ? Icons.favorite : Icons.favorite_border,
+                      color: liked ? Colors.red : Colors.grey[500],
+                    ),
                     onPressed: () => handleLikePost());
               }
               return Container();
