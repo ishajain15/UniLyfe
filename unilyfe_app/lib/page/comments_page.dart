@@ -100,6 +100,8 @@ class CommentsPageState extends State<CommentsPage> {
     if (postIt) {
       var doc = commentsRef.doc(postid).collection('comments').doc();
 
+      await commentsRef.doc(postid).set({'postid': postid});
+
       await commentsRef.doc(postid).collection('comments').doc(doc.id).set({
         'comment': commentController.text,
         'time': DateTime.now(),
