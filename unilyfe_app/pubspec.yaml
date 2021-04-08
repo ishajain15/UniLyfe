@@ -37,6 +37,7 @@ dependencies:
   # Smooth star rating
   smooth_star_rating: ^1.1.1
   profanity_filter: ^1.0.4
+  flutter_slidable:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
