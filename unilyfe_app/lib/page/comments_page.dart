@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:profanity_filter/profanity_filter.dart';
@@ -108,6 +109,8 @@ class CommentsPageState extends State<CommentsPage> {
         'time': DateTime.now(),
         'uid': uid,
         'username': username,
+        'postid': postid,
+        'commentid': doc.id,
       });
       await db
           .collection('userData')
@@ -120,6 +123,7 @@ class CommentsPageState extends State<CommentsPage> {
         'uid': uid,
         'username': username,
         'postid': postid,
+        'commentid': doc.id,
       });
       replying = false;
       replyTo = '';
@@ -172,11 +176,19 @@ class CommentsPageState extends State<CommentsPage> {
 }
 
 class Comment extends StatelessWidget {
-  Comment({this.username, this.uid, this.comment, this.time});
+  Comment(
+      {this.username,
+      this.uid,
+      this.comment,
+      this.time,
+      this.postid,
+      this.commentid});
   final String username;
   final String uid;
   final String comment;
   final DateTime time;
+  final String postid;
+  final String commentid;
 
   // ignore: sort_constructors_first
   factory Comment.fromDocument(DocumentSnapshot doc) {
@@ -185,6 +197,8 @@ class Comment extends StatelessWidget {
       uid: doc['uid'],
       comment: doc['comment'],
       time: doc['time'].toDate(),
+      postid: doc['postid'],
+      commentid: doc['commentid'],
     );
   }
 
@@ -192,60 +206,49 @@ class Comment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        // ListTile(
-        //   contentPadding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-        //   dense: true,
-        //   visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-        //   title: Row(
-        //     children: <Widget>[
-        //       UserName(postid: '', uid: uid, username: username),
-        //     ],
-        //   ),
-        //   leading: CircleAvatar(
-        //     backgroundColor: Colors.blue,
-        //     //radius: 18,
-        //     backgroundImage: AssetImage('assets/empty-profile.png'),
-        //   ),
-        //   subtitle: Column(children: <Widget>[
-        //     Row(
-        //       children: <Widget>[
-        //         Expanded(
-        //           flex: 20,
-        //           child: Text('\n$comment\n',
-        //               style: TextStyle(
-        //                   fontFamily: 'Raleway',
-        //                   fontSize: 15,
-        //                   fontWeight: FontWeight.bold,
-        //                   color: Colors.black)),
-        //         ),
-        //       ],
-        //     ),
-        //     Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-        //       Text(DateFormat('MM/dd/yyyy (h:mm a)').format(time).toString()),
-        //     ]),
-        //   ]),
-        //   trailing: OutlinedButton(
-        //     onPressed: () {
-        //       replying = !replying;
-        //       replyTo = username;
-        //       if (replying) {
-        //         commentController.text =
-        //             'Replying to ' + replyTo + ': ' + commentController.text;
-        //         FocusScope.of(context).requestFocus(focusNode);
-        //       } else {
-        //         commentController.clear();
-        //         FocusScope.of(context).unfocus();
-        //       }
-        //     },
-        //     style: OutlinedButton.styleFrom(padding: EdgeInsets.zero),
-        //     child: Text('Reply',
-        //         style: TextStyle(fontSize: 16, color: Color(0xFFF46C6B))),
-        //   ),
-        //   isThreeLine: true,
-        // ),
         Slidable(
           actionPane: SlidableDrawerActionPane(),
           actionExtentRatio: 0.25,
+          secondaryActions: <Widget>[
+            Visibility(
+              visible: FirebaseAuth.instance.currentUser.uid == uid,
+              child: IconSlideAction(
+                color: Colors.red,
+                icon: Icons.delete_outline,
+                onTap: () async {
+                  await db
+                      .collection('userData')
+                      .doc(uid)
+                      .collection('comment_history')
+                      .doc(commentid)
+                      .delete();
+                  await db
+                      .collection('comments')
+                      .doc(postid)
+                      .collection('comments')
+                      .doc(commentid)
+                      .delete()
+                      .then((value) => print("success"));
+                },
+              ),
+            ),
+            IconSlideAction(
+              color: Colors.grey[700],
+              icon: Icons.reply_outlined,
+              onTap: () {
+                replying = !replying;
+                replyTo = username;
+                if (replying) {
+                  commentController.text =
+                      'Replying to ' + replyTo + ': ' + commentController.text;
+                  FocusScope.of(context).requestFocus(focusNode);
+                } else {
+                  commentController.clear();
+                  FocusScope.of(context).unfocus();
+                }
+              },
+            ),
+          ],
           child: Container(
             color: Colors.white,
             child: ListTile(
@@ -287,30 +290,6 @@ class Comment extends StatelessWidget {
               isThreeLine: true,
             ),
           ),
-          secondaryActions: <Widget>[
-            IconSlideAction(
-              color: Colors.grey[700],
-              icon: Icons.reply_outlined,
-              onTap: () {
-                replying = !replying;
-                replyTo = username;
-                if (replying) {
-                  commentController.text =
-                      'Replying to ' + replyTo + ': ' + commentController.text;
-                  FocusScope.of(context).requestFocus(focusNode);
-                } else {
-                  commentController.clear();
-                  FocusScope.of(context).unfocus();
-                }
-              },
-            ),
-            IconSlideAction(
-              //caption: 'Delete',
-              color: Colors.red,
-              icon: Icons.delete_outline,
-              //onTap: () => _showSnackBar('Delete'),
-            ),
-          ],
         ),
         Divider(),
       ],
