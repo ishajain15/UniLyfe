@@ -118,6 +118,7 @@ class CommentsPageState extends State<CommentsPage> {
         'time': DateTime.now(),
         'uid': uid,
         'username': username,
+        'postid': postid,
       });
       replying = false;
       replyTo = '';
