@@ -7,6 +7,7 @@ import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
 import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
 import 'package:unilyfe_app/page/tabs/username_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 final commentsRef = FirebaseFirestore.instance.collection('comments');
 final db = FirebaseFirestore.instance;
@@ -191,56 +192,125 @@ class Comment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        ListTile(
-          contentPadding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
-          dense: true,
-          visualDensity: VisualDensity(horizontal: 0, vertical: -4),
-          title: Row(
-            children: <Widget>[
-              UserName(postid: '', uid: uid, username: username),
-            ],
-          ),
-          leading: CircleAvatar(
-            backgroundColor: Colors.blue,
-            //radius: 18,
-            backgroundImage: AssetImage('assets/empty-profile.png'),
-          ),
-          subtitle: Column(children: <Widget>[
-            Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 20,
-                  child: Text('\n$comment\n',
-                      style: TextStyle(
-                          fontFamily: 'Raleway',
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black)),
+        // ListTile(
+        //   contentPadding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+        //   dense: true,
+        //   visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+        //   title: Row(
+        //     children: <Widget>[
+        //       UserName(postid: '', uid: uid, username: username),
+        //     ],
+        //   ),
+        //   leading: CircleAvatar(
+        //     backgroundColor: Colors.blue,
+        //     //radius: 18,
+        //     backgroundImage: AssetImage('assets/empty-profile.png'),
+        //   ),
+        //   subtitle: Column(children: <Widget>[
+        //     Row(
+        //       children: <Widget>[
+        //         Expanded(
+        //           flex: 20,
+        //           child: Text('\n$comment\n',
+        //               style: TextStyle(
+        //                   fontFamily: 'Raleway',
+        //                   fontSize: 15,
+        //                   fontWeight: FontWeight.bold,
+        //                   color: Colors.black)),
+        //         ),
+        //       ],
+        //     ),
+        //     Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
+        //       Text(DateFormat('MM/dd/yyyy (h:mm a)').format(time).toString()),
+        //     ]),
+        //   ]),
+        //   trailing: OutlinedButton(
+        //     onPressed: () {
+        //       replying = !replying;
+        //       replyTo = username;
+        //       if (replying) {
+        //         commentController.text =
+        //             'Replying to ' + replyTo + ': ' + commentController.text;
+        //         FocusScope.of(context).requestFocus(focusNode);
+        //       } else {
+        //         commentController.clear();
+        //         FocusScope.of(context).unfocus();
+        //       }
+        //     },
+        //     style: OutlinedButton.styleFrom(padding: EdgeInsets.zero),
+        //     child: Text('Reply',
+        //         style: TextStyle(fontSize: 16, color: Color(0xFFF46C6B))),
+        //   ),
+        //   isThreeLine: true,
+        // ),
+        Slidable(
+          actionPane: SlidableDrawerActionPane(),
+          actionExtentRatio: 0.25,
+          child: Container(
+            color: Colors.white,
+            child: ListTile(
+              contentPadding: EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
+              dense: true,
+              visualDensity: VisualDensity(horizontal: 0, vertical: -4),
+              title: Row(
+                children: <Widget>[
+                  UserName(postid: '', uid: uid, username: username),
+                ],
+              ),
+              leading: CircleAvatar(
+                backgroundColor: Colors.blue,
+                //radius: 18,
+                backgroundImage: AssetImage('assets/empty-profile.png'),
+              ),
+              subtitle: Column(children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 20,
+                      child: Text('\n$comment\n',
+                          style: TextStyle(
+                              fontFamily: 'Raleway',
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black)),
+                    ),
+                  ],
                 ),
-              ],
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Text(DateFormat('MM/dd/yyyy (h:mm a)')
+                          .format(time)
+                          .toString()),
+                    ]),
+              ]),
+              isThreeLine: true,
             ),
-            Row(mainAxisAlignment: MainAxisAlignment.start, children: <Widget>[
-              Text(DateFormat('MM/dd/yyyy (h:mm a)').format(time).toString()),
-            ]),
-          ]),
-          trailing: OutlinedButton(
-            onPressed: () {
-              replying = !replying;
-              replyTo = username;
-              if (replying) {
-                commentController.text =
-                    'Replying to ' + replyTo + ': ' + commentController.text;
-                FocusScope.of(context).requestFocus(focusNode);
-              } else {
-                commentController.clear();
-                FocusScope.of(context).unfocus();
-              }
-            },
-            style: OutlinedButton.styleFrom(padding: EdgeInsets.zero),
-            child: Text('Reply',
-                style: TextStyle(fontSize: 16, color: Color(0xFFF46C6B))),
           ),
-          isThreeLine: true,
+          secondaryActions: <Widget>[
+            IconSlideAction(
+              color: Colors.grey[700],
+              icon: Icons.reply_outlined,
+              onTap: () {
+                replying = !replying;
+                replyTo = username;
+                if (replying) {
+                  commentController.text =
+                      'Replying to ' + replyTo + ': ' + commentController.text;
+                  FocusScope.of(context).requestFocus(focusNode);
+                } else {
+                  commentController.clear();
+                  FocusScope.of(context).unfocus();
+                }
+              },
+            ),
+            IconSlideAction(
+              //caption: 'Delete',
+              color: Colors.red,
+              icon: Icons.delete_outline,
+              //onTap: () => _showSnackBar('Delete'),
+            ),
+          ],
         ),
         Divider(),
       ],
