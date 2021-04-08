@@ -65,7 +65,6 @@ class GarbageButtonWidget extends StatelessWidget {
               .doc(postid)
               .delete()
               .then((value) => print("success"));
-          
 
           print(postid);
           // Get docs from collection reference
@@ -82,6 +81,22 @@ class GarbageButtonWidget extends StatelessWidget {
                   .collection('userData')
                   .doc(result.id)
                   .collection('liked_posts')
+                  .where('postid', isEqualTo: postid)
+                  .get()
+                  .then((querySnapshot) {
+                querySnapshot.docs.forEach((result) {
+                  print(result.data());
+                  result.reference.delete();
+                });
+              });
+            });
+          });
+          await db.collection('userData').get().then((querySnapshot) {
+            querySnapshot.docs.forEach((result) {
+              db
+                  .collection('userData')
+                  .doc(result.id)
+                  .collection('comment_history')
                   .where('postid', isEqualTo: postid)
                   .get()
                   .then((querySnapshot) {
