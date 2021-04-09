@@ -234,7 +234,6 @@ class _MyAppState extends State<MyAppOne> {
               'SOCIAL',
             ),
           ),
-
         ],
       ),
     );
