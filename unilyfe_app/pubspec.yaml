@@ -29,15 +29,21 @@ dependencies:
   firebase_analytics: ^7.0.1
   firebase_auth: ^0.20.1
   cloud_firestore: ^0.16.0+1
+  # rxdart: ^0.24.1
+  # path_provider: ^1.6.11
+  flutter_local_notifications: ^0.6.0
+  path_provider: ^0.5.0+1
+  http: ^0.12.1
+
   # Add the following two lines
-  http: ^0.12.0+1
+  # http: ^0.12.0+1
   json_serializable: ^3.3.0
   # Imager picker dependency
   image_picker: ^0.6.3+4
   # Smooth star rating
   smooth_star_rating: ^1.1.1
   profanity_filter: ^1.0.4
-
+  # flutter_local_notifications: ^1.4.4+1
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2

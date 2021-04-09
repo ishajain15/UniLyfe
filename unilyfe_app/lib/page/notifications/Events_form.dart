@@ -1,17 +1,61 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:unilyfe_app/models/event_post.dart';
+import 'package:unilyfe_app/page/notifications/local_notifications_helper.dart';
+import 'package:unilyfe_app/page/notifications/second_page.dart';
+import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/models/event_post.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 int selection = 0;
+class EventForm extends StatefulWidget {
+  @override
+  _LocalNotificationWidgetState createState() =>
+      _LocalNotificationWidgetState();
+}
 
-// ignore: must_be_immutable
-class EventForm extends StatelessWidget {
+class _LocalNotificationWidgetState extends State<EventForm> {
+  final notifications = FlutterLocalNotificationsPlugin();
   final db = FirebaseFirestore.instance;
   String _location,_title, _event_date,_information;
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  void initState() {
+    super.initState();
+
+    final settingsAndroid = AndroidInitializationSettings('app_icon');
+    final settingsIOS = IOSInitializationSettings(
+        onDidReceiveLocalNotification: (id, title, body, payload) =>
+            onSelectNotification(payload));
+
+    notifications.initialize(
+        InitializationSettings(settingsAndroid, settingsIOS),
+        onSelectNotification: onSelectNotification);
+  }
+
+  Future onSelectNotification(String payload) async => await Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SecondPage(payload: payload)),
+      );
+  // get_snapshots() async {
+  //   var beginningDate = DateTime.now();
+  //   var newDate=beginningDate.subtract(Duration(days: 5));
+  //   QuerySnapshot qShot = await FirebaseFirestore.instance
+  //   .collection('event_posts')
+  //   .where('event_date',isGreaterThanOrEqualTo:newDate)
+  //   .where('event_date',isLessThanOrEqualTo:beginningDate)
+  //   .get().catchError((onError){print(onError);});
+  //   var docs = qShot.docs;
+  //   for (var i in docs){
+  //     print(i.data()['title'].toString());
+  //   }
+  // }
+  @override
+  Widget build(BuildContext context){
+      return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
           color: Colors.black, //change your color here
@@ -101,8 +145,8 @@ class EventForm extends StatelessWidget {
 
               post.postid = doc.id;
               post.location = _location;
-              post.event_date = _event_date;
-
+              DateFormat format = DateFormat("MM/dd/yyyy");
+              post.event_date = format.parse(_event_date);
               await db.collection('userData').doc(uid).get().then((result) {
                 post.username = result['username'];
               });
@@ -134,18 +178,65 @@ class EventForm extends StatelessWidget {
                   .collection('event_posts')
                   .doc(doc.id)
                   .set(post.toJson());
+              await db
+                    .collection('event_posts')
+                    .doc(doc.id)
+                    .set(post.toJson());
               //  Navigator.of(context).popUntil((route) => route.isFirst);
               //  Navigator.of(context).popUntil((route) => route.isFirst);
+              
+               var beginningDate = DateTime.now();
+    var newDate=beginningDate.subtract(Duration(days: 5));
+    QuerySnapshot qShot = await FirebaseFirestore.instance
+    .collection('event_posts')
+    .where('event_date',isGreaterThanOrEqualTo:newDate)
+    .where('event_date',isLessThanOrEqualTo:beginningDate)
+    .get().catchError((onError){print(onError);});
+    var docs = qShot.docs;
+    String words = '';
+    for (var i in docs){
+      words += i.data()['title'].toString() + ', ';
+    }
+    showOngoingNotification(notifications,title: 'Upcoming events which are 5 days away', body: words);
+              // showOngoingNotification(notifications,title: 'Tite', body: 'Body');
               Navigator.pop(context);
               // Navigator.pushReplacement(context,MaterialPageRoute(builder: (_) => CreatePage())).then((_) => refresh());
             },
-            //   child: Text("Post"),
-            //  onPressed: () async{
             child: Text('SUBMIT'),
           ),
         ],
       ),
     );
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // new Container(
+  //       padding: EdgeInsets.all(4),
+  //       child: ElevatedButton(         
+  //         onPressed: () => showOngoingNotification(notifications,
+  //                 title: 'Tite', body: 'Body'),
+  //         style: ElevatedButton.styleFrom(
+  //           primary: Color(0xFFF46C6B),
+  //           onPrimary: Colors.white,
+  //           shape: RoundedRectangleBorder(
+  //               borderRadius: BorderRadius.circular(10.0)),
+  //         ),
+  //         child: Text(
+  //           'Create a  NotificationButton',
+  //           //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+  //         ),
+  //       ),
+  //     );
   }
 }
 

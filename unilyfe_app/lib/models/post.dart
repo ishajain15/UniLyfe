@@ -12,7 +12,7 @@ class Post {
   int likes;
   bool liked;
   String location;
-  String event_date;
+  DateTime event_date;
   Map<String, dynamic> map_liked;
   Map<String, dynamic> toJson() => {
         'postid': postid,
