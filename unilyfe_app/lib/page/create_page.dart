@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/customized_items/buttons/events_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/polls_post_button.dart';
+import 'package:unilyfe_app/customized_items/buttons/reviews_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/text_post_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/picture_post_button.dart';
 import 'package:unilyfe_app/models/post.dart';
@@ -28,6 +29,7 @@ class CreatePage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 12),
+            ReviewsButton(),
             PollsButton(),
             TextsButton(
               newPost: newPost,

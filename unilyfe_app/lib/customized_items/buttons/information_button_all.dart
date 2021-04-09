@@ -30,7 +30,7 @@ showAlertDialog(BuildContext context) {
   var alert = AlertDialog(
     title: Text('All'),
     content: Text(
-        'In this subpage, users can find all the posts and reviews of the locations on campus.'),
+        'In this subpage, users can find all the posts that have been published.'),
     actions: [
       dismissButton,
     ],
