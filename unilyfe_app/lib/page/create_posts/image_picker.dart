@@ -3,8 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:unilyfe_app/customized_items/buttons/photo_posting_button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:unilyfe_app/models/photo_post.dart';
+import 'package:unilyfe_app/widgets/provider_widget.dart';
+
+int selection = 0;
 
 void main() => runApp(MyApp());
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
@@ -18,10 +24,12 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
+
 class _MyHomePageState extends State<MyHomePage> {
   File _image;
   Future getImagefromcamera() async {
@@ -31,6 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _image = image;
     });
   }
+
   Future getImagefromGallery() async {
     // ignore: deprecated_member_use
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
@@ -38,8 +47,11 @@ class _MyHomePageState extends State<MyHomePage> {
       _image = image;
     });
   }
+
   @override
   Widget build(BuildContext context) {
+    final db = FirebaseFirestore.instance;
+    String _title;
     // ignore: unused_local_variable
     String text;
     return Scaffold(
@@ -55,10 +67,9 @@ class _MyHomePageState extends State<MyHomePage> {
               style: TextStyle(fontSize: 20),
             ), */
             // start textfield
-            
+
             child: TextField(
-            decoration: InputDecoration(
-              
+              decoration: InputDecoration(
                 hintText: 'Add a caption',
                 contentPadding:
                     const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
@@ -66,10 +77,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   borderSide: BorderSide(color: Colors.black),
                   borderRadius: BorderRadius.circular(25.7),
                 ),
+              ),
+              onChanged: (value) {
+                text = value.trim();
+                _title = value.trim();
+              },
             ),
-            onChanged: (value) {text = value.trim();},
-            ),
-            // end textfield 
+
+            // end textfield
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
@@ -95,22 +110,131 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: getImagefromGallery,
                 tooltip: 'Pick Image',
                 child: Icon(Icons.camera_alt),
-              )
+              ),
+              MyAppOne(),
+              ElevatedButton(
+                onPressed: () async {
+                  var channel = 'Post';
+                  if (selection == 0) {
+                    channel = 'FOOD';
+                  } else if (selection == 1) {
+                    channel = 'STUDY';
+                  } else {
+                    print(selection);
+                    channel = 'SOCIAL';
+                  }
+
+                  final uid = await Provider.of(context).auth.getCurrentUID();
+                  var doc = db.collection('posts').doc();
+                  final post = PhotoPost(doc.id, _title, DateTime.now(), null,
+                  channel, uid, 0, false, {uid: false}, null, null, null);
+
+                  post.postid = doc.id;
+
+                  await db.collection('userData').doc(uid).get().then((result) {
+                    post.username = result['username'];
+                  });
+
+                  //DocumentReference channel;
+                  if (selection == 0) {
+                    //await db.collection("food_posts").add(post.toJson());
+                    await db
+                        .collection('food_posts')
+                        .doc(doc.id)
+                        .set(post.toJson());
+                  } else if (selection == 1) {
+                    //await db.collection("study_posts").add(post.toJson());
+                    await db
+                        .collection('study_posts')
+                        .doc(doc.id)
+                        .set(post.toJson());
+                  } else {
+                    //await db.collection("social_posts").add(post.toJson());
+                    await db
+                        .collection('social_posts')
+                        .doc(doc.id)
+                        .set(post.toJson());
+                  }
+                  await db.collection('posts').doc(doc.id).set(post.toJson());
+                  await db
+                      .collection('userData')
+                      .doc(uid)
+                      .collection('event_posts')
+                      .doc(doc.id)
+                      .set(post.toJson());
+                  //  Navigator.of(context).popUntil((route) => route.isFirst);
+                  //  Navigator.of(context).popUntil((route) => route.isFirst);
+                  Navigator.pop(context);
+                  // Navigator.pushReplacement(context,MaterialPageRoute(builder: (_) => CreatePage())).then((_) => refresh());
+                },
+                //   child: Text("Post"),
+                //  onPressed: () async{
+                child: Text('SUBMIT'),
+              ),
             ],
           ),
-          // start Post button
-          // ignore: deprecated_member_use
-          /* FlatButton(
-            onPressed: () => debugPrint('Photo post button pressed'),
-            child: Text('Post',
-              style: TextStyle(
-                fontSize: 16,
-                color: Color(0xFFF46C6B)
-              )
-            )
-          ), */
-          // end Post button
-        PhotoPostingButton(),
+          PhotoPostingButton(),
+        ],
+      ),
+    );
+  }
+}
+
+class MyAppOne extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyAppOne> {
+  List<bool> isSelected;
+
+  @override
+  void initState() {
+    // this is for 3 buttons, add "false" same as the number of buttons here
+    isSelected = [true, false, false];
+    selection = 0;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: ToggleButtons(
+        // logic for button selection below
+        onPressed: (int index) {
+          setState(() {
+            for (var i = 0; i < isSelected.length; i++) {
+              isSelected[i] = i == index;
+              if (isSelected[i] == true) {
+                selection = i;
+                print('INDEX: $i');
+              }
+            }
+          });
+        },
+        isSelected: isSelected,
+        children: <Widget>[
+          // first toggle button
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'FOOD',
+            ),
+          ),
+          // second toggle button
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'STUDY',
+            ),
+          ),
+          // third toggle button
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              'SOCIAL',
+            ),
+          ),
         ],
       ),
     );
