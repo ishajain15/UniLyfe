@@ -1,6 +1,7 @@
 //import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:unilyfe_app/customized_items/custom_warning.dart';
 //import 'package:unilyfe_app/page/comments_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
@@ -29,84 +30,95 @@ class GarbageButtonWidget extends StatelessWidget {
           color: Colors.grey,
         ),
         onPressed: () async {
-          var postCollection = '';
+          var dialog = CustomAlertDialog(
+              title: 'Are you sure you want to delete this post?',
+              message: 'There is no way to undo this.',
+              onFirstPressed: () async {
+                Navigator.of(context).pop();
+                var postCollection = '';
 
-          if (postChannel == 'FOOD') {
-            postCollection = 'food_posts';
-          } else if (postChannel == 'STUDY') {
-            postCollection = 'study_posts';
-          } else {
-            postCollection = 'social_posts';
-          }
+                if (postChannel == 'FOOD') {
+                  postCollection = 'food_posts';
+                } else if (postChannel == 'STUDY') {
+                  postCollection = 'study_posts';
+                } else {
+                  postCollection = 'social_posts';
+                }
 
-          final db = FirebaseFirestore.instance;
-          await db.collection('posts').doc(postid).delete();
-          await db
-              .collection('comments')
-              .where('postid', isEqualTo: postid)
-              .get()
-              .then((querySnapshot) {
-            querySnapshot.docs.forEach((result) {
-              db
-                  .collection('comments')
-                  .doc(result.id)
-                  .collection('comments')
-                  .get()
-                  .then((querySnapshot) {
-                querySnapshot.docs.forEach((result) {
-                  print(result.data());
-                  result.reference.delete();
+                final db = FirebaseFirestore.instance;
+                await db.collection('posts').doc(postid).delete();
+                await db
+                    .collection('comments')
+                    .where('postid', isEqualTo: postid)
+                    .get()
+                    .then((querySnapshot) {
+                  querySnapshot.docs.forEach((result) {
+                    db
+                        .collection('comments')
+                        .doc(result.id)
+                        .collection('comments')
+                        .get()
+                        .then((querySnapshot) {
+                      querySnapshot.docs.forEach((result) {
+                        print(result.data());
+                        result.reference.delete();
+                      });
+                    });
+                  });
                 });
-              });
-            });
-          });
-          await db
-              .collection('comments')
-              .doc(postid)
-              .delete()
-              .then((value) => print("success"));
+                await db
+                    .collection('comments')
+                    .doc(postid)
+                    .delete()
+                    .then((value) => print("success"));
 
-          print(postid);
-          // Get docs from collection reference
-          var querySnapshot = await db.collection('comments').get();
+                print(postid);
+                // Get docs from collection reference
+                var querySnapshot = await db.collection('comments').get();
 
-          // Get data from docs and convert map to List
-          final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
+                // Get data from docs and convert map to List
+                final allData =
+                    querySnapshot.docs.map((doc) => doc.data()).toList();
 
-          print(allData);
-          await db.collection(postCollection).doc(postid).delete();
-          await db.collection('userData').get().then((querySnapshot) {
-            querySnapshot.docs.forEach((result) {
-              db
-                  .collection('userData')
-                  .doc(result.id)
-                  .collection('liked_posts')
-                  .where('postid', isEqualTo: postid)
-                  .get()
-                  .then((querySnapshot) {
-                querySnapshot.docs.forEach((result) {
-                  print(result.data());
-                  result.reference.delete();
+                print(allData);
+                await db.collection(postCollection).doc(postid).delete();
+                await db.collection('userData').get().then((querySnapshot) {
+                  querySnapshot.docs.forEach((result) {
+                    db
+                        .collection('userData')
+                        .doc(result.id)
+                        .collection('liked_posts')
+                        .where('postid', isEqualTo: postid)
+                        .get()
+                        .then((querySnapshot) {
+                      querySnapshot.docs.forEach((result) {
+                        print(result.data());
+                        result.reference.delete();
+                      });
+                    });
+                  });
                 });
-              });
-            });
-          });
-          await db.collection('userData').get().then((querySnapshot) {
-            querySnapshot.docs.forEach((result) {
-              db
-                  .collection('userData')
-                  .doc(result.id)
-                  .collection('comment_history')
-                  .where('postid', isEqualTo: postid)
-                  .get()
-                  .then((querySnapshot) {
-                querySnapshot.docs.forEach((result) {
-                  print(result.data());
-                  result.reference.delete();
+                await db.collection('userData').get().then((querySnapshot) {
+                  querySnapshot.docs.forEach((result) {
+                    db
+                        .collection('userData')
+                        .doc(result.id)
+                        .collection('comment_history')
+                        .where('postid', isEqualTo: postid)
+                        .get()
+                        .then((querySnapshot) {
+                      querySnapshot.docs.forEach((result) {
+                        print(result.data());
+                        result.reference.delete();
+                      });
+                    });
+                  });
                 });
-              });
-            });
-          });
+              },
+              firstText: 'Yes',
+              secondText: 'No');
+          await showDialog(
+              context: context, builder: (BuildContext context) => dialog);
         },
       ),
     );

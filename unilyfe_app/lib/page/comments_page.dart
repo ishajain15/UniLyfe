@@ -216,19 +216,31 @@ class Comment extends StatelessWidget {
                 color: Colors.red,
                 icon: Icons.delete_outline,
                 onTap: () async {
-                  await db
-                      .collection('userData')
-                      .doc(uid)
-                      .collection('comment_history')
-                      .doc(commentid)
-                      .delete();
-                  await db
-                      .collection('comments')
-                      .doc(postid)
-                      .collection('comments')
-                      .doc(commentid)
-                      .delete()
-                      .then((value) => print("success"));
+                  var dialog = CustomAlertDialog(
+                      title: 'Are you sure you want to delete this comme?',
+                      message: 'There is no way to undo this.',
+                      onFirstPressed: () async {
+                        Navigator.of(context).pop();
+                        //db stuff
+                        await db
+                            .collection('userData')
+                            .doc(uid)
+                            .collection('comment_history')
+                            .doc(commentid)
+                            .delete();
+                        await db
+                            .collection('comments')
+                            .doc(postid)
+                            .collection('comments')
+                            .doc(commentid)
+                            .delete()
+                            .then((value) => print("success"));
+                      },
+                      firstText: 'Yes',
+                      secondText: 'No');
+                  await showDialog(
+                      context: context,
+                      builder: (BuildContext context) => dialog);
                 },
               ),
             ),
