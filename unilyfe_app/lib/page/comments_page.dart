@@ -217,7 +217,7 @@ class Comment extends StatelessWidget {
                 icon: Icons.delete_outline,
                 onTap: () async {
                   var dialog = CustomAlertDialog(
-                      title: 'Are you sure you want to delete this comme?',
+                      title: 'Are you sure you want to delete this comment?',
                       message: 'There is no way to undo this.',
                       onFirstPressed: () async {
                         Navigator.of(context).pop();
