@@ -15,7 +15,7 @@ class ReviewsButton extends StatelessWidget {
           onPressed: () {
              Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LocationListView(post: newPost, )),
+                  MaterialPageRoute(builder: (context) => LocationList(post: newPost, )),
                 );
           },
           style: ElevatedButton.styleFrom(
