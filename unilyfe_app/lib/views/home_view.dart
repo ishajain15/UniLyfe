@@ -10,7 +10,6 @@ import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
 import 'package:unilyfe_app/page/report_page.dart';
 import 'package:unilyfe_app/page/tabs/username_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:unilyfe_app/page/likes_page.dart';
 import 'package:polls/polls.dart';
 import 'package:unilyfe_app/models/global.dart' as global;
@@ -66,7 +65,6 @@ class HomeView extends State<HomeViewState> {
       BuildContext context) async* {
     // ignore: unused_local_variable
     final uid = await Provider.of(context).auth.getCurrentUID();
-
     // the user clicked the "randomized" button
     if (hasBeenPressed == true) {
       print('randomize SHOULDVE been clicked!');
@@ -142,6 +140,7 @@ class HomeView extends State<HomeViewState> {
   }
 
   Widget buildPostCard(BuildContext context, DocumentSnapshot post) {
+    // getDocuments();
     if (post['postType'] == 0) {
       return Container(
         child: Card(
@@ -240,7 +239,6 @@ class HomeView extends State<HomeViewState> {
                       CommentButtonWidget(
                         postid: post['postid'],
                       ),
-                      //SmoothStarRating()
                     ],
                   ),
                 ),
@@ -450,7 +448,7 @@ class HomeView extends State<HomeViewState> {
                   child: Row(
                     children: <Widget>[
                       Text(
-                          "Event Date: ${(post['event_date'] == null) ? "n/a" : post['event_date']}"),
+                          "Event Date: ${DateFormat('MM/dd/yyyy (h:mm a)').format(post['event_date'].toDate()).toString()}"),
                       Spacer(),
                     ],
                   ),

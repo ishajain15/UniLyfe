@@ -14,7 +14,7 @@ class PollPost {
   Map<String, dynamic> map_liked;
   String username;
   String location;
-  String event_date;
+  DateTime event_date;
   Map<String, dynamic> toJson() => {
         'postType': 1,
         'title': title,

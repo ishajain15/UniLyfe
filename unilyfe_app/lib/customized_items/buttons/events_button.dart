@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/page/create_posts/events_form.dart';
+import 'package:unilyfe_app/page/notifications/Events_form.dart';
 
 class EventsButton extends StatelessWidget {
   @override

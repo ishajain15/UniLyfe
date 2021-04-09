@@ -36,7 +36,7 @@ class Likes extends StatefulWidget {
   String uid;
   String username;
   String location;
-  String event_date;
+  DateTime event_date;
   @override
   LikeState createState() => LikeState(
         postid: postid,
@@ -82,7 +82,7 @@ class LikeState extends State<Likes> {
   String current_uid;
   String username;
   String location;
-  String event_date;
+  DateTime event_date;
   final db = FirebaseFirestore.instance;
   // ignore: always_declare_return_types
   //
