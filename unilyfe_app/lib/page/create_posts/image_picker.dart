@@ -173,7 +173,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ],
           ),
-          PhotoPostingButton(),
         ],
       ),
     );
@@ -235,6 +234,7 @@ class _MyAppState extends State<MyAppOne> {
               'SOCIAL',
             ),
           ),
+
         ],
       ),
     );
