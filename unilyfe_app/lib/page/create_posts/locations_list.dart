@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/models/dropdown.dart';
 import 'package:unilyfe_app/models/post.dart';
+import 'package:unilyfe_app/page/create_posts/location_rating.dart';
+import 'package:unilyfe_app/views/new_posts/submit_view.dart';
 
 // class LocationList extends StatefulWidget {
 //   @override
@@ -32,12 +33,12 @@ class LocationsListState extends State<LocationList> {
         ),
         backgroundColor: Colors.white,
       ),
-      body: Center(
-        child: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(0.0),
+      body: Column(
+        //child: Container(
+          children: [
+          //padding: const EdgeInsets.all(100.0),
           //color: Color(0xFFF46C6B),
-          child: DropdownButton<String>(
+          DropdownButton<String>(
             value: chosenValue,
             //elevation: 5,
             style: TextStyle(color: Colors.black),
@@ -46,10 +47,16 @@ class LocationsListState extends State<LocationList> {
               'Wiley Dining Court',
               'Windsor Dining Court',
               'Hillenbrand Dining Court',
-              'Earhart Hall',
+              'Harrison Grill',
+              'Triple XXX Family Restaurant',
+              'Einstein Bagels',
+              'Earhart Residence Hall',
               'Wiley Residence Hall',
               'Windsor Residence Hall',
-              'Hillenbrand Hall',
+              'Hillenbrand Residence Hall',
+              'Chauncey Square Apartments',
+              'Aspire at Discovery Park',
+              'Hub State Street',
             ].map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
@@ -69,8 +76,19 @@ class LocationsListState extends State<LocationList> {
               });
             },
           ),
-        ),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LocationRating()),
+                  );
+                },
+                child: Text('Continue')),
+          ],
       ),
+      
     );
+    
   }
 }
