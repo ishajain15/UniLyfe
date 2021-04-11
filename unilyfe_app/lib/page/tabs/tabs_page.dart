@@ -19,7 +19,7 @@ class _TabsPageState extends State<TabsPage> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 5,
+        length: 4,
         child: Scaffold(
           key: _scaffoldKey,
           drawer: myDrawer(context),
