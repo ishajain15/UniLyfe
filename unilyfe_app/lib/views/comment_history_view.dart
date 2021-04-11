@@ -10,7 +10,7 @@ class CommentHistoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         iconTheme: IconThemeData(
           color: Colors.black, //change your color here
         ),
@@ -19,7 +19,7 @@ class CommentHistoryView extends StatelessWidget {
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Colors.white,
-      ),
+      ),*/
       body: Column(
         children: <Widget>[
           Expanded(

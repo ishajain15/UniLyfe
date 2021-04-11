@@ -52,10 +52,10 @@ class _ProfilePageState extends State<ProfilePage> {
         body: ListView(
       children: <Widget>[
         //added this below
-        Container(
+        /*Container(
           padding: const EdgeInsets.all(10),
           child: CommentHistoryButton(),
-        ),
+        ),*/
         //added this above
         Container(
             child: Row(children: [

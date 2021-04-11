@@ -6,7 +6,6 @@ import 'package:unilyfe_app/page/create_page.dart';
 import 'package:unilyfe_app/page/corona_page.dart';
 import 'package:unilyfe_app/page/profile_page.dart';
 import 'package:unilyfe_app/page/profile_home_page.dart';
-import 'package:unilyfe_app/page/tabs/tabs_profile_page.dart';
 
 
 
