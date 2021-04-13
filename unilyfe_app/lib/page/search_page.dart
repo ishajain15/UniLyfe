@@ -36,22 +36,27 @@ class SearchPage extends StatelessWidget {
     titlesList = [];
     realGetTitles();
     return Scaffold(
-      /*appBar: AppBar(
-         backgroundColor: const Color(0xdeadbeef),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text('Click on the icon to search!',
+            style: TextStyle(
+                color: Colors.grey,
+                fontFamily: 'Raleway',
+                fontWeight: FontWeight.bold)),
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.search),
+              icon: Icon(Icons.search, color: Colors.grey),
               onPressed: () {
                 showSearch(context: context, delegate: DataSearch());
               })
         ],
-      ),*/
-      body: IconButton(
+      ),
+      /*body: IconButton(
           icon: Icon(Icons.search),
           onPressed: () {
             showSearch(context: context, delegate: DataSearch());
           }),
-      drawer: Drawer(),
+      drawer: Drawer(),*/
     );
     /*appBar: AppBar(
          backgroundColor: const Color(0x54fdeadb),
