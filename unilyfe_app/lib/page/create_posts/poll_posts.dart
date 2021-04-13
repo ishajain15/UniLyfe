@@ -1,9 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:polls/polls.dart';
+import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 class DisplayPosts extends StatefulWidget {
-  DisplayPosts({Key key, @required this.options, @required this.title}) : super(key: key);
+  DisplayPosts({Key key, @required this.options, @required this.title, @required this.postid, @required this.users}) : super(key: key);
   String postid;
   int likes;
   String postChannel;
@@ -11,27 +12,25 @@ class DisplayPosts extends StatefulWidget {
   String uid;
   dynamic options;
   String title;
+  Map<String, dynamic> users;
   @override
-  Posts createState() => Posts(options:options, title:title);
+  Posts createState() => Posts(options:options, title:title, postid:postid, users: users);
 } // end of DiplayPosts
 
 class Posts extends State<DisplayPosts> {
   Posts({
     Key key,
-    @required this.options, @required this.title
+    @required this.options, @required this.title, @required this.postid, @required this.users
   });
   double option1 = 1.0;
   double option2 = 1.0;
   double option3 = 1.0;
   double option4 = 1.0;
   dynamic options;
+  String postid;
   String title;
-  Map usersWhoVoted = {
-    'sam@mail.com': 3,
-    'mike@mail.com': 4,
-    'john@mail.com': 1,
-    'kenny@mail.com': 1
-  };
+ Map<String, dynamic> users;
+  
   String creator = 'eddy@mail.com';
   @override
   Widget build(BuildContext context) {
@@ -47,15 +46,20 @@ class Posts extends State<DisplayPosts> {
       question: Text(title),
       currentUser: user,
       creatorID: creator,
-      voteData: usersWhoVoted,
-      userChoice: usersWhoVoted[user],
+      voteData: users,
+      userChoice: users[user],
       onVoteBackgroundColor: Color(0xFFF56D6B),
       leadingBackgroundColor: Color(0xFFF56D6B),
       backgroundColor: Colors.white,
       onVote: (choice) {
         print(choice);
         setState(() {
-          usersWhoVoted[user] = choice;
+          Provider.of(context)
+          .db
+          .collection('posts')
+          .doc(postid)
+          .update({'users.$user': choice});
+          users[user] = choice;
         });
         if (choice == 1) {
           setState(() {
@@ -78,6 +82,7 @@ class Posts extends State<DisplayPosts> {
           });
         }
       },
+      
     );
   }
 } // end of posts

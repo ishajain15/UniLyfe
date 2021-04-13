@@ -14,6 +14,7 @@ class PhotoPost {
   String location;
   String event_date;
   dynamic options;
+  Map<String, dynamic> users;
   Map<String, dynamic> map_liked;
   Map<String, dynamic> toJson() => {
         'postid': postid,
@@ -29,6 +30,7 @@ class PhotoPost {
         'username': username,
         'location': location,
         'event_date': event_date,
-        'options': null
+        'options': null,
+        'users':null
       };
 }

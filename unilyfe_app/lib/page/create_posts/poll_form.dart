@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -110,10 +112,10 @@ class PollForm extends StatelessWidget {
 
               final uid = await Provider.of(context).auth.getCurrentUID();
               var doc = db.collection('posts').doc();
+              Map<String, dynamic> users = {'uid':1};
               //  final PollPost post = new PollPost(_question, DateTime.now(), _option1, true, "Food", uid);
               final post = PollPost(doc.id, _question, DateTime.now(), _option1,
-                  channel, uid, 0, false, {uid: false}, null, null, null, null);
-
+                  channel, uid, 0, false, {uid: false}, null, null, null, null, users);
               post.postid = doc.id;
               dynamic options = [_option1,_option2,_option3,_option4];
               post.options = options;

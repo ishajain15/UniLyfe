@@ -10,7 +10,7 @@ class Photo {
   String uid;
   int likes;
   bool liked;
-
+  
   Map<String, dynamic> toJson() => {
         //'image': image,
         'postType': 0,

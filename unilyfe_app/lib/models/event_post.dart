@@ -16,6 +16,7 @@ class EventPost {
   String location;
   DateTime event_date;
   dynamic options;
+  Map<String, dynamic> users;
   Map<String, dynamic> toJson() => {
         'postType': 2,
         'title': title,
@@ -30,6 +31,7 @@ class EventPost {
         'username': username,
         'location': location,
         'event_date': event_date,
-        'options':options
+        'options':options,
+        'users': null
       };
 }

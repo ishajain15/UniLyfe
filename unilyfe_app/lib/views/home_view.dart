@@ -295,7 +295,7 @@ class HomeView extends State<HomeViewState> {
                   child: Row(
                     children: <Widget>[
                       Expanded(flex: 15, 
-                      child: DisplayPosts(options:post['options'], title:post['title'])
+                      child: DisplayPosts(options:post['options'], title:post['title'], postid:post['postid'], users:post['users'], )
                       ),
                       Spacer(),
                     ],
