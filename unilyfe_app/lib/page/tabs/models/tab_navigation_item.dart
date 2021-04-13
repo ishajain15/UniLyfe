@@ -5,6 +5,7 @@ import 'package:unilyfe_app/page/search_page.dart';
 import 'package:unilyfe_app/page/create_page.dart';
 import 'package:unilyfe_app/page/corona_page.dart';
 import 'package:unilyfe_app/page/profile_page.dart';
+import 'package:unilyfe_app/page/profile_home_page.dart';
 
 
 
@@ -42,7 +43,9 @@ class TabNavigationItem {
           title: Text('Corona'),
         ),
         TabNavigationItem(
-          page: ProfilePage(),
+          //page: ProfilePage(),
+          page: ProfileHomePage(), 
+          //page: TabsProfilePage(),
           icon: Icon(MyFlutterApp.profile_unilyfe),
           title: Text('Me'),
         )

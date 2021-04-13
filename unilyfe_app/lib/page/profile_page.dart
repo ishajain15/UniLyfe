@@ -43,6 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
   PickedFile _imageFile;
   //final _globalkey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
+  File profilePicture;
   final db = FirebaseFirestore.instance;
 
   @override
@@ -52,10 +53,10 @@ class _ProfilePageState extends State<ProfilePage> {
         body: ListView(
       children: <Widget>[
         //added this below
-        Container(
+        /*Container(
           padding: const EdgeInsets.all(10),
           child: CommentHistoryButton(),
-        ),
+        ),*/
         //added this above
         Container(
             child: Row(children: [
@@ -420,7 +421,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   // ignore: always_declare_return_types
   _getProfileData() async {
-    print('getting profile data!');
     final uid = await Provider.of(context).auth.getCurrentUID();
     await db.collection('userData').doc(uid).get().then((result) {
       user.username = result['username'].toString();
@@ -431,7 +431,7 @@ class _ProfilePageState extends State<ProfilePage> {
       user.classes = List.from(result['classes']);
       user.hobbies = List.from(result['hobbies']);
       user.points = result['points_field'];
-      print('POINTS FIELD: ' + user.points.toString());
+      profilePicture = result['_imageFile'];
     });
   }
 

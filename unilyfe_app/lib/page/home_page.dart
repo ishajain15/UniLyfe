@@ -26,7 +26,7 @@ class HomePage extends StatelessWidget {
           Tab(text: 'FOOD'),
           Tab(text: 'STUDY'),
           Tab(text: 'SOCIAL'),
-          Tab(text: 'LIKED')
+         // Tab(text: 'LIKED')
         ],
         unselectedLabelColor: Colors.grey,
       ),
@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
           FoodViewState(),
           StudyViewState(),
           SocialViewState(),
-          LikedPostsView()
+         // LikedPostsView()
         ],
       ),
       //bottomSheet: LogoutButtonWidget(),
