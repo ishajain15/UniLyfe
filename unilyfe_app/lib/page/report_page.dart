@@ -82,7 +82,69 @@ class ReportState extends State<Report> {
           );
         });
   }
-
+    void thankyousheetUser(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            height: MediaQuery.of(context).size.height * .60,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                  top: 10.0, bottom: 10.0, left: 10.0, right: 10.0),
+              child: Column(
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(Icons.check_circle_outline_sharp,
+                        color: Colors.green, size: 30),
+                    onPressed: () {},
+                  ),
+                  Text(
+                    'Thanks for reporting this user.',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  Text(
+                    'We will review this post to determine wheter it violates our Policies.',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  Text(
+                    'Thanks for helping us keep Unilyfe safe.',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      setState(() {
+                        final db = FirebaseFirestore.instance;
+                        db
+                            .collection('reported_users')
+                            .doc(postid)
+                            .set({'post_channel': postChannel});
+                      });
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                      Navigator.of(context).pop();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xFFF46C6B),
+                      onPrimary: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0)),
+                    ),
+                    child: Text(
+                      'Back',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
   void reportsheet(context) {
     showModalBottomSheet(
         context: context,
@@ -151,6 +213,64 @@ class ReportState extends State<Report> {
         });
   }
 
+void reportUsersheet(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return Container(
+            height: MediaQuery.of(context).size.height * .60,
+            child: Column(
+              children: <Widget>[
+                Text(
+                  'Why are you reporting this user?',
+                  style: TextStyle(
+                    fontSize: 20.0,
+                  ),
+                ),
+               
+                ElevatedButton(
+                  onPressed: () => thankyousheetUser(context),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xFFF46C6B),
+                    onPrimary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                  ),
+                  child: Text(
+                    'This user posted content which is offensive',
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () => thankyousheetUser(context),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xFFF46C6B),
+                    onPrimary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                  ),
+                  child: Text(
+                    'This user posted content which is inappropriate',
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () => thankyousheetUser(context),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xFFF46C6B),
+                    onPrimary: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                  ),
+                  child: Text(
+                    'This user posted content which is  violent or prohibited',
+                  ),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
+
   void bottom_Sheet(context) {
     showModalBottomSheet(
         context: context,
@@ -159,17 +279,38 @@ class ReportState extends State<Report> {
             height: MediaQuery.of(context).size.height * .60,
             child: Column(
               children: <Widget>[
-                ElevatedButton(
+                Container(
+                  width: 400.0,
+                  // height: 120.0,
+                  child: ElevatedButton(
                   onPressed: () => reportsheet(context),
                   style: ElevatedButton.styleFrom(
                     primary: Color(0xFFF46C6B),
+                    onPrimary: Colors.white,
+                    
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0)),
+                  ),
+                  child: Text(
+                    'Report Post',
+                  ),
+                ),
+                ),
+              
+                Container(
+                width: 400.0,
+                child: ElevatedButton(
+                  onPressed: () => reportUsersheet(context),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color(0xFFF99E3E),
                     onPrimary: Colors.white,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0)),
                   ),
                   child: Text(
-                    'Report',
+                    'Report User',
                   ),
+                ),
                 ),
               ],
             ),
