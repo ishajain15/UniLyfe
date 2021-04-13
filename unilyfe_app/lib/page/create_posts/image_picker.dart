@@ -127,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   final uid = await Provider.of(context).auth.getCurrentUID();
                   var doc = db.collection('posts').doc();
                   final post = PhotoPost(doc.id, _title, DateTime.now(), null,
-                  channel, uid, 0, false, {uid: false}, null, null, null);
+                  channel, uid, 0, false, {uid: false}, null, null, null, null);
 
                   post.postid = doc.id;
 

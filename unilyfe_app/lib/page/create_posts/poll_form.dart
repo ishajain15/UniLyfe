@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/models/poll_post.dart';
-import 'package:unilyfe_app/models/global.dart' as global;
 
 int selection = 0;
 
@@ -113,14 +112,11 @@ class PollForm extends StatelessWidget {
               var doc = db.collection('posts').doc();
               //  final PollPost post = new PollPost(_question, DateTime.now(), _option1, true, "Food", uid);
               final post = PollPost(doc.id, _question, DateTime.now(), _option1,
-                  channel, uid, 0, false, {uid: false}, null, null, null);
+                  channel, uid, 0, false, {uid: false}, null, null, null, null);
 
               post.postid = doc.id;
-              global.question = _question;
-              global.option1 = _option1;
-              global.option2 = _option2;
-              global.option3 = _option3;
-              global.option4 = _option4;
+              dynamic options = [_option1,_option2,_option3,_option4];
+              post.options = options;
 
               await db.collection('userData').doc(uid).get().then((result) {
                 post.username = result['username'];

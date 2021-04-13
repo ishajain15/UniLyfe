@@ -7,14 +7,12 @@ import 'package:unilyfe_app/customized_items/buttons/garbage_button.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_all.dart';
 import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
 import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
+import 'package:unilyfe_app/page/create_posts/poll_posts.dart';
 import 'package:unilyfe_app/page/report_page.dart';
 import 'package:unilyfe_app/page/tabs/username_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:unilyfe_app/page/likes_page.dart';
-import 'package:polls/polls.dart';
-import 'package:unilyfe_app/models/global.dart' as global;
 
-//bool hasBeenPressed = false;
 
 class HomeViewState extends StatefulWidget {
   @override
@@ -296,7 +294,9 @@ class HomeView extends State<HomeViewState> {
                   padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
                   child: Row(
                     children: <Widget>[
-                      Expanded(flex: 15, child: DisplayPosts()),
+                      Expanded(flex: 15, 
+                      child: DisplayPosts(options:post['options'], title:post['title'])
+                      ),
                       Spacer(),
                     ],
                   ),
@@ -511,80 +511,6 @@ class HomeView extends State<HomeViewState> {
 
   }
 } // end of HomeView
-
-// ignore: must_be_immutable
-class DisplayPosts extends StatefulWidget {
-  DisplayPosts({Key key}) : super(key: key);
-  String postid;
-  int likes;
-  String postChannel;
-  dynamic map_liked;
-  String uid;
-  @override
-  Posts createState() => Posts();
-} // end of DiplayPosts
-
-class Posts extends State<DisplayPosts> {
-  Posts();
-  double option1 = 1.0;
-  double option2 = 1.0;
-  double option3 = 1.0;
-  double option4 = 1.0;
-  Map usersWhoVoted = {
-    'sam@mail.com': 3,
-    'mike@mail.com': 4,
-    'john@mail.com': 1,
-    'kenny@mail.com': 1
-  };
-  String creator = 'eddy@mail.com';
-  @override
-  Widget build(BuildContext context) {
-    var user = FirebaseAuth.instance.currentUser.uid;
-    return Polls(
-      children: [
-        // This cannot be less than 2, else will throw an exception
-        Polls.options(title: 'option a', value: option1),
-        Polls.options(title: 'option b', value: option2),
-        Polls.options(title: 'option c', value: option3),
-        Polls.options(title: 'option d', value: option4),
-      ],
-      question: Text(global.question),
-      currentUser: user,
-      creatorID: creator,
-      voteData: usersWhoVoted,
-      userChoice: usersWhoVoted[user],
-      onVoteBackgroundColor: Color(0xFFF56D6B),
-      leadingBackgroundColor: Color(0xFFF56D6B),
-      backgroundColor: Colors.white,
-      onVote: (choice) {
-        print(choice);
-        setState(() {
-          usersWhoVoted[user] = choice;
-        });
-        if (choice == 1) {
-          setState(() {
-            option1 += 1.0;
-          });
-        }
-        if (choice == 2) {
-          setState(() {
-            option2 += 1.0;
-          });
-        }
-        if (choice == 3) {
-          setState(() {
-            option3 += 1.0;
-          });
-        }
-        if (choice == 4) {
-          setState(() {
-            option4 += 1.0;
-          });
-        }
-      },
-    );
-  }
-} // end of posts
 
 Widget buildLoading() => Center(
         child: ColorLoader4(

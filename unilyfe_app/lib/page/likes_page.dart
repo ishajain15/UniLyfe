@@ -212,7 +212,7 @@ class LikeState extends State<Likes> {
       print("LIKED!");
 
       Post post = Post(postid, title, time, text, postChannel, uid, likes,
-          liked, map_liked, username, location, event_date);
+          liked, map_liked, username, location, event_date, null);
 
       //Post post = Provider.of(context).db.collection('posts').doc(postid).get();
       /*String title = '';
