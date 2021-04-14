@@ -431,7 +431,7 @@ class _ProfilePageState extends State<ProfilePage> {
       user.classes = List.from(result['classes']);
       user.hobbies = List.from(result['hobbies']);
       user.points = result['points_field'];
-      profilePicture = result['_imageFile'];
+      profilePicture = result['profilepicture'];
     });
   }
 
