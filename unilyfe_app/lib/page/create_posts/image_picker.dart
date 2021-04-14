@@ -51,6 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final db = FirebaseFirestore.instance;
+    String _location;
     String _title;
     // ignore: unused_local_variable
     String text;
@@ -61,31 +62,45 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Center(
-            /* child: Text(
+          //Center(
+          /* child: Text(
               'Image Picker Example in Flutter',
               style: TextStyle(fontSize: 20),
             ), */
-            // start textfield
+          // start textfield
 
-            child: TextField(
-              decoration: InputDecoration(
-                hintText: 'Add a caption',
-                contentPadding:
-                    const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black),
-                  borderRadius: BorderRadius.circular(25.7),
-                ),
+          TextField(
+            decoration: InputDecoration(
+              hintText: 'Add a caption',
+              contentPadding:
+                  const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.black),
+                borderRadius: BorderRadius.circular(25.7),
               ),
-              onChanged: (value) {
-                text = value.trim();
-                _title = value.trim();
-              },
             ),
-
-            // end textfield
+            onChanged: (value) {
+              text = value.trim();
+              _title = value.trim();
+            },
           ),
+          // end textfield
+          TextField(
+            decoration: InputDecoration(
+              hintText: 'Add a location',
+              contentPadding:
+                  const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 4.0),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.black),
+                borderRadius: BorderRadius.circular(25.7),
+              ),
+            ),
+            onChanged: (value) {
+              text = value.trim();
+              _location = value.trim();
+            },
+          ),
+          //),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Container(
@@ -114,6 +129,7 @@ class _MyHomePageState extends State<MyHomePage> {
               MyAppOne(),
               ElevatedButton(
                 onPressed: () async {
+
                   var channel = 'Post';
                   if (selection == 0) {
                     channel = 'FOOD';
@@ -126,14 +142,32 @@ class _MyHomePageState extends State<MyHomePage> {
 
                   final uid = await Provider.of(context).auth.getCurrentUID();
                   var doc = db.collection('posts').doc();
-                  final post = PhotoPost(doc.id, _title, DateTime.now(), null,
-                  channel, uid, 0, false, {uid: false}, null, null, null, null);
+                  final post = PhotoPost(
+                      doc.id,
+                      _title,
+                      DateTime.now(),
+                      null,
+                      channel,
+                      uid,
+                      0,
+                      false,
+                      {uid: false},
+                      null,
+                      null,
+                      null,
+                      null, null);
 
-                  post.postid = doc.id;
+                  
 
                   await db.collection('userData').doc(uid).get().then((result) {
                     post.username = result['username'];
                   });
+
+                  await db
+                    .collection('userData')
+                    .doc(uid)
+                    .update({'points_field': FieldValue.increment(10)});
+                  post.postid = doc.id;
 
                   //DocumentReference channel;
                   if (selection == 0) {
