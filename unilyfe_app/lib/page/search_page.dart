@@ -37,22 +37,36 @@ class SearchPage extends StatelessWidget {
     titlesList = [];
     realGetTitles();
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: Text('Click on the icon to search!',
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text('Click on the icon to search!',
+            style: TextStyle(
+                color: Colors.grey,
+                fontFamily: 'Raleway',
+                fontWeight: FontWeight.bold)),
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.search, color: Colors.grey),
+              onPressed: () {
+                showSearch(context: context, delegate: DataSearch());
+              })
+        ],
+      ),
+      body: Column(children: [
+        Container(
+          padding: const EdgeInsets.all(16),
+          child: Text("Suggested Besties: ",
+              textAlign: TextAlign.center,
               style: TextStyle(
-                  color: Colors.grey,
-                  fontFamily: 'Raleway',
-                  fontWeight: FontWeight.bold)),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.search, color: Colors.grey),
-                onPressed: () {
-                  showSearch(context: context, delegate: DataSearch());
-                })
-          ],
+                color: Colors.black,
+                fontFamily: 'Raleway',
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+              )),
         ),
-        body: ListView(
+        FriendCards(),
+      ], ),
+      /*body: ListView(
           children: <Widget>[
             Container(
               padding: const EdgeInsets.all(16),
@@ -65,17 +79,17 @@ class SearchPage extends StatelessWidget {
                     fontSize: 24,
                   )),
             ),
-            FriendCard(),
+            FriendCards(),
           ],
-        )
+        )*/
 
-        /*body: IconButton(
+      /*body: IconButton(
           icon: Icon(Icons.search),
           onPressed: () {
             showSearch(context: context, delegate: DataSearch());
           }),
       drawer: Drawer(),*/
-        );
+    );
     /*appBar: AppBar(
          backgroundColor: const Color(0x54fdeadb),
       ),*/

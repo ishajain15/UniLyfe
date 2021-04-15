@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/page/profile_page.dart';
+import 'package:unilyfe_app/views/friends_view.dart';
 import 'package:unilyfe_app/views/liked_posts_view.dart';
 import 'package:unilyfe_app/views/comment_history_view.dart';
 //import 'package:unilyfe_app/provider/google_sign_in.dart';
@@ -18,7 +19,7 @@ class ProfileHomePage extends StatelessWidget {
 
     //return Scaffold(
     return DefaultTabController(
-        length: 3,
+        length: 4,
         child: Scaffold(
           appBar: TabBar(
             labelColor: const Color(0xFFF56D6B),
@@ -26,6 +27,7 @@ class ProfileHomePage extends StatelessWidget {
               Tab(text: 'YOU'),
               Tab(text: 'LIKED'),
               Tab(text: 'COMMENTS'),
+              Tab(text: 'FRIENDS')
             ],
             unselectedLabelColor: Colors.grey,
           ),
@@ -33,7 +35,8 @@ class ProfileHomePage extends StatelessWidget {
             children: 
             [ProfilePage(), 
             LikedPostsView(),
-            CommentHistoryView()
+            CommentHistoryView(),
+            FriendsView()
             ],
           ),
         )
