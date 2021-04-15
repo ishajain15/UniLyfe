@@ -229,6 +229,24 @@ class _TabsPageState extends State<TabsPage> {
               print('FAQ Page pressed');
             },
           ),
+          ListTile(
+            title: Text(
+              'Profile Stickers',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.grey,
+                fontFamily: 'Raleway',
+                fontSize: 17,
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => StickersRules()),
+              );
+              print('Sticker Page pressed');
+            },
+          ),
         ],
       ),
     );
@@ -458,6 +476,55 @@ class PointsRules extends StatelessWidget {
               ),
               Text(
                 'You will earn 10 points for posting a text post detailing your experience at a place. You will earn 5 points for commenting on a friends post!',
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  color: Colors.grey,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ));
+  }
+}
+
+class StickersRules extends StatelessWidget {
+  Widget pad = Container(
+    padding: const EdgeInsets.all(16),
+  );
+
+  @override
+  Widget build(BuildContext context) {
+    var c_width = MediaQuery.of(context).size.width;
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xFFFFFFFF),
+          title: Text(
+            'Sticker System Rules',
+            style: TextStyle(color: Colors.grey),
+          ),
+          iconTheme: IconThemeData(
+            color: Colors.grey, //change your color here
+          ),
+        ),
+        body: Container(
+          padding: const EdgeInsets.all(32.0),
+          width: c_width,
+          child: Column(
+            children: <Widget>[
+              Text(
+                'Point System Rules',
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontFamily: 'Raleway',
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                'For every 100 points you earn, you will get a cute sticker on your profile!',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontFamily: 'Raleway',
