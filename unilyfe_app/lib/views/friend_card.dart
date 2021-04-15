@@ -6,8 +6,16 @@ import 'package:unilyfe_app/widgets/provider_widget.dart';
 import '../demo_values.dart';
 import '../main.dart';
 
-class FriendCards extends StatelessWidget {
-  FriendCards({Key key}) : super(key: key);
+String friendUID = "";
+
+class FriendCards extends StatefulWidget {
+  const FriendCards({Key key}) : super(key: key);
+
+  @override
+  FriendCardsWidget createState() => FriendCardsWidget();
+}
+
+class FriendCardsWidget extends State<FriendCards> {
   String uid = "";
   List<String> myClasses;
   List<String> myHobbies;
@@ -71,8 +79,7 @@ class FriendCards extends StatelessWidget {
                           itemCount: snapshot.data.docs.length,
                           itemBuilder: (BuildContext context, int index) =>
                               buildFriendCard(
-                                  context, snapshot.data.docs[index])
-                    );
+                                  context, snapshot.data.docs[index]));
                     }),
               );
             }
@@ -88,6 +95,7 @@ class FriendCards extends StatelessWidget {
     //var hobbyThings = <String>['art', 'hiking', 'biking', 'crying', 'simping'];
     List<String> friendClasses = List.from(user['classes']);
     List<String> friendHobbies = List.from(user['hobbies']);
+    friendUID = user['uid'];
     List<String> sameClasses = [];
     List<String> sameHobbies = [];
     for (int i = 0; i < friendClasses.length; i++) {
@@ -200,7 +208,8 @@ class FriendCards extends StatelessWidget {
                                 AssetImage('assets/empty-profile.png')),
                         Container(
                             padding: const EdgeInsets.all(8),
-                            child: addFriendButton())
+                            //child: addFriendButton(context, friendUID))
+                            child: addFriendButtonWidget())
                       ]),
                 ],
               ),
@@ -209,7 +218,7 @@ class FriendCards extends StatelessWidget {
         )
       ]);
     } else if (sameClasses.length > 0) {
-            return Flex(direction: Axis.horizontal, children: [
+      return Flex(direction: Axis.horizontal, children: [
         Expanded(
           ///aspectRatio: 4 / 3,
           child: Card(
@@ -241,7 +250,8 @@ class FriendCards extends StatelessWidget {
                                 AssetImage('assets/empty-profile.png')),
                         Container(
                             padding: const EdgeInsets.all(8),
-                            child: addFriendButton())
+                            //child: addFriendButton(context, friendUID)
+                            child: addFriendButtonWidget())
                       ]),
                 ],
               ),
@@ -249,9 +259,8 @@ class FriendCards extends StatelessWidget {
           ),
         )
       ]);
-
     } else if (sameHobbies.length > 0) {
-            return Flex(direction: Axis.horizontal, children: [
+      return Flex(direction: Axis.horizontal, children: [
         Expanded(
           ///aspectRatio: 4 / 3,
           child: Card(
@@ -283,7 +292,8 @@ class FriendCards extends StatelessWidget {
                                 AssetImage('assets/empty-profile.png')),
                         Container(
                             padding: const EdgeInsets.all(8),
-                            child: addFriendButton())
+                            //child: addFriendButton(context, friendUID)
+                            child: addFriendButtonWidget())
                       ]),
                 ],
               ),
@@ -291,9 +301,8 @@ class FriendCards extends StatelessWidget {
           ),
         )
       ]);
-
     } else {
-            return Flex(direction: Axis.horizontal, children: [
+      return Flex(direction: Axis.horizontal, children: [
         Expanded(
           ///aspectRatio: 4 / 3,
           child: Card(
@@ -323,7 +332,8 @@ class FriendCards extends StatelessWidget {
                                 AssetImage('assets/empty-profile.png')),
                         Container(
                             padding: const EdgeInsets.all(8),
-                            child: addFriendButton())
+                            //child: addFriendButton(context, friendUID)
+                            child: addFriendButtonWidget())
                       ]),
                 ],
               ),
@@ -331,7 +341,6 @@ class FriendCards extends StatelessWidget {
           ),
         )
       ]);
-
     }
   }
 
@@ -371,23 +380,102 @@ class FriendCards extends StatelessWidget {
     // .snapshots();
   }
 
-  addFriendButton() {
-    return Container(
-        padding: EdgeInsets.all(4),
-        child: ElevatedButton(
-          onPressed: () {
-          },
-          style: ElevatedButton.styleFrom(
-            primary: Color(0xFFF46C6B),
-            onPrimary: Colors.white,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10.0)),
-          ),
-          child: Text(
-            'Add Friend!',
-            //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-          ),
+  addFriendButton(context, String friendUID) {
+    //String addFriend = 'Add Friend!';
+    //String added = 'Added!';
+    //bool addFriendBool = false;
+    //bool addedBool = true;
+
+    /*return Container(
+      padding: EdgeInsets.all(4),
+      child: ElevatedButton(
+        onPressed: () async {
+          print(friendUID);
+          print(uid);
+          await db
+              .collection('userData')
+              .doc(uid)
+              .collection('friends')
+              .doc(friendUID)
+              .set({'friendUID': friendUID});
+          setState(() {
+            addFriendBool = !addFriendBool;
+            print("addFriendBool: " + addFriendBool.toString());
+            addedBool = !addedBool;
+            print("addedBool: " + addedBool.toString());
+            //print('on press: the randomized button has been clicked');
+          });
+        },
+        style: ElevatedButton.styleFrom(
+          primary: Color(0xFFF46C6B),
+          onPrimary: Colors.white,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         ),
-      );
+        child: Text(addFriendBool ? addFriend : added
+            //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+      ),
+    );*/
+  }
+}
+
+class addFriendButtonWidget extends StatefulWidget {
+  const addFriendButtonWidget({Key key}) : super(key: key);
+
+  @override
+  myAddFriendButton createState() => myAddFriendButton();
+}
+
+class myAddFriendButton extends State<addFriendButtonWidget> {
+  final db = FirebaseFirestore.instance;
+  bool addFriendBool = true;
+  bool addedBool = false;
+  String addFriend = 'Add Friend!';
+  String added = 'Added!';
+  String friendUIDLocal = friendUID;
+
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(4),
+      child: ElevatedButton(
+        onPressed: () async {
+          String uid = await Provider.of(context).auth.getCurrentUID();
+          print("friendUID: " + friendUIDLocal);
+
+          if (addFriendBool) {
+            await db
+                .collection('userData')
+                .doc(uid)
+                .collection('friends')
+                .doc(friendUIDLocal)
+                .set({'friendUID': friendUIDLocal});
+          } else {
+            await db
+                .collection('userData')
+                .doc(uid)
+                .collection('friends')
+                .doc(friendUIDLocal)
+                .delete();
+          }
+          setState(() {
+            addFriendBool = !addFriendBool;
+            // print("addFriendBool: " + addFriendBool.toString());
+            addedBool = !addedBool;
+            // print("addedBool: " + addedBool.toString());
+            //print('on press: the randomized button has been clicked');
+          });
+        },
+        style: ElevatedButton.styleFrom(
+          primary: Color(0xFFF46C6B),
+          onPrimary: Colors.white,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
+        ),
+        child: Text(addFriendBool ? addFriend : added
+            //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+      ),
+    );
   }
 }

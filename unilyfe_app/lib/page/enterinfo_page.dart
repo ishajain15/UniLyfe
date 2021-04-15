@@ -173,6 +173,12 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                         .doc(uid)
                         .update({'year': year});
 
+                    await Provider.of(context)
+                        .db
+                        .collection('userData')
+                        .doc(uid)
+                        .update({'uid': uid});
+
                     if (_hobbiesController.text != null ||
                         _hobbiesController.text != '') {
                       user.hobbies = (_hobbiesController.text.split(', '));
