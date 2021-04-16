@@ -34,6 +34,7 @@ dependencies:
   flutter_local_notifications: ^0.6.0
   path_provider: ^0.5.0+1
   http: ^0.12.1
+  sliding_up_panel: ^1.0.2
 
   # Add the following two lines
   # http: ^0.12.0+1
