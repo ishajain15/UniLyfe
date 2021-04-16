@@ -8,7 +8,7 @@ int selection = 0;
 // ignore: must_be_immutable
 class EventForm extends StatelessWidget {
   final db = FirebaseFirestore.instance;
-  String _location,_title, _event_date,_information;
+  String _location, _title, _event_date, _information;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,7 +78,7 @@ class EventForm extends StatelessWidget {
               ),
             ),
             onChanged: (value) {
-              _information= value.trim();
+              _information = value.trim();
             },
           ),
           MyAppOne(),
@@ -96,8 +96,20 @@ class EventForm extends StatelessWidget {
 
               final uid = await Provider.of(context).auth.getCurrentUID();
               var doc = db.collection('posts').doc();
-              final post = EventPost(doc.id, _title, DateTime.now(), _information,
-                  channel, uid, 0, false, {uid: false}, null, null, null);
+              final post = EventPost(
+                  doc.id,
+                  _title,
+                  DateTime.now(),
+                  _information,
+                  channel,
+                  uid,
+                  0,
+                  false,
+                  {uid: false},
+                  null,
+                  null,
+                  null,
+                  null);
 
               post.postid = doc.id;
               post.location = _location;
