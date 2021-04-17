@@ -466,7 +466,7 @@ class myAddFriendButton extends State<addFriendButtonWidget> {
       });
     });
     if (friendsList.contains(friendUIDLocal) && stateSet == 0) {
-      print(friendUIDLocal);
+      //print(friendUIDLocal);
       //addFriendBool = !addFriendBool;
       //addedBool = !addedBool;
       addFriendBool = false;
