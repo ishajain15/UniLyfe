@@ -8,9 +8,9 @@ class User {
   String picturePath;
   String covid;
   String location;
-  int points;
   List<String> classes;
   List<String> hobbies;
+  int points;
 
   Map<String, dynamic> toJson() => {
         'username': username,

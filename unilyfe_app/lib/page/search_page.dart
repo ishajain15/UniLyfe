@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fire_auth;
+import 'package:unilyfe_app/views/friend_card.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:unilyfe_app/views/home_view.dart';
 
@@ -36,22 +37,58 @@ class SearchPage extends StatelessWidget {
     titlesList = [];
     realGetTitles();
     return Scaffold(
-      /*appBar: AppBar(
-         backgroundColor: const Color(0xdeadbeef),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text('Click on the icon to search!',
+            style: TextStyle(
+                color: Colors.grey,
+                fontFamily: 'Raleway',
+                fontWeight: FontWeight.bold)),
         actions: <Widget>[
           IconButton(
-              icon: Icon(Icons.search),
+              icon: Icon(Icons.search, color: Colors.grey),
               onPressed: () {
                 showSearch(context: context, delegate: DataSearch());
               })
         ],
-      ),*/
-      body: IconButton(
+      ),
+      body: Column(children: [
+        Container(
+          padding: const EdgeInsets.all(16),
+          child: Text("Suggested Besties: ",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'Raleway',
+                fontWeight: FontWeight.bold,
+                fontSize: 24,
+              )),
+        ),
+        FriendCards(),
+      ], ),
+      /*body: ListView(
+          children: <Widget>[
+            Container(
+              padding: const EdgeInsets.all(16),
+              child: Text("Suggested Besties: ",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'Raleway',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 24,
+                  )),
+            ),
+            FriendCards(),
+          ],
+        )*/
+
+      /*body: IconButton(
           icon: Icon(Icons.search),
           onPressed: () {
             showSearch(context: context, delegate: DataSearch());
           }),
-      drawer: Drawer(),
+      drawer: Drawer(),*/
     );
     /*appBar: AppBar(
          backgroundColor: const Color(0x54fdeadb),
