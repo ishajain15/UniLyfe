@@ -9,11 +9,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
+import 'package:search_map_place/search_map_place.dart';
 
 bool changed = false;
 int balance = 0;
-bool minus = false;
-bool plus = false;
 
 /// This is the main application widget.
 // ignore: must_be_immutable
@@ -23,6 +22,7 @@ class GotCovidPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: GotCovidPageWidget(),
     );
   }
@@ -99,11 +99,26 @@ class _GotCovidPageWidgetState extends State<GotCovidPageWidget> {
             });
           },
         ),
+        Visibility(
+          visible: _character == SingingCharacter.yes,
+          child: SearchMapPlaceWidget(
+            hasClearButton: true,
+            placeType: PlaceType.address,
+            placeholder: 'Enter locations',
+            apiKey: 'AIzaSyAi0MNwGpYcpEsiXdd7pc-gHRRsx9JIWTA',
+            onSelected: (Place place) async {
+              // Geolocation geolocation = await place.geolocation;
+              //print(geolocation.coordinates);
+            },
+          ),
+        ),
         submitButton(),
       ],
     );
   }
 
+  // to make plus/minus thing work no matter what, if user is in collection, plus equals false and minus equals true
+  // and vice versa. and instead of !plus and !minus, it would be plus and minus
   Widget submitButton() {
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
@@ -111,23 +126,21 @@ class _GotCovidPageWidgetState extends State<GotCovidPageWidget> {
       ),
       onPressed: () async {
         changed = true;
-        var doc =
-            await FirebaseFirestore.instance.collection('Covid_info').get();
         var current_uid = await Provider.of(context).auth.getCurrentUID();
         final db = FirebaseFirestore.instance;
+        final snapshot = await FirebaseFirestore.instance
+            .collection('Covid_info')
+            .doc(current_uid) // varuId in your case
+            .get();
         if (_character == SingingCharacter.yes) {
           await db
               .collection('Covid_info')
               .doc(current_uid)
               .set({'country': 'USA'});
-          if ((balance == 0 || balance == -1) && !plus) balance += 1;
-          plus = true;
-          minus = false;
+          if ((balance == 0 || balance == -1) && !snapshot.exists) balance += 1;
         } else {
           await db.collection('Covid_info').doc(current_uid).delete();
-          if ((balance == 0 || balance == 1) && !minus) balance -= 1;
-          minus = true;
-          plus = false;
+          if ((balance == 0 || balance == 1) && snapshot.exists) balance -= 1;
         }
       },
       child: Text('SUBMIT'),

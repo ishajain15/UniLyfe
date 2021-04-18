@@ -3,28 +3,9 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:search_map_place/search_map_place.dart';
 import 'package:unilyfe_app/page/got_covid.dart';
-import 'package:unilyfe_app/views/food_view.dart';
-import 'package:unilyfe_app/views/home_view.dart';
-import 'package:unilyfe_app/views/social_view.dart';
-import 'package:unilyfe_app/views/study_view.dart';
-import 'package:unilyfe_app/widgets/provider_widget.dart';
 import '../src/locations.dart' as locations;
-
-// class CoronaPage extends StatelessWidget {
-//   static Route<dynamic> route() => MaterialPageRoute(
-//         builder: (context) => CoronaPage(),
-//       );
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: Text('ayo its coronatime'),
-//       ),
-//     );
-//   }
-// }
 
 class MyMap extends StatefulWidget {
   @override
@@ -74,7 +55,25 @@ class _MyMapState extends State<MyMap> with TickerProviderStateMixin {
 
   @override
   int numbers = 0;
+  static const double minExtent = 0.13;
+  static const double maxExtent = 0.9;
+
+  bool isExpanded = false;
+  double initialExtent = minExtent;
+  double currExtent = minExtent;
+  BuildContext draggableSheetContext;
+
   Widget build(BuildContext context) {
+    void _toggleDraggableScrollableSheet() {
+      if (draggableSheetContext != null) {
+        setState(() {
+          initialExtent = isExpanded ? minExtent : maxExtent;
+          isExpanded = !isExpanded;
+        });
+        DraggableScrollableActuator.reset(draggableSheetContext);
+      }
+    }
+
     return MaterialApp(
       home: Scaffold(
           body: Stack(
@@ -87,89 +86,104 @@ class _MyMapState extends State<MyMap> with TickerProviderStateMixin {
             ),
             markers: _markers.values.toSet(),
           ),
-          DraggableScrollableSheet(
-            initialChildSize: 0.13,
-            minChildSize: 0.13,
-            maxChildSize: 0.9,
-            builder: (BuildContext context, scrollController) {
-              return Container(
-                  child: ListView(
-                controller: scrollController,
-                children: [
-                  Container(
-                    height: 6,
-                    color: Colors.white,
-                    child: Spacer(),
-                  ),
-                  Container(
-                    height: 22,
-                    color: Colors.white,
-                    child: Icon(Icons.keyboard_arrow_up_rounded,
-                        color: Colors.grey),
-                  ),
-                  Container(
-                    color: Colors.white,
-                    child: TabBar(
-                      controller: _controller,
-                      labelColor: const Color(0xFFF56D6B),
-                      tabs: [
-                        Tab(text: 'INFO'),
-                        Tab(text: 'GOT COVID?'),
-                      ],
-                      unselectedLabelColor: Colors.grey,
+          InkWell(
+            onTap: _toggleDraggableScrollableSheet,
+            child: DraggableScrollableSheet(
+              key: Key(initialExtent.toString()),
+              initialChildSize: initialExtent,
+              minChildSize: minExtent,
+              maxChildSize: maxExtent,
+              builder: (BuildContext context, scrollController) {
+                draggableSheetContext = context;
+                return Container(
+                    child: ListView(
+                  controller: scrollController,
+                  children: [
+                    Container(
+                      height: 6,
+                      color: Colors.white,
+                      child: Spacer(),
                     ),
-                  ),
-                  Container(
-                    height: 500,
-                    alignment: Alignment.topCenter,
-                    color: Colors.white,
-                    child: TabBarView(
-                      controller: _controller,
-                      children: [
-                        Column(children: [
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Text(
-                                  'NUMBER OF CASES: ',
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.grey[600],
+                    Container(
+                      height: 22,
+                      color: Colors.white,
+                      child: (!isExpanded)
+                          ? Icon(Icons.keyboard_arrow_up_rounded,
+                              color: Colors.grey)
+                          : Icon(Icons.keyboard_arrow_down_rounded,
+                              color: Colors.grey),
+                    ),
+                    Container(
+                      color: Colors.white,
+                      child: TabBar(
+                        controller: _controller,
+                        labelColor: const Color(0xFFF56D6B),
+                        tabs: [
+                          Tab(text: 'INFO'),
+                          Tab(text: 'GOT COVID?'),
+                        ],
+                        unselectedLabelColor: Colors.grey,
+                      ),
+                    ),
+                    Container(
+                      height: 500,
+                      alignment: Alignment.topCenter,
+                      color: Colors.white,
+                      child: TabBarView(
+                        controller: _controller,
+                        children: [
+                          Column(children: [
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: 15,
                                   ),
-                                ),
-                                FutureBuilder(
-                                    future: get_info(),
-                                    initialData: 'Loading text..',
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<String> text) {
-                                      return SingleChildScrollView(
-                                          padding: EdgeInsets.all(8.0),
-                                          child: (isChanged())
-                                              ? Text(
-                                                  (numbers + getBalance())
-                                                      .toString(),
-                                                  style: TextStyle(
-                                                    fontSize: 15.0,
-                                                    color: Colors.grey[600],
-                                                  ),
-                                                )
-                                              : Text(
-                                                  (numbers).toString(),
-                                                  style: TextStyle(
-                                                    fontSize: 15.0,
-                                                    color: Colors.grey[600],
-                                                  ),
-                                                ));
-                                    }),
-                              ]),
-                        ]),
-                        GotCovidPage(),
-                      ],
+                                  Text(
+                                    'NUMBER OF CASES: ',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                  FutureBuilder(
+                                      future: get_info(),
+                                      initialData: 'Loading text..',
+                                      builder: (BuildContext context,
+                                          AsyncSnapshot<String> text) {
+                                        if (!isExpanded) resetChanged();
+                                        return SingleChildScrollView(
+                                            padding: EdgeInsets.all(8.0),
+                                            child: (isChanged())
+                                                ? Text(
+                                                    (numbers + getBalance())
+                                                        .toString(),
+                                                    style: TextStyle(
+                                                      fontSize: 15.0,
+                                                      color: Colors.grey[600],
+                                                    ),
+                                                  )
+                                                : Text(
+                                                    (numbers).toString(),
+                                                    style: TextStyle(
+                                                      fontSize: 15.0,
+                                                      color: Colors.grey[600],
+                                                    ),
+                                                  ));
+                                      }),
+                                ]),
+                          ]),
+                          GotCovidPage(),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ));
-            },
+                  ],
+                ));
+              },
+            ),
           ),
         ],
       )),
