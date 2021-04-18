@@ -25,24 +25,40 @@ String censorBadWords(String badString) {
 }
 
 class CommentsPage extends StatefulWidget {
-  CommentsPage({this.postid, this.uid, this.username});
+  CommentsPage(
+      {this.postid,
+      this.uid,
+      this.username,
+      this.color_code,
+      this.displayName});
   final String postid;
   final String uid;
   final String username;
+  final int color_code;
+  final String displayName;
   @override
   CommentsPageState createState() => CommentsPageState(
         postid: postid,
         uid: uid,
         username: username,
+        color_code: color_code,
+        displayName: displayName,
       );
 }
 
 class CommentsPageState extends State<CommentsPage> {
-  CommentsPageState({this.postid, this.uid, this.username});
+  CommentsPageState(
+      {this.postid,
+      this.uid,
+      this.username,
+      this.color_code,
+      this.displayName});
 
   final String postid;
   final String uid;
   final String username;
+  final int color_code;
+  final String displayName;
 
   StreamBuilder<QuerySnapshot> buildComments() {
     return StreamBuilder(
@@ -111,6 +127,8 @@ class CommentsPageState extends State<CommentsPage> {
         'username': username,
         'postid': postid,
         'commentid': doc.id,
+        'color_code': color_code,
+        'displayName': displayName,
       });
       await db
           .collection('userData')
@@ -124,6 +142,8 @@ class CommentsPageState extends State<CommentsPage> {
         'username': username,
         'postid': postid,
         'commentid': doc.id,
+        'color_code': color_code,
+        'displayName': displayName,
       });
       replying = false;
       replyTo = '';
@@ -182,13 +202,17 @@ class Comment extends StatelessWidget {
       this.comment,
       this.time,
       this.postid,
-      this.commentid});
+      this.commentid,
+      this.color_code,
+      this.displayName});
   final String username;
   final String uid;
   final String comment;
   final DateTime time;
   final String postid;
   final String commentid;
+  final int color_code;
+  final String displayName;
 
   // ignore: sort_constructors_first
   factory Comment.fromDocument(DocumentSnapshot doc) {
@@ -199,6 +223,8 @@ class Comment extends StatelessWidget {
       time: doc['time'].toDate(),
       postid: doc['postid'],
       commentid: doc['commentid'],
+      color_code: doc['color_code'],
+      displayName: doc['displayName'],
     );
   }
 
@@ -273,9 +299,16 @@ class Comment extends StatelessWidget {
                 ],
               ),
               leading: CircleAvatar(
-                backgroundColor: Colors.blue,
+                // var num = (math.Random().nextDouble() * 0xFFFFFF).toInt();
+                // print(num);
+                // print(Color(num).withOpacity(1.0));
+                //backgroundColor: Colors.blue,
+                backgroundColor: Color(color_code).withOpacity(1.0),
+                child: Text(displayName[0].toUpperCase(),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.white)),
                 //radius: 18,
-                backgroundImage: AssetImage('assets/empty-profile.png'),
+                //backgroundImage: AssetImage('assets/empty-profile.png'),
               ),
               subtitle: Column(children: <Widget>[
                 Row(

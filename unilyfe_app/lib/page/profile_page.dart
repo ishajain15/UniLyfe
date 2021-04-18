@@ -44,6 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
   //final _globalkey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   File profilePicture;
+  int color_code;
   final db = FirebaseFirestore.instance;
 
   @override
@@ -156,9 +157,16 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Stack(children: <Widget>[
         CircleAvatar(
           radius: 100.0,
-          backgroundImage: _imageFile == null
-              ? AssetImage('assets/empty-profile.png')
-              : FileImage(File(_imageFile.path)),
+          // commented this out for now
+          // backgroundImage: _imageFile == null
+          //     ? AssetImage('assets/empty-profile.png')
+          //     : FileImage(File(_imageFile.path)),
+          backgroundColor: Color(color_code).withOpacity(1.0),
+          child: Text(user.displayName[0].toUpperCase(),
+              style: TextStyle(
+                  fontSize: 100,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white)),
         ),
         Positioned(
           bottom: 20.0,
@@ -421,9 +429,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
   // ignore: always_declare_return_types
   _getProfileData() async {
+    print("HERE");
     final uid = await Provider.of(context).auth.getCurrentUID();
     await db.collection('userData').doc(uid).get().then((result) {
       user.username = result['username'].toString();
+      // added this
+      color_code = result['color_code'];
       user.displayName = result['displayName'].toString();
       user.bio = result['bio'].toString();
       user.year = result['year'].toString();
@@ -431,6 +442,7 @@ class _ProfilePageState extends State<ProfilePage> {
       user.classes = List.from(result['classes']);
       user.hobbies = List.from(result['hobbies']);
       user.points = result['points_field'];
+
       profilePicture = result['profilepicture'];
     });
   }

@@ -32,6 +32,12 @@ class CommentButtonWidget extends StatelessWidget {
                 await db.collection('userData').doc(uid).get().then((result) {
               return result['username'];
             }),
+            color_code: await db.collection('userData').doc(uid).get().then((result) {
+              return result['color_code'];
+            }),
+            displayName: await db.collection('userData').doc(uid).get().then((result) {
+              return result['displayName'];
+            }),
           );
         },
       ),
@@ -41,12 +47,14 @@ class CommentButtonWidget extends StatelessWidget {
 
 // ignore: always_declare_return_types
 showComments(BuildContext context,
-    {String postid, String uid, String username}) {
+    {String postid, String uid, String username, int color_code, String displayName}) {
   Navigator.push(context, MaterialPageRoute(builder: (context) {
     return CommentsPage(
       postid: postid,
       uid: uid,
       username: username,
+      color_code: color_code,
+      displayName: displayName,
     );
   }));
 }

@@ -58,8 +58,10 @@ class CommentHistoryView extends StatelessWidget {
         dense: true,
         title: Text(comment['comment'] + '\n'),
         leading: CircleAvatar(
-          backgroundColor: Colors.blue,
-          backgroundImage: AssetImage('assets/empty-profile.png'),
+          backgroundColor: Color(comment['color_code']).withOpacity(1.0),
+          child: Text(comment['displayName'][0].toUpperCase(),
+              style:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
         ),
         subtitle: Text(DateFormat('MM/dd/yyyy (h:mm a)')
             .format(comment['time'].toDate())
