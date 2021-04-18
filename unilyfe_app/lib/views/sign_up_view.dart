@@ -5,6 +5,7 @@ import 'package:unilyfe_app/customized_items/buttons/google_button.dart';
 import 'package:unilyfe_app/provider/auth_provider.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
+import 'dart:math' as math;
 
 final primaryColor = const Color(0xFFFFFFFF);
 
@@ -27,6 +28,9 @@ class _SignUpViewState extends State<SignUpView> {
 
   void switchFormState(String state) {
     formKey.currentState.reset();
+    // var num = (math.Random().nextDouble() * 0xFFFFFF).toInt();
+    // print(num);
+    // print(Color(num).withOpacity(1.0));
     if (state == 'signUp') {
       setState(() {
         authFormType = AuthFormType.signUp;
@@ -76,6 +80,13 @@ class _SignUpViewState extends State<SignUpView> {
               .collection('userData')
               .doc(uid)
               .update({'name': _name});
+          // do random color here
+          var num = (math.Random().nextDouble() * 0xFFFFFF).toInt();
+          await Provider.of(context)
+              .db
+              .collection('userData')
+              .doc(uid)
+              .update({'color_code': num});
           await Navigator.of(context).pushReplacementNamed('/home');
           //logout button does not work if this is used
           //new plan to make the email verification useful: generate random username
