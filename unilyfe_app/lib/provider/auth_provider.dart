@@ -22,14 +22,17 @@ class AuthProvider {
 
   // Email & Password Sign Up
   Future<String> createUserWithEmailAndPassword(
-      String email, String password, String name) async {
+    String email,
+    String password,
+    /*String name*/
+  ) async {
     final currentUser = await _firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
 
     // Update the username
-    await updateUserName(name, currentUser.user);
+    //await updateUserName(/*name,*/ currentUser.user);
     setNewUser(true);
     return currentUser.user.uid;
   }
@@ -37,8 +40,7 @@ class AuthProvider {
   //add user to firestore
   // ignore: always_declare_return_types
   createUserInFirestore() async {
-    final document =
-        await usersRef.doc(_firebaseAuth.currentUser.uid).get();
+    final document = await usersRef.doc(_firebaseAuth.currentUser.uid).get();
 
     // if the user doesn't exist in the database, send them to the "" page
     if (!document.exists) {
@@ -48,10 +50,10 @@ class AuthProvider {
     await usersRef.doc(_firebaseAuth.currentUser.uid).set({});
   }
 
-  Future updateUserName(String name, User currentUser) async {
-    await currentUser.updateProfile(displayName: name);
-    await currentUser.reload();
-  }
+  // Future updateUserName(String name, User currentUser) async {
+  //   await currentUser.updateProfile(displayName: name);
+  //   await currentUser.reload();
+  // }
 
   // Email & Password Sign In
   Future<String> signInWithEmailAndPassword(
@@ -118,20 +120,20 @@ bool isCollegeEmail(String domain) {
   return false;
 }
 
-class NameValidator {
-  static String validate(String value) {
-    if (value.isEmpty) {
-      return "Name can't be empty";
-    }
-    if (value.length < 2) {
-      return 'Name must be at least 2 characters long';
-    }
-    if (value.length > 50) {
-      return 'Name must be less than 50 characters long';
-    }
-    return null;
-  }
-}
+// class NameValidator {
+//   static String validate(String value) {
+//     if (value.isEmpty) {
+//       return "Name can't be empty";
+//     }
+//     if (value.length < 2) {
+//       return 'Name must be at least 2 characters long';
+//     }
+//     if (value.length > 50) {
+//       return 'Name must be less than 50 characters long';
+//     }
+//     return null;
+//   }
+// }
 
 class EmailValidator {
   static String validate(String value) {

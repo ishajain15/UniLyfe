@@ -24,7 +24,7 @@ class _SignUpViewState extends State<SignUpView> {
   AuthFormType authFormType;
 
   final formKey = GlobalKey<FormState>();
-  String _email, _password, _name, _error;
+  String _email, _password, /*_name,*/ _error;
 
   void switchFormState(String state) {
     formKey.currentState.reset();
@@ -71,15 +71,15 @@ class _SignUpViewState extends State<SignUpView> {
           });
         } else {
           var uid = await auth.createUserWithEmailAndPassword(
-              _email, _password, _name);
+              _email, _password, /*_name*/);
           await auth.createUserInFirestore();
           await auth.sendEmailVerification();
           print('Signed up with New ID $uid');
-          await Provider.of(context)
-              .db
-              .collection('userData')
-              .doc(uid)
-              .update({'name': _name});
+          // await Provider.of(context)
+          //     .db
+          //     .collection('userData')
+          //     .doc(uid)
+          //     .update({'name': _name});
           // do random color here
           // var num = (math.Random().nextDouble() * 0xFFFFFF).toInt();
           // await Provider.of(context)
@@ -208,23 +208,23 @@ class _SignUpViewState extends State<SignUpView> {
     }
 
     // if were in the sign up state and add name
-    if (authFormType == AuthFormType.signUp) {
-      textFields.add(TextFieldContainer(
-          child: TextFormField(
-        validator: NameValidator.validate,
-        decoration: buildSignUpInputDecoration(
-            'Name',
-            Icon(
-              Icons.person,
-              color: Color(0xFFF46C6B),
-            ),
-            false),
-        onSaved: (value) => _name = value,
-      )));
-      textFields.add(SizedBox(
-        height: 10,
-      ));
-    }
+    // if (authFormType == AuthFormType.signUp) {
+    //   textFields.add(TextFieldContainer(
+    //       child: TextFormField(
+    //     validator: NameValidator.validate,
+    //     decoration: buildSignUpInputDecoration(
+    //         'Name',
+    //         Icon(
+    //           Icons.person,
+    //           color: Color(0xFFF46C6B),
+    //         ),
+    //         false),
+    //     onSaved: (value) => _name = value,
+    //   )));
+    //   textFields.add(SizedBox(
+    //     height: 10,
+    //   ));
+    // }
 
     // add email & password
     textFields.add(TextFieldContainer(
