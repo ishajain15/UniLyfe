@@ -215,7 +215,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget bottomSheet(context) {
     return Container(
-      height: 100.0,
+      height: 200.0,
       width: MediaQuery.of(context).size.width,
       margin: EdgeInsets.symmetric(
         horizontal: 20,
@@ -224,7 +224,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: Column(
         children: <Widget>[
           Text(
-            "Choose Profile Photo",
+            'Choose Profile Photo',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 20.0,
@@ -256,7 +256,24 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontWeight: FontWeight.bold,
                   )),
             ),
-          ])
+          ]),
+          Divider(),
+          SizedBox(
+            height: 20,
+          ),
+          TextButton(
+            onPressed: () {
+              print('Pressed');
+            },
+            child: Text(
+              'Remove Current Profile Photo',
+              style: TextStyle(
+                  color: Color(0xFFF56D6B),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.0,
+                  fontFamily: 'Raleway'),
+            ),
+          ),
         ],
       ),
     );
