@@ -44,6 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
   //final _globalkey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   File profilePicture;
+  int color_code;
   final db = FirebaseFirestore.instance;
 
   @override
@@ -76,7 +77,17 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
           ),
         ])),
-        _imageProfile(context),
+
+        FutureBuilder(
+          future: Provider.of(context).auth.getCurrentUID(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return _imageProfile(context, snapshot);
+            } else {
+              return buildLoading();
+            }
+          },
+        ),
         FutureBuilder(
           future: Provider.of(context).auth.getCurrentUID(),
           builder: (context, snapshot) {
@@ -151,34 +162,55 @@ class _ProfilePageState extends State<ProfilePage> {
     ]);
   }
 
-  Widget _imageProfile(context) {
-    return Center(
-      child: Stack(children: <Widget>[
-        CircleAvatar(
-          radius: 100.0,
-          backgroundImage: _imageFile == null
-              ? AssetImage('assets/empty-profile.png')
-              : FileImage(File(_imageFile.path)),
-        ),
-        Positioned(
-          bottom: 20.0,
-          right: 20.0,
-          child: InkWell(
-            onTap: () {
-              showModalBottomSheet(
-                context: context,
-                builder: ((builder) => bottomSheet(context)),
-              );
-            },
-            child: Icon(
-              Icons.camera_alt,
-              color: const Color(0xFFF99E3E),
-              size: 28.0,
-            ),
-          ),
-        ),
-      ]),
-    );
+  Widget _imageProfile(context, snapshot) {
+    return Column(
+        // Center(
+        //   child: Stack(
+        children: <Widget>[
+          FutureBuilder(
+              future: _getProfileData(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 100.0,
+                        // commented this out for now
+                        // backgroundImage: _imageFile == null
+                        //     ? AssetImage('assets/empty-profile.png')
+                        //     : FileImage(File(_imageFile.path)),
+                        backgroundColor: Color(color_code).withOpacity(1.0),
+                        child: Text(user.displayName[0].toUpperCase(),
+                            style: TextStyle(
+                                fontSize: 100,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
+                      ),
+                      Positioned(
+                        bottom: 20.0,
+                        right: 20.0,
+                        child: InkWell(
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              builder: ((builder) => bottomSheet(context)),
+                            );
+                          },
+                          child: Icon(
+                            Icons.camera_alt,
+                            color: const Color(0xFFF99E3E),
+                            size: 28.0,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                } else
+                  return buildLoading();
+              }),
+        ]
+        // ),
+        );
   }
 
   Widget bottomSheet(context) {
@@ -421,9 +453,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
   // ignore: always_declare_return_types
   _getProfileData() async {
+    print("HERE");
     final uid = await Provider.of(context).auth.getCurrentUID();
     await db.collection('userData').doc(uid).get().then((result) {
       user.username = result['username'].toString();
+      // added this
+      color_code = result['color_code'];
       user.displayName = result['displayName'].toString();
       user.bio = result['bio'].toString();
       user.year = result['year'].toString();
@@ -431,6 +466,7 @@ class _ProfilePageState extends State<ProfilePage> {
       user.classes = List.from(result['classes']);
       user.hobbies = List.from(result['hobbies']);
       user.points = result['points_field'];
+
       profilePicture = result['profilepicture'];
     });
   }
