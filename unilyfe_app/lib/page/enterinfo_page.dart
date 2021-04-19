@@ -5,6 +5,7 @@ import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
 import 'package:unilyfe_app/models/User.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:math' as math;
 
 String year = 'freshman';
 
@@ -178,6 +179,13 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                         .collection('userData')
                         .doc(uid)
                         .update({'uid': uid});
+
+                    var num = (math.Random().nextDouble() * 0xFFFFFF).toInt();
+                    await Provider.of(context)
+                        .db
+                        .collection('userData')
+                        .doc(uid)
+                        .update({'color_code': num});
 
                     if (_hobbiesController.text != null ||
                         _hobbiesController.text != '') {
