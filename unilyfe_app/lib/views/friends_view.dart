@@ -6,6 +6,8 @@ import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:intl/intl.dart';
 //import 'package:unilyfe_app/models/User.dart';
 
+
+
 class FriendsView extends StatelessWidget {
   final db = FirebaseFirestore.instance;
   var friendsUIDs = [];
@@ -36,18 +38,23 @@ class FriendsView extends StatelessWidget {
         ],
       ),
     );*/
+    
     return FutureBuilder(
         future: getFriendUIDs(context),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {}
+
           for (int i = 0; i < friendsUIDs.length; i++) {
-            friends.add(buildFriendCard(context, friendsUIDs[i], i));
+            if (friends.length < friendsUIDs.length) {
+              friends.add(buildFriendCard(context, friendsUIDs[i], i));
+            }
           }
           return Scaffold(body: ListView(children: friends));
         });
   }
 
   getFriendUIDs(context) async {
+    friendsUIDs = [];
     String uid = await Provider.of(context).auth.getCurrentUID();
     await db
         .collection('userData')
@@ -73,7 +80,6 @@ class FriendsView extends StatelessWidget {
       displayNames.add(result['displayName'].toString());
       //bio = result['bio'].toString();
       bios.add(result['bio'].toString());
-     
     });
   }
 
@@ -156,7 +162,6 @@ class FriendsView extends StatelessWidget {
                 ),
               ),
             );
-            
 
             //Widget friendCard = Card(
             return Card(
