@@ -44,6 +44,7 @@ class _ProfilePageState extends State<ProfilePage> {
   //final _globalkey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   File profilePicture;
+  String profilePicturePath;
   int color_code;
   final db = FirebaseFirestore.instance;
 
@@ -171,14 +172,17 @@ class _ProfilePageState extends State<ProfilePage> {
               future: _getProfileData(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
+                  print("PROF PIC PATH: " + profilePicturePath);
                   return Column(
                     children: [
                       CircleAvatar(
                         radius: 100.0,
                         // commented this out for now
-                        // backgroundImage: _imageFile == null
-                        //     ? AssetImage('assets/empty-profile.png')
-                        //     : FileImage(File(_imageFile.path)),
+                       // backgroundImage: _imageFile == null
+                        backgroundImage: profilePicturePath == null
+                            ? AssetImage('assets/empty-profile.png')
+                            //: FileImage(File(_imageFile.path)),
+                            : FileImage(File(profilePicturePath)),
                         backgroundColor: Color(color_code).withOpacity(1.0),
                         child: Text(user.displayName[0].toUpperCase(),
                             style: TextStyle(
@@ -238,6 +242,7 @@ class _ProfilePageState extends State<ProfilePage> {
               icon: Icon(Icons.camera),
               onPressed: () {
                 takePhoto(ImageSource.camera);
+                print("pressed photo icon");
               },
               label: Text("Camera",
                   style: TextStyle(
@@ -249,6 +254,7 @@ class _ProfilePageState extends State<ProfilePage> {
               icon: Icon(Icons.image),
               onPressed: () {
                 takePhoto(ImageSource.gallery);
+                print("pressed photo icon");
               },
               label: Text("Gallery",
                   style: TextStyle(
@@ -288,11 +294,12 @@ class _ProfilePageState extends State<ProfilePage> {
       print('_imageFile: $_imageFile');
     });
     final uid = await Provider.of(context).auth.getCurrentUID();
+    print("here sending the pic to the database");
     await Provider.of(context)
         .db
         .collection('userData')
         .doc(uid)
-        .update({'profilepicture': pickedFile});
+        .update({'profilepicture': pickedFile.path});
   }
 
   Widget displayUserInformation(context, snapshot) {
@@ -484,7 +491,8 @@ class _ProfilePageState extends State<ProfilePage> {
       user.hobbies = List.from(result['hobbies']);
       user.points = result['points_field'];
 
-      profilePicture = result['profilepicture'];
+      //profilePicture = result['profilepicture'];
+      profilePicturePath = result['profilepicture'];
     });
   }
 
