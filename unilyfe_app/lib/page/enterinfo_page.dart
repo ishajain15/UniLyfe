@@ -187,6 +187,12 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                         .doc(uid)
                         .update({'color_code': num});
 
+                    await Provider.of(context)
+                        .db
+                        .collection('userData')
+                        .doc(uid)
+                        .update({'profilepicture': ""});
+
                     if (_hobbiesController.text != null ||
                         _hobbiesController.text != '') {
                       user.hobbies = (_hobbiesController.text.split(', '));

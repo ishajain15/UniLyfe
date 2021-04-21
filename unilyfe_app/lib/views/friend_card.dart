@@ -1,3 +1,7 @@
+
+
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 //import 'package:unilyfe_app/customized_items/buttons/add_friend_button.dart';
@@ -20,6 +24,7 @@ class FriendCardsWidget extends State<FriendCards> {
   List<String> myClasses;
   List<String> myHobbies;
   final db = FirebaseFirestore.instance;
+  String friendDisplayName = "";
 
   @override
   Widget build(BuildContext context) {
@@ -89,10 +94,28 @@ class FriendCardsWidget extends State<FriendCards> {
     );
   }
 
+  /*Widget _determineImageProfile(String profilePicturePath) {
+    //if profile pic exists
+    if (profilePicturePath != "\"\"") {
+      return Container();
+      //if profile pic doesnt exist
+    } else {
+      return Text(friendDisplayName.displayName[0].toUpperCase(),
+          style: TextStyle(
+              fontSize: 100, fontWeight: FontWeight.bold, color: Colors.white));
+    }
+  }*/
+
   @override
   Widget buildFriendCard(BuildContext context, DocumentSnapshot user) {
-    //var classThings = <String>['AD 255','COM 217', 'CS 252', 'MA 265', 'CS 307'];
-    //var hobbyThings = <String>['art', 'hiking', 'biking', 'crying', 'simping'];
+    Widget circleAvatarChild;
+    if (user['profilepicture'] != "\"\"") {
+      circleAvatarChild = Container();
+    } else {
+      circleAvatarChild = Text(user['displayName'][0].toUpperCase(),
+          style: TextStyle(
+              fontSize: 50, fontWeight: FontWeight.bold, color: Colors.white));
+    }
     List<String> friendClasses = List.from(user['classes']);
     List<String> friendHobbies = List.from(user['hobbies']);
     friendUID = user['uid'];
@@ -204,8 +227,13 @@ class FriendCardsWidget extends State<FriendCards> {
                       children: [
                         CircleAvatar(
                             radius: 50.0,
-                            backgroundImage:
-                                AssetImage('assets/empty-profile.png')),
+                            backgroundImage: user['profilepicture'] == null
+                                ? AssetImage('assets/empty-profile.png')
+                                : FileImage(File(user['profilepicture'])),
+                            backgroundColor:
+                                Color(user['color_code']).withOpacity(1.0),
+                            child:
+                                circleAvatarChild),
                         Container(
                             padding: const EdgeInsets.all(8),
                             //child: addFriendButton(context, friendUID))
@@ -246,8 +274,13 @@ class FriendCardsWidget extends State<FriendCards> {
                       children: [
                         CircleAvatar(
                             radius: 50.0,
-                            backgroundImage:
-                                AssetImage('assets/empty-profile.png')),
+                            backgroundImage: user['profilepicture'] == null
+                                ? AssetImage('assets/empty-profile.png')
+                                : FileImage(File(user['profilepicture'])),
+                            backgroundColor:
+                                Color(user['color_code']).withOpacity(1.0),
+                            child:
+                                circleAvatarChild),
                         Container(
                             padding: const EdgeInsets.all(8),
                             //child: addFriendButton(context, friendUID)
@@ -288,8 +321,13 @@ class FriendCardsWidget extends State<FriendCards> {
                       children: [
                         CircleAvatar(
                             radius: 50.0,
-                            backgroundImage:
-                                AssetImage('assets/empty-profile.png')),
+                            backgroundImage: user['profilepicture'] == null
+                                ? AssetImage('assets/empty-profile.png')
+                                : FileImage(File(user['profilepicture'])),
+                            backgroundColor:
+                                Color(user['color_code']).withOpacity(1.0),
+                            child:
+                                circleAvatarChild),
                         Container(
                             padding: const EdgeInsets.all(8),
                             //child: addFriendButton(context, friendUID)
@@ -326,10 +364,19 @@ class FriendCardsWidget extends State<FriendCards> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        CircleAvatar(
+                        /*CircleAvatar(
                             radius: 50.0,
                             backgroundImage:
-                                AssetImage('assets/empty-profile.png')),
+                                AssetImage('assets/empty-profile.png')),*/
+                        CircleAvatar(
+                            radius: 50.0,
+                            backgroundImage: user['profilepicture'] == null
+                                ? AssetImage('assets/empty-profile.png')
+                                : FileImage(File(user['profilepicture'])),
+                            backgroundColor:
+                                Color(user['color_code']).withOpacity(1.0),
+                            child:
+                                circleAvatarChild),
                         Container(
                             padding: const EdgeInsets.all(8),
                             //child: addFriendButton(context, friendUID)

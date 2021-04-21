@@ -1,21 +1,24 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/page/comments_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:intl/intl.dart';
+import 'package:unilyfe_app/models/User.dart';
 //import 'package:unilyfe_app/models/User.dart';
-
-
 
 class FriendsView extends StatelessWidget {
   final db = FirebaseFirestore.instance;
   var friendsUIDs = [];
-  // User user = User('', '', '', '', [], [], 0);
   List<Widget> friends = [];
   List years = [];
   List displayNames = [];
   List bios = [];
+  User user = User('', '', '', '', [], [], 0);
+  List profilePicturePaths = [];
+  List color_codes = [];
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,7 @@ class FriendsView extends StatelessWidget {
         ],
       ),
     );*/
-    
+
     return FutureBuilder(
         future: getFriendUIDs(context),
         builder: (context, snapshot) {
@@ -78,8 +81,9 @@ class FriendsView extends StatelessWidget {
       years.add(result['year'].toString());
       //displayName = result['displayName'].toString();
       displayNames.add(result['displayName'].toString());
-      //bio = result['bio'].toString();
       bios.add(result['bio'].toString());
+      profilePicturePaths.add(result['profilepicture'].toString());
+      color_codes.add(result['color_code']);
     });
   }
 
@@ -121,6 +125,16 @@ class FriendsView extends StatelessWidget {
           builder: (context, snapshot) {
             //print('points: ' + user.points.toString());
             if (snapshot.connectionState == ConnectionState.done) {}
+            Widget circleAvatarChild;
+            if (profilePicturePaths[i] != "\"\"") {
+              circleAvatarChild = Container();
+            } else {
+              circleAvatarChild = Text(displayNames[i][0].toUpperCase(),
+                  style: TextStyle(
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white));
+            }
             Widget displayNameWidget = Container(
               padding: const EdgeInsets.only(bottom: 8),
               child: Text(
@@ -187,10 +201,18 @@ class FriendsView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          CircleAvatar(
+                          /*CircleAvatar(
                               radius: 50.0,
                               backgroundImage:
-                                  AssetImage('assets/empty-profile.png')),
+                                  AssetImage('assets/empty-profile.png')),*/
+                          CircleAvatar(
+                              radius: 50.0,
+                              backgroundImage: profilePicturePaths[i] == null
+                                  ? AssetImage('assets/empty-profile.png')
+                                  : FileImage(File(profilePicturePaths[i])),
+                              backgroundColor:
+                                  Color(color_codes[i]).withOpacity(1.0),
+                              child: circleAvatarChild),
                         ]),
                   ],
                 ),
