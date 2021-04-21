@@ -207,9 +207,9 @@ class FriendsView extends StatelessWidget {
                                   AssetImage('assets/empty-profile.png')),*/
                           CircleAvatar(
                               radius: 50.0,
-                              backgroundImage: profilePicturePaths[i] == null
+                              backgroundImage: /*profilePicturePaths[i] == "\"\""
                                   ? AssetImage('assets/empty-profile.png')
-                                  : FileImage(File(profilePicturePaths[i])),
+                                  : */FileImage(File(profilePicturePaths[i])),
                               backgroundColor:
                                   Color(color_codes[i]).withOpacity(1.0),
                               child: circleAvatarChild),

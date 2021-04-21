@@ -191,7 +191,7 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                         .db
                         .collection('userData')
                         .doc(uid)
-                        .update({'profilepicture': ""});
+                        .update({'profilepicture': "\"\""});
 
                     if (_hobbiesController.text != null ||
                         _hobbiesController.text != '') {

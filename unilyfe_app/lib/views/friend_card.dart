@@ -227,9 +227,9 @@ class FriendCardsWidget extends State<FriendCards> {
                       children: [
                         CircleAvatar(
                             radius: 50.0,
-                            backgroundImage: user['profilepicture'] == null
+                            backgroundImage: /*user['profilepicture'] == "\"\""
                                 ? AssetImage('assets/empty-profile.png')
-                                : FileImage(File(user['profilepicture'])),
+                                : */FileImage(File(user['profilepicture'])),
                             backgroundColor:
                                 Color(user['color_code']).withOpacity(1.0),
                             child:
@@ -274,9 +274,9 @@ class FriendCardsWidget extends State<FriendCards> {
                       children: [
                         CircleAvatar(
                             radius: 50.0,
-                            backgroundImage: user['profilepicture'] == null
+                            backgroundImage: /*user['profilepicture'] == "\"\""
                                 ? AssetImage('assets/empty-profile.png')
-                                : FileImage(File(user['profilepicture'])),
+                                : */FileImage(File(user['profilepicture'])),
                             backgroundColor:
                                 Color(user['color_code']).withOpacity(1.0),
                             child:
@@ -321,9 +321,9 @@ class FriendCardsWidget extends State<FriendCards> {
                       children: [
                         CircleAvatar(
                             radius: 50.0,
-                            backgroundImage: user['profilepicture'] == null
+                            backgroundImage: /*user['profilepicture'] == "\"\""
                                 ? AssetImage('assets/empty-profile.png')
-                                : FileImage(File(user['profilepicture'])),
+                                : */FileImage(File(user['profilepicture'])),
                             backgroundColor:
                                 Color(user['color_code']).withOpacity(1.0),
                             child:
@@ -370,9 +370,9 @@ class FriendCardsWidget extends State<FriendCards> {
                                 AssetImage('assets/empty-profile.png')),*/
                         CircleAvatar(
                             radius: 50.0,
-                            backgroundImage: user['profilepicture'] == null
+                            backgroundImage: /*user['profilepicture'] == "\"\""
                                 ? AssetImage('assets/empty-profile.png')
-                                : FileImage(File(user['profilepicture'])),
+                                : */FileImage(File(user['profilepicture'])),
                             backgroundColor:
                                 Color(user['color_code']).withOpacity(1.0),
                             child:

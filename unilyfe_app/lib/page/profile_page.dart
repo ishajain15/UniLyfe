@@ -190,12 +190,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       CircleAvatar(
                           radius: 100.0,
-                          // commented this out for now
-                          // backgroundImage: _imageFile == null
-                          backgroundImage: profilePicturePath == null
-                              ? AssetImage('assets/empty-profile.png')
-                              //: FileImage(File(_imageFile.path)),
-                              : FileImage(File(profilePicturePath)),
+                          backgroundImage:  FileImage(File(profilePicturePath)),
                           backgroundColor: Color(color_code).withOpacity(1.0),
                           child:
                               /*Text(user.displayName[0].toUpperCase(),
