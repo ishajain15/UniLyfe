@@ -163,6 +163,18 @@ class _ProfilePageState extends State<ProfilePage> {
     ]);
   }
 
+  Widget _determineImageProfile(String profilePicturePath) {
+    //if profile pic exists
+    if (profilePicturePath != "\"\"") {
+      return Container();
+      //if profile pic doesnt exist
+    } else {
+      return Text(user.displayName[0].toUpperCase(),
+          style: TextStyle(
+              fontSize: 100, fontWeight: FontWeight.bold, color: Colors.white));
+    }
+  }
+
   Widget _imageProfile(context, snapshot) {
     return Column(
         // Center(
@@ -172,24 +184,21 @@ class _ProfilePageState extends State<ProfilePage> {
               future: _getProfileData(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  print("PROF PIC PATH: " + profilePicturePath);
+                  Widget circleAvatarChild =
+                      _determineImageProfile(profilePicturePath);
                   return Column(
                     children: [
                       CircleAvatar(
-                        radius: 100.0,
-                        // commented this out for now
-                       // backgroundImage: _imageFile == null
-                        backgroundImage: profilePicturePath == null
-                            ? AssetImage('assets/empty-profile.png')
-                            //: FileImage(File(_imageFile.path)),
-                            : FileImage(File(profilePicturePath)),
-                        backgroundColor: Color(color_code).withOpacity(1.0),
-                        child: Text(user.displayName[0].toUpperCase(),
+                          radius: 100.0,
+                          backgroundImage:  FileImage(File(profilePicturePath)),
+                          backgroundColor: Color(color_code).withOpacity(1.0),
+                          child:
+                              /*Text(user.displayName[0].toUpperCase(),
                             style: TextStyle(
                                 fontSize: 100,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white)),
-                      ),
+                                color: Colors.white)),*/
+                              circleAvatarChild),
                       Positioned(
                         bottom: 20.0,
                         right: 20.0,
