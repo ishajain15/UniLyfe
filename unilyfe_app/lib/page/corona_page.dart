@@ -76,12 +76,12 @@ class _MyMapState extends State<MyMap> with TickerProviderStateMixin {
     final MarkerId markerId = MarkerId(idVal);
     final Marker marker = Marker(
       markerId: markerId,
-      position:
-          LatLng(specify['latitude'].latitude, specify['latitude'].longitude),
-      infoWindow: InfoWindow(title: 'covid cases'),
+      position: //LatLng(40.4229446, -86.9115997),
+          LatLng(specify['coordinates'].latitude,
+              specify['coordinates'].longitude),
       icon: BitmapDescriptor.fromBytes(markerIcon),
     );
-
+    //print(marker.position.toString());
     setState(() {
       markers[markerId] = marker;
     });

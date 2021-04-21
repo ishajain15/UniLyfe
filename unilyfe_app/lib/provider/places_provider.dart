@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:google_api_headers/google_api_headers.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
 
 class Place {
@@ -8,17 +10,14 @@ class Place {
   String street;
   String city;
   String zipCode;
+  String placeId;
 
-  Place({
-    this.streetNumber,
-    this.street,
-    this.city,
-    this.zipCode,
-  });
+  Place(
+      {this.streetNumber, this.street, this.city, this.zipCode, this.placeId});
 
   @override
   String toString() {
-    return 'Place(streetNumber: $streetNumber, street: $street, city: $city, zipCode: $zipCode)';
+    return 'Place(streetNumber: $streetNumber, street: $street, city: $city, zipCode: $zipCode, placeId: $placeId)';
   }
 }
 
@@ -48,7 +47,7 @@ class PlaceApiProvider {
 
   Future<List<Suggestion>> fetchSuggestions(String input, String lang) async {
     final request =
-        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&types=address&language=$lang&components=country:ch&key=$apiKey&sessiontoken=$sessionToken';
+        'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&types=establishment&language=$lang&key=$apiKey&sessiontoken=$sessionToken';
     final response = await client.get(request);
 
     if (response.statusCode == 200) {
@@ -69,6 +68,7 @@ class PlaceApiProvider {
   }
 
   Future<Place> getPlaceDetailFromId(String placeId) async {
+    
     final request =
         'https://maps.googleapis.com/maps/api/place/details/json?place_id=$placeId&fields=address_component&key=$apiKey&sessiontoken=$sessionToken';
     final response = await client.get(request);
@@ -94,6 +94,8 @@ class PlaceApiProvider {
           if (type.contains('postal_code')) {
             place.zipCode = c['long_name'];
           }
+
+          place.placeId = placeId;
         });
         return place;
       }

@@ -8,10 +8,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // field. The field is of the type `SingingCharacter`, an enum.
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_webservice/places.dart';
 import 'package:unilyfe_app/models/place_search.dart';
 import 'package:unilyfe_app/provider/places_provider.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
-
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:google_api_headers/google_api_headers.dart';
 import 'package:uuid/uuid.dart';
 
 bool changed = false;
@@ -58,10 +60,7 @@ class _GotCovidPageWidgetState extends State<GotCovidPageWidget>
     with ChangeNotifier {
   SingingCharacter _character = SingingCharacter.no;
   final _controller = TextEditingController();
-  String _streetNumber = '';
-  String _street = '';
-  String _city = '';
-  String _zipCode = '';
+  String placeId = '';
 
   @override
   void dispose() {
@@ -135,12 +134,24 @@ class _GotCovidPageWidgetState extends State<GotCovidPageWidget>
                         .getPlaceDetailFromId(result.placeId);
                     setState(() {
                       _controller.text = result.description;
-                      _streetNumber = placeDetails.streetNumber;
-                      _street = placeDetails.street;
-                      _city = placeDetails.city;
-                      _zipCode = placeDetails.zipCode;
+                      placeId = placeDetails.placeId;
+                      print(placeId);
                     });
                   }
+                  var _places = GoogleMapsPlaces(
+                    apiKey: 'AIzaSyBjKNbsOeQy02gc3-Ikz0MxDlyDkgpuUOk',
+                  );
+                  var detail = await _places.getDetailsByPlaceId(placeId);
+
+                  print(detail.result.geometry.location.lat);
+                  print(detail.result.geometry.location.lng);
+
+                  await FirebaseFirestore.instance.collection("locations").add({
+                    'coordinates': GeoPoint(detail.result.geometry.location.lat,
+                        detail.result.geometry.location.lng)
+                  });
+                  // GeoPoint(detail.result.geometry.location.lat,
+                  //     detail.result.geometry.location.lng);
                 },
                 decoration: InputDecoration(
                     hintText: 'Search Location',
@@ -148,10 +159,7 @@ class _GotCovidPageWidgetState extends State<GotCovidPageWidget>
               ),
             ),
             SizedBox(height: 20.0),
-            Text('Street Number: $_streetNumber'),
-            Text('Street: $_street'),
-            Text('City: $_city'),
-            Text('ZIP Code: $_zipCode'),
+            Text('Place ID: $placeId'),
           ]),
         ),
         submitButton(),
