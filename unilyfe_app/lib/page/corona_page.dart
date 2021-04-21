@@ -1,11 +1,16 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:search_map_place/search_map_place.dart';
+import 'package:unilyfe_app/models/place_search.dart';
 import 'package:unilyfe_app/page/got_covid.dart';
+import 'package:unilyfe_app/provider/places_provider.dart';
 import '../src/locations.dart' as locations;
+import 'dart:ui' as ui;
 
 class MyMap extends StatefulWidget {
   @override
@@ -14,24 +19,8 @@ class MyMap extends StatefulWidget {
 
 class _MyMapState extends State<MyMap> with TickerProviderStateMixin {
   TabController _controller;
-  final Map<String, Marker> _markers = {};
-  Future<void> _onMapCreated(GoogleMapController controller) async {
-    final googleOffices = await locations.getGoogleOffices();
-    setState(() {
-      _markers.clear();
-      for (final office in googleOffices.offices) {
-        final marker = Marker(
-          markerId: MarkerId(office.name),
-          position: LatLng(office.lat, office.lng),
-          infoWindow: InfoWindow(
-            title: office.name,
-            snippet: office.address,
-          ),
-        );
-        _markers[office.name] = marker;
-      }
-    });
-  }
+  // final placesProvider = PlacesProvider();
+  // List<PlaceSearch> searchResults;
 
   Future<String> get_info() async {
     var doc = await FirebaseFirestore.instance.collection('Covid_info').get();
@@ -40,8 +29,13 @@ class _MyMapState extends State<MyMap> with TickerProviderStateMixin {
     return doc.size.toString();
   }
 
+  // searchPlaces(String searchTerm) async {
+  //   searchResults = await placesProvider.getAutoComplete(searchTerm);
+  // }
+
   @override
   void initState() {
+    getMarkerData();
     super.initState();
 
     _controller = TabController(vsync: this, length: 2);
@@ -53,7 +47,6 @@ class _MyMapState extends State<MyMap> with TickerProviderStateMixin {
     super.dispose();
   }
 
-  @override
   int numbers = 0;
   static const double minExtent = 0.13;
   static const double maxExtent = 0.9;
@@ -62,7 +55,52 @@ class _MyMapState extends State<MyMap> with TickerProviderStateMixin {
   double initialExtent = minExtent;
   double currExtent = minExtent;
   BuildContext draggableSheetContext;
+  GoogleMapController myController;
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
+    ui.FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ui.ImageByteFormat.png))
+        .buffer
+        .asUint8List();
+  }
+
+  void initMarker(specify, specifyId) async {
+    var idVal = specifyId;
+    final Uint8List markerIcon =
+        await getBytesFromAsset('assets/red_dot.png', 40);
+
+    final MarkerId markerId = MarkerId(idVal);
+    final Marker marker = Marker(
+      markerId: markerId,
+      position:
+          LatLng(specify['latitude'].latitude, specify['latitude'].longitude),
+      infoWindow: InfoWindow(title: 'covid cases'),
+      icon: BitmapDescriptor.fromBytes(markerIcon),
+    );
+
+    setState(() {
+      markers[markerId] = marker;
+    });
+  }
+
+  getMarkerData() async {
+    await FirebaseFirestore.instance
+        .collection('locations')
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        for (var i = 0; i < value.docs.length; i++) {
+          initMarker(value.docs[i].data(), value.docs[i].id);
+        }
+      }
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     void _toggleDraggableScrollableSheet() {
       if (draggableSheetContext != null) {
@@ -74,17 +112,30 @@ class _MyMapState extends State<MyMap> with TickerProviderStateMixin {
       }
     }
 
+    Set<Marker> getMarker() {
+      return <Marker>{
+        Marker(
+          markerId: MarkerId('COVID CASE'),
+          position: LatLng(40.42395040517343, -86.92120533110851),
+          icon: BitmapDescriptor.defaultMarker,
+          infoWindow: InfoWindow(title: 'COVID CASE'),
+        )
+      };
+    }
+
     return MaterialApp(
       home: Scaffold(
           body: Stack(
         children: <Widget>[
           GoogleMap(
-            onMapCreated: _onMapCreated,
+            onMapCreated: (GoogleMapController controller) {
+              myController = controller;
+            }, // _onMapCreated,
             initialCameraPosition: CameraPosition(
               target: const LatLng(40.42395040517343, -86.92120533110851),
               zoom: 15,
             ),
-            markers: _markers.values.toSet(),
+            markers: Set<Marker>.of(markers.values),
           ),
           InkWell(
             onTap: _toggleDraggableScrollableSheet,

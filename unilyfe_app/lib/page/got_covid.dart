@@ -8,8 +8,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // field. The field is of the type `SingingCharacter`, an enum.
 
 import 'package:flutter/material.dart';
+import 'package:unilyfe_app/models/place_search.dart';
+import 'package:unilyfe_app/provider/places_provider.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
-import 'package:search_map_place/search_map_place.dart';
+
+import 'package:uuid/uuid.dart';
 
 bool changed = false;
 int balance = 0;
@@ -51,8 +54,20 @@ class GotCovidPageWidget extends StatefulWidget {
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
-class _GotCovidPageWidgetState extends State<GotCovidPageWidget> {
+class _GotCovidPageWidgetState extends State<GotCovidPageWidget>
+    with ChangeNotifier {
   SingingCharacter _character = SingingCharacter.no;
+  final _controller = TextEditingController();
+  String _streetNumber = '';
+  String _street = '';
+  String _city = '';
+  String _zipCode = '';
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,16 +116,43 @@ class _GotCovidPageWidgetState extends State<GotCovidPageWidget> {
         ),
         Visibility(
           visible: _character == SingingCharacter.yes,
-          child: SearchMapPlaceWidget(
-            hasClearButton: true,
-            placeType: PlaceType.address,
-            placeholder: 'Enter locations',
-            apiKey: 'AIzaSyAi0MNwGpYcpEsiXdd7pc-gHRRsx9JIWTA',
-            onSelected: (Place place) async {
-              // Geolocation geolocation = await place.geolocation;
-              //print(geolocation.coordinates);
-            },
-          ),
+          child: Column(children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _controller,
+                readOnly: true,
+                onTap: () async {
+                  // generate a new token here
+                  final sessionToken = Uuid().v4();
+                  final Suggestion result = await showSearch(
+                    context: context,
+                    delegate: AddressSearch(sessionToken),
+                  );
+                  // This will change the text displayed in the TextField
+                  if (result != null) {
+                    final placeDetails = await PlaceApiProvider(sessionToken)
+                        .getPlaceDetailFromId(result.placeId);
+                    setState(() {
+                      _controller.text = result.description;
+                      _streetNumber = placeDetails.streetNumber;
+                      _street = placeDetails.street;
+                      _city = placeDetails.city;
+                      _zipCode = placeDetails.zipCode;
+                    });
+                  }
+                },
+                decoration: InputDecoration(
+                    hintText: 'Search Location',
+                    suffixIcon: Icon(Icons.search_outlined)),
+              ),
+            ),
+            SizedBox(height: 20.0),
+            Text('Street Number: $_streetNumber'),
+            Text('Street: $_street'),
+            Text('City: $_city'),
+            Text('ZIP Code: $_zipCode'),
+          ]),
         ),
         submitButton(),
       ],
