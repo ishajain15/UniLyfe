@@ -49,9 +49,12 @@ class NewPostBudgetView extends StatelessWidget {
                     .collection('userData')
                     .doc(uid)
                     .update({'points_field': FieldValue.increment(10)});
+                await db
+                    .collection('userData')
+                    .doc(uid)
+                    .update({'awards_field': FieldValue.increment(1)});
 
                 await db.collection('userData').doc(uid);
-                //.update({'points_field': FieldValue.increment(5)});
 
                 await db.collection('userData').doc(uid).get().then((result) {
                   post.username = result['username'];

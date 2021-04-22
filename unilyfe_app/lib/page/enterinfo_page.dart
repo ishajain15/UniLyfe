@@ -19,7 +19,7 @@ class EnterInfoPage extends StatefulWidget {
 }
 
 class _EnterInfoPageState extends State<EnterInfoPage> {
-  User user = User('', '', '', '', [], [], 0);
+  User user = User('', '', '', '', [], [], 0, 0);
   bool _validUsername = true;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _displayNameController = TextEditingController();
@@ -425,7 +425,7 @@ class _MyYearDropDownWidget extends StatefulWidget {
 }
 
 class _MyYearDropDown extends State<_MyYearDropDownWidget> {
-  User user = User('', '', '', '', [], [], 0);
+  User user = User('', '', '', '', [], [], 0, 0);
   //String _currentYear = "";
 
   final db = FirebaseFirestore.instance;

@@ -34,7 +34,7 @@ class UserNameState extends State<UserName> {
   String uid;
   String username;
   final db = FirebaseFirestore.instance;
-  User user = User('', '', '', '', [], [], 0);
+  User user = User('', '', '', '', [], [], 0, 0);
   //name, display_name, biography, tags
   void bottom_Sheet(context) {
     showModalBottomSheet(
@@ -79,9 +79,9 @@ class UserNameState extends State<UserName> {
           future: getUserData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {}
-            print("user displayname:" + user.displayName);
-            print("user bio:" + user.bio);
-            print("user year:" + user.year);
+            print('user displayname:' + user.displayName);
+            print('user bio:' + user.bio);
+            print('user year:' + user.year);
 
             return Container(
                 padding: const EdgeInsets.all(32),

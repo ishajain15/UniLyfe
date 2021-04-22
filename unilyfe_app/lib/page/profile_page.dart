@@ -28,7 +28,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool _validUsername = true;
-  User user = User('', '', '', '', [], [], 0);
+  User user = User('', '', '', '', [], [], 0, 0);
   String _currentUsername = '';
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _displayNameController = TextEditingController();
@@ -110,23 +110,22 @@ class _ProfilePageState extends State<ProfilePage> {
           },
         ),
 
-        /* Text(
-          'Points: 0',
-          textAlign: TextAlign.center,
-          style: const TextStyle(
-            fontFamily: 'Raleway',
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-
-        ),*/
-
         FutureBuilder(
           future: Provider.of(context).auth.getCurrentUID(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               //print('returning display points!');
               return _displayPoints(context, snapshot);
+            } else {
+              return buildLoading();
+            }
+          },
+        ),
+        FutureBuilder(
+          future: Provider.of(context).auth.getCurrentUID(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return _displayAwards(context, snapshot);
             } else {
               return buildLoading();
             }
@@ -141,13 +140,38 @@ class _ProfilePageState extends State<ProfilePage> {
       FutureBuilder(
           future: _getProfileData(),
           builder: (context, snapshot) {
-            //print('points: ' + user.points.toString());
             if (snapshot.connectionState == ConnectionState.done) {
               return Container(
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
                   child: Text(
                     'Points: ' + user.points.toString(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontFamily: 'Raleway',
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              );
+            }
+            return Container();
+          })
+    ]);
+  }
+
+  Widget _displayAwards(context, snapshot) {
+    return Column(children: <Widget>[
+      FutureBuilder(
+          future: _getProfileData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              return Container(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
+                  child: Text(
+                    'Awards: ' + user.awards.toString(),
                     textAlign: TextAlign.center,
                     style: const TextStyle(
                       fontFamily: 'Raleway',
@@ -190,7 +214,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       CircleAvatar(
                           radius: 100.0,
-                          backgroundImage:  FileImage(File(profilePicturePath)),
+                          backgroundImage: FileImage(File(profilePicturePath)),
                           backgroundColor: Color(color_code).withOpacity(1.0),
                           child:
                               /*Text(user.displayName[0].toUpperCase(),
@@ -303,7 +327,7 @@ class _ProfilePageState extends State<ProfilePage> {
       print('_imageFile: $_imageFile');
     });
     final uid = await Provider.of(context).auth.getCurrentUID();
-    print("here sending the pic to the database");
+    print('here sending the pic to the database');
     await Provider.of(context)
         .db
         .collection('userData')
@@ -499,6 +523,7 @@ class _ProfilePageState extends State<ProfilePage> {
       user.classes = List.from(result['classes']);
       user.hobbies = List.from(result['hobbies']);
       user.points = result['points_field'];
+      user.awards = result['awards_field'];
 
       //profilePicture = result['profilepicture'];
       profilePicturePath = result['profilepicture'];
@@ -818,7 +843,7 @@ class _MyYearDropDownWidget extends StatefulWidget {
 }
 
 class _MyYearDropDown extends State<_MyYearDropDownWidget> {
-  User user = User('', '', '', '', [], [], 0);
+  User user = User('', '', '', '', [], [], 0, 0);
   //String _currentYear = "";
 
   final db = FirebaseFirestore.instance;
