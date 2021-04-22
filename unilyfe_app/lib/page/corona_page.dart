@@ -5,11 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:search_map_place/search_map_place.dart';
-import 'package:unilyfe_app/models/place_search.dart';
 import 'package:unilyfe_app/page/got_covid.dart';
-import 'package:unilyfe_app/provider/places_provider.dart';
-import '../src/locations.dart' as locations;
 import 'dart:ui' as ui;
 
 class MyMap extends StatefulWidget {
@@ -240,13 +236,29 @@ class _MyMapState extends State<MyMap> with TickerProviderStateMixin {
                                     height: 45,
                                   ),
                                   Text(
-                                    'LOCATIONS WITH THE MOST CASES: ',
+                                    'LOCATIONS AND THEIR COVID CASES: ',
                                     style: TextStyle(
                                       fontSize: 15,
                                       color: Colors.grey[600],
                                     ),
                                   ),
                                 ]),
+                            StreamBuilder(
+                                stream: FirebaseFirestore.instance
+                                    .collection('location_cases')
+                                    .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (!snapshot.hasData) {
+                                    return const Text('Loading...');
+                                  }
+                                  return ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: snapshot.data.docs.length,
+                                      itemBuilder:
+                                          (BuildContext context, int index) =>
+                                              buildPostCard(context,
+                                                  snapshot.data.docs[index]));
+                                }),
                           ]),
                           GotCovidPage(updateMarker: updateMarker),
                         ],
@@ -260,5 +272,19 @@ class _MyMapState extends State<MyMap> with TickerProviderStateMixin {
         ],
       )),
     );
+  }
+
+  Widget buildPostCard(BuildContext context, DocumentSnapshot location) {
+    return Column(children: <Widget>[
+      ListTile(
+        dense: true,
+        title: Row(children: <Widget>[
+          Text(location['name']),
+          Spacer(),
+          Text(location['num_cases'].toString())
+        ]),
+      ),
+      Divider(),
+    ]);
   }
 }

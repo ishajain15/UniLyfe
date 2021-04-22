@@ -182,6 +182,28 @@ class _GotCovidPageWidgetState extends State<GotCovidPageWidget>
               detail.result.geometry.location.lng),
           'name': detail.result.name
         });
+
+        final result = await FirebaseFirestore.instance
+            .collection('location_cases')
+            .where('name', isEqualTo: detail.result.name)
+            .get();
+
+        final List<DocumentSnapshot> documents = result.docs;
+
+        if (documents.isNotEmpty) {
+          final docid = result.docs.first.id;
+          //exists
+          await FirebaseFirestore.instance
+              .collection('location_cases')
+              .doc(docid)
+              .update({'num_cases': FieldValue.increment(1)});
+        } else {
+          //not exists
+          await FirebaseFirestore.instance
+              .collection('location_cases')
+              .add({'name': detail.result.name, 'num_cases': 1});
+        }
+
         updateMarker();
         changed = true;
         var current_uid = await Provider.of(context).auth.getCurrentUID();
