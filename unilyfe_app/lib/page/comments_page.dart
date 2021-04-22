@@ -230,6 +230,16 @@ class Comment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /*Widget circleAvatarChild;
+            if (profilePicturePath != "\"\"") {
+              circleAvatarChild = Container();
+            } else {
+              circleAvatarChild = Text(displayName[0].toUpperCase(),
+                  style: TextStyle(
+                      fontSize: 50,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white));
+            }*/
     return Column(
       children: <Widget>[
         Slidable(

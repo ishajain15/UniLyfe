@@ -300,8 +300,18 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 20,
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               print('Pressed');
+              setState(() {
+                profilePicturePath = "\"\"";
+              });
+              print("profilePicturePath: " + profilePicturePath);
+              final uid = await Provider.of(context).auth.getCurrentUID();
+              await Provider.of(context)
+                  .db
+                  .collection('userData')
+                  .doc(uid)
+                  .update({'profilepicture': "\"\""});
             },
             child: Text(
               'Remove Current Profile Photo',
