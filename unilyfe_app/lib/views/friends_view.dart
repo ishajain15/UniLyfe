@@ -16,7 +16,7 @@ class FriendsView extends StatelessWidget {
   List years = [];
   List displayNames = [];
   List bios = [];
-  User user = User('', '', '', '', [], [], 0);
+  User user = User('', '', '', '', [], [], 0, 0);
   List profilePicturePaths = [];
   List color_codes = [];
 
