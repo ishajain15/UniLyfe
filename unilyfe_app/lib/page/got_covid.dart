@@ -22,13 +22,15 @@ int balance = 0;
 /// This is the main application widget.
 // ignore: must_be_immutable
 class GotCovidPage extends StatelessWidget {
-  GotCovidPage({Key key}) : super(key: key);
+  GotCovidPage({Key key, this.updateMarker}) : super(key: key);
+
+  final Function updateMarker;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: GotCovidPageWidget(),
+      body: GotCovidPageWidget(updateMarker: updateMarker),
     );
   }
 }
@@ -50,14 +52,18 @@ enum SingingCharacter { yes, no }
 /// This is the stateful widget that the main application instantiates.
 // ignore: must_be_immutable
 class GotCovidPageWidget extends StatefulWidget {
-  GotCovidPageWidget({Key key}) : super(key: key);
+  GotCovidPageWidget({Key key, this.updateMarker}) : super(key: key);
+  final Function updateMarker;
   @override
-  _GotCovidPageWidgetState createState() => _GotCovidPageWidgetState();
+  _GotCovidPageWidgetState createState() =>
+      _GotCovidPageWidgetState(updateMarker: updateMarker);
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
 class _GotCovidPageWidgetState extends State<GotCovidPageWidget>
     with ChangeNotifier {
+  _GotCovidPageWidgetState({this.updateMarker});
+  final Function updateMarker;
   SingingCharacter _character = SingingCharacter.no;
   final _controller = TextEditingController();
   String placeId = '';
@@ -150,6 +156,7 @@ class _GotCovidPageWidgetState extends State<GotCovidPageWidget>
                     'coordinates': GeoPoint(detail.result.geometry.location.lat,
                         detail.result.geometry.location.lng)
                   });
+                  updateMarker();
                   // GeoPoint(detail.result.geometry.location.lat,
                   //     detail.result.geometry.location.lng);
                 },

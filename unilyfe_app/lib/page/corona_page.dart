@@ -29,6 +29,12 @@ class _MyMapState extends State<MyMap> with TickerProviderStateMixin {
     return doc.size.toString();
   }
 
+  void updateMarker() {
+    setState(() {
+      getMarkerData();
+    });
+  }
+
   // searchPlaces(String searchTerm) async {
   //   searchResults = await placesProvider.getAutoComplete(searchTerm);
   // }
@@ -226,8 +232,23 @@ class _MyMapState extends State<MyMap> with TickerProviderStateMixin {
                                                   ));
                                       }),
                                 ]),
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: 15,
+                                    height: 45,
+                                  ),
+                                  Text(
+                                    'LOCATIONS WITH THE MOST CASES: ',
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                ]),
                           ]),
-                          GotCovidPage(),
+                          GotCovidPage(updateMarker: updateMarker),
                         ],
                       ),
                     ),
