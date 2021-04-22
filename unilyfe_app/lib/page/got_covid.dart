@@ -8,8 +8,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // field. The field is of the type `SingingCharacter`, an enum.
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_webservice/places.dart';
+import 'package:unilyfe_app/models/place_search.dart';
+import 'package:unilyfe_app/provider/places_provider.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
-import 'package:search_map_place/search_map_place.dart';
+import 'package:flutter_google_places/flutter_google_places.dart';
+import 'package:google_api_headers/google_api_headers.dart';
+import 'package:uuid/uuid.dart';
 
 bool changed = false;
 int balance = 0;
@@ -17,13 +22,15 @@ int balance = 0;
 /// This is the main application widget.
 // ignore: must_be_immutable
 class GotCovidPage extends StatelessWidget {
-  GotCovidPage({Key key}) : super(key: key);
+  GotCovidPage({Key key, this.updateMarker}) : super(key: key);
+
+  final Function updateMarker;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: GotCovidPageWidget(),
+      body: GotCovidPageWidget(updateMarker: updateMarker),
     );
   }
 }
@@ -45,14 +52,27 @@ enum SingingCharacter { yes, no }
 /// This is the stateful widget that the main application instantiates.
 // ignore: must_be_immutable
 class GotCovidPageWidget extends StatefulWidget {
-  GotCovidPageWidget({Key key}) : super(key: key);
+  GotCovidPageWidget({Key key, this.updateMarker}) : super(key: key);
+  final Function updateMarker;
   @override
-  _GotCovidPageWidgetState createState() => _GotCovidPageWidgetState();
+  _GotCovidPageWidgetState createState() =>
+      _GotCovidPageWidgetState(updateMarker: updateMarker);
 }
 
 /// This is the private State class that goes with MyStatefulWidget.
-class _GotCovidPageWidgetState extends State<GotCovidPageWidget> {
+class _GotCovidPageWidgetState extends State<GotCovidPageWidget>
+    with ChangeNotifier {
+  _GotCovidPageWidgetState({this.updateMarker});
+  final Function updateMarker;
   SingingCharacter _character = SingingCharacter.no;
+  final _controller = TextEditingController();
+  String placeId = '';
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,16 +121,40 @@ class _GotCovidPageWidgetState extends State<GotCovidPageWidget> {
         ),
         Visibility(
           visible: _character == SingingCharacter.yes,
-          child: SearchMapPlaceWidget(
-            hasClearButton: true,
-            placeType: PlaceType.address,
-            placeholder: 'Enter locations',
-            apiKey: 'AIzaSyAi0MNwGpYcpEsiXdd7pc-gHRRsx9JIWTA',
-            onSelected: (Place place) async {
-              // Geolocation geolocation = await place.geolocation;
-              //print(geolocation.coordinates);
-            },
-          ),
+          child: Column(children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _controller,
+                readOnly: true,
+                onTap: () async {
+                  // generate a new token here
+                  final sessionToken = Uuid().v4();
+                  final Suggestion result = await showSearch(
+                    context: context,
+                    delegate: AddressSearch(sessionToken),
+                  );
+                  // This will change the text displayed in the TextField
+                  if (result != null) {
+                    final placeDetails = await PlaceApiProvider(sessionToken)
+                        .getPlaceDetailFromId(result.placeId);
+                    setState(() {
+                      _controller.text = result.description;
+                      placeId = placeDetails.placeId;
+                      print(placeId);
+                    });
+                  }
+                  // GeoPoint(detail.result.geometry.location.lat,
+                  //     detail.result.geometry.location.lng);
+                },
+                decoration: InputDecoration(
+                    hintText: 'Search Location',
+                    suffixIcon: Icon(Icons.search_outlined)),
+              ),
+            ),
+            SizedBox(height: 20.0),
+            Text('Place: $placeId'),
+          ]),
         ),
         submitButton(),
       ],
@@ -125,6 +169,42 @@ class _GotCovidPageWidgetState extends State<GotCovidPageWidget> {
         primary: Colors.grey, // background
       ),
       onPressed: () async {
+        var _places = GoogleMapsPlaces(
+          apiKey: 'AIzaSyBjKNbsOeQy02gc3-Ikz0MxDlyDkgpuUOk',
+        );
+        var detail = await _places.getDetailsByPlaceId(placeId);
+
+        print(detail.result.geometry.location.lat);
+        print(detail.result.geometry.location.lng);
+
+        await FirebaseFirestore.instance.collection("locations").add({
+          'coordinates': GeoPoint(detail.result.geometry.location.lat,
+              detail.result.geometry.location.lng),
+          'name': detail.result.name
+        });
+
+        final result = await FirebaseFirestore.instance
+            .collection('location_cases')
+            .where('name', isEqualTo: detail.result.name)
+            .get();
+
+        final List<DocumentSnapshot> documents = result.docs;
+
+        if (documents.isNotEmpty) {
+          final docid = result.docs.first.id;
+          //exists
+          await FirebaseFirestore.instance
+              .collection('location_cases')
+              .doc(docid)
+              .update({'num_cases': FieldValue.increment(1)});
+        } else {
+          //not exists
+          await FirebaseFirestore.instance
+              .collection('location_cases')
+              .add({'name': detail.result.name, 'num_cases': 1});
+        }
+
+        updateMarker();
         changed = true;
         var current_uid = await Provider.of(context).auth.getCurrentUID();
         final db = FirebaseFirestore.instance;
