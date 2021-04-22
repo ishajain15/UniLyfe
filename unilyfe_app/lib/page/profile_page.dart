@@ -114,7 +114,6 @@ class _ProfilePageState extends State<ProfilePage> {
           future: Provider.of(context).auth.getCurrentUID(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
-              //print('returning display points!');
               return _displayPoints(context, snapshot);
             } else {
               return buildLoading();
