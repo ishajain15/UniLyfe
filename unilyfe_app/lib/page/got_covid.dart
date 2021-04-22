@@ -144,19 +144,6 @@ class _GotCovidPageWidgetState extends State<GotCovidPageWidget>
                       print(placeId);
                     });
                   }
-                  var _places = GoogleMapsPlaces(
-                    apiKey: 'AIzaSyBjKNbsOeQy02gc3-Ikz0MxDlyDkgpuUOk',
-                  );
-                  var detail = await _places.getDetailsByPlaceId(placeId);
-
-                  print(detail.result.geometry.location.lat);
-                  print(detail.result.geometry.location.lng);
-
-                  await FirebaseFirestore.instance.collection("locations").add({
-                    'coordinates': GeoPoint(detail.result.geometry.location.lat,
-                        detail.result.geometry.location.lng)
-                  });
-                  updateMarker();
                   // GeoPoint(detail.result.geometry.location.lat,
                   //     detail.result.geometry.location.lng);
                 },
@@ -166,7 +153,7 @@ class _GotCovidPageWidgetState extends State<GotCovidPageWidget>
               ),
             ),
             SizedBox(height: 20.0),
-            Text('Place ID: $placeId'),
+            Text('Place: $placeId'),
           ]),
         ),
         submitButton(),
@@ -182,6 +169,20 @@ class _GotCovidPageWidgetState extends State<GotCovidPageWidget>
         primary: Colors.grey, // background
       ),
       onPressed: () async {
+        var _places = GoogleMapsPlaces(
+          apiKey: 'AIzaSyBjKNbsOeQy02gc3-Ikz0MxDlyDkgpuUOk',
+        );
+        var detail = await _places.getDetailsByPlaceId(placeId);
+
+        print(detail.result.geometry.location.lat);
+        print(detail.result.geometry.location.lng);
+
+        await FirebaseFirestore.instance.collection("locations").add({
+          'coordinates': GeoPoint(detail.result.geometry.location.lat,
+              detail.result.geometry.location.lng),
+          'name': detail.result.name
+        });
+        updateMarker();
         changed = true;
         var current_uid = await Provider.of(context).auth.getCurrentUID();
         final db = FirebaseFirestore.instance;
