@@ -243,22 +243,24 @@ class _MyMapState extends State<MyMap> with TickerProviderStateMixin {
                                     ),
                                   ),
                                 ]),
-                            StreamBuilder(
-                                stream: FirebaseFirestore.instance
-                                    .collection('location_cases')
-                                    .snapshots(),
-                                builder: (context, snapshot) {
-                                  if (!snapshot.hasData) {
-                                    return const Text('Loading...');
-                                  }
-                                  return ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: snapshot.data.docs.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) =>
-                                              buildPostCard(context,
-                                                  snapshot.data.docs[index]));
-                                }),
+                            Expanded(
+                              child: StreamBuilder(
+                                  stream: FirebaseFirestore.instance
+                                      .collection('location_cases')
+                                      .snapshots(),
+                                  builder: (context, snapshot) {
+                                    if (!snapshot.hasData) {
+                                      return const Text('Loading...');
+                                    }
+                                    return ListView.builder(
+                                        shrinkWrap: true,
+                                        itemCount: snapshot.data.docs.length,
+                                        itemBuilder:
+                                            (BuildContext context, int index) =>
+                                                buildPostCard(context,
+                                                    snapshot.data.docs[index]));
+                                  }),
+                            ),
                           ]),
                           GotCovidPage(updateMarker: updateMarker),
                         ],
