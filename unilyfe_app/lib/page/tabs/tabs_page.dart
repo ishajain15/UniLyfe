@@ -231,7 +231,7 @@ class _TabsPageState extends State<TabsPage> {
           ),
           ListTile(
             title: Text(
-              'Profile Stickers',
+              'Profile Awards',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Colors.grey,
@@ -244,7 +244,7 @@ class _TabsPageState extends State<TabsPage> {
                 context,
                 MaterialPageRoute(builder: (context) => StickersRules()),
               );
-              print('Sticker Page pressed');
+              print('Awards Page pressed');
             },
           ),
         ],
@@ -502,7 +502,7 @@ class StickersRules extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: const Color(0xFFFFFFFF),
           title: Text(
-            'Sticker System Rules',
+            'Awards System Rules',
             style: TextStyle(color: Colors.grey),
           ),
           iconTheme: IconThemeData(
@@ -515,7 +515,7 @@ class StickersRules extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Text(
-                'Point System Rules',
+                'Awards System Rules',
                 textAlign: TextAlign.left,
                 style: const TextStyle(
                   fontFamily: 'Raleway',
@@ -524,7 +524,7 @@ class StickersRules extends StatelessWidget {
                 ),
               ),
               Text(
-                'For every 100 points you earn, you will get a cute sticker on your profile!',
+                'For every 100 points you earn, you will get 1 award on your profile!\nVisit the Points System page to find out how to earn more points.',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   fontFamily: 'Raleway',
