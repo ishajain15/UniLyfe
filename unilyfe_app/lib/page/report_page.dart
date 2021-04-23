@@ -75,7 +75,7 @@ class ReportState extends State<Report> {
                             .collection('reported_posts')
                             .doc(postid)
                             .set({'reported': reported});
-                        if(reported > 2) {
+                        if(reported == 1) {
                            db
                             .collection('developer_posts')
                             .doc(postid)
@@ -160,7 +160,7 @@ class ReportState extends State<Report> {
                             .collection('reported_user')
                             .doc(postid)
                             .set({'reported': reported});
-                        if(reported > 2) {
+                        if(reported  == 1) {
                            db
                             .collection('developer_posts')
                             .doc(postid)
