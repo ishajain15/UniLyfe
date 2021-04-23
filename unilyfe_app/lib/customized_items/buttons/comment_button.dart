@@ -38,6 +38,9 @@ class CommentButtonWidget extends StatelessWidget {
             displayName: await db.collection('userData').doc(uid).get().then((result) {
               return result['displayName'];
             }),
+            picturepath: await db.collection('userData').doc(uid).get().then((result) {
+              return result['profilepicture'];
+            }),
           );
         },
       ),
@@ -47,7 +50,7 @@ class CommentButtonWidget extends StatelessWidget {
 
 // ignore: always_declare_return_types
 showComments(BuildContext context,
-    {String postid, String uid, String username, int color_code, String displayName}) {
+    {String postid, String uid, String username, int color_code, String displayName, String picturepath}) {
   Navigator.push(context, MaterialPageRoute(builder: (context) {
     return CommentsPage(
       postid: postid,
@@ -55,6 +58,7 @@ showComments(BuildContext context,
       username: username,
       color_code: color_code,
       displayName: displayName,
+      picturepath: picturepath,
     );
   }));
 }

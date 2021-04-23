@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -30,12 +32,14 @@ class CommentsPage extends StatefulWidget {
       this.uid,
       this.username,
       this.color_code,
-      this.displayName});
+      this.displayName,
+      this.picturepath});
   final String postid;
   final String uid;
   final String username;
   final int color_code;
   final String displayName;
+  final String picturepath;
   @override
   CommentsPageState createState() => CommentsPageState(
         postid: postid,
@@ -43,6 +47,7 @@ class CommentsPage extends StatefulWidget {
         username: username,
         color_code: color_code,
         displayName: displayName,
+        picturepath: picturepath,
       );
 }
 
@@ -52,13 +57,15 @@ class CommentsPageState extends State<CommentsPage> {
       this.uid,
       this.username,
       this.color_code,
-      this.displayName});
+      this.displayName,
+      this.picturepath,});
 
   final String postid;
   final String uid;
   final String username;
   final int color_code;
   final String displayName;
+  final String picturepath;
 
   StreamBuilder<QuerySnapshot> buildComments() {
     return StreamBuilder(
@@ -129,6 +136,7 @@ class CommentsPageState extends State<CommentsPage> {
         'commentid': doc.id,
         'color_code': color_code,
         'displayName': displayName,
+        'picturepath': picturepath,
       });
       await db
           .collection('userData')
@@ -144,6 +152,7 @@ class CommentsPageState extends State<CommentsPage> {
         'commentid': doc.id,
         'color_code': color_code,
         'displayName': displayName,
+        'picturepath': picturepath,
       });
       replying = false;
       replyTo = '';
@@ -204,7 +213,8 @@ class Comment extends StatelessWidget {
       this.postid,
       this.commentid,
       this.color_code,
-      this.displayName});
+      this.displayName,
+      this.picturepath});
   final String username;
   final String uid;
   final String comment;
@@ -213,6 +223,7 @@ class Comment extends StatelessWidget {
   final String commentid;
   final int color_code;
   final String displayName;
+  final String picturepath;
 
   // ignore: sort_constructors_first
   factory Comment.fromDocument(DocumentSnapshot doc) {
@@ -225,21 +236,20 @@ class Comment extends StatelessWidget {
       commentid: doc['commentid'],
       color_code: doc['color_code'],
       displayName: doc['displayName'],
+      picturepath: doc['picturepath'],
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    /*Widget circleAvatarChild;
-            if (profilePicturePath != "\"\"") {
-              circleAvatarChild = Container();
-            } else {
-              circleAvatarChild = Text(displayName[0].toUpperCase(),
-                  style: TextStyle(
-                      fontSize: 50,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white));
-            }*/
+   Widget circleAvatarChild;
+    if (picturepath != "\"\"") {
+      circleAvatarChild = Container();
+    } else {
+      circleAvatarChild = Text(displayName[0].toUpperCase(),
+          style: TextStyle(
+              fontWeight: FontWeight.bold, color: Colors.white));
+    }
     return Column(
       children: <Widget>[
         Slidable(
@@ -248,7 +258,8 @@ class Comment extends StatelessWidget {
           secondaryActions: <Widget>[
             Visibility(
               visible: FirebaseAuth.instance.currentUser.uid == uid,
-              child: IconSlideAction(
+              child: 
+              IconSlideAction(
                 color: Colors.red,
                 icon: Icons.delete_outline,
                 onTap: () async {
@@ -308,18 +319,14 @@ class Comment extends StatelessWidget {
                   UserName(postid: '', uid: uid, username: username),
                 ],
               ),
-              leading: CircleAvatar(
-                // var num = (math.Random().nextDouble() * 0xFFFFFF).toInt();
-                // print(num);
-                // print(Color(num).withOpacity(1.0));
-                //backgroundColor: Colors.blue,
-                backgroundColor: Color(color_code).withOpacity(1.0),
-                child: Text(displayName[0].toUpperCase(),
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.white)),
-                //radius: 18,
-                //backgroundImage: AssetImage('assets/empty-profile.png'),
-              ),
+              leading:  CircleAvatar(
+                            backgroundImage: /*user['profilepicture'] == "\"\""
+                                ? AssetImage('assets/empty-profile.png')
+                                : */FileImage(File(picturepath)),
+                            backgroundColor:
+                                Color(color_code).withOpacity(1.0),
+                            child:
+                                circleAvatarChild),
               subtitle: Column(children: <Widget>[
                 Row(
                   children: <Widget>[
