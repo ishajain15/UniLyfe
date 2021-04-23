@@ -186,7 +186,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                       Visibility(
                         visible: (user.points >= 200),
-                        child: Icon(Icons.add_shopping_cart),
+                        child: Icon(Icons.ac_unit_sharp),
                       ),
                     ],
                   ),

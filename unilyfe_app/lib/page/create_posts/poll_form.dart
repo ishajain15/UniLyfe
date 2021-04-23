@@ -115,7 +115,7 @@ class PollForm extends StatelessWidget {
               Map<String, dynamic> users = {'uid':1};
               //  final PollPost post = new PollPost(_question, DateTime.now(), _option1, true, "Food", uid);
               final post = PollPost(doc.id, _question, DateTime.now(), _option1,
-                  channel, uid, 0, false, {uid: false}, null, null, null, null, users);
+                  channel, uid, 0, false, {uid: false}, null, null, null, null, users, null);
               post.postid = doc.id;
               dynamic options = [_option1,_option2,_option3,_option4];
               post.options = options;

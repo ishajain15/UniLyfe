@@ -108,6 +108,9 @@ class FriendCardsWidget extends State<FriendCards> {
 
   @override
   Widget buildFriendCard(BuildContext context, DocumentSnapshot user) {
+     if (user['uid'] == uid) {
+      return Container();
+    }
     Widget circleAvatarChild;
     if (user['profilepicture'] != "\"\"") {
       circleAvatarChild = Container();

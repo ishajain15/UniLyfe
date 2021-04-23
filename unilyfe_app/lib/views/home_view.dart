@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -12,7 +14,6 @@ import 'package:unilyfe_app/page/report_page.dart';
 import 'package:unilyfe_app/page/tabs/username_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:unilyfe_app/page/likes_page.dart';
-
 
 class HomeViewState extends StatefulWidget {
   @override
@@ -299,9 +300,14 @@ class HomeView extends State<HomeViewState> {
                   padding: const EdgeInsets.only(top: 8.0, bottom: 6.0),
                   child: Row(
                     children: <Widget>[
-                      Expanded(flex: 15, 
-                      child: DisplayPosts(options:post['options'], title:post['title'], postid:post['postid'], users:post['users'], )
-                      ),
+                      Expanded(
+                          flex: 15,
+                          child: DisplayPosts(
+                            options: post['options'],
+                            title: post['title'],
+                            postid: post['postid'],
+                            users: post['users'],
+                          )),
                       Spacer(),
                     ],
                   ),
@@ -575,25 +581,49 @@ class HomeView extends State<HomeViewState> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 25.0),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                          "Location: ${(post['location'] == null) ? "n/a" : post['location']}"),
-                      Spacer(),
-                    ],
+                  padding: const EdgeInsets.all(16.0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 200.0,
+                    child: Center(
+                        child: post['photopath'] == null
+                            ? Text('No Image is picked')
+                            //: (Image.file(post['photopath'])),
+                            //: AssetImage((post['photopath'])),
+                            : Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    colorFilter: ColorFilter.mode(
+                                        Colors.black.withOpacity(1),
+                                        BlendMode.dstATop),
+                                    image: AssetImage(
+                                        (post['photopath'])),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 8.0, bottom: 25.0),
-                  child: Row(
-                    children: <Widget>[
-                      Text(
-                          "Event Date: ${DateFormat('MM/dd/yyyy (h:mm a)').format(post['event_date'].toDate()).toString()}"),
-                      Spacer(),
-                    ],
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 8.0, bottom: 25.0),
+                //   child: Row(
+                //     children: <Widget>[
+                //       Text(
+                //           ""),
+                //       Spacer(),
+                //     ],
+                //   ),
+                // ),
+                // Padding(
+                //   padding: const EdgeInsets.only(top: 8.0, bottom: 25.0),
+                //   child: Row(
+                //     children: <Widget>[
+                //       Text(
+                //           "Event Date:"),
+                //       Spacer(),
+                //     ],
+                //   ),
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
                   child: Row(
@@ -649,7 +679,6 @@ class HomeView extends State<HomeViewState> {
         ),
       );
     }
-
   }
 } // end of HomeView
 

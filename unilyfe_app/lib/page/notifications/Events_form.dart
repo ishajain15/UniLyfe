@@ -141,7 +141,7 @@ class _LocalNotificationWidgetState extends State<EventForm> {
               final uid = await Provider.of(context).auth.getCurrentUID();
               var doc = db.collection('posts').doc();
               final post = EventPost(doc.id, _title, DateTime.now(), _information,
-                  channel, uid, 0, false, {uid: false}, null, null, null, null);
+                  channel, uid, 0, false, {uid: false}, null, null, null, null, null);
 
               post.postid = doc.id;
               post.location = _location;
