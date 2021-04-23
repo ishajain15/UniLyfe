@@ -1,6 +1,20 @@
 class PollPost {
-  PollPost(this.postid, this.title, this.time, this.text, this.postChannel,
-      this.uid, this.likes, this.liked, this.map_liked, this.username, this.location, this.event_date, this.options, this.users);
+  PollPost(
+      this.postid,
+      this.title,
+      this.time,
+      this.text,
+      this.postChannel,
+      this.uid,
+      this.likes,
+      this.liked,
+      this.map_liked,
+      this.username,
+      this.location,
+      this.event_date,
+      this.options,
+      this.users,
+      this.photopath);
 
   String postid;
   int postType;
@@ -18,6 +32,7 @@ class PollPost {
   dynamic options;
   int reported;
   Map<String, dynamic> users;
+  String photopath;
   Map<String, dynamic> toJson() => {
         'postType': 1,
         'title': title,
@@ -32,8 +47,9 @@ class PollPost {
         'username': username,
         'location': location,
         'event_date': event_date,
-        'options':options,
-        'users':users,
-        'reported':0
+        'options': options,
+        'users': users,
+        'reported': 0,
+        'photopath': photopath
       };
 }

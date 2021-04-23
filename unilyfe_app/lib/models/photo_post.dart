@@ -1,7 +1,20 @@
 class PhotoPost {
-  PhotoPost(this.postid, this.title, this.time, this.text, this.postChannel,
-      this.uid, this.likes, this.liked, this.map_liked, this.username, 
-      this.location, this.event_date, this.options, this.users);
+  PhotoPost(
+      this.postid,
+      this.title,
+      this.time,
+      this.text,
+      this.postChannel,
+      this.uid,
+      this.likes,
+      this.liked,
+      this.map_liked,
+      this.username,
+      this.location,
+      this.event_date,
+      this.options,
+      this.users,
+      this.photopath);
   String postid;
   int postType;
   String title;
@@ -18,6 +31,7 @@ class PhotoPost {
   int reported;
   Map<String, dynamic> map_liked;
   Map<String, dynamic> users;
+  String photopath;
   Map<String, dynamic> toJson() => {
         'postid': postid,
         'postType': 3,
@@ -32,8 +46,9 @@ class PhotoPost {
         'username': username,
         'location': location,
         'event_date': event_date,
-        'options':null,
+        'options': null,
         'users': null,
-        'reported':0
+        'reported': 0,
+        'photopath': photopath
       };
 }

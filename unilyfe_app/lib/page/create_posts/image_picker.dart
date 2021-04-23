@@ -31,6 +31,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+String imagePath = '';
   File _image;
   Future getImagefromcamera() async {
     // ignore: deprecated_member_use
@@ -43,6 +45,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Future getImagefromGallery() async {
     // ignore: deprecated_member_use
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    print(image.path);
+    imagePath = image.path;
     setState(() {
       _image = image;
     });
@@ -72,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
           TextField(
             decoration: InputDecoration(
-              hintText: 'Add a caption',
+              hintText: 'Add a title',
               contentPadding:
                   const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 8.0),
               focusedBorder: OutlineInputBorder(
@@ -81,7 +85,6 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             onChanged: (value) {
-              text = value.trim();
               _title = value.trim();
             },
           ),
@@ -97,12 +100,23 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             onChanged: (value) {
-              text = value.trim();
               _location = value.trim();
+            },
+          ),
+          TextField(
+            decoration: InputDecoration(
+              hintText: 'Add a caption',
+              contentPadding:
+                  const EdgeInsets.only(left: 14.0, bottom: 8.0, top: 4.0),
+              focusedBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.black),
+                borderRadius: BorderRadius.circular(25.7),
+              ),
+            ),
+            onChanged: (value) {
               _caption = value.trim();
             },
           ),
-          //),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Container(
@@ -142,9 +156,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
 
                   final uid = await Provider.of(context).auth.getCurrentUID();
-              var doc = db.collection('posts').doc();
-              Map<String, dynamic> users = {'uid':1};
-              final post = PhotoPost(
+                  var doc = db.collection('posts').doc();
+                  Map<String, dynamic> users = {'uid': 1};
+                  final post = PhotoPost(
                       doc.id,
                       _title,
                       DateTime.now(),
@@ -158,47 +172,53 @@ class _MyHomePageState extends State<MyHomePage> {
                       _location,
                       null,
                       null,
-                      users);
+                      users,
+                      imagePath);
 
-              post.postid = doc.id;
-
-              await db.collection('userData').doc(uid).get().then((result) {
-                post.username = result['username'];
-              });
-
-              await db
-                    .collection('userData')
-                    .doc(uid)
-                    .update({'points_field': FieldValue.increment(10)});
                   post.postid = doc.id;
 
-              //DocumentReference channel;
-              if (selection == 0) {
-                //await db.collection("food_posts").add(post.toJson());
-                await db
-                    .collection('food_posts')
-                    .doc(doc.id)
-                    .set(post.toJson());
-              } else if (selection == 1) {
-                //await db.collection("study_posts").add(post.toJson());
-                await db
-                    .collection('study_posts')
-                    .doc(doc.id)
-                    .set(post.toJson());
-              } else {
-                //await db.collection("social_posts").add(post.toJson());
-                await db
-                    .collection('social_posts')
-                    .doc(doc.id)
-                    .set(post.toJson());
-              }
-              await db.collection('posts').doc(doc.id).set(post.toJson());
-              await db
-                  .collection('userData')
-                  .doc(uid)
-                  .collection('poll_posts')
-                  .doc(doc.id)
-                  .set(post.toJson());
+                  await db.collection('userData').doc(uid).get().then((result) {
+                    post.username = result['username'];
+                  });
+
+                  await db
+                      .collection('userData')
+                      .doc(uid)
+                      .update({'points_field': FieldValue.increment(10)});
+                  post.postid = doc.id;
+
+                 /*  await db
+                      .collection('posts')
+                      .doc(uid)
+                      .update({'photopath': imagePath}); */
+
+                  //DocumentReference channel;
+                  if (selection == 0) {
+                    //await db.collection("food_posts").add(post.toJson());
+                    await db
+                        .collection('food_posts')
+                        .doc(doc.id)
+                        .set(post.toJson());
+                  } else if (selection == 1) {
+                    //await db.collection("study_posts").add(post.toJson());
+                    await db
+                        .collection('study_posts')
+                        .doc(doc.id)
+                        .set(post.toJson());
+                  } else {
+                    //await db.collection("social_posts").add(post.toJson());
+                    await db
+                        .collection('social_posts')
+                        .doc(doc.id)
+                        .set(post.toJson());
+                  }
+                  await db.collection('posts').doc(doc.id).set(post.toJson());
+                  await db
+                      .collection('userData')
+                      .doc(uid)
+                      .collection('poll_posts')
+                      .doc(doc.id)
+                      .set(post.toJson());
                   //  Navigator.of(context).popUntil((route) => route.isFirst);
                   //  Navigator.of(context).popUntil((route) => route.isFirst);
                   Navigator.pop(context);
