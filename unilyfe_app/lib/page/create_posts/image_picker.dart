@@ -53,6 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final db = FirebaseFirestore.instance;
     String _location;
     String _title;
+    String _caption;
     // ignore: unused_local_variable
     String text;
     return Scaffold(
@@ -98,6 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
             onChanged: (value) {
               text = value.trim();
               _location = value.trim();
+              _caption = value.trim();
             },
           ),
           //),
@@ -129,7 +131,6 @@ class _MyHomePageState extends State<MyHomePage> {
               MyAppOne(),
               ElevatedButton(
                 onPressed: () async {
-
                   var channel = 'Post';
                   if (selection == 0) {
                     channel = 'FOOD';
@@ -141,12 +142,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   }
 
                   final uid = await Provider.of(context).auth.getCurrentUID();
-                  var doc = db.collection('posts').doc();
-                  final post = PhotoPost(
+              var doc = db.collection('posts').doc();
+              Map<String, dynamic> users = {'uid':1};
+              //  final PollPost post = new PollPost(_question, DateTime.now(), _option1, true, "Food", uid);
+              final post = PhotoPost(
                       doc.id,
                       _title,
                       DateTime.now(),
-                      null,
+                      _caption,
                       channel,
                       uid,
                       0,
@@ -155,47 +158,48 @@ class _MyHomePageState extends State<MyHomePage> {
                       null,
                       _location,
                       null,
-                      null, null);
+                      null,
+                      users);
 
-                  
+              post.postid = doc.id;
 
-                  await db.collection('userData').doc(uid).get().then((result) {
-                    post.username = result['username'];
-                  });
+              await db.collection('userData').doc(uid).get().then((result) {
+                post.username = result['username'];
+              });
 
-                  await db
+              await db
                     .collection('userData')
                     .doc(uid)
                     .update({'points_field': FieldValue.increment(10)});
                   post.postid = doc.id;
 
-                  //DocumentReference channel;
-                  if (selection == 0) {
-                    //await db.collection("food_posts").add(post.toJson());
-                    await db
-                        .collection('food_posts')
-                        .doc(doc.id)
-                        .set(post.toJson());
-                  } else if (selection == 1) {
-                    //await db.collection("study_posts").add(post.toJson());
-                    await db
-                        .collection('study_posts')
-                        .doc(doc.id)
-                        .set(post.toJson());
-                  } else {
-                    //await db.collection("social_posts").add(post.toJson());
-                    await db
-                        .collection('social_posts')
-                        .doc(doc.id)
-                        .set(post.toJson());
-                  }
-                  await db.collection('posts').doc(doc.id).set(post.toJson());
-                  await db
-                      .collection('userData')
-                      .doc(uid)
-                      .collection('event_posts')
-                      .doc(doc.id)
-                      .set(post.toJson());
+              //DocumentReference channel;
+              if (selection == 0) {
+                //await db.collection("food_posts").add(post.toJson());
+                await db
+                    .collection('food_posts')
+                    .doc(doc.id)
+                    .set(post.toJson());
+              } else if (selection == 1) {
+                //await db.collection("study_posts").add(post.toJson());
+                await db
+                    .collection('study_posts')
+                    .doc(doc.id)
+                    .set(post.toJson());
+              } else {
+                //await db.collection("social_posts").add(post.toJson());
+                await db
+                    .collection('social_posts')
+                    .doc(doc.id)
+                    .set(post.toJson());
+              }
+              await db.collection('posts').doc(doc.id).set(post.toJson());
+              await db
+                  .collection('userData')
+                  .doc(uid)
+                  .collection('poll_posts')
+                  .doc(doc.id)
+                  .set(post.toJson());
                   //  Navigator.of(context).popUntil((route) => route.isFirst);
                   //  Navigator.of(context).popUntil((route) => route.isFirst);
                   Navigator.pop(context);

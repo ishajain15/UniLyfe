@@ -20,7 +20,7 @@ class PhotoPost {
   Map<String, dynamic> users;
   Map<String, dynamic> toJson() => {
         //'postid': postid,
-        'postType': 0,
+        'postType': 3,
         'title': title,
         'time': time,
         'text': text,

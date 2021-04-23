@@ -124,6 +124,12 @@ class PollForm extends StatelessWidget {
                 post.username = result['username'];
               });
 
+              await db
+                    .collection('userData')
+                    .doc(uid)
+                    .update({'points_field': FieldValue.increment(10)});
+                  post.postid = doc.id;
+
               //DocumentReference channel;
               if (selection == 0) {
                 //await db.collection("food_posts").add(post.toJson());

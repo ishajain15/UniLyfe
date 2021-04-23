@@ -4,7 +4,7 @@ import 'package:polls/polls.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 class DisplayPosts extends StatefulWidget {
-  DisplayPosts({Key key, @required this.options, @required this.title, @required this.postid, @required this.users}) : super(key: key);
+  DisplayPosts({Key key, @required this.options, @required this.title, @required this.postid, @required this.users, location}) : super(key: key);
   String postid;
   int likes;
   String postChannel;
