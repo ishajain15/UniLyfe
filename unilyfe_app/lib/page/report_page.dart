@@ -157,7 +157,7 @@ class ReportState extends State<Report> {
                         final db = FirebaseFirestore.instance;
                         reported++;
                         db
-                            .collection('reported_posts')
+                            .collection('reported_user')
                             .doc(postid)
                             .set({'reported': reported});
                         if(reported > 2) {
