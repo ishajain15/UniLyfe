@@ -29,7 +29,8 @@ class CreatePage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 12),
-            ReviewsButton(),
+            ReviewsButton(
+            ),
             PollsButton(),
             TextsButton(
               newPost: newPost,
