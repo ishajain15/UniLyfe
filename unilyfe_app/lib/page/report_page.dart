@@ -6,19 +6,21 @@ String reason = '';
 
 // ignore: must_be_immutable
 class Report extends StatefulWidget {
-  Report({Key key, @required this.postid, @required this.postChannel})
+  Report({Key key, @required this.postid, @required this.postChannel, this.reported})
       : super(key: key);
   String postid;
   String postChannel;
+  int reported;
   @override
   ReportState createState() =>
-      ReportState(postid: postid, postChannel: postChannel);
+      ReportState(postid: postid, postChannel: postChannel, reported:reported);
 }
 
 class ReportState extends State<Report> {
-  ReportState({Key key, @required this.postid, @required this.postChannel});
+  ReportState({Key key, @required this.postid, @required this.postChannel, this.reported});
   String postid;
   String postChannel;
+  int reported;
   void thankyousheet(context) {
     showModalBottomSheet(
         context: context,
@@ -124,6 +126,8 @@ class ReportState extends State<Report> {
                             .collection('reported_users')
                             .doc(postid)
                             .set({'post_channel': postChannel});
+
+                        
                       });
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();

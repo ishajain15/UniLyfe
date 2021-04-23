@@ -10,6 +10,7 @@ class Photo {
   String uid;
   int likes;
   bool liked;
+  int reported;
   
   Map<String, dynamic> toJson() => {
         //'image': image,
@@ -20,6 +21,7 @@ class Photo {
         'postChannel': postChannel,
         'uid': uid,
         'likes': likes,
-        'liked': liked
+        'liked': liked,
+        'reported':0
       };
 }

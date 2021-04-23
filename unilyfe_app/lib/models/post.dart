@@ -16,6 +16,7 @@ class Post {
   dynamic options;
   Map<String, dynamic> map_liked;
   Map<String, dynamic> users;
+  int reported;
   Map<String, dynamic> toJson() => {
         'postid': postid,
         'postType': 0,
@@ -32,5 +33,6 @@ class Post {
         'event_date': event_date,
         'options':null,
         'users': null,
+        'reported':0
       };
 }

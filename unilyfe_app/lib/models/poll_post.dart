@@ -16,6 +16,7 @@ class PollPost {
   String location;
   DateTime event_date;
   dynamic options;
+  int reported;
   Map<String, dynamic> users;
   Map<String, dynamic> toJson() => {
         'postType': 1,
@@ -32,6 +33,7 @@ class PollPost {
         'location': location,
         'event_date': event_date,
         'options':options,
-        'users':users
+        'users':users,
+        'reported':0
       };
 }

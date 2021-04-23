@@ -173,7 +173,8 @@ class HomeView extends State<HomeViewState> {
                       Spacer(),
                       Report(
                           postid: post['postid'],
-                          postChannel: post['postChannel']),
+                          postChannel: post['postChannel'],
+                          reported: post['reported']),
                     ],
                   ),
                 ),
@@ -289,7 +290,8 @@ class HomeView extends State<HomeViewState> {
                       Spacer(),
                       Report(
                           postid: post['postid'],
-                          postChannel: post['postChannel']),
+                          postChannel: post['postChannel'],
+                          reported: post['reported']),
                     ],
                   ),
                 ),
@@ -409,7 +411,8 @@ class HomeView extends State<HomeViewState> {
                       Spacer(),
                       Report(
                           postid: post['postid'],
-                          postChannel: post['postChannel']),
+                          postChannel: post['postChannel'],
+                          reported: post['reported']),
                     ],
                   ),
                 ),

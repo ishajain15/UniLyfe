@@ -15,6 +15,7 @@ class PhotoPost {
   String location;
   DateTime event_date;
   dynamic options;
+  int reported;
   Map<String, dynamic> map_liked;
   Map<String, dynamic> users;
   Map<String, dynamic> toJson() => {
@@ -33,5 +34,6 @@ class PhotoPost {
         'event_date': event_date,
         'options':null,
         'users': null,
+        'reported':0
       };
 }
