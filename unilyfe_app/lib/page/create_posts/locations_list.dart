@@ -5,6 +5,7 @@ import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 class LocationList extends StatefulWidget {
   LocationList({Key key}) : super(key: key);
+  @override
   LocationsListState createState() => LocationsListState();
 }
 
