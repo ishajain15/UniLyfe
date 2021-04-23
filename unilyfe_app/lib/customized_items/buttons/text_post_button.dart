@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/models/post.dart';
 import 'package:unilyfe_app/views/new_posts/title_view.dart';
-// import 'package:unilyfe_app/page/create_posts/text_photo_post.dart';
-// //import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// //import 'package:unilyfe_app/page/start_page.dart';
-// import 'package:unilyfe_app/page/tabs/tabs_page.dart';
 
 
 class TextsButton extends StatelessWidget {

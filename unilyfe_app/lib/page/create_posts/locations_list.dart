@@ -1,26 +1,24 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/models/post.dart';
-import 'package:unilyfe_app/page/create_posts/location_rating.dart';
-import 'package:unilyfe_app/views/new_posts/submit_view.dart';
-
-// class LocationList extends StatefulWidget {
-//   @override
-//   LocationsListState createState() => LocationsListState();
-// }
+import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 class LocationList extends StatefulWidget {
-  LocationList({Key key, @required this.post}) : super(key: key);
+  LocationList({Key key}) : super(key: key);
+  @override
   LocationsListState createState() => LocationsListState();
-  final Post post;
 }
 
 class LocationsListState extends State<LocationList> {
+  LocationsListState({Key key});
   String chosenValue;
+  double rating = 0.0;
 
   @override
   Widget build(BuildContext context) {
-    //var _titleController = TextEditingController();
-    //_titleController.text = post.title;
+    var _titleController = TextEditingController();
+
+    var _textController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
@@ -36,9 +34,9 @@ class LocationsListState extends State<LocationList> {
       body: Column(
         //child: Container(
           children: [
-          //padding: const EdgeInsets.all(100.0),
-          //color: Color(0xFFF46C6B),
-          DropdownButton<String>(
+            SizedBox(height: 30),
+            Center(
+            child: DropdownButton<String>(
             value: chosenValue,
             //elevation: 5,
             style: TextStyle(color: Colors.black),
@@ -76,15 +74,75 @@ class LocationsListState extends State<LocationList> {
               });
             },
           ),
+        ),
+        SizedBox(height: 30),
+          Text('Enter a Post Title'),
+            Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: TextField(
+                controller: _titleController,
+                autofocus: true,
+              ),
+            ),
+          
+        SizedBox(height: 40),
+          Text('\nGive your location a rating'),
+          Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Center(
+            child: SmoothStarRating(
+            rating: rating,
+            isReadOnly: false,
+            size: 40,
+            filledIconData: Icons.star,
+            halfFilledIconData: Icons.star_half,
+            defaultIconData: Icons.star_border,
+            starCount: 5,
+            allowHalfRating: true,
+            spacing: 2.0,
+            onRated: (value) {
+              rating = value;
+            },
+        )),
+            ),
+          
+        SizedBox(height: 10),
+        Text('\nEnter Review'),
+            Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: TextField(
+                controller: _textController,
+                autofocus: true,
+              ),
+            ),
             ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => LocationRating()),
-                  );
+                onPressed: () async {
+                  var uid = await Provider.of(context).auth.getCurrentUID();
+                  var username = '';
+                  await FirebaseFirestore.instance.collection('userData').doc(uid).get().then((result) {
+                    username = result['username'];
+                  });
+                  var doc = FirebaseFirestore.instance.collection('reviews').doc();
+                  var reviewid = doc.id;
+                  await FirebaseFirestore.instance.collection('reviews').doc(doc.id).set({
+                    'title': _titleController.text,
+                    'text': _textController.text,
+                    'rating': rating,
+                    'location': chosenValue,
+                    'time': DateTime.now(),
+                    'uid': uid,
+                    'username': username,
+                    'reviewid': reviewid,
+                  });
+                  // print('TITLE: ${_titleController.text}');
+                  // print('TEXT: ${_textController.text}');
+                  // print('RATING: ${rating.toString()}');
+                  // print('LOCATION: $chosenValue');
+                  // print('USERNAME: $username');
+                  // print('UID: $uid');
+                  Navigator.of(context).popUntil((route) => route.isFirst);
                 },
-                child: Text('Continue')),
+                child: Text('Submit Review')),
           ],
       ),
       

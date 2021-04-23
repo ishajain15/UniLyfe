@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/views/food_view.dart';
 import 'package:unilyfe_app/views/home_view.dart';
+import 'package:unilyfe_app/views/review_view.dart';
 import 'package:unilyfe_app/views/social_view.dart';
 import 'package:unilyfe_app/views/study_view.dart';
 import 'package:unilyfe_app/views/liked_posts_view.dart';
@@ -17,8 +18,12 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
     final user = FirebaseAuth.instance.currentUser;
+    
 
-    return Scaffold(
+    return DefaultTabController(
+      length: 5,
+      child: Scaffold(
+      
       appBar: TabBar(
         labelColor: const Color(0xFFF56D6B),
         tabs: [
@@ -26,7 +31,7 @@ class HomePage extends StatelessWidget {
           Tab(text: 'FOOD'),
           Tab(text: 'STUDY'),
           Tab(text: 'SOCIAL'),
-         // Tab(text: 'LIKED')
+          Tab(text: 'REVIEWS')
         ],
         unselectedLabelColor: Colors.grey,
       ),
@@ -41,11 +46,11 @@ class HomePage extends StatelessWidget {
           FoodViewState(),
           StudyViewState(),
           SocialViewState(),
-         // LikedPostsView()
+          ReviewViewState()
         ],
       ),
       //bottomSheet: LogoutButtonWidget(),
-    );
+    ));
 
     /*return Container(
       alignment: Alignment.center,
