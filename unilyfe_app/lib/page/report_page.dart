@@ -63,7 +63,14 @@ class ReportState extends State<Report> {
                             .collection('reported_posts')
                             .doc(postid)
                             .set({'post_channel': postChannel});
+        
+                        db
+                            .collection('reported_posts')
+                            .doc(postid)
+                            .set({'reported': reported++});
                       });
+
+                       
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
@@ -127,7 +134,10 @@ class ReportState extends State<Report> {
                             .doc(postid)
                             .set({'post_channel': postChannel});
 
-                        
+                        db
+                            .collection('reported_posts')
+                            .doc(postid)
+                            .set({'reported': reported++});
                       });
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
