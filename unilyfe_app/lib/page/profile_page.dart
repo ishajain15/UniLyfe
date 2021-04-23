@@ -169,14 +169,26 @@ class _ProfilePageState extends State<ProfilePage> {
               return Container(
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(10, 20, 10, 10),
-                  child: Text(
-                    'Awards: ' + user.awards.toString(),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontFamily: 'Raleway',
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        'Awards: ',
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontFamily: 'Raleway',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Visibility(
+                        visible: (user.points >= 100),
+                        child: Icon(Icons.ac_unit_sharp),
+                      ),
+                      Visibility(
+                        visible: (user.points >= 200),
+                        child: Icon(Icons.add_shopping_cart),
+                      ),
+                    ],
                   ),
                 ),
               );
