@@ -144,7 +144,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   final uid = await Provider.of(context).auth.getCurrentUID();
               var doc = db.collection('posts').doc();
               Map<String, dynamic> users = {'uid':1};
-              //  final PollPost post = new PollPost(_question, DateTime.now(), _option1, true, "Food", uid);
               final post = PhotoPost(
                       doc.id,
                       _title,

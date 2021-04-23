@@ -19,7 +19,7 @@ class PhotoPost {
   Map<String, dynamic> map_liked;
   Map<String, dynamic> users;
   Map<String, dynamic> toJson() => {
-        //'postid': postid,
+        'postid': postid,
         'postType': 3,
         'title': title,
         'time': time,
