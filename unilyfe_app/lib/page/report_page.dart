@@ -20,6 +20,7 @@ class ReportState extends State<Report> {
   ReportState({Key key, @required this.postid, @required this.postChannel, this.reported});
   String postid;
   String postChannel;
+  
   int reported;
   void thankyousheet(context) {
     showModalBottomSheet(
@@ -58,17 +59,32 @@ class ReportState extends State<Report> {
                   ElevatedButton(
                     onPressed: () async {
                       setState(() {
+                        String postCollection = '';
+
+                        if (postChannel == 'FOOD') {
+                          postCollection = 'food_posts';
+                        } else if (postChannel == 'STUDY') {
+                          postCollection = 'study_posts';
+                        } else {
+                          postCollection = 'social_posts';
+                        }
+                        
                         final db = FirebaseFirestore.instance;
+                        reported++;
                         db
                             .collection('reported_posts')
                             .doc(postid)
-                            .set({'post_channel': postChannel});
-        
-                        db
-                            .collection('reported_posts')
+                            .set({'reported': reported});
+                        if(reported > 2) {
+                           db
+                            .collection('developer_posts')
                             .doc(postid)
-                            .set({'reported': reported++});
+                            .set({'reported': reported});
+                            db.collection("posts").doc(postid).delete();
+                            db.collection(postCollection).doc(postid).delete();
+                        }
                       });
+                      
 
                        
                       Navigator.of(context).pop();
@@ -128,17 +144,32 @@ class ReportState extends State<Report> {
                   ElevatedButton(
                     onPressed: () async {
                       setState(() {
-                        final db = FirebaseFirestore.instance;
-                        db
-                            .collection('reported_users')
-                            .doc(postid)
-                            .set({'post_channel': postChannel});
+                        String postCollection = '';
 
+                        if (postChannel == 'FOOD') {
+                          postCollection = 'food_posts';
+                        } else if (postChannel == 'STUDY') {
+                          postCollection = 'study_posts';
+                        } else {
+                          postCollection = 'social_posts';
+                        }
+                        
+                        final db = FirebaseFirestore.instance;
+                        reported++;
                         db
                             .collection('reported_posts')
                             .doc(postid)
-                            .set({'reported': reported++});
+                            .set({'reported': reported});
+                        if(reported > 2) {
+                           db
+                            .collection('developer_posts')
+                            .doc(postid)
+                            .set({'reported': reported});
+                            db.collection("posts").doc(postid).delete();
+                            db.collection(postCollection).doc(postid).delete();
+                        }
                       });
+                      
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
