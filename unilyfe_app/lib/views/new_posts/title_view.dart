@@ -20,6 +20,9 @@ class NewPostLocationView extends StatelessWidget {
     var _titleController = TextEditingController();
     _titleController.text = post.title;
 
+    var _locController = TextEditingController();
+    _locController.text = post.location;
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(
@@ -43,9 +46,18 @@ class NewPostLocationView extends StatelessWidget {
                 autofocus: true,
               ),
             ),
+            Text('Enter a location'),
+            Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: TextField(
+                controller: _locController,
+                autofocus: true,
+              ),
+            ),
             ElevatedButton(
               onPressed: () async {
                 post.title = _titleController.text;
+                post.location = _locController.text;
 
                 final filter = ProfanityFilter();
                 var hasProfanity = filter.hasProfanity(post.title);
@@ -68,6 +80,7 @@ class NewPostLocationView extends StatelessWidget {
                         postIt = false;
                         //Navigator.of(context).pop();
                         _titleController.clear();
+                        _locController.clear();
                       },
                       firstText: 'Yes',
                       secondText: 'No');

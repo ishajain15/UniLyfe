@@ -24,6 +24,8 @@ class HomeView extends State<HomeViewState> {
   @override
   bool hasBeenPressed = false;
 
+  //var location;
+
   Widget build(BuildContext context) {
     //print("rebuilding!");
     //print(hasBeenPressed);
@@ -192,7 +194,7 @@ class HomeView extends State<HomeViewState> {
                       Expanded(
                         flex: 15,
                         child: Text(
-                            "Text: ${(post['text'] == null) ? "n/a" : post['text']}"),
+                            "Text: ${(post['text'] == null) ? "n/a" : post['text']}\nLocation: ${(post['location'] == null) ? "n/a" : post['location']}"),
                       ),
                       Spacer(),
                     ],
@@ -223,7 +225,8 @@ class HomeView extends State<HomeViewState> {
                           postChannel: post['postChannel'],
                           map_liked: post['map_liked'],
                           uid: post['uid'],
-                          username: post['username']),
+                          username: post['username'],
+                          location: post['location']),
                       Spacer(),
                       Visibility(
                         visible: FirebaseAuth.instance.currentUser.uid ==
@@ -318,7 +321,7 @@ class HomeView extends State<HomeViewState> {
                       Expanded(
                         flex: 15,
                         child: Text(
-                            "Text: ${(post['text'] == null) ? "n/a" : post['text']}"),
+                            "Text: ${(post['text'] == null) ? "n/a" : post['text']}\nLocation: ${(post['location'] == null) ? "n/a" : post['location']}"),
                       ),
                       Spacer(),
                     ],
@@ -427,7 +430,7 @@ class HomeView extends State<HomeViewState> {
                       Expanded(
                         flex: 15,
                         child: Text(
-                            "Text: ${(post['text'] == null) ? "n/a" : post['text']}"),
+                            "Text: ${(post['text'] == null) ? "n/a" : post['text']}\nLocation: ${(post['location'] == null) ? "n/a" : post['location']}"),
                       ),
                       Spacer(),
                     ],
@@ -478,7 +481,8 @@ class HomeView extends State<HomeViewState> {
                           postChannel: post['postChannel'],
                           map_liked: post['map_liked'],
                           uid: post['uid'],
-                          username: post['username']),
+                          username: post['username'],
+                          location: post['location']),
                       Spacer(),
                       Visibility(
                         visible: FirebaseAuth.instance.currentUser.uid ==
