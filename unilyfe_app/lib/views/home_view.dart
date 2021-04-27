@@ -449,8 +449,7 @@ class HomeView extends State<HomeViewState> {
                   padding: const EdgeInsets.only(top: 8.0, bottom: 25.0),
                   child: Row(
                     children: <Widget>[
-                      Text(
-                          "Location: ${(post['location'] == null) ? "n/a" : post['location']}"),
+                      // Text("Location: ${(post['location'] == null) ? "n/a" : post['location']}"),
                       Spacer(),
                     ],
                   ),
