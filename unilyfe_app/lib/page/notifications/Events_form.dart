@@ -186,18 +186,18 @@ class _LocalNotificationWidgetState extends State<EventForm> {
               //  Navigator.of(context).popUntil((route) => route.isFirst);
               
                var beginningDate = DateTime.now();
-    var newDate=beginningDate.subtract(Duration(days: 5));
+    var newDate=beginningDate.add(Duration(days: 1));
     QuerySnapshot qShot = await FirebaseFirestore.instance
     .collection('event_posts')
-    .where('event_date',isGreaterThanOrEqualTo:newDate)
-    .where('event_date',isLessThanOrEqualTo:beginningDate)
+    .where('event_date',isLessThanOrEqualTo:newDate)
+    .where('event_date',isGreaterThanOrEqualTo:beginningDate)
     .get().catchError((onError){print(onError);});
     var docs = qShot.docs;
     String words = '';
     for (var i in docs){
       words += i.data()['title'].toString() + ', ';
     }
-    showOngoingNotification(notifications,title: 'Upcoming events which are 5 days away', body: words);
+    showOngoingNotification(notifications,title: 'Upcoming events 1 day away', body: words);
               // showOngoingNotification(notifications,title: 'Tite', body: 'Body');
               Navigator.pop(context);
               // Navigator.pushReplacement(context,MaterialPageRoute(builder: (_) => CreatePage())).then((_) => refresh());
