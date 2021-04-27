@@ -1,11 +1,6 @@
 # unilyfe
 
-Firebase login:
-
-email: unilyfe307@gmail.com
-
-password: !unilyfe2021
-
+Note: Corona page won't work without valid API keys. The one used in the project is no longer active.
 
 Login in here: 
 
