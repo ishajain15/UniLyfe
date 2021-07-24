@@ -1,5 +1,5 @@
 # unilyfe
 
-<img src="translategif.gif"/>
+<img src="quickdemo.gif"/>
 
 
