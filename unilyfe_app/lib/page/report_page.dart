@@ -59,7 +59,7 @@ class ReportState extends State<Report> {
                   ElevatedButton(
                     onPressed: () async {
                       setState(() {
-                        String postCollection = '';
+                        var postCollection = '';
 
                         if (postChannel == 'FOOD') {
                           postCollection = 'food_posts';
@@ -80,13 +80,11 @@ class ReportState extends State<Report> {
                             .collection('developer_posts')
                             .doc(postid)
                             .set({'reported': reported});
-                            db.collection("posts").doc(postid).delete();
+                            db.collection('posts').doc(postid).delete();
                             db.collection(postCollection).doc(postid).delete();
                         }
                       });
                       
-
-                       
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
@@ -144,7 +142,7 @@ class ReportState extends State<Report> {
                   ElevatedButton(
                     onPressed: () async {
                       setState(() {
-                        String postCollection = '';
+                        var postCollection = '';
 
                         if (postChannel == 'FOOD') {
                           postCollection = 'food_posts';
@@ -165,7 +163,7 @@ class ReportState extends State<Report> {
                             .collection('developer_posts')
                             .doc(postid)
                             .set({'reported': reported});
-                            db.collection("posts").doc(postid).delete();
+                            db.collection('posts').doc(postid).delete();
                             db.collection(postCollection).doc(postid).delete();
                         }
                       });

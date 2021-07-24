@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/models/post.dart';
 import 'package:unilyfe_app/page/create_posts/locations_list.dart';
 
 class ReviewsButton extends StatelessWidget {

@@ -117,9 +117,6 @@ class CommentsPageState extends State<CommentsPage> {
           secondText: 'No');
       await showDialog(
           context: context, builder: (BuildContext context) => dialog);
-      wordsFound.forEach((element) {
-        print(element);
-      });
     }
 
     if (postIt) {
@@ -243,7 +240,7 @@ class Comment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
    Widget circleAvatarChild;
-    if (picturepath != "\"\"") {
+    if (picturepath != '\"\"') {
       circleAvatarChild = Container();
     } else {
       circleAvatarChild = Text(displayName[0].toUpperCase(),
@@ -280,8 +277,7 @@ class Comment extends StatelessWidget {
                             .doc(postid)
                             .collection('comments')
                             .doc(commentid)
-                            .delete()
-                            .then((value) => print("success"));
+                            .delete();
                       },
                       firstText: 'Yes',
                       secondText: 'No');

@@ -10,8 +10,8 @@ class FoodViewState extends StatefulWidget {
 }
 
 class FoodView extends State<FoodViewState> {
-  @override
   bool hasBeenPressed = false;
+  @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
@@ -19,10 +19,8 @@ class FoodView extends State<FoodViewState> {
           Row(
             children: <Widget>[
               Spacer(),
-              //RandomizePage(),
               buildRandomizeButton(),
               Spacer(),
-              //RevertPage(),
               buildRevertButton(),
               Spacer(),
               InformationButtonFood(),
@@ -53,7 +51,6 @@ class FoodView extends State<FoodViewState> {
 
     // the user clicked the "randomized" button
     if (hasBeenPressed == true) {
-      print('randomize SHOULDVE been clicked!');
       yield* FirebaseFirestore.instance.collection('food_posts').snapshots();
     } else {
       yield* FirebaseFirestore.instance
@@ -64,24 +61,17 @@ class FoodView extends State<FoodViewState> {
 
     // the user clicked the "revert" button
     if (hasBeenPressed == false) {
-      print('revert SHOULDVE been clicked!');
       yield* FirebaseFirestore.instance
           .collection('food_posts')
           .orderBy('time', descending: true)
           .snapshots();
     }
-
-    // .collection("userData")
-    // .doc(uid)
-    // .collection("posts")
-    // .snapshots();
   }
 
   // Randomizing Posts
-  onPressed() {
+  dynamic onPressed() {
     setState(() {
       hasBeenPressed = !hasBeenPressed;
-      //print('on press: the randomized button has been clicked');
     });
   }
 
@@ -102,10 +92,9 @@ class FoodView extends State<FoodViewState> {
   }
 
   // Reverting Posts
-  onPressed_2() {
+  dynamic onPressed_2() {
     setState(() {
       hasBeenPressed = !hasBeenPressed;
-      //print('on press: the revert button has been clicked');
     });
   }
 

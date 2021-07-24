@@ -3,17 +3,12 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart' as fire_auth;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
-import 'package:unilyfe_app/customized_items/buttons/comment_history.dart';
-import 'package:unilyfe_app/customized_items/buttons/lets_go_button.dart';
-import 'package:unilyfe_app/customized_items/buttons/logout_button.dart';
 import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
 import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
 import 'package:unilyfe_app/models/User.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
-//import 'package:network/network.dart';
 
 String year = '';
 
@@ -33,15 +28,9 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _displayNameController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
-  final TextEditingController _profilePictureController =
-      TextEditingController();
-  final TextEditingController _covidController = TextEditingController();
-  final TextEditingController _locationController = TextEditingController();
   TextEditingController _classesController = TextEditingController(text: '');
   TextEditingController _hobbiesController = TextEditingController(text: '');
   bool circular = false;
-  PickedFile _imageFile;
-  //final _globalkey = GlobalKey<FormState>();
   final ImagePicker _picker = ImagePicker();
   File profilePicture;
   String profilePicturePath;
@@ -200,7 +189,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _determineImageProfile(String profilePicturePath) {
     //if profile pic exists
-    if (profilePicturePath != "\"\"") {
+    if (profilePicturePath != '\"\"') {
       return Container();
       //if profile pic doesnt exist
     } else {
@@ -219,7 +208,7 @@ class _ProfilePageState extends State<ProfilePage> {
               future: _getProfileData(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.done) {
-                  Widget circleAvatarChild =
+                  var circleAvatarChild =
                       _determineImageProfile(profilePicturePath);
                   return Column(
                     children: [
@@ -253,8 +242,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ],
                   );
-                } else
+                } else {
                   return buildLoading();
+                }
               }),
         ]
         // ),
@@ -282,25 +272,25 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 20,
           ),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+            // ignore: deprecated_member_use
             FlatButton.icon(
               icon: Icon(Icons.camera),
               onPressed: () {
                 takePhoto(ImageSource.camera);
-                print("pressed photo icon");
               },
-              label: Text("Camera",
+              label: Text('Camera',
                   style: TextStyle(
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.bold,
                   )),
             ),
+            // ignore: deprecated_member_use
             FlatButton.icon(
               icon: Icon(Icons.image),
               onPressed: () {
                 takePhoto(ImageSource.gallery);
-                print("pressed photo icon");
               },
-              label: Text("Gallery",
+              label: Text('Gallery',
                   style: TextStyle(
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.bold,
@@ -313,17 +303,15 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           TextButton(
             onPressed: () async {
-              print('Pressed');
               setState(() {
-                profilePicturePath = "\"\"";
+                profilePicturePath = '\"\"';
               });
-              print("profilePicturePath: " + profilePicturePath);
               final uid = await Provider.of(context).auth.getCurrentUID();
               await Provider.of(context)
                   .db
                   .collection('userData')
                   .doc(uid)
-                  .update({'profilepicture': "\"\""});
+                  .update({'profilepicture': '\"\"'});
             },
             child: Text(
               'Remove Current Profile Photo',
@@ -344,11 +332,8 @@ class _ProfilePageState extends State<ProfilePage> {
       source: source,
     );
     setState(() {
-      _imageFile = pickedFile;
-      print('_imageFile: $_imageFile');
     });
     final uid = await Provider.of(context).auth.getCurrentUID();
-    print('here sending the pic to the database');
     await Provider.of(context)
         .db
         .collection('userData')
@@ -531,7 +516,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   // ignore: always_declare_return_types
   _getProfileData() async {
-    print("HERE");
     final uid = await Provider.of(context).auth.getCurrentUID();
     await db.collection('userData').doc(uid).get().then((result) {
       user.username = result['username'].toString();
@@ -563,12 +547,10 @@ class _ProfilePageState extends State<ProfilePage> {
     var username = email.substring(0, email.indexOf('@'));
     var num = 1;
     if (!await usernameCheck(username)) {
-      print(username + ' exists');
       while (!await usernameCheck(username + num.toString())) {
         num += 1;
       }
     }
-    print(username);
     return username +
         num.toString() +
         ' ' +
@@ -677,11 +659,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             await Provider.of(context).auth.getCurrentUID();
                         if (_usernameController.text != null &&
                             _usernameController.text != '') {
-                          print(_currentUsername);
-                          print(_usernameController.text);
                           if ((_currentUsername != _usernameController.text) &&
                               !await usernameCheck(_usernameController.text)) {
-                            print('ALREADY TAKEN');
                             showAlertDialog(context);
                             _validUsername = false;
                           } else {
@@ -704,7 +683,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         if (_displayNameController.text != null &&
                             _displayNameController.text != '') {
                           user.displayName = _displayNameController.text;
-                          print(_displayNameController.text);
                           setState(() {
                             _displayNameController.text = user.displayName;
                           });
@@ -717,7 +695,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         if (_bioController.text != null &&
                             _bioController.text != '') {
                           user.bio = _bioController.text;
-                          print(_bioController.text);
                           setState(() {
                             _bioController.text = user.bio;
                           });
@@ -742,7 +719,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         if (_hobbiesController.text != null ||
                             _hobbiesController.text != '') {
                           user.hobbies = (_hobbiesController.text.split(', '));
-                          print("hobbies: " + _hobbiesController.text);
                           setState(() {
                             user.hobbies =
                                 (_hobbiesController.text.split(', '));
@@ -758,7 +734,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         if (_classesController.text != null ||
                             _classesController.text != '') {
                           user.classes = (_classesController.text.split(', '));
-                          print("classes: " + _classesController.text);
                           setState(() {
                             user.classes =
                                 (_classesController.text.split(', '));
@@ -772,7 +747,6 @@ class _ProfilePageState extends State<ProfilePage> {
                           });
                         }
                         if (_validUsername) {
-                          print("username is valid?");
                           Navigator.of(context).pop();
                         }
                       },
@@ -792,6 +766,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return Column(children: <Widget>[
       FutureBuilder(
           future: _getProfileData(),
+          // ignore: missing_return
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               _classesController = TextEditingController(
@@ -920,15 +895,8 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
                   user.year = newValue;
                   setState(() {
                     year = newValue;
-                    //print('global variable year: ' + year);
                     dropdownValue = newValue;
                   });
-                  /*final uid = await Provider.of(context).auth.getCurrentUID();
-                  await Provider.of(context)
-                      .db
-                      .collection('userData')
-                      .doc(uid)
-                      .update({"year": dropdownValue});*/
                 },
                 items: <String>['freshman', 'sophomore', 'junior', 'senior']
                     .map<DropdownMenuItem<String>>((String value) {

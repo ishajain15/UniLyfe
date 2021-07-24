@@ -5,10 +5,6 @@ import 'package:unilyfe_app/models/event_post.dart';
 import 'package:unilyfe_app/page/notifications/local_notifications_helper.dart';
 import 'package:unilyfe_app/page/notifications/second_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:unilyfe_app/models/event_post.dart';
-import 'package:unilyfe_app/widgets/provider_widget.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 int selection = 0;
@@ -40,19 +36,6 @@ class _LocalNotificationWidgetState extends State<EventForm> {
         context,
         MaterialPageRoute(builder: (context) => SecondPage(payload: payload)),
       );
-  // get_snapshots() async {
-  //   var beginningDate = DateTime.now();
-  //   var newDate=beginningDate.subtract(Duration(days: 5));
-  //   QuerySnapshot qShot = await FirebaseFirestore.instance
-  //   .collection('event_posts')
-  //   .where('event_date',isGreaterThanOrEqualTo:newDate)
-  //   .where('event_date',isLessThanOrEqualTo:beginningDate)
-  //   .get().catchError((onError){print(onError);});
-  //   var docs = qShot.docs;
-  //   for (var i in docs){
-  //     print(i.data()['title'].toString());
-  //   }
-  // }
   @override
   Widget build(BuildContext context){
       return Scaffold(
@@ -134,7 +117,6 @@ class _LocalNotificationWidgetState extends State<EventForm> {
               } else if (selection == 1) {
                 channel = 'STUDY';
               } else {
-                print(selection);
                 channel = 'SOCIAL';
               }
 
@@ -145,27 +127,23 @@ class _LocalNotificationWidgetState extends State<EventForm> {
 
               post.postid = doc.id;
               post.location = _location;
-              DateFormat format = DateFormat("MM/dd/yyyy");
+              var format = DateFormat('MM/dd/yyyy');
               post.event_date = format.parse(_event_date);
               await db.collection('userData').doc(uid).get().then((result) {
                 post.username = result['username'];
               });
 
-              //DocumentReference channel;
               if (selection == 0) {
-                //await db.collection("food_posts").add(post.toJson());
                 await db
                     .collection('food_posts')
                     .doc(doc.id)
                     .set(post.toJson());
               } else if (selection == 1) {
-                //await db.collection("study_posts").add(post.toJson());
                 await db
                     .collection('study_posts')
                     .doc(doc.id)
                     .set(post.toJson());
               } else {
-                //await db.collection("social_posts").add(post.toJson());
                 await db
                     .collection('social_posts')
                     .doc(doc.id)
@@ -182,25 +160,21 @@ class _LocalNotificationWidgetState extends State<EventForm> {
                     .collection('event_posts')
                     .doc(doc.id)
                     .set(post.toJson());
-              //  Navigator.of(context).popUntil((route) => route.isFirst);
-              //  Navigator.of(context).popUntil((route) => route.isFirst);
-              
+                    
                var beginningDate = DateTime.now();
     var newDate=beginningDate.add(Duration(days: 1));
-    QuerySnapshot qShot = await FirebaseFirestore.instance
+    var qShot = await FirebaseFirestore.instance
     .collection('event_posts')
     .where('event_date',isLessThanOrEqualTo:newDate)
     .where('event_date',isGreaterThanOrEqualTo:beginningDate)
     .get().catchError((onError){print(onError);});
     var docs = qShot.docs;
-    String words = '';
+    var words = '';
     for (var i in docs){
       words += i.data()['title'].toString() + ', ';
     }
-    showOngoingNotification(notifications,title: 'Upcoming events 1 day away', body: words);
-              // showOngoingNotification(notifications,title: 'Tite', body: 'Body');
+    await showOngoingNotification(notifications,title: 'Upcoming events 1 day away', body: words);
               Navigator.pop(context);
-              // Navigator.pushReplacement(context,MaterialPageRoute(builder: (_) => CreatePage())).then((_) => refresh());
             },
             child: Text('SUBMIT'),
           ),
@@ -267,7 +241,6 @@ class _MyAppState extends State<MyAppOne> {
               isSelected[i] = i == index;
               if (isSelected[i] == true) {
                 selection = i;
-                print('INDEX: $i');
               }
             }
           });

@@ -87,9 +87,6 @@ class NewPostLocationView extends StatelessWidget {
                   await showDialog(
                       context: context,
                       builder: (BuildContext context) => dialog);
-                  wordsFound.forEach((element) {
-                    print(element);
-                  });
                 }
 
                 if (postIt) {

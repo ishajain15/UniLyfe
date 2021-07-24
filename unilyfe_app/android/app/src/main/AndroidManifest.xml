@@ -5,7 +5,7 @@
         android:label="unilyfe_app"
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
-              android:value="AIzaSyBjKNbsOeQy02gc3-Ikz0MxDlyDkgpuUOk" />
+              android:value="AIzaSyBW_0mCRvtAq9Pb5KxbsxznM7lgM06kjic" />
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

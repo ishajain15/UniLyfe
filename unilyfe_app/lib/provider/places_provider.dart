@@ -1,19 +1,15 @@
 import 'dart:convert';
-import 'dart:io';
-
-import 'package:google_api_headers/google_api_headers.dart';
-import 'package:google_maps_webservice/places.dart';
 import 'package:http/http.dart';
 
 class Place {
+  Place(
+      {this.streetNumber, this.street, this.city, this.zipCode, this.placeId});
+
   String streetNumber;
   String street;
   String city;
   String zipCode;
   String placeId;
-
-  Place(
-      {this.streetNumber, this.street, this.city, this.zipCode, this.placeId});
 
   @override
   String toString() {
@@ -22,10 +18,10 @@ class Place {
 }
 
 class Suggestion {
+  Suggestion(this.placeId, this.description);
+
   final String placeId;
   final String description;
-
-  Suggestion(this.placeId, this.description);
 
   @override
   String toString() {
@@ -34,16 +30,15 @@ class Suggestion {
 }
 
 class PlaceApiProvider {
-  final client = Client();
-
   PlaceApiProvider(this.sessionToken);
+
+  final client = Client();
 
   final sessionToken;
 
   static final String androidKey = 'YOUR_API_KEY_HERE';
   static final String iosKey = 'YOUR_API_KEY_HERE';
-  //final apiKey = Platform.isAndroid ? androidKey : iosKey;
-  final apiKey = "AIzaSyBjKNbsOeQy02gc3-Ikz0MxDlyDkgpuUOk";
+  final apiKey = 'AIzaSyBW_0mCRvtAq9Pb5KxbsxznM7lgM06kjic';
 
   Future<List<Suggestion>> fetchSuggestions(String input, String lang) async {
     final request =

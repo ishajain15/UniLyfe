@@ -1,11 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 class AddFriendButton extends StatelessWidget {
-  @override
   final db = FirebaseFirestore.instance;
   
+  @override
   Widget build(BuildContext context) => Container(
         padding: EdgeInsets.all(4),
         child: ElevatedButton(

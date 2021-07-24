@@ -85,16 +85,12 @@ class LikeState extends State<Likes> {
   DateTime event_date;
   final db = FirebaseFirestore.instance;
   // ignore: always_declare_return_types
-  //
 
-  getLikeData() async {
+  dynamic getLikeData() async {
     current_uid = await Provider.of(context).auth.getCurrentUID();
   }
 
   Widget displayLikeButton(context, snapshot) {
-    // print('in display like button');
-    // ignore: unused_local_variable
-    final authData = snapshot.data;
     return Column(
       children: <Widget>[
         FutureBuilder(
@@ -102,7 +98,6 @@ class LikeState extends State<Likes> {
             // ignore: missing_return
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-                // print('current_uid: ' + current_uid);
                 var liked = map_liked[current_uid] == true;
                 return IconButton(
                     icon: Icon(
@@ -115,23 +110,14 @@ class LikeState extends State<Likes> {
             }),
       ],
     );
-    /*print('current_uid: ' + current_uid);
-    print('here!');
-    var liked = map_liked[current_uid] == true;
-    return IconButton(
-      icon: Icon(liked ? Icons.favorite : Icons.favorite_border,
-          color: liked ? Colors.red : Colors.grey),
-      onPressed: () => handleLikePost(),
-    );*/
   }
 
-  handleLikePost() async {
+  dynamic handleLikePost() async {
     current_uid = await Provider.of(context).auth.getCurrentUID();
     var isliked = map_liked[current_uid] == true;
     liked = map_liked[current_uid] == true;
-    var doc = db.collection('liked_posts').doc();
 
-    String postCollection = '';
+    var postCollection = '';
 
     if (postChannel == 'FOOD') {
       postCollection = 'food_posts';
@@ -163,23 +149,16 @@ class LikeState extends State<Likes> {
           .doc(postid)
           .update({'map_liked.$current_uid': false});
       setState(() {
-        // likes -= 1;
         liked = false;
         map_liked[current_uid] = false;
       });
-      print("UNLIKED!");
-      print("post id: " + postid);
 
-      //db.collection("cities").doc("DC").delete()
       await db
           .collection('userData')
           .doc(current_uid)
           .collection('liked_posts')
           .doc(postid)
           .delete();
-      //.collection('liked_posts').where('postid', isEqualTo: postid)
-      //.get();
-      //.delete();
 
     } else if (!isliked) {
       likes += 1;
@@ -209,60 +188,20 @@ class LikeState extends State<Likes> {
         map_liked[current_uid] = true;
       });
 
-      print("LIKED!");
-
-      Post post = Post(postid, title, time, text, postChannel, uid, likes,
+      var post = Post(postid, title, time, text, postChannel, uid, likes,
           liked, map_liked, username, location, event_date, null, null, null);
-
-      //Post post = Provider.of(context).db.collection('posts').doc(postid).get();
-      /*String title = '';
-       Post post = Post('', '', DateTime.now(), '', '', '', 0, true, Map());
-       await db.collection('posts').doc(postid).get().then((result) {
-         post.postid = result['postid'].toString();
-         post.title = result['title'].toString();
-         post.time = result['time'];
-         post.text = result['text'].toString();
-         post.postChannel = result['postChannel'].toString();
-         post.uid = result['uid'].toString();
-         post.likes = result['likes'];
-         post.liked = result['liked'];
-         post.map_liked = result['map_liked'];
-         title = result['title'].toString();
-       });*/
-
-      /* 'postid': postid,
-        'postType': 0,
-        'title': title,
-        'time': time,
-        'text': text,
-        'postChannel': postChannel,
-        'uid': uid,
-        'likes': likes,
-        'liked': liked,
-        'map_liked':map_liked */
 
       await db
           .collection('userData')
           .doc(current_uid)
           .collection('liked_posts')
-          //.doc(doc.id)
           .doc(postid)
           .set(post.toJson());
-      //.set({'title' : title});
-      //.set(db.collection('posts').doc(postid));
     }
   }
 
   @override
   FutureBuilder build(BuildContext context) {
-    //current_uid = await Provider.of(context).auth.getCurrentUID();
-    /*var liked = map_liked[current_uid] == true;
-    liked ? print('this post is liked!') : print('this post is not liked!');
-    return IconButton(
-      icon: Icon(liked ? Icons.favorite : Icons.favorite_border,
-          color: liked ? Colors.red : Colors.grey),
-      onPressed: () => handleLikePost(),
-    );*/
     return FutureBuilder(
       future: Provider.of(context).auth.getCurrentUID(),
       builder: (context, snapshot) {

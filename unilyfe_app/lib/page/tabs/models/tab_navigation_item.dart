@@ -4,9 +4,7 @@ import 'package:unilyfe_app/page/home_page.dart';
 import 'package:unilyfe_app/page/search_page.dart';
 import 'package:unilyfe_app/page/create_page.dart';
 import 'package:unilyfe_app/page/corona_page.dart';
-import 'package:unilyfe_app/page/profile_page.dart';
 import 'package:unilyfe_app/page/profile_home_page.dart';
-import 'package:unilyfe_app/views/friend_card.dart';
 
 
 

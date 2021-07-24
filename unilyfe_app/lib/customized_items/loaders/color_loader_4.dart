@@ -58,7 +58,6 @@ class _ColorLoader4State extends State<ColorLoader4>
 
     controller.addListener(() {
       setState(() {
-        //print(animation_1.value);
       });
     });
 

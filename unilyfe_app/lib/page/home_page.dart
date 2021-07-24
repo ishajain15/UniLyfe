@@ -5,13 +5,9 @@ import 'package:unilyfe_app/views/home_view.dart';
 import 'package:unilyfe_app/views/review_view.dart';
 import 'package:unilyfe_app/views/social_view.dart';
 import 'package:unilyfe_app/views/study_view.dart';
-import 'package:unilyfe_app/views/liked_posts_view.dart';
-//import 'package:unilyfe_app/provider/google_sign_in.dart';
-//import 'package:unilyfe_app/page/profile_page.dart';
 
 class HomePage extends StatelessWidget {
   static Route<dynamic> route() => MaterialPageRoute(
-        //builder: (context) => HomePage(),
         builder: (context) => HomePage(),
       );
   @override

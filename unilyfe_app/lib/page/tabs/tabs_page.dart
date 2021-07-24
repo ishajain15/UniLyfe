@@ -3,9 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:unilyfe_app/customized_items/buttons/incentives_button.dart';
 import 'package:unilyfe_app/page/tabs/models/tab_navigation_item.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
-import 'package:firebase_auth/firebase_auth.dart' as fire_auth;
-import 'package:unilyfe_app/models/User.dart';
-import 'package:unilyfe_app/page/profile_page.dart';
 
 class TabsPage extends StatefulWidget {
   @override
@@ -50,16 +47,6 @@ class _TabsPageState extends State<TabsPage> {
             title:
                 Image.asset('assets/unilyfe_logo.png', width: 300, height: 55),
             backgroundColor: const Color(0xFFFFFFFF),
-            /*bottom: TabBar(
-              labelColor: const Color(0xFFF56D6B),
-              tabs: [
-                Tab(text: "ALL"),
-                Tab(text: "FOOD"),
-                Tab(text: "STUDY"),
-                Tab(text: "SOCIAL"),
-              ],
-              unselectedLabelColor: Colors.grey,
-            ),*/
           ),
           body: IndexedStack(
             index: _currentIndex,
@@ -67,15 +54,6 @@ class _TabsPageState extends State<TabsPage> {
               for (final tabItem in TabNavigationItem.items) tabItem.page,
             ],
           ),
-
-          /*TabBarView(
-            children: [
-              Icon(Icons.directions_car),
-              Icon(Icons.directions_transit),
-              Icon(Icons.directions_bike),
-              Icon(Icons.directions_bike),
-            ],
-          ),*/
 
           bottomNavigationBar: BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
@@ -154,7 +132,6 @@ class _TabsPageState extends State<TabsPage> {
                 context,
                 MaterialPageRoute(builder: (context) => PointsRules()),
               );
-              print('Point System Page pressed');
             },
           ),
           ListTile(
@@ -172,7 +149,6 @@ class _TabsPageState extends State<TabsPage> {
                 context,
                 MaterialPageRoute(builder: (context) => COVIDLegend()),
               );
-              print('COVID Map Legend pressed');
             },
           ),
           ListTile(
@@ -190,7 +166,6 @@ class _TabsPageState extends State<TabsPage> {
                 context,
                 MaterialPageRoute(builder: (context) => IncentivesPage()),
               );
-              print('Incentives page pressed');
             },
           ),
           ListTile(
@@ -208,7 +183,6 @@ class _TabsPageState extends State<TabsPage> {
                 context,
                 MaterialPageRoute(builder: (context) => HelpTab()),
               );
-              print('Help Page pressed');
             },
           ),
            ListTile(
@@ -226,7 +200,6 @@ class _TabsPageState extends State<TabsPage> {
                 context,
                 MaterialPageRoute(builder: (context) => FAQTab()),
               );
-              print('FAQ Page pressed');
             },
           ),
           ListTile(
@@ -244,7 +217,6 @@ class _TabsPageState extends State<TabsPage> {
                 context,
                 MaterialPageRoute(builder: (context) => StickersRules()),
               );
-              print('Awards Page pressed');
             },
           ),
         ],
@@ -490,6 +462,7 @@ class PointsRules extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class StickersRules extends StatelessWidget {
   Widget pad = Container(
     padding: const EdgeInsets.all(16),

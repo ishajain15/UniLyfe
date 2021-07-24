@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_social.dart';
-import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
-import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:unilyfe_app/views/home_view.dart';
 
@@ -12,8 +10,9 @@ class SocialViewState extends StatefulWidget {
 }
 
 class SocialView extends State<SocialViewState> {
-  @override
   bool hasBeenPressed = false;
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
@@ -55,7 +54,6 @@ class SocialView extends State<SocialViewState> {
 
     // the user clicked the "randomized" button
     if (hasBeenPressed == true) {
-      print('randomize SHOULDVE been clicked!');
       yield* FirebaseFirestore.instance.collection('social_posts').snapshots();
     } else {
       yield* FirebaseFirestore.instance
@@ -66,24 +64,17 @@ class SocialView extends State<SocialViewState> {
 
     // the user clicked the "revert" button
     if (hasBeenPressed == false) {
-      print('revert SHOULDVE been clicked!');
       yield* FirebaseFirestore.instance
           .collection('social_posts')
           .orderBy('time', descending: true)
           .snapshots();
     }
-
-    // .collection("userData")
-    // .doc(uid)
-    // .collection("posts")
-    // .snapshots();
   }
 
   // Randomizing Posts
-  onPressed() {
+  dynamic onPressed() {
     setState(() {
       hasBeenPressed = !hasBeenPressed;
-      //print('on press: the randomized button has been clicked');
     });
   }
 
@@ -104,10 +95,9 @@ class SocialView extends State<SocialViewState> {
   }
 
   // Reverting Posts
-  onPressed_2() {
+  dynamic onPressed_2() {
     setState(() {
       hasBeenPressed = !hasBeenPressed;
-      //print('on press: the revert button has been clicked');
     });
   }
 

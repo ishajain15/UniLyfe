@@ -95,7 +95,6 @@ class AuthProvider {
     //idea to ensure it is college email over here
     //check if domain is college email, if not sign out and never update on firebase
     if (!isCollegeEmail(domain(account.email))) {
-      print('GOOGLE EMAIL IS NOT COLLEGE EMAIL: ' + account.email);
       await _googleSignIn.signOut();
       return null;
     }

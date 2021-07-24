@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/page/comments_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:intl/intl.dart';
 
@@ -10,16 +9,6 @@ class CommentHistoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*appBar: AppBar(
-        iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
-        ),
-        title: Text(
-          'COMMENT HISTORY',
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Colors.white,
-      ),*/
       body: Column(
         children: <Widget>[
           Expanded(

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/customized_items/buttons/information_button_study.dart';
-import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
-import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
 import 'package:unilyfe_app/views/home_view.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
@@ -12,8 +10,9 @@ class StudyViewState extends StatefulWidget {
 }
 
 class StudyView extends State<StudyViewState> {
-  @override
   bool hasBeenPressed = false;
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       child: Column(
@@ -35,8 +34,9 @@ class StudyView extends State<StudyViewState> {
             child: StreamBuilder(
                 stream: getUserPostsStreamSnapshots(context),
                 builder: (context, snapshot) {
-                  if (!snapshot.hasData)
-                    return buildLoading(); //const Text('Loading...');
+                  if (!snapshot.hasData) {
+                    return buildLoading();
+                  } 
                   return ListView.builder(
                       itemCount: snapshot.data.docs.length,
                       itemBuilder: (BuildContext context, int index) =>
@@ -56,7 +56,6 @@ class StudyView extends State<StudyViewState> {
 
     // the user clicked the "randomized" button
     if (hasBeenPressed == true) {
-      print('randomize SHOULDVE been clicked!');
       yield* FirebaseFirestore.instance.collection('study_posts').snapshots();
     } else {
       yield* FirebaseFirestore.instance
@@ -67,7 +66,6 @@ class StudyView extends State<StudyViewState> {
 
     // the user clicked the "revert" button
     if (hasBeenPressed == false) {
-      print('revert SHOULDVE been clicked!');
       yield* FirebaseFirestore.instance
           .collection('study_posts')
           .orderBy('time', descending: true)
@@ -81,10 +79,9 @@ class StudyView extends State<StudyViewState> {
   }
 
   // Randomizing Posts
-  onPressed() {
+  dynamic onPressed() {
     setState(() {
       hasBeenPressed = !hasBeenPressed;
-      //print('on press: the randomized button has been clicked');
     });
   }
 
@@ -105,10 +102,9 @@ class StudyView extends State<StudyViewState> {
   }
 
   // Reverting Posts
-  onPressed_2() {
+  dynamic onPressed_2() {
     setState(() {
       hasBeenPressed = !hasBeenPressed;
-      //print('on press: the revert button has been clicked');
     });
   }
 

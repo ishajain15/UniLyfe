@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -106,14 +104,12 @@ class PollForm extends StatelessWidget {
               } else if (selection == 1) {
                 channel = 'STUDY';
               } else {
-                print(selection);
                 channel = 'SOCIAL';
               }
 
               final uid = await Provider.of(context).auth.getCurrentUID();
               var doc = db.collection('posts').doc();
-              Map<String, dynamic> users = {'uid':1};
-              //  final PollPost post = new PollPost(_question, DateTime.now(), _option1, true, "Food", uid);
+              var users = <String, dynamic>{'uid':1};
               final post = PollPost(doc.id, _question, DateTime.now(), _option1,
                   channel, uid, 0, false, {uid: false}, null, null, null, null, users, null);
               post.postid = doc.id;
@@ -132,19 +128,16 @@ class PollForm extends StatelessWidget {
 
               //DocumentReference channel;
               if (selection == 0) {
-                //await db.collection("food_posts").add(post.toJson());
                 await db
                     .collection('food_posts')
                     .doc(doc.id)
                     .set(post.toJson());
               } else if (selection == 1) {
-                //await db.collection("study_posts").add(post.toJson());
                 await db
                     .collection('study_posts')
                     .doc(doc.id)
                     .set(post.toJson());
               } else {
-                //await db.collection("social_posts").add(post.toJson());
                 await db
                     .collection('social_posts')
                     .doc(doc.id)
@@ -157,13 +150,8 @@ class PollForm extends StatelessWidget {
                   .collection('poll_posts')
                   .doc(doc.id)
                   .set(post.toJson());
-              //  Navigator.of(context).popUntil((route) => route.isFirst);
-              //  Navigator.of(context).popUntil((route) => route.isFirst);
               Navigator.pop(context);
-              // Navigator.pushReplacement(context,MaterialPageRoute(builder: (_) => CreatePage())).then((_) => refresh());
             },
-            //   child: Text("Post"),
-            //  onPressed: () async{
             child: Text('SUBMIT'),
           ),
         ],
@@ -199,7 +187,6 @@ class _MyAppState extends State<MyAppOne> {
               isSelected[i] = i == index;
               if (isSelected[i] == true) {
                 selection = i;
-                print('INDEX: $i');
               }
             }
           });

@@ -61,7 +61,7 @@ class UserNameState extends State<UserName> {
         });
   }
 
-  getUserData() async {
+  dynamic getUserData() async {
     await db.collection('userData').doc(uid).get().then((result) {
       //user.username = result['username'].toString();
       user.displayName = result['displayName'].toString();
@@ -73,16 +73,12 @@ class UserNameState extends State<UserName> {
     });
   }
 
-  displayUserData(context, snapshot) {
+ dynamic displayUserData(context, snapshot) {
     return Column(children: <Widget>[
       FutureBuilder(
           future: getUserData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {}
-            print('user displayname:' + user.displayName);
-            print('user bio:' + user.bio);
-            print('user year:' + user.year);
-
             return Container(
                 padding: const EdgeInsets.all(32),
                 child: Column(
@@ -176,12 +172,12 @@ class UserNameState extends State<UserName> {
           padding: EdgeInsets.zero,
           minimumSize: Size(50, 30),
         ),
+        onPressed: () => bottom_Sheet(context),
         child: Text(username,
             style: TextStyle(
                 fontSize: 16,
                 color: Color(0xFFF46C6B),
-                fontWeight: FontWeight.bold)),
-        onPressed: () => bottom_Sheet(context));
+                fontWeight: FontWeight.bold)));
   }
 }
 

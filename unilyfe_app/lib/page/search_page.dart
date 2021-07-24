@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart' as fire_auth;
 import 'package:unilyfe_app/views/friend_card.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 import 'package:unilyfe_app/views/home_view.dart';
@@ -11,18 +10,14 @@ import 'package:unilyfe_app/views/home_view.dart';
 var titlesList = [];
 final db = FirebaseFirestore.instance;
 
+// ignore: missing_return
 Widget realGetTitles() {
-  int index = 0;
   db.collection('posts').get().then((QuerySnapshot querySnapshot) {
     querySnapshot.docs.forEach((doc) {
-      //titlesList[index] = (Text(doc['title'].toString()));
       var title = doc['title'].toString();
       var postid = doc['postid'].toString();
       var entry = title + '=' + postid;
-      //titlesList.add(doc['title'].toString());
       titlesList.add(entry);
-      //print(doc["title"]);
-      index++;
     });
   });
 }
@@ -55,7 +50,7 @@ class SearchPage extends StatelessWidget {
       body: Column(children: [
         Container(
           padding: const EdgeInsets.all(16),
-          child: Text("Suggested Besties: ",
+          child: Text('Suggested Besties: ',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.black,
@@ -99,21 +94,19 @@ class SearchPage extends StatelessWidget {
 class DataSearch extends SearchDelegate<String> {
   DocumentSnapshot postDocument;
 
-  getPost(postid) async {
+  dynamic getPost(postid) async {
     await db
         .collection('posts')
         .doc(postid)
         .get()
         .then((DocumentSnapshot documentSnapshot) {
       if (documentSnapshot.exists) {
-        //return HomeView().buildPostCard(context, documentSnapshot);
-        //print('post title: ' + documentSnapshot['title'].toString());
         postDocument = documentSnapshot;
       }
     });
   }
 
-  generatePost(context, snapshot, postid) {
+  dynamic generatePost(context, snapshot, postid) {
     return FutureBuilder(
         future: getPost(postid),
         builder: (context, snapshot) {
@@ -137,7 +130,6 @@ class DataSearch extends SearchDelegate<String> {
             query = '';
           })
     ];
-    throw UnimplementedError();
   }
 
   @override
@@ -153,13 +145,10 @@ class DataSearch extends SearchDelegate<String> {
           titlesList = [];
           realGetTitles();
         });
-    throw UnimplementedError();
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    //print(chosen);
-    //return getPost(chosen);
     return FutureBuilder(
       future: Provider.of(context).auth.getCurrentUID(),
       builder: (context, snapshot) {
@@ -170,7 +159,6 @@ class DataSearch extends SearchDelegate<String> {
         }
       },
     );
-    throw UnimplementedError();
   }
 
   @override
@@ -207,7 +195,6 @@ class DataSearch extends SearchDelegate<String> {
       ),
       itemCount: suggestionList.length,
     );
-    throw UnimplementedError();
   }
 }
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:polls/polls.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
 
+// ignore: must_be_immutable
 class DisplayPosts extends StatefulWidget {
   DisplayPosts({Key key, @required this.options, @required this.title, @required this.postid, @required this.users, location}) : super(key: key);
   String postid;
@@ -52,7 +53,6 @@ class Posts extends State<DisplayPosts> {
       leadingBackgroundColor: Color(0xFFF56D6B),
       backgroundColor: Colors.white,
       onVote: (choice) {
-        print(choice);
         setState(() {
           Provider.of(context)
           .db

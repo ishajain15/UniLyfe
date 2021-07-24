@@ -11,8 +11,8 @@ class IncentivesButton extends StatelessWidget {
           onPressed: () async {
             final auth = Provider.of(context).auth;
             auth.setNewUser(false);
-            Navigator.of(context).pushReplacementNamed('/home');
-            String  current_uid = await Provider.of(context).auth.getCurrentUID();
+            await Navigator.of(context).pushReplacementNamed('/home');
+            var  current_uid = await Provider.of(context).auth.getCurrentUID();
             await db.collection('userData').doc(current_uid).update({'points_field': FieldValue.increment(-10)});
           },
           style: ElevatedButton.styleFrom(

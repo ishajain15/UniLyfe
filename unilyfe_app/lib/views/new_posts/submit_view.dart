@@ -44,12 +44,12 @@ class NewPostBudgetView extends StatelessWidget {
             MyAppOne(),
             ElevatedButton(
               onPressed: () async {
-                String uid = await Provider.of(context).auth.getCurrentUID();
+                var uid = await Provider.of(context).auth.getCurrentUID();
                 await db
                     .collection('userData')
                     .doc(uid)
                     .update({'points_field': FieldValue.increment(10)});
-                int user_points = 0;
+                var user_points = 0;
                 await db.collection('userData').doc(uid).get().then((result){
                   user_points = result['points_field'];
                 });
@@ -59,14 +59,13 @@ class NewPostBudgetView extends StatelessWidget {
                     .doc(uid)
                     .update({'awards_field': FieldValue.increment(1)});
                 }
-                await db.collection('userData').doc(uid);
+                db.collection('userData').doc(uid);
 
                 await db.collection('userData').doc(uid).get().then((result) {
                   post.username = result['username'];
                 });
 
                 // save data to firebase
-                //print("FINAL SELECTION ${selection}");
                 final filter = ProfanityFilter();
                 var hasProfanity = filter.hasProfanity(post.text);
                 var postIt = true;
@@ -93,9 +92,6 @@ class NewPostBudgetView extends StatelessWidget {
                   await showDialog(
                       context: context,
                       builder: (BuildContext context) => dialog);
-                  wordsFound.forEach((element) {
-                    print(element);
-                  });
                 }
 
                 if (selection == 0) {
@@ -177,7 +173,6 @@ class _MyAppState extends State<MyAppOne> {
               isSelected[i] = i == index;
               if (isSelected[i] == true) {
                 selection = i;
-                print('INDEX: $i');
               }
             }
           });

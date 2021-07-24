@@ -4,13 +4,10 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-//import 'package:unilyfe_app/customized_items/buttons/add_friend_button.dart';
-import 'package:unilyfe_app/customized_items/buttons/photo_posting_button.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
-import '../demo_values.dart';
 import '../main.dart';
 
-String friendUID = "";
+String friendUID = '';
 
 class FriendCards extends StatefulWidget {
   const FriendCards({Key key}) : super(key: key);
@@ -20,35 +17,14 @@ class FriendCards extends StatefulWidget {
 }
 
 class FriendCardsWidget extends State<FriendCards> {
-  String uid = "";
+  String uid = '';
   List<String> myClasses;
   List<String> myHobbies;
   final db = FirebaseFirestore.instance;
-  String friendDisplayName = "";
+  String friendDisplayName = '';
 
   @override
   Widget build(BuildContext context) {
-    /*FutureBuilder(
-      future: Provider.of(context).auth.getCurrentUID(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          return setUID(context);
-        } else {
-          return buildLoading();
-        }
-      },
-    );
-    return Flexible(
-      child: StreamBuilder(
-          stream: getFriendsStreamSnapshots(context),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) return buildLoading();
-            return ListView.builder(
-                itemCount: snapshot.data.docs.length,
-                itemBuilder: (BuildContext context, int index) =>
-                    buildFriendCard(context, snapshot.data.docs[index]));
-          }),
-    );*/
     return FutureBuilder(
       future: Provider.of(context).auth.getCurrentUID(),
       builder: (context, snapshot) {
@@ -61,7 +37,7 @@ class FriendCardsWidget extends State<FriendCards> {
     );
   }
 
-  getMyClassesAndHobbies(context) async {
+  dynamic getMyClassesAndHobbies(context) async {
     uid = await Provider.of(context).auth.getCurrentUID();
     await db.collection('userData').doc(uid).get().then((result) {
       myClasses = List.from(result['classes']);
@@ -106,30 +82,29 @@ class FriendCardsWidget extends State<FriendCards> {
     }
   }*/
 
-  @override
   Widget buildFriendCard(BuildContext context, DocumentSnapshot user) {
      if (user['uid'] == uid) {
       return Container();
     }
     Widget circleAvatarChild;
-    if (user['profilepicture'] != "\"\"") {
+    if (user['profilepicture'] != '\"\"') {
       circleAvatarChild = Container();
     } else {
       circleAvatarChild = Text(user['displayName'][0].toUpperCase(),
           style: TextStyle(
               fontSize: 50, fontWeight: FontWeight.bold, color: Colors.white));
     }
-    List<String> friendClasses = List.from(user['classes']);
-    List<String> friendHobbies = List.from(user['hobbies']);
+    var friendClasses = List<String>.from(user['classes']);
+    var friendHobbies = List<String>.from(user['hobbies']);
     friendUID = user['uid'];
-    List<String> sameClasses = [];
-    List<String> sameHobbies = [];
-    for (int i = 0; i < friendClasses.length; i++) {
+    var sameClasses = <String>[];
+    var sameHobbies = <String>[];
+    for (var i = 0; i < friendClasses.length; i++) {
       if (myClasses.contains(friendClasses[i])) {
         sameClasses.add(friendClasses[i]);
       }
     }
-    for (int i = 0; i < friendHobbies.length; i++) {
+    for (var i = 0; i < friendHobbies.length; i++) {
       if (myHobbies.contains(friendHobbies[i])) {
         sameHobbies.add(friendHobbies[i]);
       }
@@ -199,7 +174,7 @@ class FriendCardsWidget extends State<FriendCards> {
         ),
       ),
     );
-    if (sameClasses.length > 0 && sameHobbies.length > 0) {
+    if (sameClasses.isNotEmpty && sameHobbies.isNotEmpty) {
       return Flex(direction: Axis.horizontal, children: [
         Expanded(
           ///aspectRatio: 4 / 3,
@@ -240,7 +215,7 @@ class FriendCardsWidget extends State<FriendCards> {
                         Container(
                             padding: const EdgeInsets.all(8),
                             //child: addFriendButton(context, friendUID))
-                            child: addFriendButtonWidget())
+                            child: AddFriendButtonWidget())
                       ]),
                 ],
               ),
@@ -248,7 +223,7 @@ class FriendCardsWidget extends State<FriendCards> {
           ),
         )
       ]);
-    } else if (sameClasses.length > 0) {
+    } else if (sameClasses.isNotEmpty) {
       return Flex(direction: Axis.horizontal, children: [
         Expanded(
           ///aspectRatio: 4 / 3,
@@ -287,7 +262,7 @@ class FriendCardsWidget extends State<FriendCards> {
                         Container(
                             padding: const EdgeInsets.all(8),
                             //child: addFriendButton(context, friendUID)
-                            child: addFriendButtonWidget())
+                            child: AddFriendButtonWidget())
                       ]),
                 ],
               ),
@@ -295,7 +270,7 @@ class FriendCardsWidget extends State<FriendCards> {
           ),
         )
       ]);
-    } else if (sameHobbies.length > 0) {
+    } else if (sameHobbies.isNotEmpty) {
       return Flex(direction: Axis.horizontal, children: [
         Expanded(
           ///aspectRatio: 4 / 3,
@@ -334,7 +309,7 @@ class FriendCardsWidget extends State<FriendCards> {
                         Container(
                             padding: const EdgeInsets.all(8),
                             //child: addFriendButton(context, friendUID)
-                            child: addFriendButtonWidget())
+                            child: AddFriendButtonWidget())
                       ]),
                 ],
               ),
@@ -383,7 +358,7 @@ class FriendCardsWidget extends State<FriendCards> {
                         Container(
                             padding: const EdgeInsets.all(8),
                             //child: addFriendButton(context, friendUID)
-                            child: addFriendButtonWidget())
+                            child: AddFriendButtonWidget())
                       ]),
                 ],
               ),
@@ -430,54 +405,18 @@ class FriendCardsWidget extends State<FriendCards> {
     // .snapshots();
   }
 
-  addFriendButton(context, String friendUID) {
-    //String addFriend = 'Add Friend!';
-    //String added = 'Added!';
-    //bool addFriendBool = false;
-    //bool addedBool = true;
-
-    /*return Container(
-      padding: EdgeInsets.all(4),
-      child: ElevatedButton(
-        onPressed: () async {
-          print(friendUID);
-          print(uid);
-          await db
-              .collection('userData')
-              .doc(uid)
-              .collection('friends')
-              .doc(friendUID)
-              .set({'friendUID': friendUID});
-          setState(() {
-            addFriendBool = !addFriendBool;
-            print("addFriendBool: " + addFriendBool.toString());
-            addedBool = !addedBool;
-            print("addedBool: " + addedBool.toString());
-            //print('on press: the randomized button has been clicked');
-          });
-        },
-        style: ElevatedButton.styleFrom(
-          primary: Color(0xFFF46C6B),
-          onPrimary: Colors.white,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-        ),
-        child: Text(addFriendBool ? addFriend : added
-            //style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-      ),
-    );*/
+  dynamic addFriendButton(context, String friendUID) {
   }
 }
 
-class addFriendButtonWidget extends StatefulWidget {
-  const addFriendButtonWidget({Key key}) : super(key: key);
+class AddFriendButtonWidget extends StatefulWidget {
+  const AddFriendButtonWidget({Key key}) : super(key: key);
 
   @override
-  myAddFriendButton createState() => myAddFriendButton();
+  MyAddFriendButton createState() => MyAddFriendButton();
 }
 
-class myAddFriendButton extends State<addFriendButtonWidget> {
+class MyAddFriendButton extends State<AddFriendButtonWidget> {
   final db = FirebaseFirestore.instance;
   bool addFriendBool = true;
   bool addedBool = false;
@@ -487,21 +426,8 @@ class myAddFriendButton extends State<addFriendButtonWidget> {
   var friendsList = [];
   int stateSet = 0;
 
-  /*
-        FutureBuilder(
-          future: Provider.of(context).auth.getCurrentUID(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return _displayClasses(context, snapshot);
-            } else {
-              return buildLoading();
-            }
-          },
-        ),
-  */
-
-  getFriendState() async {
-    String uid = await Provider.of(context).auth.getCurrentUID();
+  dynamic getFriendState() async {
+    var uid = await Provider.of(context).auth.getCurrentUID();
     await db
         .collection('userData')
         .doc(uid)
@@ -509,22 +435,18 @@ class myAddFriendButton extends State<addFriendButtonWidget> {
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
-        //titlesList[index] = (Text(doc['title'].toString()));
         var friend = doc['friendUID'].toString();
-        //titlesList.add(doc['title'].toString());
         friendsList.add(friend);
       });
     });
     if (friendsList.contains(friendUIDLocal) && stateSet == 0) {
-      //print(friendUIDLocal);
-      //addFriendBool = !addFriendBool;
-      //addedBool = !addedBool;
       addFriendBool = false;
       addedBool = true;
     }
     stateSet = 0;
   }
 
+  @override
   Widget build(BuildContext context) {
     //return Container(
     return FutureBuilder(
@@ -535,7 +457,7 @@ class myAddFriendButton extends State<addFriendButtonWidget> {
             padding: EdgeInsets.all(4),
             child: ElevatedButton(
               onPressed: () async {
-                String uid = await Provider.of(context).auth.getCurrentUID();
+                var uid = await Provider.of(context).auth.getCurrentUID();
                 if (addFriendBool) {
                   await db
                       .collection('userData')
@@ -553,11 +475,8 @@ class myAddFriendButton extends State<addFriendButtonWidget> {
                 }
                 setState(() {
                   addFriendBool = !addFriendBool;
-                  // print("addFriendBool: " + addFriendBool.toString());
                   addedBool = !addedBool;
                   stateSet = 1;
-                  // print("addedBool: " + addedBool.toString());
-                  //print('on press: the randomized button has been clicked');
                 });
               },
               style: ElevatedButton.styleFrom(

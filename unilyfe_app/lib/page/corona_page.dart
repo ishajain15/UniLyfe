@@ -20,7 +20,6 @@ class _MyMapState extends State<MyMap> with TickerProviderStateMixin {
 
   Future<String> get_info() async {
     var doc = await FirebaseFirestore.instance.collection('Covid_info').get();
-    print(doc.size.toString());
     numbers = doc.size;
     return doc.size.toString();
   }
@@ -61,10 +60,10 @@ class _MyMapState extends State<MyMap> with TickerProviderStateMixin {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
 
   Future<Uint8List> getBytesFromAsset(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    ui.Codec codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
+    var data = await rootBundle.load(path);
+    var codec = await ui.instantiateImageCodec(data.buffer.asUint8List(),
         targetWidth: width);
-    ui.FrameInfo fi = await codec.getNextFrame();
+    var fi = await codec.getNextFrame();
     return (await fi.image.toByteData(format: ui.ImageByteFormat.png))
         .buffer
         .asUint8List();
@@ -72,24 +71,24 @@ class _MyMapState extends State<MyMap> with TickerProviderStateMixin {
 
   void initMarker(specify, specifyId) async {
     var idVal = specifyId;
-    final Uint8List markerIcon =
+    final markerIcon =
         await getBytesFromAsset('assets/red_dot.png', 40);
 
-    final MarkerId markerId = MarkerId(idVal);
-    final Marker marker = Marker(
+    final markerId = MarkerId(idVal);
+    final marker = Marker(
       markerId: markerId,
       position: //LatLng(40.4229446, -86.9115997),
           LatLng(specify['coordinates'].latitude,
               specify['coordinates'].longitude),
       icon: BitmapDescriptor.fromBytes(markerIcon),
     );
-    //print(marker.position.toString());
+    
     setState(() {
       markers[markerId] = marker;
     });
   }
 
-  getMarkerData() async {
+  void getMarkerData() async {
     await FirebaseFirestore.instance
         .collection('locations')
         .get()
@@ -112,17 +111,6 @@ class _MyMapState extends State<MyMap> with TickerProviderStateMixin {
         });
         DraggableScrollableActuator.reset(draggableSheetContext);
       }
-    }
-
-    Set<Marker> getMarker() {
-      return <Marker>{
-        Marker(
-          markerId: MarkerId('COVID CASE'),
-          position: LatLng(40.42395040517343, -86.92120533110851),
-          icon: BitmapDescriptor.defaultMarker,
-          infoWindow: InfoWindow(title: 'COVID CASE'),
-        )
-      };
     }
 
     return MaterialApp(

@@ -1,9 +1,6 @@
-//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:unilyfe_app/customized_items/custom_warning.dart';
-//import 'package:unilyfe_app/page/comments_page.dart';
-import 'package:unilyfe_app/widgets/provider_widget.dart';
 
 class GarbageButtonWidget extends StatelessWidget {
   GarbageButtonWidget(
@@ -60,7 +57,6 @@ class GarbageButtonWidget extends StatelessWidget {
                         .get()
                         .then((querySnapshot) {
                       querySnapshot.docs.forEach((result) {
-                        print(result.data());
                         result.reference.delete();
                       });
                     });
@@ -69,18 +65,9 @@ class GarbageButtonWidget extends StatelessWidget {
                 await db
                     .collection('comments')
                     .doc(postid)
-                    .delete()
-                    .then((value) => print("success"));
-
-                print(postid);
-                // Get docs from collection reference
-                var querySnapshot = await db.collection('comments').get();
+                    .delete();
 
                 // Get data from docs and convert map to List
-                final allData =
-                    querySnapshot.docs.map((doc) => doc.data()).toList();
-
-                print(allData);
                 await db.collection(postCollection).doc(postid).delete();
                 await db.collection('userData').get().then((querySnapshot) {
                   querySnapshot.docs.forEach((result) {
@@ -92,7 +79,6 @@ class GarbageButtonWidget extends StatelessWidget {
                         .get()
                         .then((querySnapshot) {
                       querySnapshot.docs.forEach((result) {
-                        print(result.data());
                         result.reference.delete();
                       });
                     });
@@ -108,7 +94,6 @@ class GarbageButtonWidget extends StatelessWidget {
                         .get()
                         .then((querySnapshot) {
                       querySnapshot.docs.forEach((result) {
-                        print(result.data());
                         result.reference.delete();
                       });
                     });

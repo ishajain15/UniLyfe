@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:unilyfe_app/customized_items/buttons/photo_posting_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:unilyfe_app/models/photo_post.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
@@ -45,7 +44,6 @@ String imagePath = '';
   Future getImagefromGallery() async {
     // ignore: deprecated_member_use
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    print(image.path);
     imagePath = image.path;
     setState(() {
       _image = image;
@@ -151,13 +149,12 @@ String imagePath = '';
                   } else if (selection == 1) {
                     channel = 'STUDY';
                   } else {
-                    print(selection);
                     channel = 'SOCIAL';
                   }
 
                   final uid = await Provider.of(context).auth.getCurrentUID();
                   var doc = db.collection('posts').doc();
-                  Map<String, dynamic> users = {'uid': 1};
+                  var users = <String, dynamic>{'uid': 1};
                   final post = PhotoPost(
                       doc.id,
                       _title,
@@ -263,7 +260,6 @@ class _MyAppState extends State<MyAppOne> {
               isSelected[i] = i == index;
               if (isSelected[i] == true) {
                 selection = i;
-                print('INDEX: $i');
               }
             }
           });

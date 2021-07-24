@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -20,26 +18,19 @@ class HomeViewState extends StatefulWidget {
   State<StatefulWidget> createState() => HomeView();
 }
 
-//class Posts extends State<DisplayPosts> {
 class HomeView extends State<HomeViewState> {
-  @override
   bool hasBeenPressed = false;
-
-  //var location;
-
+  
+  @override
   Widget build(BuildContext context) {
-    //print("rebuilding!");
-    //print(hasBeenPressed);
     return Container(
       child: Column(
         children: [
           Row(
             children: <Widget>[
               Spacer(),
-              //RandomizePage(),
               buildRandomizeButton(),
               Spacer(),
-              //RevertPage(),
               buildRevertButton(),
               Spacer(),
               InformationButtonAll(),
@@ -68,7 +59,6 @@ class HomeView extends State<HomeViewState> {
     final uid = await Provider.of(context).auth.getCurrentUID();
     // the user clicked the "randomized" button
     if (hasBeenPressed == true) {
-      print('randomize SHOULDVE been clicked!');
       yield* FirebaseFirestore.instance.collection('posts').snapshots();
     } else {
       yield* FirebaseFirestore.instance
@@ -79,24 +69,17 @@ class HomeView extends State<HomeViewState> {
 
     // the user clicked the "revert" button
     if (hasBeenPressed == false) {
-      print('revert SHOULDVE been clicked!');
       yield* FirebaseFirestore.instance
           .collection('posts')
           .orderBy('time', descending: true)
           .snapshots();
     }
-
-    // .collection("userData")
-    // .doc(uid)
-    // .collection("posts")
-    // .snapshots();
   }
 
   // Randomizing Posts
-  onPressed() {
+  dynamic onPressed() {
     setState(() {
       hasBeenPressed = !hasBeenPressed;
-      //print('on press: the randomized button has been clicked');
     });
   }
 
@@ -117,10 +100,9 @@ class HomeView extends State<HomeViewState> {
   }
 
   // Reverting Posts
-  onPressed_2() {
+  dynamic onPressed_2() {
     setState(() {
       hasBeenPressed = !hasBeenPressed;
-      //print('on press: the revert button has been clicked');
     });
   }
 
@@ -140,8 +122,8 @@ class HomeView extends State<HomeViewState> {
     );
   }
 
+  // ignore: missing_return
   Widget buildPostCard(BuildContext context, DocumentSnapshot post) {
-    // getDocuments();
     if (post['postType'] == 0) {
       return Container(
         child: Card(
@@ -228,7 +210,7 @@ class HomeView extends State<HomeViewState> {
                           map_liked: post['map_liked'],
                           uid: post['uid'],
                           username: post['username'],
-                          location: post['location']),
+                          location: post['location'], event_date: null,),
                       Spacer(),
                       Visibility(
                         visible: FirebaseAuth.instance.currentUser.uid ==
@@ -356,7 +338,7 @@ class HomeView extends State<HomeViewState> {
                           postChannel: post['postChannel'],
                           map_liked: post['map_liked'],
                           uid: post['uid'],
-                          username: post['username']),
+                          username: post['username'], event_date: null, liked: null, location: '', text: '', time: null, title: '',),
                       Spacer(),
                       Visibility(
                         visible: FirebaseAuth.instance.currentUser.uid ==
@@ -490,7 +472,7 @@ class HomeView extends State<HomeViewState> {
                           map_liked: post['map_liked'],
                           uid: post['uid'],
                           username: post['username'],
-                          location: post['location']),
+                          location: post['location'], event_date: null,),
                       Spacer(),
                       Visibility(
                         visible: FirebaseAuth.instance.currentUser.uid ==
@@ -648,7 +630,7 @@ class HomeView extends State<HomeViewState> {
                           map_liked: post['map_liked'],
                           uid: post['uid'],
                           username: post['username'],
-                          location: post['location']),
+                          location: post['location'], event_date: null,),
                       Spacer(),
                       Visibility(
                         visible: FirebaseAuth.instance.currentUser.uid ==

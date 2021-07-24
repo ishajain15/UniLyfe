@@ -71,7 +71,9 @@ class _SignUpViewState extends State<SignUpView> {
           });
         } else {
           var uid = await auth.createUserWithEmailAndPassword(
-              _email, _password, /*_name*/);
+            _email,
+            _password, /*_name*/
+          );
           await auth.createUserInFirestore();
           await auth.sendEmailVerification();
           print('Signed up with New ID $uid');
@@ -206,25 +208,6 @@ class _SignUpViewState extends State<SignUpView> {
       ));
       return textFields;
     }
-
-    // if were in the sign up state and add name
-    // if (authFormType == AuthFormType.signUp) {
-    //   textFields.add(TextFieldContainer(
-    //       child: TextFormField(
-    //     validator: NameValidator.validate,
-    //     decoration: buildSignUpInputDecoration(
-    //         'Name',
-    //         Icon(
-    //           Icons.person,
-    //           color: Color(0xFFF46C6B),
-    //         ),
-    //         false),
-    //     onSaved: (value) => _name = value,
-    //   )));
-    //   textFields.add(SizedBox(
-    //     height: 10,
-    //   ));
-    // }
 
     // add email & password
     textFields.add(TextFieldContainer(

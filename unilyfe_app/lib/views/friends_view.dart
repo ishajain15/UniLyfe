@@ -1,14 +1,11 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:unilyfe_app/page/comments_page.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
-import 'package:intl/intl.dart';
 import 'package:unilyfe_app/models/User.dart';
-//import 'package:unilyfe_app/models/User.dart';
 
+// ignore: must_be_immutable
 class FriendsView extends StatelessWidget {
   final db = FirebaseFirestore.instance;
   var friendsUIDs = [];
@@ -22,32 +19,13 @@ class FriendsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /*return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: Flexible(
-              child: StreamBuilder(
-                  stream: getUserPostsStreamSnapshots(context),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) return const Text('Loading...');
-                    return ListView.builder(
-                        itemCount: snapshot.data.docs.length,
-                        itemBuilder: (BuildContext context, int index) =>
-                            buildPostCard(context, snapshot.data.docs[index]));
-                  }),
-            ),
-          ),
-        ],
-      ),
-    );*/
 
     return FutureBuilder(
         future: getFriendUIDs(context),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {}
 
-          for (int i = 0; i < friendsUIDs.length; i++) {
+          for (var i = 0; i < friendsUIDs.length; i++) {
             if (friends.length < friendsUIDs.length) {
               friends.add(buildFriendCard(context, friendsUIDs[i], i));
             }
@@ -56,9 +34,9 @@ class FriendsView extends StatelessWidget {
         });
   }
 
-  getFriendUIDs(context) async {
+  dynamic getFriendUIDs(context) async {
     friendsUIDs = [];
-    String uid = await Provider.of(context).auth.getCurrentUID();
+    var uid = await Provider.of(context).auth.getCurrentUID();
     await db
         .collection('userData')
         .doc(uid)
@@ -66,55 +44,21 @@ class FriendsView extends StatelessWidget {
         .get()
         .then((QuerySnapshot querySnapshot) {
       querySnapshot.docs.forEach((doc) {
-        //titlesList[index] = (Text(doc['title'].toString()));
         var friend = doc['friendUID'].toString();
-        //titlesList.add(doc['title'].toString());
         friendsUIDs.add(friend);
       });
     });
   }
 
-  getFriendData(context, String friendUID) async {
-    //final uid = await Provider.of(context).auth.getCurrentUID();
+  dynamic getFriendData(context, String friendUID) async {
     await db.collection('userData').doc(friendUID).get().then((result) {
-      //year = result['year'].toString();
       years.add(result['year'].toString());
-      //displayName = result['displayName'].toString();
       displayNames.add(result['displayName'].toString());
       bios.add(result['bio'].toString());
       profilePicturePaths.add(result['profilepicture'].toString());
       color_codes.add(result['color_code']);
     });
   }
-
-  /*Stream<QuerySnapshot> getUserPostsStreamSnapshots(
-      BuildContext context) async* {
-    // ignore: unused_local_variable
-    final uid = await Provider.of(context).auth.getCurrentUID();
-    yield* FirebaseFirestore.instance
-        .collection('userData')
-        .doc(uid)
-        .collection('comment_history')
-        .orderBy('time', descending: true)
-        .snapshots();
-  }*/
-
-  /*Widget buildPostCard(BuildContext context, DocumentSnapshot comment) {
-    return Column(children: <Widget>[
-      ListTile(
-        dense: true,
-        title: Text(comment['comment'] + '\n'),
-        leading: CircleAvatar(
-          backgroundColor: Colors.blue,
-          backgroundImage: AssetImage('assets/empty-profile.png'),
-        ),
-        subtitle: Text(DateFormat('MM/dd/yyyy (h:mm a)')
-            .format(comment['time'].toDate())
-            .toString()),
-      ),
-      Divider(),
-    ]);
-  }*/
 
   Widget buildFriendCard(BuildContext context, String friendUID, int i) {
     return Column(
@@ -123,10 +67,9 @@ class FriendsView extends StatelessWidget {
           future: getFriendData(context, friendUID),
           // ignore: missing_return
           builder: (context, snapshot) {
-            //print('points: ' + user.points.toString());
             if (snapshot.connectionState == ConnectionState.done) {}
             Widget circleAvatarChild;
-            if (profilePicturePaths[i] != "\"\"") {
+            if (profilePicturePaths[i] != '\"\"') {
               circleAvatarChild = Container();
             } else {
               circleAvatarChild = Text(displayNames[i][0].toUpperCase(),
@@ -138,7 +81,6 @@ class FriendsView extends StatelessWidget {
             Widget displayNameWidget = Container(
               padding: const EdgeInsets.only(bottom: 8),
               child: Text(
-                //displayName.toString(),
                 displayNames[i],
                 style: TextStyle(
                   color: Colors.black,
@@ -152,7 +94,6 @@ class FriendsView extends StatelessWidget {
             Widget yearWidget = Container(
               padding: const EdgeInsets.only(bottom: 8),
               child: Text(
-                //year.toString(),
                 years[i],
                 style: TextStyle(
                   color: Colors.grey,
@@ -177,7 +118,6 @@ class FriendsView extends StatelessWidget {
               ),
             );
 
-            //Widget friendCard = Card(
             return Card(
               elevation: 2,
               child: Container(
@@ -201,15 +141,9 @@ class FriendsView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          /*CircleAvatar(
-                              radius: 50.0,
-                              backgroundImage:
-                                  AssetImage('assets/empty-profile.png')),*/
                           CircleAvatar(
                               radius: 50.0,
-                              backgroundImage: /*profilePicturePaths[i] == "\"\""
-                                  ? AssetImage('assets/empty-profile.png')
-                                  : */FileImage(File(profilePicturePaths[i])),
+                              backgroundImage: FileImage(File(profilePicturePaths[i])),
                               backgroundColor:
                                   Color(color_codes[i]).withOpacity(1.0),
                               child: circleAvatarChild),
@@ -218,9 +152,6 @@ class FriendsView extends StatelessWidget {
                 ),
               ),
             );
-            //friends.add(friendCard);
-            //print("ADDED!");
-            // }
           },
         ),
       ],

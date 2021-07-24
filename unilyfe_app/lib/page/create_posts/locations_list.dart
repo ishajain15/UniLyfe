@@ -62,7 +62,7 @@ class LocationsListState extends State<LocationList> {
               );
             }).toList(),
             hint: Text(
-              "Choose a location",
+              'Choose a location',
               style: TextStyle(
                   color: Colors.black,
                   fontSize: 16,
@@ -134,12 +134,6 @@ class LocationsListState extends State<LocationList> {
                     'username': username,
                     'reviewid': reviewid,
                   });
-                  // print('TITLE: ${_titleController.text}');
-                  // print('TEXT: ${_textController.text}');
-                  // print('RATING: ${rating.toString()}');
-                  // print('LOCATION: $chosenValue');
-                  // print('USERNAME: $username');
-                  // print('UID: $uid');
                   Navigator.of(context).popUntil((route) => route.isFirst);
                 },
                 child: Text('Submit Review')),

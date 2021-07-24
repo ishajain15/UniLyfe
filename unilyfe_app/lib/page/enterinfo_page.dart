@@ -24,15 +24,11 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _displayNameController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
-  final TextEditingController _profilePictureController =
-      TextEditingController();
-  final TextEditingController _covidController = TextEditingController();
-  final TextEditingController _locationController = TextEditingController();
-  TextEditingController _classesController = TextEditingController();
-  TextEditingController _hobbiesController = TextEditingController();
+  final TextEditingController _classesController = TextEditingController();
+  final TextEditingController _hobbiesController = TextEditingController();
   String _name = '';
 
-  _getName() async {
+  dynamic _getName() async {
     final uid = await Provider.of(context).auth.getCurrentUID();
     await db.collection('userData').doc(uid).get().then((result) {
       _name = result['name'].toString();
@@ -122,16 +118,12 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                         borderRadius: BorderRadius.circular(10.0)),
                   ),
                   onPressed: () async {
-                    print("user.username: " + user.username);
                     final uid = await Provider.of(context).auth.getCurrentUID();
                     if (_usernameController.text != null &&
                         _usernameController.text != '') {
                       if ((user.username != _usernameController.text) &&
                           !await usernameCheck(_usernameController.text)) {
-                        print('ALREADY TAKEN');
                         showAlertDialog(context);
-                        //set valid username boolean to false
-                        print("username is bad :(");
                         _validUsername = false;
                       } else {
                         _validUsername = true;
@@ -146,7 +138,6 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                     if (_displayNameController.text != null &&
                         _displayNameController.text != '') {
                       user.displayName = _displayNameController.text;
-                      print(_displayNameController.text);
                       await Provider.of(context)
                           .db
                           .collection('userData')
@@ -156,7 +147,6 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                     if (_bioController.text != null &&
                         _bioController.text != '') {
                       user.bio = _bioController.text;
-                      print(_bioController.text);
                       /*setState(() {
                             _bioController.text = user.bio;
                           });*/
@@ -191,7 +181,7 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                         .db
                         .collection('userData')
                         .doc(uid)
-                        .update({'profilepicture': "\"\""});
+                        .update({'profilepicture': '\"\"'});
 
                     await Provider.of(context)
                         .db
@@ -208,7 +198,6 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                     if (_hobbiesController.text != null ||
                         _hobbiesController.text != '') {
                       user.hobbies = (_hobbiesController.text.split(', '));
-                      print("hobbies: " + _hobbiesController.text);
                       setState(() {
                         user.hobbies = (_hobbiesController.text.split(', '));
                       });
@@ -223,7 +212,6 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                     if (_classesController.text != null ||
                         _classesController.text != '') {
                       user.classes = (_classesController.text.split(', '));
-                      print("classes: " + _classesController.text);
                       setState(() {
                         user.classes = (_classesController.text.split(', '));
                       });
@@ -236,10 +224,9 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
                     }
 
                     if (_validUsername) {
-                      print("username is valid?");
                       final auth = Provider.of(context).auth;
                       auth.setNewUser(false);
-                      Navigator.of(context).pushReplacementNamed('/home');
+                      await Navigator.of(context).pushReplacementNamed('/home');
                     }
                     //return HomePage();
                   },
@@ -412,12 +399,10 @@ class _EnterInfoPageState extends State<EnterInfoPage> {
     var username = email.substring(0, email.indexOf('@'));
     var num = 1;
     if (!await usernameCheck(username)) {
-      print(username + ' exists');
       while (!await usernameCheck(username + num.toString())) {
         num += 1;
       }
     }
-    print(username);
     return username +
         num.toString() +
         ' ' +
@@ -465,7 +450,6 @@ class _MyYearDropDown extends State<_MyYearDropDownWidget> {
         user.year = newValue;
         setState(() {
           year = newValue;
-          print('global variable year: ' + year);
           dropdownValue = newValue;
         });
         /*final uid = await Provider.of(context).auth.getCurrentUID();

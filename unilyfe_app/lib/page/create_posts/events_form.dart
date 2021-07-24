@@ -90,7 +90,6 @@ class EventForm extends StatelessWidget {
               } else if (selection == 1) {
                 channel = 'STUDY';
               } else {
-                print(selection);
                 channel = 'SOCIAL';
               }
 
@@ -188,7 +187,6 @@ class _MyAppState extends State<MyAppOne> {
               isSelected[i] = i == index;
               if (isSelected[i] == true) {
                 selection = i;
-                print('INDEX: $i');
               }
             }
           });

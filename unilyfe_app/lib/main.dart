@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:unilyfe_app/customized_items/loaders/color_loader_4.dart';
 import 'package:unilyfe_app/customized_items/loaders/dot_type.dart';
 import 'package:unilyfe_app/page/enterinfo_page.dart';
-import 'package:unilyfe_app/page/profile_page.dart';
 import 'package:unilyfe_app/page/start_page.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:unilyfe_app/page/tabs/tabs_page.dart';
 import 'package:unilyfe_app/provider/auth_provider.dart';
 import 'package:unilyfe_app/views/sign_up_view.dart';
 import 'package:unilyfe_app/widgets/provider_widget.dart';
-import 'dart:math' as math;
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,11 +55,8 @@ class HomeController extends StatelessWidget {
           final signedIn = snapshot.hasData;
           var newUser = auth.getNewUser();
           if (newUser) {
-            print('New User Signed In');
-            // do random color here
             return signedIn ? EnterInfoPage() : StartPage();
           } else {
-            print('Old User Signed In');
             return signedIn ? TabsPage() : StartPage();
           }
         }
